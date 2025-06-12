@@ -30,18 +30,14 @@
         
         <!-- Quote Card Display -->
         <section class="mb-8 flex justify-center">
-            <!-- UPDATED: Responsive card sizing -->
             <div id="quote-card" class="w-full aspect-square max-w-lg mx-auto md:w-[600px] md:h-[600px] md:max-w-none bg-slate-900 text-white relative rounded-lg shadow-2xl">
-                <!-- UPDATED: Responsive title and positioning -->
                 <div class="absolute top-8 left-0 right-0 flex items-center justify-center md:top-16">
                     <span class="text-2xl md:text-4xl font-bold text-white mr-2 md:mr-4" style="font-family: 'Playfair Display', serif;">Daily</span>
                     <span class="text-2xl md:text-4xl font-bold text-amber-400" style="font-family: 'Playfair Display', serif;">Wisdom</span>
                 </div>
                 
-                <!-- UPDATED: Responsive padding -->
                 <div class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
                     <div class="text-center">
-                        <!-- UPDATED: Responsive font size and line height -->
                         <p id="quote-text" class="text-2xl md:text-4xl font-medium leading-normal md:leading-relaxed text-white" style="font-family: 'Playfair Display', serif;">
                             Time is the friend of wonderful businesses, the enemy of mediocre ones
                             <span class="text-amber-400 ml-2 md:ml-3 text-xl md:text-2xl">●</span>
@@ -49,7 +45,6 @@
                     </div>
                 </div>
                 
-                <!-- UPDATED: Responsive author and positioning -->
                 <div class="absolute bottom-8 right-8 md:bottom-16 md:right-16">
                     <span id="quote-author" class="text-xl md:text-4xl font-normal text-slate-300" style="font-family: 'Playfair Display', serif;">@Warren Buffett</span>
                 </div>
@@ -142,104 +137,22 @@
         </section>
     </div>
 
-<script>
-// UPDATED: Some quotes are shortened for better display on mobile
-const quotes = [
-    { text: "Time is the friend of wonderful businesses, the enemy of mediocre ones", author: "Warren Buffett", category: "Investment Philosophy" },
-    { text: "Risk comes from not knowing what you're doing", author: "Warren Buffett", category: "Risk Management" },
-    { text: "Be fearful when others are greedy and greedy when others are fearful", author: "Warren Buffett", category: "Market Sentiment" },
-    { text: "The best investment you can make is in yourself", author: "Warren Buffett", category: "Self Investment" },
-    { text: "Price is what you pay, value is what you get", author: "Warren Buffett", category: "Value Investing" },
-    { text: "Never invest in a business you cannot understand", author: "Warren Buffett", category: "Investment Philosophy" },
-    { text: "If you won't own a stock for ten years, don't own it for ten minutes", author: "Warren Buffett", category: "Long-term Investing" },
-    { text: "Only when the tide goes out do you discover who's been swimming naked", author: "Warren Buffett", category: "Market Reality" },
-    { text: "Rule No.1: Never lose money. Rule No.2: Never forget rule No.1", author: "Warren Buffett", category: "Risk Management" },
-    { text: "The chains of habit are too light to be felt until they are too heavy to be broken", author: "Warren Buffett", category: "Behavioral Habits" },
-    { text: "Acquiring wisdom is a moral duty", author: "Charlie Munger", category: "Life Wisdom" },
-    { text: "Invert, always invert", author: "Charlie Munger", category: "Thinking Models" },
-    { text: "Macro is what we must accept; micro is what we can do something about", author: "Charlie Munger", category: "Investment Philosophy" },
-    { text: "Investing is a waiting game", author: "Charlie Munger", category: "Investment Psychology" },
-    { text: "Acknowledging ignorance is the beginning of wisdom", author: "Charlie Munger", category: "Life Wisdom" },
-    { text: "I have never seen anyone who wasn't smart become wise without reading", author: "Charlie Munger", category: "Learning & Reading" },
-    { text: "To get what you want, you have to deserve what you want", author: "Charlie Munger", category: "Self Improvement" },
-    { text: "My success comes from one thing: I see a little further ahead", author: "Charlie Munger", category: "Vision" },
-    { text: "The most important thing is to remember your circle of competence", author: "Charlie Munger", category: "Circle of Competence" },
-    { text: "We're not smart, we're just not stupid", author: "Charlie Munger", category: "Wisdom & Humility" },
-    { text: "Invest in companies you understand", author: "Peter Lynch", category: "Company Analysis" },
-    { text: "The amateur investor's advantage is not having to beat the market", author: "Peter Lynch", category: "Investment Psychology" },
-    { text: "Stocks don't know you own them", author: "Peter Lynch", category: "Market Sentiment" },
-    { text: "Never invest in any company you can't explain to an 8-year-old", author: "Peter Lynch", category: "Company Analysis" },
-    { text: "The perfect portfolio doesn't exist", author: "Peter Lynch", category: "Diversification" },
-    { text: "If you have patience, stocks will definitely go up", author: "Peter Lynch", category: "Patient Investing" },
-    { text: "Before buying a stock, consider if you can watch it drop 50%", author: "Peter Lynch", category: "Risk Tolerance" },
-    { text: "Don't rely on anyone to recommend stocks, do your own homework", author: "Peter Lynch", category: "Independent Research" },
-    { text: "Stock market declines are as normal as January blizzards", author: "Peter Lynch", category: "Market Declines" },
-    { text: "The biggest risk in the stock market is not investing at all", author: "Peter Lynch", category: "Investment Necessity" },
-    { text: "In the short run, the market is a voting machine; in the long run, it's a weighing machine", author: "Benjamin Graham", category: "Market Sentiment" },
-    { text: "The investor's chief problem, and worst enemy, is likely himself", author: "Benjamin Graham", category: "Investment Psychology" },
-    { text: "Successful investing requires time, discipline, and patience", author: "Benjamin Graham", category: "Investment Philosophy" },
-    { text: "The intelligent investor won't be upset by stock price declines", author: "Benjamin Graham", category: "Investment Psychology" },
-    { text: "Margin of safety is the cornerstone of investment success", author: "Benjamin Graham", category: "Margin of Safety" },
-    { text: "Investment is based on analysis and promises safety of principal and adequate return", author: "Benjamin Graham", category: "Investment Definition" },
-    { text: "Mr. Market is your servant, not your teacher", author: "Benjamin Graham", category: "Market Relationship" },
-    { text: "The investor's primary goal should be to avoid major losses", author: "Benjamin Graham", category: "Loss Avoidance" },
-    { text: "Find opportunity in others' fear, sense danger in others' greed", author: "Benjamin Graham", category: "Investment Opportunity" },
-    { text: "The defensive investor's goal is to avoid serious mistakes or losses", author: "Benjamin Graham", category: "Defensive Investing" },
-    { text: "The most important thing isn't what to buy, but at what price to buy", author: "Howard Marks", category: "Value Investing" },
-    { text: "You can't predict, but you can prepare", author: "Howard Marks", category: "Risk Management" },
-    { text: "Risk control is the foundation of investment success", author: "Howard Marks", category: "Risk Management" },
-    { text: "Markets are neither efficient nor completely inefficient", author: "Howard Marks", category: "Market Sentiment" },
-    { text: "Superior investing requires second-level thinking", author: "Howard Marks", category: "Thinking Models" },
-    { text: "The greatest investment risk is losing capital, not missing gains", author: "Howard Marks", category: "Risk Definition" },
-    { text: "Good investing isn't about buying good things, it's about buying well", author: "Howard Marks", category: "Buying Strategy" },
-    { text: "Market cycles are one of the most important concepts for investors to understand", author: "Howard Marks", category: "Market Cycles" },
-    { text: "Superior investing requires doing what others don't do", author: "Howard Marks", category: "Differentiated Strategy" },
-    { text: "The best opportunities usually come at the worst times", author: "Howard Marks", category: "Opportunity Recognition" },
-    { text: "Pain plus reflection equals progress", author: "Ray Dalio", category: "Life Wisdom" },
-    { text: "Diversification is a free lunch", author: "Ray Dalio", category: "Diversification" },
-    { text: "Principles are ways of handling reality", author: "Ray Dalio", category: "Thinking Models" },
-    { text: "Embrace reality and deal with it", author: "Ray Dalio", category: "Investment Philosophy" },
-    { text: "The biggest failure is not learning from failures", author: "Ray Dalio", category: "Failure Lessons" },
-    { text: "Independent thinking is key to successful investing", author: "Ray Dalio", category: "Independent Thinking" },
-    { text: "Understanding the economic machine is key to investment success", author: "Ray Dalio", category: "Economic Understanding" },
-    { text: "Debt cycles are the main driver of economic fluctuations", author: "Ray Dalio", category: "Debt Cycles" },
-    { text: "The best investment opportunities often appear during difficult times", author: "Ray Dalio", category: "Investment Opportunity" },
-    { text: "History doesn't repeat, but it rhymes", author: "Ray Dalio", category: "Historical Patterns" },
-    { text: "Time is your best friend, impulse is your greatest enemy", author: "John Bogle", category: "Investment Psychology" },
-    { text: "Don't look for the needle in the haystack, just buy the haystack", author: "John Bogle", category: "Diversification" },
-    { text: "Costs matter, time matters more", author: "John Bogle", category: "Long-term Investing" },
-    { text: "Complexity is the enemy of simplicity", author: "John Bogle", category: "Investment Philosophy" },
-    { text: "In investing, you get what you don't pay for", author: "John Bogle", category: "Value Investing" },
-    { text: "Index funds are the investor's best friend", author: "John Bogle", category: "Index Investing" },
-    { text: "Market noise is the investor's enemy", author: "John Bogle", category: "Market Noise" },
-    { text: "Low cost is one of the most important factors in investment success", author: "John Bogle", category: "Cost Control" },
-    { text: "The stock market is a wealth transfer machine, from the impatient to the patient", author: "John Bogle", category: "Wealth Transfer" },
-    { text: "The investor's greatest enemy is not the market, but the investor himself", author: "John Bogle", category: "Self Awareness" },
-    { text: "Buy shares of excellent companies, then forget about them", author: "Philip Fisher", category: "Long-term Investing" },
-    { text: "Investing in stocks is, to some extent, investing in management", author: "Philip Fisher", category: "Company Analysis" },
-    { text: "If you don't study any companies, your chance of success is zero", author: "Philip Fisher", category: "Company Analysis" },
-    { text: "The essence of growth stock investing is finding real growth", author: "Philip Fisher", category: "Growth Investing" },
-    { text: "When buying truly excellent growth stocks, timing is far more important than price", author: "Philip Fisher", category: "Timing Selection" },
-    { text: "Investing in growth stocks requires enough patience to wait for the harvest", author: "Philip Fisher", category: "Investment Patience" },
-    { text: "The best investment opportunities are often where others can't see them", author: "Philip Fisher", category: "Opportunity Discovery" },
-    { text: "Excellent management is the key to successful growth stock investing", author: "Philip Fisher", category: "Management Importance" },
-    { text: "Concentrating investments in a few excellent stocks is more effective than diversification", author: "Philip Fisher", category: "Concentrated Investing" },
-    { text: "Investing in growth stocks requires a long-term vision", author: "Philip Fisher", category: "Long-term Vision" },
-    { text: "Compound interest is the eighth wonder of the world", author: "Albert Einstein", category: "Compound Thinking" },
-    { text: "Don't put all your eggs in one basket", author: "Investment Wisdom", category: "Diversification" },
-    { text: "Buy and hold is the simplest and most effective investment strategy", author: "Investment Wisdom", category: "Long-term Investing" }
-];
+<!-- Load quote data first -->
+<script src="quotes-data.js"></script>
 
+<!-- Then, load the main script that uses the data -->
+<script>
+// The 'quotes' variable is now available from quotes-data.js
 let currentQuote = quotes[0];
 
 function updateCard(quote, author, category) {
-    // UPDATED: Dynamically change the dot size based on quote text size
     const quoteTextElement = document.getElementById('quote-text');
     const dotSizeClass = quoteTextElement.classList.contains('md:text-4xl') ? 'md:text-2xl' : 'md:text-xl';
     
     quoteTextElement.innerHTML = quote + `<span class="text-amber-400 ml-2 md:ml-3 text-xl ${dotSizeClass}">●</span>`;
     document.getElementById('quote-author').textContent = '@' + author;
     document.getElementById('category-info').textContent = 'Current Category: ' + category;
+    document.getElementById('quote-count').textContent = `Quote Library: ${quotes.length}+ curated investment quotes`;
 }
 
 // Random quote generation
@@ -261,7 +174,6 @@ document.getElementById('custom-btn').addEventListener('click', function() {
             category: "Custom"
         };
         updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
-        // Clear input fields
         document.getElementById('custom-quote').value = '';
         document.getElementById('custom-author').value = '';
     } else {
@@ -269,26 +181,21 @@ document.getElementById('custom-btn').addEventListener('click', function() {
     }
 });
 
-// Download functionality (NO CHANGE NEEDED HERE, it produces a high-res 600x600 image regardless of on-screen size)
+// Download functionality
 document.getElementById('download-btn').addEventListener('click', function() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
     
-    // Set high resolution canvas
     const scale = 2;
     canvas.width = 600 * scale;
     canvas.height = 600 * scale;
     canvas.style.width = '600px';
     canvas.style.height = '600px';
-    
-    // Scale context
     ctx.scale(scale, scale);
     
-    // Deep dark background
     ctx.fillStyle = '#0f172a'; // slate-900
     ctx.fillRect(0, 0, 600, 600);
     
-    // Main text - using Playfair Display font, adjusted to 4xl
     ctx.fillStyle = '#ffffff';
     ctx.font = '500 36px "Playfair Display", serif';
     ctx.textAlign = 'center';
@@ -296,7 +203,6 @@ document.getElementById('download-btn').addEventListener('click', function() {
     const maxWidth = 480;
     const lineHeight = 50;
     
-    // Smart word wrapping - split by words, not characters
     let words = currentQuote.text.split(' ');
     let lines = [];
     let currentLine = '';
@@ -316,22 +222,18 @@ document.getElementById('download-btn').addEventListener('click', function() {
         lines.push(currentLine);
     }
     
-    // Vertically center text
     const totalTextHeight = lines.length * lineHeight;
     const startY = (600 - totalTextHeight) / 2 + lineHeight * 0.8;
     
-    // Draw each line of text
     lines.forEach((line, index) => {
         ctx.fillText(line, 300, startY + index * lineHeight);
     });
     
-    // Calculate main text boundaries for alignment
     const textBounds = {
         left: 300 - maxWidth/2,
         right: 300 + maxWidth/2
     };
     
-    // Top title - centered, no decoration line
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 36px "Playfair Display", serif';
     ctx.textAlign = 'center';
@@ -340,9 +242,8 @@ document.getElementById('download-btn').addEventListener('click', function() {
     const wisdomText = 'Wisdom';
     const dailyWidth = ctx.measureText(dailyText).width;
     const wisdomWidth = ctx.measureText(wisdomText).width;
-    const spacing = 16; // space between Daily and Wisdom
+    const spacing = 16;
     
-    // Calculate total width and center position
     const totalTitleWidth = dailyWidth + spacing + wisdomWidth;
     const titleStartX = (600 - totalTitleWidth) / 2;
     
@@ -353,7 +254,6 @@ document.getElementById('download-btn').addEventListener('click', function() {
     ctx.fillStyle = '#f59e0b';
     ctx.fillText(wisdomText, titleStartX + dailyWidth + spacing, 94);
     
-    // Decorative dot - back to previous size
     if (lines.length > 0) {
         const lastLine = lines[lines.length - 1];
         const lastLineWidth = ctx.measureText(lastLine).width;
@@ -363,14 +263,12 @@ document.getElementById('download-btn').addEventListener('click', function() {
         ctx.fill();
     }
     
-    // Bottom right author info - fixed positioning
     const authorText = `@${currentQuote.author}`;
     ctx.fillStyle = '#cbd5e1';
     ctx.font = 'normal 36px "Playfair Display", serif';
     ctx.textAlign = 'right';
-    ctx.fillText(authorText, 536, 548); // Fixed Y position to match CSS
+    ctx.fillText(authorText, 536, 548);
     
-    // Download image
     try {
         const link = document.createElement('a');
         link.download = `investment-quote-${Date.now()}.png`;
@@ -378,8 +276,6 @@ document.getElementById('download-btn').addEventListener('click', function() {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
-        // Success message
         showMessage('Image downloaded successfully!', 'success');
     } catch (error) {
         console.error('Download failed:', error);
@@ -425,7 +321,6 @@ function fallbackCopyText(text) {
 
 // Show message notification
 function showMessage(message, type) {
-    // Remove existing message
     const existingMessage = document.querySelector('.message-toast');
     if (existingMessage) {
         existingMessage.remove();
@@ -439,7 +334,6 @@ function showMessage(message, type) {
     
     document.body.appendChild(messageDiv);
     
-    // Auto disappear after 3 seconds
     setTimeout(() => {
         if (messageDiv.parentNode) {
             messageDiv.remove();
@@ -449,7 +343,7 @@ function showMessage(message, type) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize with first quote
+    // Initialize with first quote and update count dynamically
     updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
 });
 </script>
