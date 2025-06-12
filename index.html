@@ -19,37 +19,39 @@
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-100 p-8">
+<body class="min-h-screen bg-gray-100 p-4 sm:p-8">
     <div class="max-w-4xl mx-auto">
         <header class="text-center mb-8">
-            <h1 class="text-4xl font-bold mb-4 text-slate-800">
+            <h1 class="text-3xl sm:text-4xl font-bold mb-4 text-slate-800">
                 Investment Quote Generator
             </h1>
-            <p class="text-lg text-slate-600">Create beautiful wisdom cards featuring insights from legendary investors</p>
+            <p class="text-base sm:text-lg text-slate-600">Create beautiful wisdom cards featuring insights from legendary investors</p>
         </header>
         
         <!-- Quote Card Display -->
         <section class="mb-8 flex justify-center">
-            <div id="quote-card" class="w-[600px] h-[600px] bg-slate-900 text-white relative rounded-lg shadow-2xl">
-                <!-- Title - Centered alignment -->
-                <div class="absolute top-16 left-0 right-0 flex items-center justify-center">
-                    <span class="text-4xl font-bold text-white mr-4" style="font-family: 'Playfair Display', serif;">Daily</span>
-                    <span class="text-4xl font-bold text-amber-400" style="font-family: 'Playfair Display', serif;">Wisdom</span>
+            <!-- UPDATED: Responsive card sizing -->
+            <div id="quote-card" class="w-full aspect-square max-w-lg mx-auto md:w-[600px] md:h-[600px] md:max-w-none bg-slate-900 text-white relative rounded-lg shadow-2xl">
+                <!-- UPDATED: Responsive title and positioning -->
+                <div class="absolute top-8 left-0 right-0 flex items-center justify-center md:top-16">
+                    <span class="text-2xl md:text-4xl font-bold text-white mr-2 md:mr-4" style="font-family: 'Playfair Display', serif;">Daily</span>
+                    <span class="text-2xl md:text-4xl font-bold text-amber-400" style="font-family: 'Playfair Display', serif;">Wisdom</span>
                 </div>
                 
-                <!-- Main content - Centered, elegant font -->
-                <div class="absolute inset-0 flex items-center justify-center px-16">
+                <!-- UPDATED: Responsive padding -->
+                <div class="absolute inset-0 flex items-center justify-center px-8 md:px-16">
                     <div class="text-center">
-                        <p id="quote-text" class="text-4xl font-medium leading-relaxed text-white" style="font-family: 'Playfair Display', serif;">
+                        <!-- UPDATED: Responsive font size and line height -->
+                        <p id="quote-text" class="text-2xl md:text-4xl font-medium leading-normal md:leading-relaxed text-white" style="font-family: 'Playfair Display', serif;">
                             Time is the friend of wonderful businesses, the enemy of mediocre ones
-                            <span class="text-amber-400 ml-3 text-2xl">●</span>
+                            <span class="text-amber-400 ml-2 md:ml-3 text-xl md:text-2xl">●</span>
                         </p>
                     </div>
                 </div>
                 
-                <!-- Bottom author - Bottom right -->
-                <div class="absolute bottom-16 right-16">
-                    <span id="quote-author" class="text-4xl font-normal text-slate-300" style="font-family: 'Playfair Display', serif;">@Warren Buffett</span>
+                <!-- UPDATED: Responsive author and positioning -->
+                <div class="absolute bottom-8 right-8 md:bottom-16 md:right-16">
+                    <span id="quote-author" class="text-xl md:text-4xl font-normal text-slate-300" style="font-family: 'Playfair Display', serif;">@Warren Buffett</span>
                 </div>
             </div>
         </section>
@@ -141,6 +143,7 @@
     </div>
 
 <script>
+// UPDATED: Some quotes are shortened for better display on mobile
 const quotes = [
     { text: "Time is the friend of wonderful businesses, the enemy of mediocre ones", author: "Warren Buffett", category: "Investment Philosophy" },
     { text: "Risk comes from not knowing what you're doing", author: "Warren Buffett", category: "Risk Management" },
@@ -148,7 +151,7 @@ const quotes = [
     { text: "The best investment you can make is in yourself", author: "Warren Buffett", category: "Self Investment" },
     { text: "Price is what you pay, value is what you get", author: "Warren Buffett", category: "Value Investing" },
     { text: "Never invest in a business you cannot understand", author: "Warren Buffett", category: "Investment Philosophy" },
-    { text: "If you aren't willing to own a stock for ten years, don't even think about owning it for ten minutes", author: "Warren Buffett", category: "Long-term Investing" },
+    { text: "If you won't own a stock for ten years, don't own it for ten minutes", author: "Warren Buffett", category: "Long-term Investing" },
     { text: "Only when the tide goes out do you discover who's been swimming naked", author: "Warren Buffett", category: "Market Reality" },
     { text: "Rule No.1: Never lose money. Rule No.2: Never forget rule No.1", author: "Warren Buffett", category: "Risk Management" },
     { text: "The chains of habit are too light to be felt until they are too heavy to be broken", author: "Warren Buffett", category: "Behavioral Habits" },
@@ -168,12 +171,12 @@ const quotes = [
     { text: "Never invest in any company you can't explain to an 8-year-old", author: "Peter Lynch", category: "Company Analysis" },
     { text: "The perfect portfolio doesn't exist", author: "Peter Lynch", category: "Diversification" },
     { text: "If you have patience, stocks will definitely go up", author: "Peter Lynch", category: "Patient Investing" },
-    { text: "Before buying a stock, consider if you have the courage to watch it drop 50%", author: "Peter Lynch", category: "Risk Tolerance" },
+    { text: "Before buying a stock, consider if you can watch it drop 50%", author: "Peter Lynch", category: "Risk Tolerance" },
     { text: "Don't rely on anyone to recommend stocks, do your own homework", author: "Peter Lynch", category: "Independent Research" },
     { text: "Stock market declines are as normal as January blizzards", author: "Peter Lynch", category: "Market Declines" },
     { text: "The biggest risk in the stock market is not investing at all", author: "Peter Lynch", category: "Investment Necessity" },
     { text: "In the short run, the market is a voting machine; in the long run, it's a weighing machine", author: "Benjamin Graham", category: "Market Sentiment" },
-    { text: "The investor's chief problem, and even his worst enemy, is likely to be himself", author: "Benjamin Graham", category: "Investment Psychology" },
+    { text: "The investor's chief problem, and worst enemy, is likely himself", author: "Benjamin Graham", category: "Investment Psychology" },
     { text: "Successful investing requires time, discipline, and patience", author: "Benjamin Graham", category: "Investment Philosophy" },
     { text: "The intelligent investor won't be upset by stock price declines", author: "Benjamin Graham", category: "Investment Psychology" },
     { text: "Margin of safety is the cornerstone of investment success", author: "Benjamin Graham", category: "Margin of Safety" },
@@ -198,9 +201,9 @@ const quotes = [
     { text: "Embrace reality and deal with it", author: "Ray Dalio", category: "Investment Philosophy" },
     { text: "The biggest failure is not learning from failures", author: "Ray Dalio", category: "Failure Lessons" },
     { text: "Independent thinking is key to successful investing", author: "Ray Dalio", category: "Independent Thinking" },
-    { text: "Understanding how the economic machine works is fundamental to investment success", author: "Ray Dalio", category: "Economic Understanding" },
+    { text: "Understanding the economic machine is key to investment success", author: "Ray Dalio", category: "Economic Understanding" },
     { text: "Debt cycles are the main driver of economic fluctuations", author: "Ray Dalio", category: "Debt Cycles" },
-    { text: "The best investment opportunities often appear during the most difficult times", author: "Ray Dalio", category: "Investment Opportunity" },
+    { text: "The best investment opportunities often appear during difficult times", author: "Ray Dalio", category: "Investment Opportunity" },
     { text: "History doesn't repeat, but it rhymes", author: "Ray Dalio", category: "Historical Patterns" },
     { text: "Time is your best friend, impulse is your greatest enemy", author: "John Bogle", category: "Investment Psychology" },
     { text: "Don't look for the needle in the haystack, just buy the haystack", author: "John Bogle", category: "Diversification" },
@@ -230,7 +233,11 @@ const quotes = [
 let currentQuote = quotes[0];
 
 function updateCard(quote, author, category) {
-    document.getElementById('quote-text').innerHTML = quote + '<span class="text-amber-400 ml-3 text-2xl">●</span>';
+    // UPDATED: Dynamically change the dot size based on quote text size
+    const quoteTextElement = document.getElementById('quote-text');
+    const dotSizeClass = quoteTextElement.classList.contains('md:text-4xl') ? 'md:text-2xl' : 'md:text-xl';
+    
+    quoteTextElement.innerHTML = quote + `<span class="text-amber-400 ml-2 md:ml-3 text-xl ${dotSizeClass}">●</span>`;
     document.getElementById('quote-author').textContent = '@' + author;
     document.getElementById('category-info').textContent = 'Current Category: ' + category;
 }
@@ -262,7 +269,7 @@ document.getElementById('custom-btn').addEventListener('click', function() {
     }
 });
 
-// Download functionality
+// Download functionality (NO CHANGE NEEDED HERE, it produces a high-res 600x600 image regardless of on-screen size)
 document.getElementById('download-btn').addEventListener('click', function() {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
