@@ -142,19 +142,55 @@
 
 <!-- 中文金句生成器组件 -->
 <script>
+// 如果没有外部 quotes-data.js 文件，使用示例数据
+if (typeof quotes === 'undefined') {
+    var quotes = [
+        {
+            text: "Time is the friend of wonderful businesses, the enemy of mediocre ones",
+            author: "Warren Buffett",
+            category: "Investment Philosophy"
+        },
+        {
+            text: "你退休后想干什么样的工作，那你现在就干什么样的工作，这才是理想工作",
+            author: "巴菲特",
+            category: "人生哲学"
+        },
+        {
+            text: "Risk comes from not knowing what you're doing",
+            author: "Warren Buffett",
+            category: "Risk Management"
+        },
+        {
+            text: "投资就像滚雪球，最重要的是发现很湿的雪和很长的坡",
+            author: "沃伦·巴菲特",
+            category: "投资策略"
+        },
+        {
+            text: "The stock market is designed to transfer money from the Active to the Patient",
+            author: "Warren Buffett",
+            category: "Market Psychology"
+        },
+        {
+            text: "在别人恐惧时我贪婪，在别人贪婪时我恐惧",
+            author: "巴菲特",
+            category: "投资心理"
+        }
+    ];
+}
+
 // 中文检测函数
 function isChinese(text) {
-    const chineseRegex = /[\u4e00-\u9fff]/g;
-    const chineseMatches = text.match(chineseRegex);
+    var chineseRegex = /[\u4e00-\u9fff]/g;
+    var chineseMatches = text.match(chineseRegex);
     return chineseMatches && chineseMatches.length > text.length * 0.3;
 }
 
 // 中文下载函数
 function downloadChineseQuote(currentQuote) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
     
-    const scale = 2;
+    var scale = 2;
     canvas.width = 600 * scale;
     canvas.height = 600 * scale;
     canvas.style.width = '600px';
@@ -171,18 +207,18 @@ function downloadChineseQuote(currentQuote) {
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     
-    const maxWidth = 380;
-    const lineHeight = 42;
+    var maxWidth = 380;
+    var lineHeight = 42;
     
     // 中文换行处理
-    const chars = Array.from(currentQuote.text);
-    const lines = [];
-    let currentLine = '';
+    var chars = Array.from(currentQuote.text);
+    var lines = [];
+    var currentLine = '';
     
-    for (let i = 0; i < chars.length; i++) {
-        const char = chars[i];
-        const testLine = currentLine + char;
-        const metrics = ctx.measureText(testLine);
+    for (var i = 0; i < chars.length; i++) {
+        var char = chars[i];
+        var testLine = currentLine + char;
+        var metrics = ctx.measureText(testLine);
         
         if (metrics.width > maxWidth * 0.85 && currentLine !== '') {
             lines.push(currentLine);
@@ -196,20 +232,20 @@ function downloadChineseQuote(currentQuote) {
     }
     
     // 绘制金句文本
-    const totalTextHeight = lines.length * lineHeight;
-    const startY = (600 - totalTextHeight) / 2 + lineHeight * 0.4;
+    var totalTextHeight = lines.length * lineHeight;
+    var startY = (600 - totalTextHeight) / 2 + lineHeight * 0.4;
     
-    lines.forEach(function(line, index) {
-        const y = startY + index * lineHeight;
-        ctx.fillText(line, 300, y);
-    });
+    for (var j = 0; j < lines.length; j++) {
+        var y = startY + j * lineHeight;
+        ctx.fillText(lines[j], 300, y);
+    }
     
     // 绘制装饰点
     if (lines.length > 0) {
-        const lastLine = lines[lines.length - 1];
-        const lastLineWidth = ctx.measureText(lastLine).width;
-        const dotX = 300 + lastLineWidth / 2 + 10;
-        const dotY = startY + (lines.length - 1) * lineHeight;
+        var lastLine = lines[lines.length - 1];
+        var lastLineWidth = ctx.measureText(lastLine).width;
+        var dotX = 300 + lastLineWidth / 2 + 10;
+        var dotY = startY + (lines.length - 1) * lineHeight;
         
         ctx.fillStyle = '#f59e0b';
         ctx.beginPath();
@@ -233,7 +269,7 @@ function downloadChineseQuote(currentQuote) {
     
     // 下载
     try {
-        const link = document.createElement('a');
+        var link = document.createElement('a');
         link.download = 'chinese-quote-' + Date.now() + '.png';
         link.href = canvas.toDataURL('image/png', 1.0);
         document.body.appendChild(link);
@@ -250,11 +286,11 @@ function downloadChineseQuote(currentQuote) {
 <!-- Then, load the main script that uses the data -->
 <script>
 // The 'quotes' variable is now available from quotes-data.js
-let currentQuote = quotes[0];
+var currentQuote = quotes[0];
 
 function updateCard(quote, author, category) {
-    const quoteTextElement = document.getElementById('quote-text');
-    const dotSizeClass = quoteTextElement.classList.contains('md:text-4xl') ? 'md:text-2xl' : 'md:text-xl';
+    var quoteTextElement = document.getElementById('quote-text');
+    var dotSizeClass = quoteTextElement.classList.contains('md:text-4xl') ? 'md:text-2xl' : 'md:text-xl';
     
     quoteTextElement.innerHTML = quote + '<span class="text-amber-400 ml-2 md:ml-3 text-xl ' + dotSizeClass + '">●</span>';
     document.getElementById('quote-author').textContent = '@' + author;
@@ -264,15 +300,15 @@ function updateCard(quote, author, category) {
 
 // Random quote generation
 document.getElementById('random-btn').addEventListener('click', function() {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
+    var randomIndex = Math.floor(Math.random() * quotes.length);
     currentQuote = quotes[randomIndex];
     updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
 });
 
 // Custom quote creation
 document.getElementById('custom-btn').addEventListener('click', function() {
-    const customQuote = document.getElementById('custom-quote').value.trim();
-    const customAuthor = document.getElementById('custom-author').value.trim();
+    var customQuote = document.getElementById('custom-quote').value.trim();
+    var customAuthor = document.getElementById('custom-author').value.trim();
     
     if (customQuote && customAuthor) {
         currentQuote = {
@@ -296,10 +332,10 @@ document.getElementById('download-btn').addEventListener('click', function() {
         downloadChineseQuote(currentQuote);
     } else {
         // 使用你原来的英文下载逻辑
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
+        var canvas = document.createElement('canvas');
+        var ctx = canvas.getContext('2d');
         
-        const scale = 2;
+        var scale = 2;
         canvas.width = 600 * scale;
         canvas.height = 600 * scale;
         canvas.style.width = '600px';
@@ -313,16 +349,16 @@ document.getElementById('download-btn').addEventListener('click', function() {
         ctx.font = '500 36px "Playfair Display", serif';
         ctx.textAlign = 'center';
         
-        const maxWidth = 480;
-        const lineHeight = 50;
+        var maxWidth = 480;
+        var lineHeight = 50;
         
-        let words = currentQuote.text.split(' ');
-        let lines = [];
-        let currentLine = '';
+        var words = currentQuote.text.split(' ');
+        var lines = [];
+        var currentLine = '';
         
-        for (let i = 0; i < words.length; i++) {
-            const testLine = currentLine + (currentLine ? ' ' : '') + words[i];
-            const metrics = ctx.measureText(testLine);
+        for (var i = 0; i < words.length; i++) {
+            var testLine = currentLine + (currentLine ? ' ' : '') + words[i];
+            var metrics = ctx.measureText(testLine);
             
             if (metrics.width > maxWidth && currentLine !== '') {
                 lines.push(currentLine);
@@ -335,14 +371,14 @@ document.getElementById('download-btn').addEventListener('click', function() {
             lines.push(currentLine);
         }
         
-        const totalTextHeight = lines.length * lineHeight;
-        const startY = (600 - totalTextHeight) / 2 + lineHeight * 0.8;
+        var totalTextHeight = lines.length * lineHeight;
+        var startY = (600 - totalTextHeight) / 2 + lineHeight * 0.8;
         
-        lines.forEach(function(line, index) {
-            ctx.fillText(line, 300, startY + index * lineHeight);
-        });
+        for (var j = 0; j < lines.length; j++) {
+            ctx.fillText(lines[j], 300, startY + j * lineHeight);
+        }
         
-        const textBounds = {
+        var textBounds = {
             left: 300 - maxWidth/2,
             right: 300 + maxWidth/2
         };
@@ -351,14 +387,14 @@ document.getElementById('download-btn').addEventListener('click', function() {
         ctx.font = 'bold 36px "Playfair Display", serif';
         ctx.textAlign = 'center';
         
-        const dailyText = 'Daily';
-        const wisdomText = 'Wisdom';
-        const dailyWidth = ctx.measureText(dailyText).width;
-        const wisdomWidth = ctx.measureText(wisdomText).width;
-        const spacing = 16;
+        var dailyText = 'Daily';
+        var wisdomText = 'Wisdom';
+        var dailyWidth = ctx.measureText(dailyText).width;
+        var wisdomWidth = ctx.measureText(wisdomText).width;
+        var spacing = 16;
         
-        const totalTitleWidth = dailyWidth + spacing + wisdomWidth;
-        const titleStartX = (600 - totalTitleWidth) / 2;
+        var totalTitleWidth = dailyWidth + spacing + wisdomWidth;
+        var titleStartX = (600 - totalTitleWidth) / 2;
         
         ctx.textAlign = 'left';
         ctx.fillStyle = '#ffffff';
@@ -368,22 +404,22 @@ document.getElementById('download-btn').addEventListener('click', function() {
         ctx.fillText(wisdomText, titleStartX + dailyWidth + spacing, 94);
         
         if (lines.length > 0) {
-            const lastLine = lines[lines.length - 1];
-            const lastLineWidth = ctx.measureText(lastLine).width;
+            var lastLine = lines[lines.length - 1];
+            var lastLineWidth = ctx.measureText(lastLine).width;
             ctx.fillStyle = '#f59e0b';
             ctx.beginPath();
             ctx.arc(300 + lastLineWidth / 2 + 15, startY + (lines.length - 1) * lineHeight - 8, 4, 0, 2 * Math.PI);
             ctx.fill();
         }
         
-        const authorText = '@' + currentQuote.author;
+        var authorText = '@' + currentQuote.author;
         ctx.fillStyle = '#cbd5e1';
         ctx.font = 'normal 36px "Playfair Display", serif';
         ctx.textAlign = 'right';
         ctx.fillText(authorText, 536, 548);
         
         try {
-            const link = document.createElement('a');
+            var link = document.createElement('a');
             link.download = 'investment-quote-' + Date.now() + '.png';
             link.href = canvas.toDataURL('image/png', 1.0);
             document.body.appendChild(link);
@@ -399,7 +435,7 @@ document.getElementById('download-btn').addEventListener('click', function() {
 
 // Copy text functionality
 document.getElementById('copy-btn').addEventListener('click', function() {
-    const text = currentQuote.text + '\n— ' + currentQuote.author;
+    var text = currentQuote.text + '\n— ' + currentQuote.author;
     
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() {
@@ -414,7 +450,7 @@ document.getElementById('copy-btn').addEventListener('click', function() {
 
 // Fallback copy method
 function fallbackCopyText(text) {
-    const textArea = document.createElement('textarea');
+    var textArea = document.createElement('textarea');
     textArea.value = text;
     textArea.style.position = 'fixed';
     textArea.style.left = '-999999px';
@@ -435,12 +471,12 @@ function fallbackCopyText(text) {
 
 // Show message notification
 function showMessage(message, type) {
-    const existingMessage = document.querySelector('.message-toast');
+    var existingMessage = document.querySelector('.message-toast');
     if (existingMessage) {
         existingMessage.remove();
     }
     
-    const messageDiv = document.createElement('div');
+    var messageDiv = document.createElement('div');
     messageDiv.className = 'message-toast fixed top-4 right-4 px-4 py-2 rounded-lg text-white font-medium z-50 transition-all duration-300 ' + (type === 'success' ? 'bg-green-500' : 'bg-red-500');
     messageDiv.textContent = message;
     
