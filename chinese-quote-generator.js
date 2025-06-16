@@ -1,5 +1,10 @@
 /**
- * 中文金句图片生成器
+ * 完整的中英文金句图片生成器
+ * chinese-quote-generator.js
+ */
+
+/**
+ * 中文金句生成器
  * 专门处理中文字符的布局和渲染
  */
 class ChineseQuoteGenerator {
@@ -242,24 +247,149 @@ class ChineseQuoteGenerator {
             throw error;
         }
     }
+}
+
+/**
+ * 英文金句生成器
+ * 使用原有逻辑，针对英文进行优化
+ */
+class EnglishQuoteGenerator {
+    constructor() {
+        this.canvas = null;
+        this.ctx = null;
+        this.scale = 2;
+        this.canvasSize = 600;
+    }
     
     /**
-     * 获取预览canvas（用于显示预览）
+     * 生成并下载英文金句图片
      */
-    getPreviewCanvas(quote) {
-        this.initCanvas();
-        this.drawBackground();
-        this.drawTitle();
-        this.drawQuoteText(quote.text);
-        this.drawAuthor(quote.author);
-        return this.canvas;
+    async generateAndDownload(quote) {
+        try {
+            this.canvas = document.createElement('canvas');
+            this.ctx = this.canvas.getContext('2d');
+            
+            this.canvas.width = this.canvasSize * this.scale;
+            this.canvas.height = this.canvasSize * this.scale;
+            this.canvas.style.width = `${this.canvasSize}px`;
+            this.canvas.style.height = `${this.canvasSize}px`;
+            
+            this.ctx.scale(this.scale, this.scale);
+            
+            // 背景
+            this.ctx.fillStyle = '#0f172a'; // slate-900
+            this.ctx.fillRect(0, 0, this.canvasSize, this.canvasSize);
+            
+            // 设置英文字体
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = '500 36px "Playfair Display", serif';
+            this.ctx.textAlign = 'center';
+            
+            const maxWidth = 480;
+            const lineHeight = 50;
+            
+            // 英文单词换行
+            let words = quote.text.split(' ');
+            let lines = [];
+            let currentLine = '';
+            
+            for (let i = 0; i < words.length; i++) {
+                const testLine = currentLine + (currentLine ? ' ' : '') + words[i];
+                const metrics = this.ctx.measureText(testLine);
+                
+                if (metrics.width > maxWidth && currentLine !== '') {
+                    lines.push(currentLine);
+                    currentLine = words[i];
+                } else {
+                    currentLine = testLine;
+                }
+            }
+            if (currentLine) {
+                lines.push(currentLine);
+            }
+            
+            // 绘制主要文本
+            const totalTextHeight = lines.length * lineHeight;
+            const startY = (this.canvasSize - totalTextHeight) / 2 + lineHeight * 0.8;
+            
+            lines.forEach((line, index) => {
+                this.ctx.fillText(line, this.canvasSize / 2, startY + index * lineHeight);
+            });
+            
+            // 绘制标题 "Daily Wisdom"
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.font = 'bold 36px "Playfair Display", serif';
+            this.ctx.textAlign = 'center';
+            
+            const dailyText = 'Daily';
+            const wisdomText = 'Wisdom';
+            const dailyWidth = this.ctx.measureText(dailyText).width;
+            const wisdomWidth = this.ctx.measureText(wisdomText).width;
+            const spacing = 16;
+            
+            const totalTitleWidth = dailyWidth + spacing + wisdomWidth;
+            const titleStartX = (this.canvasSize - totalTitleWidth) / 2;
+            
+            this.ctx.textAlign = 'left';
+            this.ctx.fillStyle = '#ffffff';
+            this.ctx.fillText(dailyText, titleStartX, 94);
+            
+            this.ctx.fillStyle = '#f59e0b'; // amber-400
+            this.ctx.fillText(wisdomText, titleStartX + dailyWidth + spacing, 94);
+            
+            // 绘制装饰点
+            if (lines.length > 0) {
+                const lastLine = lines[lines.length - 1];
+                const lastLineWidth = this.ctx.measureText(lastLine).width;
+                this.ctx.fillStyle = '#f59e0b';
+                this.ctx.beginPath();
+                this.ctx.arc(this.canvasSize / 2 + lastLineWidth / 2 + 15, startY + (lines.length - 1) * lineHeight - 8, 4, 0, 2 * Math.PI);
+                this.ctx.fill();
+            }
+            
+            // 绘制作者
+            const authorText = `@${quote.author}`;
+            this.ctx.fillStyle = '#cbd5e1'; // slate-300
+            this.ctx.font = 'normal 36px "Playfair Display", serif';
+            this.ctx.textAlign = 'right';
+            this.ctx.fillText(authorText, 536, 548);
+            
+            // 下载
+            return new Promise((resolve, reject) => {
+                this.canvas.toBlob((blob) => {
+                    if (blob) {
+                        const url = URL.createObjectURL(blob);
+                        const link = document.createElement('a');
+                        link.download = `investment-quote-${Date.now()}.png`;
+                        link.href = url;
+                        
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                        
+                        URL.revokeObjectURL(url);
+                        resolve(true);
+                    } else {
+                        reject(new Error('Failed to generate image'));
+                    }
+                }, 'image/png', 1.0);
+            });
+            
+        } catch (error) {
+            console.error('English quote generation failed:', error);
+            throw error;
+        }
     }
 }
 
-// 使用示例和集成代码
+/**
+ * 智能下载管理器
+ * 自动选择合适的生成器
+ */
 class QuoteDownloadManager {
     constructor() {
         this.chineseGenerator = new ChineseQuoteGenerator();
+        this.englishGenerator = new EnglishQuoteGenerator();
     }
     
     /**
@@ -276,25 +406,16 @@ class QuoteDownloadManager {
                 this.showMessage('中文金句下载成功！', 'success');
                 
             } else {
-                // 使用原有的英文生成器
+                // 使用英文生成器
                 console.log('使用英文生成器');
-                await this.downloadEnglishQuote(quote);
+                await this.englishGenerator.generateAndDownload(quote);
                 this.showMessage('Quote downloaded successfully!', 'success');
             }
             
         } catch (error) {
             console.error('下载失败:', error);
-            this.showMessage('下载失败，请重试', 'error');
+            this.showMessage('下载失败，请重试 / Download failed, please try again', 'error');
         }
-    }
-    
-    /**
-     * 原有的英文下载逻辑（保持不变）
-     */
-    async downloadEnglishQuote(quote) {
-        // 这里放原来的英文下载代码
-        // 为了简洁，这里省略具体实现
-        console.log('执行原有英文下载逻辑');
     }
     
     /**
@@ -320,12 +441,15 @@ class QuoteDownloadManager {
             }
         }, 3000);
     }
+    
+    /**
+     * 获取当前语言类型（用于调试）
+     */
+    detectLanguage(quote) {
+        if (ChineseQuoteGenerator.isChinese(quote.text) || 
+            ChineseQuoteGenerator.isChinese(quote.author)) {
+            return 'Chinese';
+        }
+        return 'English';
+    }
 }
-
-// 集成到现有代码中
-const downloadManager = new QuoteDownloadManager();
-
-// 替换原有的下载按钮事件监听器
-document.getElementById('download-btn').addEventListener('click', function() {
-    downloadManager.downloadQuote(currentQuote);
-});
