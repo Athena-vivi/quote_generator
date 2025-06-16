@@ -140,175 +140,32 @@
 <!-- Load quote data first -->
 <script src="quotes-data.js"></script>
 
-<!-- 中文金句生成器组件 -->
-<script>
-// 如果没有外部 quotes-data.js 文件，使用示例数据
-if (typeof quotes === 'undefined') {
-    var quotes = [
-        {
-            text: "Time is the friend of wonderful businesses, the enemy of mediocre ones",
-            author: "Warren Buffett",
-            category: "Investment Philosophy"
-        },
-        {
-            text: "你退休后想干什么样的工作，那你现在就干什么样的工作，这才是理想工作",
-            author: "巴菲特",
-            category: "人生哲学"
-        },
-        {
-            text: "Risk comes from not knowing what you're doing",
-            author: "Warren Buffett",
-            category: "Risk Management"
-        },
-        {
-            text: "投资就像滚雪球，最重要的是发现很湿的雪和很长的坡",
-            author: "沃伦·巴菲特",
-            category: "投资策略"
-        },
-        {
-            text: "The stock market is designed to transfer money from the Active to the Patient",
-            author: "Warren Buffett",
-            category: "Market Psychology"
-        },
-        {
-            text: "在别人恐惧时我贪婪，在别人贪婪时我恐惧",
-            author: "巴菲特",
-            category: "投资心理"
-        }
-    ];
-}
-
-// 中文检测函数
-function isChinese(text) {
-    var chineseRegex = /[\u4e00-\u9fff]/g;
-    var chineseMatches = text.match(chineseRegex);
-    return chineseMatches && chineseMatches.length > text.length * 0.3;
-}
-
-// 中文下载函数
-function downloadChineseQuote(currentQuote) {
-    var canvas = document.createElement('canvas');
-    var ctx = canvas.getContext('2d');
-    
-    var scale = 2;
-    canvas.width = 600 * scale;
-    canvas.height = 600 * scale;
-    canvas.style.width = '600px';
-    canvas.style.height = '600px';
-    ctx.scale(scale, scale);
-    
-    // 背景
-    ctx.fillStyle = '#0f172a';
-    ctx.fillRect(0, 0, 600, 600);
-    
-    // 中文字体设置
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '500 30px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    
-    var maxWidth = 380;
-    var lineHeight = 42;
-    
-    // 中文换行处理
-    var chars = Array.from(currentQuote.text);
-    var lines = [];
-    var currentLine = '';
-    
-    for (var i = 0; i < chars.length; i++) {
-        var char = chars[i];
-        var testLine = currentLine + char;
-        var metrics = ctx.measureText(testLine);
-        
-        if (metrics.width > maxWidth * 0.85 && currentLine !== '') {
-            lines.push(currentLine);
-            currentLine = char;
-        } else {
-            currentLine = testLine;
-        }
-    }
-    if (currentLine) {
-        lines.push(currentLine);
-    }
-    
-    // 绘制金句文本
-    var totalTextHeight = lines.length * lineHeight;
-    var startY = (600 - totalTextHeight) / 2 + lineHeight * 0.4;
-    
-    for (var j = 0; j < lines.length; j++) {
-        var y = startY + j * lineHeight;
-        ctx.fillText(lines[j], 300, y);
-    }
-    
-    // 绘制装饰点
-    if (lines.length > 0) {
-        var lastLine = lines[lines.length - 1];
-        var lastLineWidth = ctx.measureText(lastLine).width;
-        var dotX = 300 + lastLineWidth / 2 + 10;
-        var dotY = startY + (lines.length - 1) * lineHeight;
-        
-        ctx.fillStyle = '#f59e0b';
-        ctx.beginPath();
-        ctx.arc(dotX, dotY, 3, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-    
-    // 绘制标题
-    ctx.font = 'bold 32px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'left';
-    ctx.fillText('Daily', 220, 75);
-    ctx.fillStyle = '#f59e0b';
-    ctx.fillText('Wisdom', 310, 75);
-    
-    // 绘制作者
-    ctx.font = 'normal 26px "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif';
-    ctx.fillStyle = '#cbd5e1';
-    ctx.textAlign = 'right';
-    ctx.fillText('@' + currentQuote.author, 500, 510);
-    
-    // 下载
-    try {
-        var link = document.createElement('a');
-        link.download = 'chinese-quote-' + Date.now() + '.png';
-        link.href = canvas.toDataURL('image/png', 1.0);
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showMessage('中文金句下载成功！', 'success');
-    } catch (error) {
-        console.error('Download failed:', error);
-        showMessage('下载失败，请重试', 'error');
-    }
-}
-</script>
-
 <!-- Then, load the main script that uses the data -->
 <script>
 // The 'quotes' variable is now available from quotes-data.js
-var currentQuote = quotes[0];
+let currentQuote = quotes[0];
 
 function updateCard(quote, author, category) {
-    var quoteTextElement = document.getElementById('quote-text');
-    var dotSizeClass = quoteTextElement.classList.contains('md:text-4xl') ? 'md:text-2xl' : 'md:text-xl';
+    const quoteTextElement = document.getElementById('quote-text');
+    const dotSizeClass = quoteTextElement.classList.contains('md:text-4xl') ? 'md:text-2xl' : 'md:text-xl';
     
-    quoteTextElement.innerHTML = quote + '<span class="text-amber-400 ml-2 md:ml-3 text-xl ' + dotSizeClass + '">●</span>';
+    quoteTextElement.innerHTML = quote + `<span class="text-amber-400 ml-2 md:ml-3 text-xl ${dotSizeClass}">●</span>`;
     document.getElementById('quote-author').textContent = '@' + author;
     document.getElementById('category-info').textContent = 'Current Category: ' + category;
-    document.getElementById('quote-count').textContent = 'Quote Library: ' + quotes.length + '+ curated investment quotes';
+    document.getElementById('quote-count').textContent = `Quote Library: ${quotes.length}+ curated investment quotes`;
 }
 
 // Random quote generation
 document.getElementById('random-btn').addEventListener('click', function() {
-    var randomIndex = Math.floor(Math.random() * quotes.length);
+    const randomIndex = Math.floor(Math.random() * quotes.length);
     currentQuote = quotes[randomIndex];
     updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
 });
 
 // Custom quote creation
 document.getElementById('custom-btn').addEventListener('click', function() {
-    var customQuote = document.getElementById('custom-quote').value.trim();
-    var customAuthor = document.getElementById('custom-author').value.trim();
+    const customQuote = document.getElementById('custom-quote').value.trim();
+    const customAuthor = document.getElementById('custom-author').value.trim();
     
     if (customQuote && customAuthor) {
         currentQuote = {
@@ -324,118 +181,111 @@ document.getElementById('custom-btn').addEventListener('click', function() {
     }
 });
 
-// Download functionality - 修改这里集成中文支持
+// Download functionality
 document.getElementById('download-btn').addEventListener('click', function() {
-    // 检测是否为中文内容
-    if (isChinese(currentQuote.text) || isChinese(currentQuote.author)) {
-        console.log('检测到中文内容，使用中文专用生成器');
-        downloadChineseQuote(currentQuote);
-    } else {
-        // 使用你原来的英文下载逻辑
-        var canvas = document.createElement('canvas');
-        var ctx = canvas.getContext('2d');
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    const scale = 2;
+    canvas.width = 600 * scale;
+    canvas.height = 600 * scale;
+    canvas.style.width = '600px';
+    canvas.style.height = '600px';
+    ctx.scale(scale, scale);
+    
+    ctx.fillStyle = '#0f172a'; // slate-900
+    ctx.fillRect(0, 0, 600, 600);
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '500 36px "Playfair Display", serif';
+    ctx.textAlign = 'center';
+    
+    const maxWidth = 480;
+    const lineHeight = 50;
+    
+    let words = currentQuote.text.split(' ');
+    let lines = [];
+    let currentLine = '';
+    
+    for (let i = 0; i < words.length; i++) {
+        const testLine = currentLine + (currentLine ? ' ' : '') + words[i];
+        const metrics = ctx.measureText(testLine);
         
-        var scale = 2;
-        canvas.width = 600 * scale;
-        canvas.height = 600 * scale;
-        canvas.style.width = '600px';
-        canvas.style.height = '600px';
-        ctx.scale(scale, scale);
-        
-        ctx.fillStyle = '#0f172a'; // slate-900
-        ctx.fillRect(0, 0, 600, 600);
-        
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '500 36px "Playfair Display", serif';
-        ctx.textAlign = 'center';
-        
-        var maxWidth = 480;
-        var lineHeight = 50;
-        
-        var words = currentQuote.text.split(' ');
-        var lines = [];
-        var currentLine = '';
-        
-        for (var i = 0; i < words.length; i++) {
-            var testLine = currentLine + (currentLine ? ' ' : '') + words[i];
-            var metrics = ctx.measureText(testLine);
-            
-            if (metrics.width > maxWidth && currentLine !== '') {
-                lines.push(currentLine);
-                currentLine = words[i];
-            } else {
-                currentLine = testLine;
-            }
-        }
-        if (currentLine) {
+        if (metrics.width > maxWidth && currentLine !== '') {
             lines.push(currentLine);
+            currentLine = words[i];
+        } else {
+            currentLine = testLine;
         }
-        
-        var totalTextHeight = lines.length * lineHeight;
-        var startY = (600 - totalTextHeight) / 2 + lineHeight * 0.8;
-        
-        for (var j = 0; j < lines.length; j++) {
-            ctx.fillText(lines[j], 300, startY + j * lineHeight);
-        }
-        
-        var textBounds = {
-            left: 300 - maxWidth/2,
-            right: 300 + maxWidth/2
-        };
-        
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 36px "Playfair Display", serif';
-        ctx.textAlign = 'center';
-        
-        var dailyText = 'Daily';
-        var wisdomText = 'Wisdom';
-        var dailyWidth = ctx.measureText(dailyText).width;
-        var wisdomWidth = ctx.measureText(wisdomText).width;
-        var spacing = 16;
-        
-        var totalTitleWidth = dailyWidth + spacing + wisdomWidth;
-        var titleStartX = (600 - totalTitleWidth) / 2;
-        
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#ffffff';
-        ctx.fillText(dailyText, titleStartX, 94);
-        
+    }
+    if (currentLine) {
+        lines.push(currentLine);
+    }
+    
+    const totalTextHeight = lines.length * lineHeight;
+    const startY = (600 - totalTextHeight) / 2 + lineHeight * 0.8;
+    
+    lines.forEach((line, index) => {
+        ctx.fillText(line, 300, startY + index * lineHeight);
+    });
+    
+    const textBounds = {
+        left: 300 - maxWidth/2,
+        right: 300 + maxWidth/2
+    };
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 36px "Playfair Display", serif';
+    ctx.textAlign = 'center';
+    
+    const dailyText = 'Daily';
+    const wisdomText = 'Wisdom';
+    const dailyWidth = ctx.measureText(dailyText).width;
+    const wisdomWidth = ctx.measureText(wisdomText).width;
+    const spacing = 16;
+    
+    const totalTitleWidth = dailyWidth + spacing + wisdomWidth;
+    const titleStartX = (600 - totalTitleWidth) / 2;
+    
+    ctx.textAlign = 'left';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(dailyText, titleStartX, 94);
+    
+    ctx.fillStyle = '#f59e0b';
+    ctx.fillText(wisdomText, titleStartX + dailyWidth + spacing, 94);
+    
+    if (lines.length > 0) {
+        const lastLine = lines[lines.length - 1];
+        const lastLineWidth = ctx.measureText(lastLine).width;
         ctx.fillStyle = '#f59e0b';
-        ctx.fillText(wisdomText, titleStartX + dailyWidth + spacing, 94);
-        
-        if (lines.length > 0) {
-            var lastLine = lines[lines.length - 1];
-            var lastLineWidth = ctx.measureText(lastLine).width;
-            ctx.fillStyle = '#f59e0b';
-            ctx.beginPath();
-            ctx.arc(300 + lastLineWidth / 2 + 15, startY + (lines.length - 1) * lineHeight - 8, 4, 0, 2 * Math.PI);
-            ctx.fill();
-        }
-        
-        var authorText = '@' + currentQuote.author;
-        ctx.fillStyle = '#cbd5e1';
-        ctx.font = 'normal 36px "Playfair Display", serif';
-        ctx.textAlign = 'right';
-        ctx.fillText(authorText, 536, 548);
-        
-        try {
-            var link = document.createElement('a');
-            link.download = 'investment-quote-' + Date.now() + '.png';
-            link.href = canvas.toDataURL('image/png', 1.0);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showMessage('Image downloaded successfully!', 'success');
-        } catch (error) {
-            console.error('Download failed:', error);
-            showMessage('Download failed, please try again', 'error');
-        }
+        ctx.beginPath();
+        ctx.arc(300 + lastLineWidth / 2 + 15, startY + (lines.length - 1) * lineHeight - 8, 4, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+    
+    const authorText = `@${currentQuote.author}`;
+    ctx.fillStyle = '#cbd5e1';
+    ctx.font = 'normal 36px "Playfair Display", serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(authorText, 536, 548);
+    
+    try {
+        const link = document.createElement('a');
+        link.download = `investment-quote-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showMessage('Image downloaded successfully!', 'success');
+    } catch (error) {
+        console.error('Download failed:', error);
+        showMessage('Download failed, please try again', 'error');
     }
 });
 
 // Copy text functionality
 document.getElementById('copy-btn').addEventListener('click', function() {
-    var text = currentQuote.text + '\n— ' + currentQuote.author;
+    const text = `${currentQuote.text}\n— ${currentQuote.author}`;
     
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(text).then(function() {
@@ -450,7 +300,7 @@ document.getElementById('copy-btn').addEventListener('click', function() {
 
 // Fallback copy method
 function fallbackCopyText(text) {
-    var textArea = document.createElement('textarea');
+    const textArea = document.createElement('textarea');
     textArea.value = text;
     textArea.style.position = 'fixed';
     textArea.style.left = '-999999px';
@@ -471,18 +321,20 @@ function fallbackCopyText(text) {
 
 // Show message notification
 function showMessage(message, type) {
-    var existingMessage = document.querySelector('.message-toast');
+    const existingMessage = document.querySelector('.message-toast');
     if (existingMessage) {
         existingMessage.remove();
     }
     
-    var messageDiv = document.createElement('div');
-    messageDiv.className = 'message-toast fixed top-4 right-4 px-4 py-2 rounded-lg text-white font-medium z-50 transition-all duration-300 ' + (type === 'success' ? 'bg-green-500' : 'bg-red-500');
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message-toast fixed top-4 right-4 px-4 py-2 rounded-lg text-white font-medium z-50 transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    }`;
     messageDiv.textContent = message;
     
     document.body.appendChild(messageDiv);
     
-    setTimeout(function() {
+    setTimeout(() => {
         if (messageDiv.parentNode) {
             messageDiv.remove();
         }
