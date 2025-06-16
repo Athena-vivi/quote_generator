@@ -178,6 +178,123 @@ const quotes = [
 <!-- 中英文金句生成器组件 -->
 <script>
 /**
+ * 随机金句生成
+ */
+document.getElementById('random-btn').addEventListener('click', function() {
+    const randomIndex = Math.floor(Math.random() * quotes.length);
+    currentQuote = quotes[randomIndex];
+    updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
+});
+
+/**
+ * 自定义金句创建
+ */
+document.getElementById('custom-btn').addEventListener('click', function() {
+    const customQuote = document.getElementById('custom-quote').value.trim();
+    const customAuthor = document.getElementById('custom-author').value.trim();
+    
+    if (customQuote && customAuthor) {
+        currentQuote = {
+            text: customQuote,
+            author: customAuthor,
+            category: "Custom"
+        };
+        updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
+        document.getElementById('custom-quote').value = '';
+        document.getElementById('custom-author').value = '';
+    } else {
+        alert('Please enter both quote content and author information');
+    }
+});
+
+/**
+ * ⭐ 新的智能下载功能
+ */
+document.getElementById('download-btn').addEventListener('click', function() {
+    console.log('开始下载，当前金句:', currentQuote);
+    downloadManager.downloadQuote(currentQuote);
+});
+
+/**
+ * 复制文本功能
+ */
+document.getElementById('copy-btn').addEventListener('click', function() {
+    const text = `${currentQuote.text}\n— ${currentQuote.author}`;
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+            showMessage('Copied to clipboard! / 已复制到剪贴板！', 'success');
+        }).catch(function() {
+            fallbackCopyText(text);
+        });
+    } else {
+        fallbackCopyText(text);
+    }
+});
+
+/**
+ * 复制文本的备用方法
+ */
+function fallbackCopyText(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showMessage('Copied to clipboard! / 已复制到剪贴板！', 'success');
+    } catch (err) {
+        showMessage('Copy failed, please copy manually / 复制失败，请手动复制', 'error');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
+/**
+ * 显示消息通知
+ */
+function showMessage(message, type) {
+    const existingMessage = document.querySelector('.message-toast');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message-toast fixed top-4 right-4 px-4 py-2 rounded-lg text-white font-medium z-50 transition-all duration-300 ${
+        type === 'success' ? 'bg-green-500' : 'bg-red-500'
+    }`;
+    messageDiv.textContent = message;
+    
+    document.body.appendChild(messageDiv);
+    
+    setTimeout(() => {
+        if (messageDiv.parentNode) {
+            messageDiv.remove();
+        }
+    }, 3000);
+}
+
+/**
+ * 页面加载完成后初始化
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
+    console.log('金句生成器已初始化，支持中英文智能切换');
+    console.log('当前金句库包含:', quotes.length, '条金句');
+    
+    // 显示欢迎信息
+    setTimeout(() => {
+        showMessage('Welcome! Try generating quotes in both English and Chinese / 欢迎！支持中英文金句生成', 'success');
+    }, 1000);
+});
+</script>
+</body>
+</html>
  * 中文金句生成器
  * 专门处理中文字符的布局和渲染
  */
@@ -650,3 +767,5 @@ function updateCard(quote, author, category) {
     // 调试信息：显示检测到的语言类型
     console.log(`语言检测: ${downloadManager.detectLanguage({text: quote, author: author})}`);
 }
+
+/**
