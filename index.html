@@ -142,7 +142,33 @@
     </div>
 
 <!-- Load quote data first -->
-<script src="quotes-data.js"></script>
+<script>
+// 如果没有外部 quotes-data.js 文件，使用示例数据
+if (typeof quotes === 'undefined') {
+    window.quotes = [
+        {
+            text: "Time is the friend of wonderful businesses, the enemy of mediocre ones",
+            author: "Warren Buffett",
+            category: "Investment Philosophy"
+        },
+        {
+            text: "你退休后想干什么样的工作，那你现在就干什么样的工作，这才是理想工作",
+            author: "巴菲特",
+            category: "人生哲学"
+        },
+        {
+            text: "Risk comes from not knowing what you're doing",
+            author: "Warren Buffett",
+            category: "Risk Management"
+        },
+        {
+            text: "投资就像滚雪球，最重要的是发现很湿的雪和很长的坡",
+            author: "沃伦·巴菲特",
+            category: "投资策略"
+        }
+    ];
+}
+</script>
 
 <!-- 中英文金句生成器组件 -->
 <script>
@@ -558,37 +584,10 @@ class QuoteDownloadManager {
 
 <!-- Then, load the main script that uses the data -->
 <script>
-// The 'quotes' variable is now available from quotes-data.js
-// 如果没有 quotes-data.js 文件，使用示例数据
-if (typeof quotes === 'undefined') {
-    const quotes = [
-        {
-            text: "Time is the friend of wonderful businesses, the enemy of mediocre ones",
-            author: "Warren Buffett",
-            category: "Investment Philosophy"
-        },
-        {
-            text: "你退休后想干什么样的工作，那你现在就干什么样的工作，这才是理想工作",
-            author: "巴菲特",
-            category: "人生哲学"
-        },
-        {
-            text: "Risk comes from not knowing what you're doing",
-            author: "Warren Buffett",
-            category: "Risk Management"
-        },
-        {
-            text: "投资就像滚雪球，最重要的是发现很湿的雪和很长的坡",
-            author: "沃伦·巴菲特",
-            category: "投资策略"
-        }
-    ];
-    window.quotes = quotes;
-}
+// 使用全局 quotes 变量
+let currentQuote = window.quotes[0];
 
-let currentQuote = quotes[0];
-
-// 创建智能下载管理器
+// 全局变量声明
 let downloadManager;
 
 function updateCard(quote, author, category) {
@@ -598,79 +597,7 @@ function updateCard(quote, author, category) {
     quoteTextElement.innerHTML = quote + `<span class="text-amber-400 ml-2 md:ml-3 text-xl ${dotSizeClass}">●</span>`;
     document.getElementById('quote-author').textContent = '@' + author;
     document.getElementById('category-info').textContent = 'Current Category: ' + category;
-    document.getElementById('quote-count').textContent = `Quote Library: ${quotes.length}+ curated investment quotes`;
-}
-
-// Random quote generation
-document.getElementById('random-btn').addEventListener('click', function() {
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    currentQuote = quotes[randomIndex];
-    updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
-});
-
-// Custom quote creation
-document.getElementById('custom-btn').addEventListener('click', function() {
-    const customQuote = document.getElementById('custom-quote').value.trim();
-    const customAuthor = document.getElementById('custom-author').value.trim();
-    
-    if (customQuote && customAuthor) {
-        currentQuote = {
-            text: customQuote,
-            author: customAuthor,
-            category: "Custom"
-        };
-        updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
-        document.getElementById('custom-quote').value = '';
-        document.getElementById('custom-author').value = '';
-    } else {
-        alert('Please enter both quote content and author information');
-    }
-});
-
-// 智能下载功能 - 替换原有的下载逻辑
-document.getElementById('download-btn').addEventListener('click', function() {
-    if (downloadManager) {
-        downloadManager.downloadQuote(currentQuote);
-    } else {
-        console.error('Download manager not initialized');
-        showMessage('Download manager not ready', 'error');
-    }
-});
-
-// Copy text functionality
-document.getElementById('copy-btn').addEventListener('click', function() {
-    const text = `${currentQuote.text}\n— ${currentQuote.author}`;
-    
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() {
-            showMessage('Copied to clipboard!', 'success');
-        }).catch(function() {
-            fallbackCopyText(text);
-        });
-    } else {
-        fallbackCopyText(text);
-    }
-});
-
-// Fallback copy method
-function fallbackCopyText(text) {
-    const textArea = document.createElement('textarea');
-    textArea.value = text;
-    textArea.style.position = 'fixed';
-    textArea.style.left = '-999999px';
-    textArea.style.top = '-999999px';
-    document.body.appendChild(textArea);
-    textArea.focus();
-    textArea.select();
-    
-    try {
-        document.execCommand('copy');
-        showMessage('Copied to clipboard!', 'success');
-    } catch (err) {
-        showMessage('Copy failed, please copy manually', 'error');
-    }
-    
-    document.body.removeChild(textArea);
+    document.getElementById('quote-count').textContent = `Quote Library: ${window.quotes.length}+ curated investment quotes`;
 }
 
 // Show message notification
@@ -695,15 +622,114 @@ function showMessage(message, type) {
     }, 3000);
 }
 
+// Fallback copy method
+function fallbackCopyText(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    textArea.style.position = 'fixed';
+    textArea.style.left = '-999999px';
+    textArea.style.top = '-999999px';
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+        document.execCommand('copy');
+        showMessage('Copied to clipboard!', 'success');
+    } catch (err) {
+        showMessage('Copy failed, please copy manually', 'error');
+    }
+    
+    document.body.removeChild(textArea);
+}
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    // 初始化下载管理器
-    downloadManager = new QuoteDownloadManager();
-    console.log('Download manager initialized');
+    console.log('DOM loaded, initializing...');
     
-    // Initialize with first quote and update count dynamically
+    // 确保类已定义
+    if (typeof QuoteDownloadManager === 'undefined') {
+        console.error('QuoteDownloadManager class not found!');
+        return;
+    }
+    
+    // 初始化下载管理器
+    try {
+        downloadManager = new QuoteDownloadManager();
+        console.log('Download manager initialized successfully');
+    } catch (error) {
+        console.error('Failed to initialize download manager:', error);
+    }
+    
+    // 初始化页面显示
     updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
-    console.log('Page initialized successfully');
+    console.log('Page initialized with quote:', currentQuote);
+
+    // Random quote generation
+    document.getElementById('random-btn').addEventListener('click', function() {
+        console.log('Random button clicked');
+        const randomIndex = Math.floor(Math.random() * window.quotes.length);
+        currentQuote = window.quotes[randomIndex];
+        updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
+        console.log('New random quote:', currentQuote);
+    });
+
+    // Custom quote creation
+    document.getElementById('custom-btn').addEventListener('click', function() {
+        console.log('Custom button clicked');
+        const customQuote = document.getElementById('custom-quote').value.trim();
+        const customAuthor = document.getElementById('custom-author').value.trim();
+        
+        if (customQuote && customAuthor) {
+            currentQuote = {
+                text: customQuote,
+                author: customAuthor,
+                category: "Custom"
+            };
+            updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
+            document.getElementById('custom-quote').value = '';
+            document.getElementById('custom-author').value = '';
+            console.log('Custom quote created:', currentQuote);
+        } else {
+            alert('Please enter both quote content and author information');
+        }
+    });
+
+    // 智能下载功能
+    document.getElementById('download-btn').addEventListener('click', function() {
+        console.log('Download button clicked, current quote:', currentQuote);
+        
+        if (!downloadManager) {
+            console.error('Download manager not initialized');
+            showMessage('Download manager not ready', 'error');
+            return;
+        }
+        
+        try {
+            downloadManager.downloadQuote(currentQuote);
+        } catch (error) {
+            console.error('Download failed:', error);
+            showMessage('Download failed: ' + error.message, 'error');
+        }
+    });
+
+    // Copy text functionality
+    document.getElementById('copy-btn').addEventListener('click', function() {
+        console.log('Copy button clicked');
+        const text = `${currentQuote.text}\n— ${currentQuote.author}`;
+        
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function() {
+                showMessage('Copied to clipboard!', 'success');
+            }).catch(function() {
+                fallbackCopyText(text);
+            });
+        } else {
+            fallbackCopyText(text);
+        }
+    });
+    
+    console.log('All event listeners attached successfully');
 });
 </script>
 </body>
