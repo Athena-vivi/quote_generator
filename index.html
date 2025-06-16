@@ -396,7 +396,7 @@ class ChineseQuoteGenerator {
                     if (blob) {
                         const url = URL.createObjectURL(blob);
                         const link = document.createElement('a');
-                        link.download = `chinese-quote-${Date.now()}.png`;
+                        link.download = 'chinese-quote-' + Date.now() + '.png';
                         link.href = url;
                         
                         document.body.appendChild(link);
@@ -503,11 +503,6 @@ class QuoteDownloadManager {
             ctx.fillText(line, 300, startY + index * lineHeight);
         });
         
-        const textBounds = {
-            left: 300 - maxWidth/2,
-            right: 300 + maxWidth/2
-        };
-        
         ctx.fillStyle = '#ffffff';
         ctx.font = 'bold 36px "Playfair Display", serif';
         ctx.textAlign = 'center';
@@ -537,7 +532,7 @@ class QuoteDownloadManager {
             ctx.fill();
         }
         
-        const authorText = `@${quote.author}`;
+        const authorText = '@' + quote.author;
         ctx.fillStyle = '#cbd5e1';
         ctx.font = 'normal 36px "Playfair Display", serif';
         ctx.textAlign = 'right';
@@ -545,7 +540,7 @@ class QuoteDownloadManager {
         
         try {
             const link = document.createElement('a');
-            link.download = `investment-quote-${Date.now()}.png`;
+            link.download = 'investment-quote-' + Date.now() + '.png';
             link.href = canvas.toDataURL('image/png', 1.0);
             document.body.appendChild(link);
             link.click();
