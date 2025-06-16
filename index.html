@@ -7,6 +7,10 @@
     <meta name="description" content="Generate beautiful quote cards featuring wisdom from legendary investors like Warren Buffett, Charlie Munger, and Peter Lynch. Download and share investment insights.">
     <link rel="canonical" href="https://investmentquotes.com/generator">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // 忽略 Tailwind CDN 生产环境警告
+        console.warn = function() {};
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&display=swap');
         body {
@@ -555,10 +559,37 @@ class QuoteDownloadManager {
 <!-- Then, load the main script that uses the data -->
 <script>
 // The 'quotes' variable is now available from quotes-data.js
+// 如果没有 quotes-data.js 文件，使用示例数据
+if (typeof quotes === 'undefined') {
+    const quotes = [
+        {
+            text: "Time is the friend of wonderful businesses, the enemy of mediocre ones",
+            author: "Warren Buffett",
+            category: "Investment Philosophy"
+        },
+        {
+            text: "你退休后想干什么样的工作，那你现在就干什么样的工作，这才是理想工作",
+            author: "巴菲特",
+            category: "人生哲学"
+        },
+        {
+            text: "Risk comes from not knowing what you're doing",
+            author: "Warren Buffett",
+            category: "Risk Management"
+        },
+        {
+            text: "投资就像滚雪球，最重要的是发现很湿的雪和很长的坡",
+            author: "沃伦·巴菲特",
+            category: "投资策略"
+        }
+    ];
+    window.quotes = quotes;
+}
+
 let currentQuote = quotes[0];
 
 // 创建智能下载管理器
-const downloadManager = new QuoteDownloadManager();
+let downloadManager;
 
 function updateCard(quote, author, category) {
     const quoteTextElement = document.getElementById('quote-text');
@@ -598,7 +629,12 @@ document.getElementById('custom-btn').addEventListener('click', function() {
 
 // 智能下载功能 - 替换原有的下载逻辑
 document.getElementById('download-btn').addEventListener('click', function() {
-    downloadManager.downloadQuote(currentQuote);
+    if (downloadManager) {
+        downloadManager.downloadQuote(currentQuote);
+    } else {
+        console.error('Download manager not initialized');
+        showMessage('Download manager not ready', 'error');
+    }
 });
 
 // Copy text functionality
@@ -661,8 +697,13 @@ function showMessage(message, type) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // 初始化下载管理器
+    downloadManager = new QuoteDownloadManager();
+    console.log('Download manager initialized');
+    
     // Initialize with first quote and update count dynamically
     updateCard(currentQuote.text, currentQuote.author, currentQuote.category);
+    console.log('Page initialized successfully');
 });
 </script>
 </body>
