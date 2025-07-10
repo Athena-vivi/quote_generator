@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
+import Analytics from "./components/Analytics"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -177,6 +178,7 @@ export default function RootLayout({
 
       <body className={`${inter.className} scroll-smooth bg-amber-50 text-gray-800`}>
         {children}
+ <Analytics />
       </body>
     </html>
   )
