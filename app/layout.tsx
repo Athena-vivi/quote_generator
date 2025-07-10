@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     canonical: "https://quotegenerator.com",
   },
   category: "Religion & Spirituality",
-    generator: 'v0.dev'
+  generator: "v0.dev",
 }
 
 export default function RootLayout({
@@ -122,7 +122,8 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "WebApplication",
               name: "QuoteGenerator",
-              description: "Transform Bible quotes into beautiful AI-generated art for social media sharing",
+              description:
+                "Transform Bible quotes into beautiful AI-generated art for social media sharing",
               url: "https://quotegenerator.com",
               applicationCategory: "DesignApplication",
               operatingSystem: "Web Browser",
@@ -160,7 +161,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
 
-        {/* Preconnect to external domains */}
+        {/* Preconnect */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.esv.org" />
@@ -170,12 +171,13 @@ export default function RootLayout({
         )}
 
         {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" href="/icon.png" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" href="/favicon.ico?v=2" />
+        <link rel="icon" type="image/png" href="/icon.png?v=2" />
       </head>
-      <body className={`${inter.className} scroll-smooth`}>{children}</body>
+
+      <body className={`${inter.className} scroll-smooth bg-amber-50 text-gray-800`}>
+        {children}
+      </body>
     </html>
   )
 }
