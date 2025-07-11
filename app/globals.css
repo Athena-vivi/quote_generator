@@ -1,3 +1,9 @@
+/* styles/globals.css */
+
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&family=Crimson+Pro:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Pacifico&family=Satisfy&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -54,7 +60,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+  font-family: 'Playfair Display', serif;
+  @apply bg-background text-foreground;
   }
 }
 

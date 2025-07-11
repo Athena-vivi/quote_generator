@@ -1,12 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
 import { GoogleAnalytics } from "@/components/GoogleAnalytics"
-
-
-const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "QuoteGenerator - Transform Bible Quotes into Beautiful AI Art",
@@ -153,17 +149,21 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
 
         {/* Preconnect */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.esv.org" />
         <link rel="preconnect" href="https://fal.run" />
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="icon" type="image/png" href="/icon.png?v=2" />
+
+        {/* Google Fonts for religious content */}
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Open+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" 
+          rel="stylesheet"
+        />
       </head>
 
-      <body className={`${inter.className} scroll-smooth bg-amber-50 text-gray-800`}>
+      <body className="scroll-smooth bg-amber-50 text-gray-800">
         {children}
         {/* ✅ 只有 GA ID 存在时才注入脚本 */}
        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (

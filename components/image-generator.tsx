@@ -31,6 +31,111 @@ interface ImageGeneratorProps {
   onClose: () => void
 }
 
+// 抽象出绘制函数
+function drawQuoteImage({
+  ctx,
+  backgroundImg,
+  quote,
+  fontConfigs,
+  selectedFont,
+  width = 1024,
+  height = 1024,
+}: {
+  ctx: CanvasRenderingContext2D,
+  backgroundImg: HTMLImageElement | null,
+  quote: { content: string; reference: string },
+  fontConfigs: any,
+  selectedFont: string,
+  width?: number,
+  height?: number,
+}) {
+  // 背景
+  ctx.clearRect(0, 0, width, height)
+  if (backgroundImg) {
+    ctx.drawImage(backgroundImg, 0, 0, width, height)
+  } else {
+    ctx.fillStyle = "#222"
+    ctx.fillRect(0, 0, width, height)
+  }
+  // 渐变
+  const gradient = ctx.createLinearGradient(0, 0, 0, height)
+  gradient.addColorStop(0, "rgba(0,0,0,0.3)")
+  gradient.addColorStop(0.5, "rgba(0,0,0,0.1)")
+  gradient.addColorStop(1, "rgba(0,0,0,0.4)")
+  ctx.fillStyle = gradient
+  ctx.fillRect(0, 0, width, height)
+
+  // 字体参数
+  const fontSize =
+    quote.content.length < 60
+      ? 110
+      : quote.content.length < 100
+        ? 95
+        : quote.content.length < 150
+          ? 80
+          : quote.content.length < 200
+            ? 70
+            : 60
+  const currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs]
+  const serifFonts = currentFont.serif.join(", ")
+  ctx.fillStyle = "white"
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+  ctx.font = `${fontSize}px ${serifFonts}`
+  ctx.shadowColor = "rgba(0,0,0,0.9)"
+  ctx.shadowBlur = 12
+  ctx.shadowOffsetX = 3
+  ctx.shadowOffsetY = 3
+
+  // 分行
+  const words = quote.content.split(" ")
+  const lines: string[] = []
+  let currentLine = ""
+  const maxWidth = 750
+  for (const word of words) {
+    const testLine = currentLine + (currentLine ? " " : "") + word
+    const metrics = ctx.measureText(testLine)
+    if (metrics.width > maxWidth && currentLine) {
+      lines.push(currentLine)
+      currentLine = word
+    } else {
+      currentLine = testLine
+    }
+  }
+  if (currentLine) lines.push(currentLine)
+
+  // 智能行高和边界
+  const lineHeight = fontSize * 1.2
+  const totalTextHeight = lines.length * lineHeight
+  const refFontSize = Math.max(45, fontSize * 0.65)
+  const refHeight = refFontSize * 1.2
+  const spacing = Math.max(80, fontSize * 0.8) // 增加间距，至少80像素，或字体大小的80%
+  const totalHeight = totalTextHeight + refHeight + spacing
+  const maxStartY = 150
+  const minEndY = height - 150
+  const availableHeight = minEndY - maxStartY
+  let startY
+  if (totalHeight <= availableHeight) {
+    startY = height / 2 - totalHeight / 2
+  } else {
+    startY = maxStartY
+  }
+  lines.forEach((line, index) => {
+    let displayLine = line
+    if (index === 0) displayLine = `"${line}`
+    if (index === lines.length - 1) displayLine = lines.length === 1 ? `"${line}"` : `${line}"`
+    ctx.fillText(displayLine, width / 2, startY + index * lineHeight)
+  })
+  // 引用
+  ctx.font = `${refFontSize}px ${serifFonts}`
+  // 右下角定位
+  ctx.textAlign = "right"
+  ctx.textBaseline = "bottom"
+  const refPaddingRight = 48 // 右侧内边距
+  const refPaddingBottom = 48 // 底部内边距
+  ctx.fillText(`— ${quote.reference}`, width - refPaddingRight, height - refPaddingBottom)
+}
+
 export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [prompt, setPrompt] = useState("")
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null)
@@ -41,7 +146,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [copied, setCopied] = useState(false)
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [fontsLoaded, setFontsLoaded] = useState(false)
+  const [selectedFont, setSelectedFont] = useState("classic")
   const canvasRef = useRef<HTMLDivElement>(null)
+  const previewCanvasRef = useRef<HTMLCanvasElement>(null)
+  const [previewBgImg, setPreviewBgImg] = useState<HTMLImageElement | null>(null)
 
   const promptSuggestions = [
     "A beautiful white dove flying in a golden sky",
@@ -58,37 +166,67 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     "Peaceful shepherd scene with rolling hills",
   ]
 
+  // Font configurations optimized for religious content
+  const fontConfigs = {
+    classic: {
+      serif: ['"EB Garamond"', '"Crimson Text"', '"Merriweather"', '"Lora"', '"Georgia"', '"Times New Roman"', 'serif'],
+      sans: ['"Open Sans"', '"Roboto"', '"Segoe UI"', '"Helvetica"', 'sans-serif'],
+      name: "Classic"
+    },
+    handwriting: {
+      serif: ['"Caveat"', 'cursive', 'serif'],
+      sans: ['"Open Sans"', '"Segoe UI"', 'sans-serif'],
+      name: "Handwriting"
+    }
+  }
+
   // Load fonts for canvas rendering
   useEffect(() => {
     const loadFonts = async () => {
       try {
-        // Load Google Fonts for canvas use
-        const playfairFont = new FontFace(
-          "Playfair Display",
-          "url(https://fonts.gstatic.com/s/playfairdisplay/v30/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvXDXbtXK-F2qO0isEw.woff2)",
-        )
-
-        const interFont = new FontFace(
-          "Inter",
-          "url(https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMw2boKoduKmMEVuLyfAZ9hiJ-Ek-_EeA.woff2)",
-        )
-
-        await playfairFont.load()
-        await interFont.load()
-
-        document.fonts.add(playfairFont)
-        document.fonts.add(interFont)
-
-        console.log("✅ 字体加载成功")
+        // 检查字体 API 是否可用
+        if (document.fonts && typeof document.fonts.ready !== 'undefined') {
+          // 等待字体加载
+          await document.fonts.ready
+          console.log("✅ 字体加载完成，包括 Google Fonts")
+        } else {
+          console.log("✅ 使用系统字体")
+        }
         setFontsLoaded(true)
       } catch (error) {
         console.warn("⚠️ 字体加载失败，使用系统字体:", error)
-        setFontsLoaded(true) // Still proceed with system fonts
+        setFontsLoaded(true)
       }
     }
 
     loadFonts()
   }, [])
+
+  // 预览背景图片加载
+  useEffect(() => {
+    if (!generatedImageUrl) return setPreviewBgImg(null)
+    const img = new window.Image()
+    img.crossOrigin = "anonymous"
+    img.onload = () => setPreviewBgImg(img)
+    img.onerror = () => setPreviewBgImg(null)
+    img.src = generatedImageUrl
+  }, [generatedImageUrl])
+
+  // 预览canvas绘制
+  useEffect(() => {
+    if (!previewCanvasRef.current) return
+    const ctx = previewCanvasRef.current.getContext("2d")
+    if (!ctx) return
+    drawQuoteImage({
+      ctx,
+      backgroundImg: previewBgImg,
+      quote,
+      fontConfigs,
+      selectedFont,
+      width: 1024,
+      height: 1024,
+    })
+  }, [previewBgImg, quote, fontConfigs, selectedFont])
 
   const getTextSize = (text: string) => {
     const length = text.length
@@ -176,21 +314,23 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
 
-      // 引用文字 - 字体大小减小1/3，更合理的尺寸
+      // 字体大小优化 - 确保社交媒体分享时清晰可读
       const fontSize =
         quote.content.length < 60
-          ? 85 // 从128减到85 (约2/3)
+          ? 110 // 增加25px，确保短经文清晰
           : quote.content.length < 100
-            ? 70 // 从104减到70
+            ? 95 // 增加25px，中等经文更清晰
             : quote.content.length < 150
-              ? 56 // 从84减到56
+              ? 80 // 增加24px，长经文保持可读
               : quote.content.length < 200
-                ? 48 // 从72减到48
-                : 42 // 从64减到42
+                ? 70 // 增加22px，很长经文也要清晰
+                : 60 // 增加18px，超长经文最小也要60px
 
-      // 尝试使用加载的字体，如果失败则使用系统字体
-      const serifFonts = ['"Playfair Display"', "Georgia", '"Times New Roman"', "serif"].join(", ")
+      // 使用选择的字体配置
+      const currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs]
+      const serifFonts = currentFont.serif.join(", ")
 
+      console.log("🎨 下载使用字体:", selectedFont, serifFonts)
       ctx.font = `${fontSize}px ${serifFonts}`
       ctx.shadowColor = "rgba(0,0,0,0.9)"
       ctx.shadowBlur = 12
@@ -199,11 +339,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
       console.log("🎨 使用超大字体:", ctx.font)
 
-      // 文字换行
+      // 优化的文字换行 - 更好的留白和间距
       const words = quote.content.split(" ")
       const lines: string[] = []
       let currentLine = ""
-      const maxWidth = 900
+      const maxWidth = 750 // 减少最大宽度，增加留白
 
       for (const word of words) {
         const testLine = currentLine + (currentLine ? " " : "") + word
@@ -217,9 +357,27 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       }
       if (currentLine) lines.push(currentLine)
 
-      // 绘制引用文字 - 修复引号问题
-      const lineHeight = fontSize * 1.2
-      const startY = 512 - (lines.length * lineHeight) / 2
+      // 智能的行高和位置计算 - 确保文字在图片范围内
+      const lineHeight = fontSize * 1.2 // 稍微减少行高
+      const totalTextHeight = lines.length * lineHeight
+      const refFontSize = Math.max(45, fontSize * 0.65)
+      const refHeight = refFontSize * 1.2
+      const spacing = Math.max(80, fontSize * 0.8) // 增加间距，至少80像素，或字体大小的80%
+      const totalHeight = totalTextHeight + refHeight + spacing // 总高度包括引用和间距
+      
+      // 确保文字在图片范围内
+      const maxStartY = 150 // 距离顶部最小距离
+      const minEndY = 874 // 距离底部最小距离 (1024 - 150)
+      const availableHeight = minEndY - maxStartY
+      
+      let startY
+      if (totalHeight <= availableHeight) {
+        // 如果总高度在可用范围内，居中显示
+        startY = 512 - totalHeight / 2
+      } else {
+        // 如果超出范围，从顶部开始，但确保引用不超出底部
+        startY = maxStartY
+      }
       lines.forEach((line, index) => {
         // 只在第一行开头加引号，最后一行结尾加引号
         let displayLine = line
@@ -232,12 +390,14 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         ctx.fillText(displayLine, 512, startY + index * lineHeight)
       })
 
-      // 经文引用 - 字体也减小1/3
-      const refFontSize = Math.max(32, fontSize * 0.6)
-      const sansFonts = ["Inter", "Helvetica", "Arial", "sans-serif"].join(", ")
-
-      ctx.font = `${refFontSize}px ${sansFonts}`
-      ctx.fillText(`— ${quote.reference}`, 512, startY + lines.length * lineHeight + 60)
+      // 经文引用 - 优化位置和间距
+      ctx.font = `${refFontSize}px ${serifFonts}`
+      // 右下角定位
+      ctx.textAlign = "right"
+      ctx.textBaseline = "bottom"
+      const refPaddingRight = 48 // 右侧内边距
+      const refPaddingBottom = 48 // 底部内边距
+      ctx.fillText(`— ${quote.reference}`, 1024 - refPaddingRight, 1024 - refPaddingBottom)
 
       // 下载
       const link = document.createElement("a")
@@ -289,17 +449,29 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       ctx.textAlign = "center"
       ctx.textBaseline = "middle"
 
-      const fontSize = quote.content.length < 80 ? 75 : quote.content.length < 120 ? 61 : 51
+      // 复制功能也使用相同的优化字体大小
+      const fontSize = 
+        quote.content.length < 60
+          ? 110
+          : quote.content.length < 100
+            ? 95
+            : quote.content.length < 150
+              ? 80
+              : quote.content.length < 200
+                ? 70
+                : 60
 
-      ctx.font = `${fontSize}px "Playfair Display", Georgia, serif`
+      const currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs]
+      console.log("🎨 复制使用字体:", selectedFont, currentFont.serif.join(", "))
+      ctx.font = `${fontSize}px ${currentFont.serif.join(", ")}`
       ctx.shadowColor = "rgba(0,0,0,0.9)"
       ctx.shadowBlur = 12
 
-      // 简化的文字换行
+      // 优化的文字换行 - 与下载功能保持一致
       const words = quote.content.split(" ")
       const lines: string[] = []
       let currentLine = ""
-      const maxWidth = 900
+      const maxWidth = 750 // 减少最大宽度，增加留白
 
       for (const word of words) {
         const testLine = currentLine + (currentLine ? " " : "") + word
@@ -313,10 +485,29 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       }
       if (currentLine) lines.push(currentLine)
 
-      // 绘制文字 - 修复引号
-      const lineHeight = fontSize * 1.2
-      const startY = 512 - (lines.length * lineHeight) / 2
+      // 智能的行高和位置计算 - 确保文字在图片范围内
+      const lineHeight = fontSize * 1.2 // 稍微减少行高
+      const totalTextHeight = lines.length * lineHeight
+      const refFontSize = Math.max(45, fontSize * 0.65)
+      const refHeight = refFontSize * 1.2
+      const spacing = Math.max(80, fontSize * 0.8) // 增加间距，至少80像素，或字体大小的80%
+      const totalHeight = totalTextHeight + refHeight + spacing // 总高度包括引用和间距
+      
+      // 确保文字在图片范围内
+      const maxStartY = 150 // 距离顶部最小距离
+      const minEndY = 874 // 距离底部最小距离 (1024 - 150)
+      const availableHeight = minEndY - maxStartY
+      
+      let startY
+      if (totalHeight <= availableHeight) {
+        // 如果总高度在可用范围内，居中显示
+        startY = 512 - totalHeight / 2
+      } else {
+        // 如果超出范围，从顶部开始，但确保引用不超出底部
+        startY = maxStartY
+      }
       lines.forEach((line, index) => {
+        // 只在第一行开头加引号，最后一行结尾加引号
         let displayLine = line
         if (index === 0) {
           displayLine = `"${line}`
@@ -327,21 +518,55 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         ctx.fillText(displayLine, 512, startY + index * lineHeight)
       })
 
-      ctx.font = `${Math.max(24, fontSize * 0.6)}px Inter, Helvetica, sans-serif`
-      ctx.fillText(`— ${quote.reference}`, 512, startY + lines.length * lineHeight + 60)
+      // 复制功能的引用字体也优化
+      const currentFontForCopy = fontConfigs[selectedFont as keyof typeof fontConfigs]
+      const serifFontsForCopy = currentFontForCopy.serif.join(", ")
+      ctx.font = `${Math.max(45, fontSize * 0.65)}px ${serifFontsForCopy}`
+      ctx.textAlign = "right"
+      ctx.textBaseline = "bottom"
+      const refPaddingRight = 48 // 右侧内边距
+      const refPaddingBottom = 48 // 底部内边距
+      ctx.fillText(`— ${quote.reference}`, 1024 - refPaddingRight, 1024 - refPaddingBottom)
 
       // 复制到剪贴板
       const finalBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 1.0))
       if (!finalBlob) throw new Error("Could not create image blob")
 
+      try {
+        // 检查剪贴板权限和页面焦点
+        if (document.hasFocus() && navigator.clipboard && navigator.clipboard.write) {
       const item = new ClipboardItem({ "image/png": finalBlob })
       await navigator.clipboard.write([item])
+          setCopied(true)
+          setTimeout(() => setCopied(false), 2000)
+          console.log("✅ 成功复制到剪贴板")
+        } else {
+          throw new Error("页面未获得焦点或剪贴板不可用")
+        }
+      } catch (clipboardError) {
+        console.warn("剪贴板权限问题，使用下载方式:", clipboardError)
+        // 备用方法：创建下载链接
+        const url = URL.createObjectURL(finalBlob)
+        const link = document.createElement("a")
+        link.href = url
+        link.download = `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}-copy.png`
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
 
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
+        console.log("✅ 图片已下载到本地")
+      }
     } catch (error) {
       console.warn("复制失败:", error)
-      setError("Could not copy to clipboard. Please try the Download button instead.")
+      // 提供更友好的错误信息
+      if (error instanceof Error && error.message.includes("focus")) {
+        setError("Please click on the page first, then try copying again. The image has been downloaded as backup.")
+      } else {
+        setError("Copy failed. The image has been downloaded instead. Check your downloads folder.")
+      }
     } finally {
       setIsComposing(false)
     }
@@ -473,7 +698,13 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center justify-between">
-                    <span>Your Quote</span>
+                    <span style={{
+                      fontFamily: `'${fontConfigs[selectedFont as keyof typeof fontConfigs].serif[0].replace(/"/g, '')}', 'Georgia', 'Times New Roman', serif`,
+                      fontWeight: "600",
+                      letterSpacing: "0.3px"
+                    }}>
+                      Your Quote
+                    </span>
                     <Button variant="ghost" size="sm" onClick={toggleFavorite}>
                       {isFavorited ? (
                         <Heart className="w-4 h-4 text-red-500 fill-current" />
@@ -484,8 +715,25 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <blockquote className="text-lg text-gray-800 italic mb-2">{quote.content}</blockquote>
-                  <cite className="text-blue-600 font-semibold">— {quote.reference}</cite>
+                  <blockquote 
+                    className="text-lg text-gray-800 italic mb-2"
+                    style={{
+                      fontFamily: `'${fontConfigs[selectedFont as keyof typeof fontConfigs].serif[0].replace(/"/g, '')}', 'Georgia', 'Times New Roman', serif`,
+                      lineHeight: "1.5",
+                      letterSpacing: "0.2px"
+                    }}
+                  >
+                    {quote.content}
+                  </blockquote>
+                  <cite 
+                    className="text-blue-600 font-semibold"
+                    style={{
+                      fontFamily: `${fontConfigs[selectedFont as keyof typeof fontConfigs].serif[0].replace(/"/g, '')}, serif`,
+                      letterSpacing: "0.5px"
+                    }}
+                  >
+                    — {quote.reference}
+                  </cite>
                 </CardContent>
               </Card>
             </div>
@@ -495,63 +743,16 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               {generatedImageUrl && (
                 <Card>
                   <CardHeader>
-                    <CardTitle>Preview (HUGE Fonts Ready!)</CardTitle>
+                    <CardTitle>Preview - {fontConfigs[selectedFont as keyof typeof fontConfigs].name} Font</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div
-                      ref={canvasRef}
-                      className="relative w-full aspect-square rounded-lg overflow-hidden mx-auto bg-gray-900"
-                      style={{ maxWidth: "512px" }}
-                    >
-                      {/* 背景图片 - 强制填充整个容器 */}
-                      <img
-                        src={generatedImageUrl || "/placeholder.svg"}
-                        alt="Generated background"
-                        className="absolute inset-0 w-full h-full"
-                        style={{
-                          objectFit: "cover",
-                          objectPosition: "center",
-                          zIndex: 1,
-                        }}
-                        onLoad={() => console.log("✅ 图片加载完成")}
-                        onError={() => console.error("❌ 图片加载失败")}
+                    <div className="flex flex-col items-center">
+                      <canvas
+                        ref={previewCanvasRef}
+                        width={1024}
+                        height={1024}
+                        style={{ borderRadius: 12, background: "#222", width: "100%", maxWidth: "400px", height: "auto" }}
                       />
-
-                      {/* 渐变遮罩 */}
-                      <div
-                        className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/40"
-                        style={{ zIndex: 2 }}
-                      />
-
-                      {/* 文字层 */}
-                      <div
-                        className="absolute inset-0 flex flex-col justify-center items-center p-8 text-center"
-                        style={{ zIndex: 3 }}
-                      >
-                        <blockquote
-                          className={`text-white font-serif leading-relaxed mb-4 drop-shadow-2xl ${getTextSize(quote.content)}`}
-                          style={{
-                            textShadow: "2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.5)",
-                            fontFamily: "'Playfair Display', 'Georgia', serif",
-                            fontWeight: "400",
-                            letterSpacing: "0.3px",
-                            lineHeight: "1.3",
-                            maxWidth: "90%",
-                          }}
-                        >
-                          {quote.content}
-                        </blockquote>
-                        <cite
-                          className={`text-white/95 font-semibold drop-shadow-lg ${getReferenceSize(quote.content)}`}
-                          style={{
-                            textShadow: "1px 1px 3px rgba(0,0,0,0.9)",
-                            fontFamily: "'Inter', 'Helvetica', sans-serif",
-                            letterSpacing: "0.8px",
-                          }}
-                        >
-                          — {quote.reference}
-                        </cite>
-                      </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 mt-4">
@@ -582,7 +783,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         {copied ? (
                           <>
                             <Check className="w-4 h-4 mr-2" />
-                            Copied!
+                            Done!
                           </>
                         ) : (
                           <>
@@ -635,6 +836,34 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         )}
                       </div>
                     </div>
+
+                    {/* Copy Tip */}
+                    <div className="mt-3 text-xs text-gray-500 text-center">
+                      💡 Tip: Click on the page first for clipboard access, or use Download for direct save
+                    </div>
+
+                    {/* Font Selector */}
+                    <div className="mt-6 pt-4 border-t border-gray-200">
+                      <label className="text-sm font-medium text-gray-700 mb-3 block">Choose Font Style</label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          variant={selectedFont === "classic" ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setSelectedFont("classic")}
+                          className="text-xs"
+                        >
+                          Classic
+                        </Button>
+                        <Button
+                          variant={selectedFont === "handwriting" ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => setSelectedFont("handwriting")}
+                          className="text-xs"
+                        >
+                          Handwriting
+                        </Button>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               )}
@@ -646,7 +875,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     <p className="text-gray-500 text-lg">Your generated image will appear here</p>
                     <p className="text-gray-400 text-sm">Describe your background and click generate</p>
                     <p className="text-gray-400 text-xs mt-2">FLUX-1 Schnell - Perfect 1024x1024</p>
-                    {fontsLoaded && <p className="text-green-600 text-xs mt-1">✅ HUGE fonts loaded and ready!</p>}
+                    {fontsLoaded && <p className="text-green-600 text-xs mt-1">✅ Fonts loaded and ready!</p>}
                   </CardContent>
                 </Card>
               )}

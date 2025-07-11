@@ -33,31 +33,38 @@ export function ExampleShowcase() {
                   <div className="absolute inset-0 bg-black/30" />
 
                   {/* Quote Text */}
-                  <div className="relative z-10">
+                  <div className="z-10 w-full h-full flex flex-col justify-center items-center text-center">
                     <blockquote
-                      className="text-white text-2xl md:text-3xl font-serif leading-relaxed mb-6 drop-shadow-2xl"
+                      className="text-white text-2xl md:text-3xl font-serif leading-relaxed mx-auto drop-shadow-2xl max-w-[90%]"
                       style={{
                         textShadow: "3px 3px 6px rgba(0,0,0,0.9), 0 0 12px rgba(0,0,0,0.7)",
-                        fontFamily: "'Playfair Display', 'Georgia', serif",
+                        fontFamily: "'Palatino Linotype', 'Book Antiqua', 'Garamond', 'Georgia', 'Times New Roman', serif",
                         fontWeight: "400",
                         letterSpacing: "0.3px",
                         lineHeight: "1.3",
+                        marginBottom: "2.5rem",
                       }}
                     >
                       For I know the plans I have for you, declares the Lord, plans for welfare and not for evil, to
                       give you a future and a hope.
                     </blockquote>
-                    <cite
-                      className="text-white/95 text-lg font-semibold drop-shadow-lg"
-                      style={{
-                        textShadow: "2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6)",
-                        fontFamily: "'Inter', 'Helvetica', sans-serif",
-                        letterSpacing: "0.8px",
-                      }}
-                    >
-                      — Jeremiah 29:11
-                    </cite>
                   </div>
+                  <cite
+                    className="text-white/95 text-base md:text-lg font-semibold drop-shadow-lg"
+                    style={{
+                      textShadow: "2px 2px 4px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.6)",
+                      fontFamily: "'Optima', 'Segoe UI', 'Tahoma', 'Helvetica', 'Arial', sans-serif",
+                      letterSpacing: "0.8px",
+                      fontSize: "1rem",
+                      position: "absolute",
+                      right: "2rem",
+                      bottom: "2rem",
+                      display: "block",
+                      opacity: 0.95,
+                    }}
+                  >
+                    — Jeremiah 29:11
+                  </cite>
 
                   {/* AI Generated Badge */}
                   <div className="absolute top-4 right-4">
