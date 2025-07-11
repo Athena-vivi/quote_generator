@@ -139,8 +139,9 @@ function drawQuoteImage({
   ctx.shadowOffsetX = 3;
   ctx.shadowOffsetY = 3;
 
-  // 正文整体更靠上，startYOffset动态
-  const startY = contentAreaTop + contentAreaHeight * startYOffset;
+  // 内容区整体上下均匀分布，视觉重心居中略偏上
+  const targetCenterY = contentAreaTop + contentAreaHeight * 0.44; // 0.44略偏上
+  const startY = targetCenterY - totalHeight / 2 + lineHeight / 2;
   lines.forEach((line, index) => {
     let displayLine = line;
     if (index === 0) displayLine = `"${line}`;
@@ -631,13 +632,18 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                           borderRadius: 16,
                           boxShadow: '0 4px 24px 0 rgba(0,0,0,0.08)',
                           padding: 12,
+                          position: 'relative',
                         }}
                       >
                         <canvas
                           ref={previewCanvasRef}
                           width={resolution.width}
                           height={resolution.height}
-                          style={{ width: '100%', height: '100%', display: 'block', borderRadius: 12, background: '#222' }}
+                          style={
+                            resolution.label === '9:16 (1080x1920)'
+                              ? { width: '100%', height: 'auto', display: 'block', borderRadius: 12, background: '#222', margin: '0 auto' }
+                              : { width: '100%', height: '100%', display: 'block', borderRadius: 12, background: '#222' }
+                          }
                         />
                       </div>
                     </div>
