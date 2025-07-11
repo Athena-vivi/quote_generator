@@ -42,7 +42,7 @@ function drawQuoteImage({
   height = 1024,
 }: {
   ctx: CanvasRenderingContext2D,
-  backgroundImg: HTMLImageElement | null,
+  backgroundImg: HTMLImageElement | ImageBitmap | null,
   quote: { content: string; reference: string },
   fontConfigs: any,
   selectedFont: string,
@@ -65,75 +65,98 @@ function drawQuoteImage({
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, width, height)
 
-  // 字体参数
-  const fontSize =
-    quote.content.length < 60
-      ? 110
-      : quote.content.length < 100
-        ? 95
-        : quote.content.length < 150
-          ? 80
-          : quote.content.length < 200
-            ? 70
-            : 60
-  const currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs]
-  const serifFonts = currentFont.serif.join(", ")
-  ctx.fillStyle = "white"
-  ctx.textAlign = "center"
-  ctx.textBaseline = "middle"
-  ctx.font = `${fontSize}px ${serifFonts}`
-  ctx.shadowColor = "rgba(0,0,0,0.9)"
-  ctx.shadowBlur = 12
-  ctx.shadowOffsetX = 3
-  ctx.shadowOffsetY = 3
+  // 安全区参数
+  const sideSafe = width * 0.10; // 左右安全距离
+  const topSafe = height * 0.13; // 上安全距离
+  const bottomSafe = height * 0.10; // 下安全距离
+  const textAreaWidth = width - sideSafe * 2;
+  const textAreaHeight = height - topSafe - bottomSafe;
 
-  // 分行
-  const words = quote.content.split(" ")
-  const lines: string[] = []
-  let currentLine = ""
-  const maxWidth = 750
-  for (const word of words) {
-    const testLine = currentLine + (currentLine ? " " : "") + word
-    const metrics = ctx.measureText(testLine)
-    if (metrics.width > maxWidth && currentLine) {
-      lines.push(currentLine)
-      currentLine = word
-    } else {
-      currentLine = testLine
+  // 内容区只用安全区的80%，上下再留白
+  const contentAreaHeight = textAreaHeight * 0.8;
+  const contentAreaTop = topSafe + (textAreaHeight - contentAreaHeight) / 2;
+
+  // 动态调整字号和正文起始位置
+  const aspectRatio = width / height;
+  let fontSize: number;
+  let startYOffset: number;
+  if (aspectRatio < 0.7) { // 9:16竖图
+    fontSize = Math.max(width, height) * 0.052;
+    startYOffset = 0.16; // 居中略偏上
+  } else if (aspectRatio < 1.1) { // 1:1
+    fontSize = Math.max(width, height) * 0.06;
+    startYOffset = 0.20;
+  } else { // 16:9横图
+    fontSize = Math.max(width, height) * 0.058;
+    startYOffset = 0.22;
+  }
+
+  let serifFonts = fontConfigs[selectedFont as keyof typeof fontConfigs].serif.join(", ");
+  let currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs];
+  let lines: string[] = [];
+  let lineHeight = fontSize * 1.22; // 行高增大，提升呼吸感
+  let refFontSize = fontSize * 0.65;
+  let refHeight = refFontSize * 1.2;
+  let spacing = fontSize * 1.25; // 正文与引用间距更大
+  let totalTextHeight = 0;
+  let totalHeight = 0;
+
+  // 先用理想字号排版，若溢出再缩小
+  while (true) {
+    ctx.font = `${fontSize}px ${serifFonts}`;
+    // 分行
+    lines = [];
+    let currentLine = "";
+    for (const word of quote.content.split(" ")) {
+      const testLine = currentLine + (currentLine ? " " : "") + word;
+      const metrics = ctx.measureText(testLine);
+      if (metrics.width > textAreaWidth && currentLine) {
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = testLine;
+      }
     }
+    if (currentLine) lines.push(currentLine);
+    // 行高固定更大，提升高级感
+    lineHeight = fontSize * 1.22;
+    totalTextHeight = lines.length * lineHeight;
+    refFontSize = fontSize * 0.65;
+    refHeight = refFontSize * 1.2;
+    spacing = fontSize * 1.25;
+    totalHeight = totalTextHeight + spacing + refHeight;
+    if (totalHeight <= contentAreaHeight || fontSize < 18) break;
+    fontSize *= 0.97; // 逐步缩小字号
   }
-  if (currentLine) lines.push(currentLine)
 
-  // 智能行高和边界
-  const lineHeight = fontSize * 1.2
-  const totalTextHeight = lines.length * lineHeight
-  const refFontSize = Math.max(45, fontSize * 0.65)
-  const refHeight = refFontSize * 1.2
-  const spacing = Math.max(80, fontSize * 0.8) // 增加间距，至少80像素，或字体大小的80%
-  const totalHeight = totalTextHeight + refHeight + spacing
-  const maxStartY = 150
-  const minEndY = height - 150
-  const availableHeight = minEndY - maxStartY
-  let startY
-  if (totalHeight <= availableHeight) {
-    startY = height / 2 - totalHeight / 2
-  } else {
-    startY = maxStartY
-  }
+  // 正文排版
+  ctx.font = `${fontSize}px ${serifFonts}`;
+  ctx.fillStyle = "white";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.shadowColor = "rgba(0,0,0,0.9)";
+  ctx.shadowBlur = 12;
+  ctx.shadowOffsetX = 3;
+  ctx.shadowOffsetY = 3;
+
+  // 正文整体更靠上，startYOffset动态
+  const startY = contentAreaTop + contentAreaHeight * startYOffset;
   lines.forEach((line, index) => {
-    let displayLine = line
-    if (index === 0) displayLine = `"${line}`
-    if (index === lines.length - 1) displayLine = lines.length === 1 ? `"${line}"` : `${line}"`
-    ctx.fillText(displayLine, width / 2, startY + index * lineHeight)
-  })
-  // 引用
-  ctx.font = `${refFontSize}px ${serifFonts}`
-  // 右下角定位
-  ctx.textAlign = "right"
-  ctx.textBaseline = "bottom"
-  const refPaddingRight = 48 // 右侧内边距
-  const refPaddingBottom = 48 // 底部内边距
-  ctx.fillText(`— ${quote.reference}`, width - refPaddingRight, height - refPaddingBottom)
+    let displayLine = line;
+    if (index === 0) displayLine = `"${line}`;
+    if (index === lines.length - 1) displayLine = lines.length === 1 ? `"${line}"` : `${line}"`;
+    ctx.fillText(displayLine, width / 2, startY + index * lineHeight);
+  });
+
+  // 引用排版
+  ctx.font = `${refFontSize}px ${serifFonts}`;
+  ctx.textAlign = "right";
+  ctx.textBaseline = "bottom";
+  ctx.shadowColor = "rgba(0,0,0,0.9)";
+  ctx.shadowBlur = 8;
+  ctx.shadowOffsetX = 2;
+  ctx.shadowOffsetY = 2;
+  ctx.fillText(`— ${quote.reference}`, width - sideSafe, height - bottomSafe);
 }
 
 export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
@@ -150,6 +173,15 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const canvasRef = useRef<HTMLDivElement>(null)
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const [previewBgImg, setPreviewBgImg] = useState<HTMLImageElement | null>(null)
+  // 在组件顶部state中添加分辨率
+  const [resolution, setResolution] = useState<{label: string, width: number, height: number}>(
+    { label: '1:1 (1024x1024)', width: 1024, height: 1024 }
+  )
+  const resolutions = [
+    { label: '1:1 (1024x1024)', width: 1024, height: 1024 },
+    { label: '9:16 (1080x1920)', width: 1080, height: 1920 },
+    { label: '16:9 (1200x675)', width: 1200, height: 675 },
+  ]
 
   const promptSuggestions = [
     "A beautiful white dove flying in a golden sky",
@@ -212,7 +244,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     img.src = generatedImageUrl
   }, [generatedImageUrl])
 
-  // 预览canvas绘制
+  // 预览canvas绘制 useEffect 里 width/height 改为 resolution
   useEffect(() => {
     if (!previewCanvasRef.current) return
     const ctx = previewCanvasRef.current.getContext("2d")
@@ -223,10 +255,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       quote,
       fontConfigs,
       selectedFont,
-      width: 1024,
-      height: 1024,
+      width: resolution.width,
+      height: resolution.height,
     })
-  }, [previewBgImg, quote, fontConfigs, selectedFont])
+  }, [previewBgImg, quote, fontConfigs, selectedFont, resolution])
 
   const getTextSize = (text: string) => {
     const length = text.length
@@ -276,140 +308,38 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }
   }
 
+  // 高清导出倍数
+  const EXPORT_SCALE = 2;
+
   const downloadImage = async () => {
     if (!generatedImageUrl || !fontsLoaded) return
-
     setIsComposing(true)
     setError(null)
-
     try {
-      console.log("📥 开始下载处理...")
-
-      // 直接使用API返回的1024x1024图片
       const response = await fetch(generatedImageUrl, { mode: "cors" })
       const blob = await response.blob()
       const bitmap = await createImageBitmap(blob)
-
-      console.log("🖼️ 图片实际尺寸:", bitmap.width, "x", bitmap.height)
-
-      // 创建1024x1024画布
       const canvas = document.createElement("canvas")
-      canvas.width = 1024
-      canvas.height = 1024
+      canvas.width = resolution.width * EXPORT_SCALE
+      canvas.height = resolution.height * EXPORT_SCALE
       const ctx = canvas.getContext("2d")!
-
-      // 绘制背景图片 - 强制填充整个1024x1024区域
-      ctx.drawImage(bitmap, 0, 0, 1024, 1024)
-
-      // 添加渐变遮罩
-      const gradient = ctx.createLinearGradient(0, 0, 0, 1024)
-      gradient.addColorStop(0, "rgba(0,0,0,0.3)")
-      gradient.addColorStop(0.5, "rgba(0,0,0,0.1)")
-      gradient.addColorStop(1, "rgba(0,0,0,0.4)")
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, 1024, 1024)
-
-      // 添加文字 - 使用加载的字体，字体大小翻倍
-      ctx.fillStyle = "white"
-      ctx.textAlign = "center"
-      ctx.textBaseline = "middle"
-
-      // 字体大小优化 - 确保社交媒体分享时清晰可读
-      const fontSize =
-        quote.content.length < 60
-          ? 110 // 增加25px，确保短经文清晰
-          : quote.content.length < 100
-            ? 95 // 增加25px，中等经文更清晰
-            : quote.content.length < 150
-              ? 80 // 增加24px，长经文保持可读
-              : quote.content.length < 200
-                ? 70 // 增加22px，很长经文也要清晰
-                : 60 // 增加18px，超长经文最小也要60px
-
-      // 使用选择的字体配置
-      const currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs]
-      const serifFonts = currentFont.serif.join(", ")
-
-      console.log("🎨 下载使用字体:", selectedFont, serifFonts)
-      ctx.font = `${fontSize}px ${serifFonts}`
-      ctx.shadowColor = "rgba(0,0,0,0.9)"
-      ctx.shadowBlur = 12
-      ctx.shadowOffsetX = 3
-      ctx.shadowOffsetY = 3
-
-      console.log("🎨 使用超大字体:", ctx.font)
-
-      // 优化的文字换行 - 更好的留白和间距
-      const words = quote.content.split(" ")
-      const lines: string[] = []
-      let currentLine = ""
-      const maxWidth = 750 // 减少最大宽度，增加留白
-
-      for (const word of words) {
-        const testLine = currentLine + (currentLine ? " " : "") + word
-        const metrics = ctx.measureText(testLine)
-        if (metrics.width > maxWidth && currentLine) {
-          lines.push(currentLine)
-          currentLine = word
-        } else {
-          currentLine = testLine
-        }
-      }
-      if (currentLine) lines.push(currentLine)
-
-      // 智能的行高和位置计算 - 确保文字在图片范围内
-      const lineHeight = fontSize * 1.2 // 稍微减少行高
-      const totalTextHeight = lines.length * lineHeight
-      const refFontSize = Math.max(45, fontSize * 0.65)
-      const refHeight = refFontSize * 1.2
-      const spacing = Math.max(80, fontSize * 0.8) // 增加间距，至少80像素，或字体大小的80%
-      const totalHeight = totalTextHeight + refHeight + spacing // 总高度包括引用和间距
-      
-      // 确保文字在图片范围内
-      const maxStartY = 150 // 距离顶部最小距离
-      const minEndY = 874 // 距离底部最小距离 (1024 - 150)
-      const availableHeight = minEndY - maxStartY
-      
-      let startY
-      if (totalHeight <= availableHeight) {
-        // 如果总高度在可用范围内，居中显示
-        startY = 512 - totalHeight / 2
-      } else {
-        // 如果超出范围，从顶部开始，但确保引用不超出底部
-        startY = maxStartY
-      }
-      lines.forEach((line, index) => {
-        // 只在第一行开头加引号，最后一行结尾加引号
-        let displayLine = line
-        if (index === 0) {
-          displayLine = `"${line}`
-        }
-        if (index === lines.length - 1) {
-          displayLine = lines.length === 1 ? `"${line}"` : `${line}"`
-        }
-        ctx.fillText(displayLine, 512, startY + index * lineHeight)
+      ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0); // 放大所有绘制
+      drawQuoteImage({
+        ctx,
+        backgroundImg: bitmap,
+        quote,
+        fontConfigs,
+        selectedFont,
+        width: resolution.width,
+        height: resolution.height,
       })
-
-      // 经文引用 - 优化位置和间距
-      ctx.font = `${refFontSize}px ${serifFonts}`
-      // 右下角定位
-      ctx.textAlign = "right"
-      ctx.textBaseline = "bottom"
-      const refPaddingRight = 48 // 右侧内边距
-      const refPaddingBottom = 48 // 底部内边距
-      ctx.fillText(`— ${quote.reference}`, 1024 - refPaddingRight, 1024 - refPaddingBottom)
-
-      // 下载
       const link = document.createElement("a")
       link.download = `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}.png`
       link.href = canvas.toDataURL("image/png", 1.0)
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-
-      console.log("✅ 下载完成: 1024x1024 PNG with HUGE fonts")
     } catch (error) {
-      console.error("❌ 下载失败:", error)
       setError("Failed to download image. Please try again.")
     } finally {
       setIsComposing(false)
@@ -418,134 +348,38 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
   const copyToClipboard = async () => {
     if (!generatedImageUrl || !fontsLoaded) return
-
     setIsComposing(true)
     setError(null)
-
     try {
-      // 使用相同的逻辑创建图片
       const response = await fetch(generatedImageUrl, { mode: "cors" })
       const blob = await response.blob()
       const bitmap = await createImageBitmap(blob)
-
       const canvas = document.createElement("canvas")
-      canvas.width = 1024
-      canvas.height = 1024
+      canvas.width = resolution.width * EXPORT_SCALE
+      canvas.height = resolution.height * EXPORT_SCALE
       const ctx = canvas.getContext("2d")!
-
-      // 绘制背景
-      ctx.drawImage(bitmap, 0, 0, 1024, 1024)
-
-      // 添加渐变
-      const gradient = ctx.createLinearGradient(0, 0, 0, 1024)
-      gradient.addColorStop(0, "rgba(0,0,0,0.3)")
-      gradient.addColorStop(0.5, "rgba(0,0,0,0.1)")
-      gradient.addColorStop(1, "rgba(0,0,0,0.4)")
-      ctx.fillStyle = gradient
-      ctx.fillRect(0, 0, 1024, 1024)
-
-      // 添加文字 - 使用超大字体
-      ctx.fillStyle = "white"
-      ctx.textAlign = "center"
-      ctx.textBaseline = "middle"
-
-      // 复制功能也使用相同的优化字体大小
-      const fontSize = 
-        quote.content.length < 60
-          ? 110
-          : quote.content.length < 100
-            ? 95
-            : quote.content.length < 150
-              ? 80
-              : quote.content.length < 200
-                ? 70
-                : 60
-
-      const currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs]
-      console.log("🎨 复制使用字体:", selectedFont, currentFont.serif.join(", "))
-      ctx.font = `${fontSize}px ${currentFont.serif.join(", ")}`
-      ctx.shadowColor = "rgba(0,0,0,0.9)"
-      ctx.shadowBlur = 12
-
-      // 优化的文字换行 - 与下载功能保持一致
-      const words = quote.content.split(" ")
-      const lines: string[] = []
-      let currentLine = ""
-      const maxWidth = 750 // 减少最大宽度，增加留白
-
-      for (const word of words) {
-        const testLine = currentLine + (currentLine ? " " : "") + word
-        const metrics = ctx.measureText(testLine)
-        if (metrics.width > maxWidth && currentLine) {
-          lines.push(currentLine)
-          currentLine = word
-        } else {
-          currentLine = testLine
-        }
-      }
-      if (currentLine) lines.push(currentLine)
-
-      // 智能的行高和位置计算 - 确保文字在图片范围内
-      const lineHeight = fontSize * 1.2 // 稍微减少行高
-      const totalTextHeight = lines.length * lineHeight
-      const refFontSize = Math.max(45, fontSize * 0.65)
-      const refHeight = refFontSize * 1.2
-      const spacing = Math.max(80, fontSize * 0.8) // 增加间距，至少80像素，或字体大小的80%
-      const totalHeight = totalTextHeight + refHeight + spacing // 总高度包括引用和间距
-      
-      // 确保文字在图片范围内
-      const maxStartY = 150 // 距离顶部最小距离
-      const minEndY = 874 // 距离底部最小距离 (1024 - 150)
-      const availableHeight = minEndY - maxStartY
-      
-      let startY
-      if (totalHeight <= availableHeight) {
-        // 如果总高度在可用范围内，居中显示
-        startY = 512 - totalHeight / 2
-      } else {
-        // 如果超出范围，从顶部开始，但确保引用不超出底部
-        startY = maxStartY
-      }
-      lines.forEach((line, index) => {
-        // 只在第一行开头加引号，最后一行结尾加引号
-        let displayLine = line
-        if (index === 0) {
-          displayLine = `"${line}`
-        }
-        if (index === lines.length - 1) {
-          displayLine = lines.length === 1 ? `"${line}"` : `${line}"`
-        }
-        ctx.fillText(displayLine, 512, startY + index * lineHeight)
+      ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0); // 放大所有绘制
+      drawQuoteImage({
+        ctx,
+        backgroundImg: bitmap,
+        quote,
+        fontConfigs,
+        selectedFont,
+        width: resolution.width,
+        height: resolution.height,
       })
-
-      // 复制功能的引用字体也优化
-      const currentFontForCopy = fontConfigs[selectedFont as keyof typeof fontConfigs]
-      const serifFontsForCopy = currentFontForCopy.serif.join(", ")
-      ctx.font = `${Math.max(45, fontSize * 0.65)}px ${serifFontsForCopy}`
-      ctx.textAlign = "right"
-      ctx.textBaseline = "bottom"
-      const refPaddingRight = 48 // 右侧内边距
-      const refPaddingBottom = 48 // 底部内边距
-      ctx.fillText(`— ${quote.reference}`, 1024 - refPaddingRight, 1024 - refPaddingBottom)
-
-      // 复制到剪贴板
       const finalBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 1.0))
       if (!finalBlob) throw new Error("Could not create image blob")
-
       try {
-        // 检查剪贴板权限和页面焦点
         if (document.hasFocus() && navigator.clipboard && navigator.clipboard.write) {
-      const item = new ClipboardItem({ "image/png": finalBlob })
-      await navigator.clipboard.write([item])
+          const item = new ClipboardItem({ "image/png": finalBlob })
+          await navigator.clipboard.write([item])
           setCopied(true)
           setTimeout(() => setCopied(false), 2000)
-          console.log("✅ 成功复制到剪贴板")
         } else {
           throw new Error("页面未获得焦点或剪贴板不可用")
         }
       } catch (clipboardError) {
-        console.warn("剪贴板权限问题，使用下载方式:", clipboardError)
-        // 备用方法：创建下载链接
         const url = URL.createObjectURL(finalBlob)
         const link = document.createElement("a")
         link.href = url
@@ -554,19 +388,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         link.click()
         document.body.removeChild(link)
         URL.revokeObjectURL(url)
-
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
-        console.log("✅ 图片已下载到本地")
+        setCopied(true)
+        setTimeout(() => setCopied(false), 2000)
       }
     } catch (error) {
-      console.warn("复制失败:", error)
-      // 提供更友好的错误信息
-      if (error instanceof Error && error.message.includes("focus")) {
-        setError("Please click on the page first, then try copying again. The image has been downloaded as backup.")
-      } else {
-        setError("Copy failed. The image has been downloaded instead. Check your downloads folder.")
-      }
+      setError("Copy failed. The image has been downloaded instead. Check your downloads folder.")
     } finally {
       setIsComposing(false)
     }
@@ -596,7 +422,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const toggleFavorite = () => {
     const favorites = JSON.parse(localStorage.getItem("favoriteQuotes") || "[]")
     const quoteKey = `${quote.reference}|${quote.content}`
-
     if (isFavorited) {
       const updatedFavorites = favorites.filter((fav: string) => fav !== quoteKey)
       localStorage.setItem("favoriteQuotes", JSON.stringify(updatedFavorites))
@@ -614,14 +439,47 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     setIsFavorited(favorites.includes(quoteKey))
   }, [quote])
 
+  // 预览区canvas容器宽度动态计算
+  const maxCanvasWidth = 480; // px，对应16:9的1200px
+  const maxResolutionWidth = 1200; // 16:9的宽度
+  const scale = resolution.width / maxResolutionWidth;
+  const canvasDisplayWidth = maxCanvasWidth * scale;
+
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">Create Beautiful Image</h2>
-            <Button variant="ghost" onClick={onClose}>
-              ✕
+            <div className="flex-1 flex justify-center items-center">
+              <h2
+                className="text-4xl font-extrabold text-center"
+                style={{
+                  fontFamily: "'EB Garamond', 'Playfair Display', 'Georgia', serif",
+                  color: '#2d3143',
+                  textShadow: '0 2px 8px #e6eaf3',
+                  letterSpacing: '0.14em',
+                  lineHeight: 1.1
+                }}
+              >
+                Create Beautiful Image
+              </h2>
+            </div>
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              className="ml-2 w-11 h-11 rounded-full flex items-center justify-center text-2xl font-extrabold
+                bg-gradient-to-br from-[#3a4668]/90 to-[#6b7a99]/90 shadow-lg border-0
+                text-white hover:scale-110 hover:shadow-2xl transition-all duration-150
+                ring-2 ring-[#bfc8e6]/60 hover:ring-[#6b7a99]/80"
+              aria-label="Close"
+              style={{
+                boxShadow: '0 2px 12px #bfc8e6, 0 4px 24px rgba(58,70,104,0.18)'
+              }}
+            >
+              <span style={{
+                textShadow: '0 2px 8px #bfc8e6, 0 1px 0 #fff',
+                fontWeight: 900
+              }}>×</span>
             </Button>
           </div>
 
@@ -746,13 +604,42 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     <CardTitle>Preview - {fontConfigs[selectedFont as keyof typeof fontConfigs].name} Font</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex flex-col items-center">
-                      <canvas
-                        ref={previewCanvasRef}
-                        width={1024}
-                        height={1024}
-                        style={{ borderRadius: 12, background: "#222", width: "100%", maxWidth: "400px", height: "auto" }}
-                      />
+                    {/* 分辨率选择器放在预览区顶部 */}
+                    <div className="mb-6 flex gap-2 items-center justify-center">
+                      <span className="text-sm text-gray-700">Resolution:</span>
+                      {resolutions.map((r) => (
+                        <Button
+                          key={r.label}
+                          size="sm"
+                          variant={resolution.label === r.label ? "default" : "outline"}
+                          onClick={() => setResolution(r)}
+                          className="text-xs px-2"
+                        >
+                          {r.label}
+                        </Button>
+                      ))}
+                    </div>
+                    <div className="flex flex-col items-center w-full">
+                      <div
+                        style={{
+                          width: `${canvasDisplayWidth}px`,
+                          aspectRatio: `${resolution.width} / ${resolution.height}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          background: '#f8fafc',
+                          borderRadius: 16,
+                          boxShadow: '0 4px 24px 0 rgba(0,0,0,0.08)',
+                          padding: 12,
+                        }}
+                      >
+                        <canvas
+                          ref={previewCanvasRef}
+                          width={resolution.width}
+                          height={resolution.height}
+                          style={{ width: '100%', height: '100%', display: 'block', borderRadius: 12, background: '#222' }}
+                        />
+                      </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 mt-4">

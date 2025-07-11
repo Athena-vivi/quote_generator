@@ -1,5 +1,9 @@
 import { type NextRequest, NextResponse } from "next/server"
 
+// 顶部添加缓存Map
+const esvQuoteCache = new Map<string, string>()
+const esvKeywordCache = new Map<string, any[]>()
+
 function removeESVReferences(content: string): string {
   if (!content) return content
 
@@ -38,6 +42,9 @@ function removeESVReferences(content: string): string {
 }
 
 async function getESVQuote(passage: string) {
+  if (esvQuoteCache.has(passage)) {
+    return esvQuoteCache.get(passage)!
+  }
   try {
     const ESV_API_KEY = process.env.ESV_API_KEY
     if (!ESV_API_KEY) {
@@ -59,6 +66,7 @@ async function getESVQuote(passage: string) {
 
     if (content) {
       content = removeESVReferences(content)
+      esvQuoteCache.set(passage, content)
     }
 
     return content
@@ -69,6 +77,9 @@ async function getESVQuote(passage: string) {
 }
 
 async function searchESVByKeyword(keyword: string) {
+  if (esvKeywordCache.has(keyword)) {
+    return esvKeywordCache.get(keyword)!
+  }
   try {
     const ESV_API_KEY = process.env.ESV_API_KEY
     if (!ESV_API_KEY) {
@@ -86,7 +97,7 @@ async function searchESVByKeyword(keyword: string) {
     )
 
     const data = await response.json()
-    return (
+    const results = (
       data.results?.map((item: any) => {
         let content = item.content
 
@@ -100,6 +111,8 @@ async function searchESVByKeyword(keyword: string) {
         }
       }) || []
     )
+    esvKeywordCache.set(keyword, results)
+    return results
   } catch (error) {
     console.error("ESV search error:", error)
     return []
