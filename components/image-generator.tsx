@@ -57,7 +57,9 @@ async function drawQuoteImage({
   width = 1024,
   height = 1024,
   theme = 'light',
-}: DrawQuoteImageParams) {
+  textColor = '#fff',
+  refColor = '#ffd700',
+}: DrawQuoteImageParams & { textColor?: string, refColor?: string }) {
   // 背景和渐变根据 theme 切换
   ctx.clearRect(0, 0, width, height)
   if (backgroundImg) {
@@ -150,7 +152,7 @@ async function drawQuoteImage({
 
   // 正文排版
   ctx.font = `${fontSize}px ${serifFonts}`;
-  ctx.fillStyle = theme === 'dark' ? "#fff" : "#222";
+  ctx.fillStyle = textColor;
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.shadowColor = "rgba(0,0,0,0.9)";
@@ -176,7 +178,7 @@ async function drawQuoteImage({
   ctx.shadowBlur = 8;
   ctx.shadowOffsetX = 2;
   ctx.shadowOffsetY = 2;
-  ctx.fillStyle = theme === 'dark' ? '#7ecbff' : '#2563eb';
+  ctx.fillStyle = refColor;
   ctx.fillText(`— ${quote.reference}`, width - sideSafe, height - bottomSafe);
 }
 
@@ -204,6 +206,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     { label: '16:9 (1200x675)', width: 1200, height: 675 },
   ]
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  // 在 ImageGenerator 组件 state 区域添加颜色 state
+  const [textColor, setTextColor] = useState<string>("#fff"); // 正文默认白色
+  const [refColor, setRefColor] = useState<string>("#ffd700"); // 引用默认金色
 
   const promptSuggestions = [
     "A beautiful white dove flying in a golden sky",
@@ -280,8 +285,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       width: resolution.width,
       height: resolution.height,
       theme,
+      textColor,
+      refColor,
     })
-  }, [previewBgImg, quote, fontConfigs, selectedFont, resolution, theme])
+  }, [previewBgImg, quote, fontConfigs, selectedFont, resolution, theme, textColor, refColor])
 
   const getTextSize = (text: string) => {
     const length = text.length
@@ -356,6 +363,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         width: resolution.width,
         height: resolution.height,
         theme,
+        textColor,
+        refColor,
       })
       const link = document.createElement("a")
       link.download = `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}.png`
@@ -392,6 +401,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         width: resolution.width,
         height: resolution.height,
         theme,
+        textColor,
+        refColor,
       })
       const finalBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 1.0))
       if (!finalBlob) throw new Error("Could not create image blob")
@@ -643,6 +654,45 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                           {r.label}
                         </Button>
                       ))}
+                    </div>
+                    {/* 颜色选择按钮和主题切换按钮并排显示 */}
+                    <div className="flex gap-4 items-center justify-center mb-4">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-600">Text color:</span>
+                        {["#ffd700", "#fff"].map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => setTextColor(color)}
+                            style={{
+                              background: color,
+                              border: textColor === color ? '2px solid #ffd700' : '1px solid #ccc',
+                              width: 28,
+                              height: 28,
+                              borderRadius: 6,
+                              cursor: 'pointer',
+                            }}
+                            aria-label={`Text color ${color}`}
+                          />
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-600">Reference color:</span>
+                        {["#ffd700", "#fff"].map((color) => (
+                          <button
+                            key={color}
+                            onClick={() => setRefColor(color)}
+                            style={{
+                              background: color,
+                              border: refColor === color ? '2px solid #ffd700' : '1px solid #ccc',
+                              width: 28,
+                              height: 28,
+                              borderRadius: 6,
+                              cursor: 'pointer',
+                            }}
+                            aria-label={`Reference color ${color}`}
+                          />
+                        ))}
+                      </div>
                       <Button
                         variant={theme === 'light' ? 'outline' : 'default'}
                         size="sm"
@@ -770,7 +820,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     {/* Font Selector */}
                     <div className="mt-6 pt-4 border-t border-gray-200">
                       <label className="text-sm font-medium text-gray-700 mb-3 block">Choose Font Style</label>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-2 mb-4">
                         <Button
                           variant={selectedFont === "classic" ? "default" : "outline"}
                           size="sm"

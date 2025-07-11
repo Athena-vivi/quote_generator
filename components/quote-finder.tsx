@@ -376,7 +376,7 @@ export function QuoteFinder() {
                     className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border border-amber-200/30"
                   >
                     <CardContent className="p-8">
-                      <blockquote className="text-xl md:text-2xl text-gray-800 mb-4 leading-relaxed">
+                      <blockquote className="text-xl md:text-2xl text-gray-800 mb-4 leading-relaxed" style={{whiteSpace: 'pre-line'}}>
                         {quote.content}
                       </blockquote>
                       <cite className="text-lg md:text-xl text-amber-700 font-semibold">— {quote.reference}</cite>

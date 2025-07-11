@@ -7,14 +7,20 @@ const esvKeywordCache = new Map<string, any[]>()
 function removeESVReferences(content: string): string {
   if (!content) return content;
 
-  // 移除开头的经文引用
-  let cleaned = content.replace(/^[^a-zA-Z]*[0-9]+\s*[A-Za-z]+\s*[0-9:–-]+\s*/, "");
+  // 只去除开头的经文引用，不处理正文内容
+  let cleaned = content.replace(/^[^a-zA-Z]*[0-9]+\s*[A-Za-z]+\s*[0-9:\u2013-]+\s*/, "");
 
   // 去除首尾所有类型的引号和空格
   cleaned = cleaned.trim().replace(/^["'“”‘’]+/, "").replace(/["'“”‘’]+$/, "");
 
   // 再次去除多余空格
   cleaned = cleaned.trim();
+
+  // 去除结尾的括号内容，如 (ESV)
+  cleaned = cleaned.replace(/\s*\([^)]*\)\s*$/i, "").trim();
+
+  // 最后再去除结尾所有空格和引号
+  cleaned = cleaned.replace(/[\s"'“”‘’]+$/, '').trim();
 
   return cleaned;
 }
@@ -41,12 +47,12 @@ async function getESVQuote(passage: string) {
 
     const data = await response.json()
     let content = data.passages?.[0]?.trim() || null
-
+    console.log('[getESVQuote] API原始内容:', data.passages?.[0])
     if (content) {
       content = removeESVReferences(content)
       esvQuoteCache.set(passage, content)
     }
-
+    console.log('[getESVQuote] 最终内容:', content)
     return content
   } catch (error) {
     console.error("ESV API error:", error)
@@ -75,26 +81,56 @@ async function searchESVByKeyword(keyword: string) {
     )
 
     const data = await response.json()
-    const results = (
-      data.results?.map((item: any) => {
+    // 用 reference 再查一次完整内容
+    const results = data.results ? await Promise.all(
+      data.results.map(async (item: any) => {
+        console.log('[searchESVByKeyword] API原始内容:', item.content)
+        console.log('[searchESVByKeyword] item.reference:', item.reference)
         let content = item.content
-
-        if (content) {
+        // 用完整 reference 查找，自动扩展节范围
+        let fullContent = await getFullVerse(item.reference)
+        if (fullContent) {
+          content = fullContent
+        } else if (content) {
           content = removeESVReferences(content)
         }
-
+        console.log('[searchESVByKeyword] 最终内容:', content)
         return {
           reference: item.reference,
           content: content,
         }
-      }) || []
-    )
+      })
+    ) : [];
     esvKeywordCache.set(keyword, results)
     return results
   } catch (error) {
     console.error("ESV search error:", error)
     return []
   }
+}
+
+async function getFullVerse(reference: string, maxExpand: number = 3): Promise<string> {
+  let currentRef = reference;
+  let content = await getESVQuote(currentRef);
+  let expandCount = 0;
+  let lastContent = content || '';
+  // 判断结尾是否为句号
+  while (content && !/[.!?](\"|'|”|’)?$/.test(content.trim()) && expandCount < maxExpand) {
+    // 尝试扩展到下一节
+    const match = currentRef.match(/^(.*?)(\d+):(\d+)$/);
+    if (!match) break;
+    const [_, book, chapter, verse] = match;
+    const nextVerse = parseInt(verse, 10) + 1;
+    const nextRef = `${book}${chapter}:${nextVerse}`;
+    const nextContent = await getESVQuote(nextRef);
+    if (!nextContent || nextContent === lastContent) break;
+    content = content.trim() + ' ' + nextContent.trim();
+    currentRef = `${book}${chapter}:${verse}-${nextVerse}`;
+    lastContent = nextContent;
+    expandCount++;
+  }
+  // 返回前统一去除结尾所有空格和引号
+  return (content || '').replace(/[\s"'“”‘’]+$/, '').trim();
 }
 
 function isVerseReference(query: string): boolean {

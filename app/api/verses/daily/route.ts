@@ -36,6 +36,12 @@ function removeESVReferences(content: string): string {
   // 再次去除多余空格
   cleaned = cleaned.trim();
 
+  // 去除结尾的括号内容，如 (ESV)
+  cleaned = cleaned.replace(/\s*\([^)]*\)\s*$/i, "").trim();
+
+  // 再去除结尾所有类型的引号和空格，防止多余引号残留
+  cleaned = cleaned.replace(/["'“”‘’]+$/, "").trim();
+
   return cleaned;
 }
 
