@@ -3,7 +3,8 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import Script from "next/script"
 import "./globals.css"
-import Analytics from "@/components/Analytics"
+import { GoogleAnalytics } from "@/components/GoogleAnalytics"
+
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -87,33 +88,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Google AdSense */}
-        {process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID && (
-          <Script
-            async
-            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID}`}
-            crossOrigin="anonymous"
-            strategy="afterInteractive"
-          />
-        )}
 
         {/* Google Analytics */}
-        {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
-              `}
-            </Script>
-          </>
-        )}
+{process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+  <>
+    <Script
+      src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+      strategy="afterInteractive"
+    />
+    <Script id="google-analytics" strategy="afterInteractive">
+      {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+      `}
+    </Script>
+  </>
+)}
 
         {/* Structured Data */}
         <script
@@ -158,8 +150,6 @@ export default function RootLayout({
         {/* Additional Meta Tags */}
         <meta name="theme-color" content="#d4af37" />
         <meta name="msapplication-TileColor" content="#d4af37" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
 
         {/* Preconnect */}
@@ -167,9 +157,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://api.esv.org" />
         <link rel="preconnect" href="https://fal.run" />
-        {process.env.NEXT_PUBLIC_GOOGLE_ADSENSE_ID && (
-          <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
-        )}
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico?v=2" />
@@ -178,7 +165,10 @@ export default function RootLayout({
 
       <body className={`${inter.className} scroll-smooth bg-amber-50 text-gray-800`}>
         {children}
- <Analytics />
+        {/* ✅ 只有 GA ID 存在时才注入脚本 */}
+       {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
+       )}
       </body>
     </html>
   )
