@@ -5,40 +5,18 @@ const esvQuoteCache = new Map<string, string>()
 const esvKeywordCache = new Map<string, any[]>()
 
 function removeESVReferences(content: string): string {
-  if (!content) return content
+  if (!content) return content;
 
-  console.log("🔍 搜索原始:", JSON.stringify(content))
+  // 移除开头的经文引用
+  let cleaned = content.replace(/^[^a-zA-Z]*[0-9]+\s*[A-Za-z]+\s*[0-9:–-]+\s*/, "");
 
-  let cleaned = content
+  // 去除首尾所有类型的引号和空格
+  cleaned = cleaned.trim().replace(/^["'“”‘’]+/, "").replace(/["'“”‘’]+$/, "");
 
-  // 第一步：移除开头的经文引用
-  cleaned = cleaned.replace(/^[^a-zA-Z]*[0-9]+\s*[A-Za-z]+\s*[0-9:–-]+\s*/, "")
+  // 再次去除多余空格
+  cleaned = cleaned.trim();
 
-  // 第二步：找到最后一个句号的位置
-  const lastPeriodIndex = cleaned.lastIndexOf(".")
-  if (lastPeriodIndex !== -1) {
-    // 截取到最后一个句号（包含句号）
-    cleaned = cleaned.substring(0, lastPeriodIndex + 1)
-  }
-
-  // 第三步：移除开头和结尾的所有类型的引号
-  cleaned = cleaned.trim()
-
-  // 循环移除开头的引号（处理多个引号的情况）
-  while (cleaned.length > 0 && (cleaned.startsWith('"') || cleaned.startsWith('"') || cleaned.startsWith("'"))) {
-    cleaned = cleaned.substring(1).trim()
-  }
-
-  // 循环移除结尾的引号
-  while (cleaned.length > 0 && (cleaned.endsWith('"') || cleaned.endsWith('"') || cleaned.endsWith("'"))) {
-    cleaned = cleaned.substring(0, cleaned.length - 1).trim()
-  }
-
-  // 第四步：最终清理空白字符
-  cleaned = cleaned.trim()
-
-  console.log("🎯 搜索清理:", JSON.stringify(cleaned))
-  return cleaned
+  return cleaned;
 }
 
 async function getESVQuote(passage: string) {

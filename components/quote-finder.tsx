@@ -8,11 +8,26 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Search, Heart, Loader2, BookOpen, Palette, Copy, Check, HeartOff } from "lucide-react"
 import { ImageGenerator } from "./image-generator"
+import Fuse from 'fuse.js';
 
 interface Quote {
   reference: string
   content: string
 }
+
+// 热门金句本地库（可扩展）
+const hotVerses = [
+  { reference: 'John 3:16', content: 'For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.' },
+  { reference: 'Psalm 23:1', content: 'The Lord is my shepherd; I shall not want.' },
+  { reference: 'Romans 8:28', content: 'And we know that for those who love God all things work together for good, for those who are called according to his purpose.' },
+  { reference: 'Philippians 4:13', content: 'I can do all things through him who strengthens me.' },
+  { reference: 'Matthew 5:9', content: 'Blessed are the peacemakers, for they shall be called sons of God.' },
+  // ...可继续扩展
+];
+const fuse = new Fuse(hotVerses, {
+  keys: ['content', 'reference'],
+  threshold: 0.3,
+});
 
 export function QuoteFinder() {
   const [searchQuery, setSearchQuery] = useState("")
@@ -25,6 +40,7 @@ export function QuoteFinder() {
   const [selectedQuoteForImage, setSelectedQuoteForImage] = useState<Quote | null>(null)
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const [favoriteStates, setFavoriteStates] = useState<{ [key: number]: boolean }>({})
+  const [suggestions, setSuggestions] = useState<typeof hotVerses>([]);
 
   const moodSuggestions = [
     "lonely",
@@ -49,6 +65,51 @@ export function QuoteFinder() {
     setFavoriteStates((prev) => ({ ...prev, [index]: isFavorited }))
     return isFavorited
   }
+
+  // 输入时实时模糊推荐
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (e.target.value.trim()) {
+      const results = fuse.search(e.target.value.trim()).map(r => r.item);
+      setSuggestions(results.slice(0, 5));
+    } else {
+      setSuggestions([]);
+    }
+  };
+  // 选择推荐项
+  const handleSuggestionClick = (verse: { reference: string; content: string }) => {
+    setSearchQuery(verse.reference);
+    setSuggestions([]);
+    handleDirectSearchByReference(verse.reference);
+  };
+  // 支持直接用 reference 搜索
+  const handleDirectSearchByReference = async (ref: string) => {
+    setLoading(true);
+    setSingleQuote(null);
+    setQuotes([]);
+    try {
+      const response = await fetch("/api/verses/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ query: ref, type: "direct" }),
+      });
+      const data = await response.json();
+      if (data.success && data.quote) {
+        setSingleQuote(data.quote);
+        const newQuotes = [{ reference: ref, content: data.quote }];
+        setQuotes(newQuotes);
+        newQuotes.forEach((quote, index) => checkIfFavorited(quote, index));
+      } else {
+        setQuotes([]);
+        setSingleQuote(null);
+      }
+    } catch (error) {
+      setQuotes([]);
+      setSingleQuote(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDirectSearch = async () => {
     if (!searchQuery.trim()) return
@@ -193,10 +254,24 @@ export function QuoteFinder() {
                   <Input
                     placeholder="Enter verse reference (John 3:16) or keywords (love, peace, hope)"
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={handleInputChange}
                     onKeyPress={(e) => e.key === "Enter" && handleDirectSearch()}
                     className="flex-1 text-lg h-12 border-amber-200 focus:border-amber-400 focus:ring-amber-400"
                   />
+                  {/* 推荐列表 */}
+                  {suggestions.length > 0 && (
+                    <div className="absolute z-10 bg-white border border-amber-200 rounded shadow w-full mt-1">
+                      {suggestions.map((verse, idx) => (
+                        <div
+                          key={idx}
+                          className="px-4 py-2 cursor-pointer hover:bg-amber-50 text-gray-800 text-base"
+                          onClick={() => handleSuggestionClick(verse)}
+                        >
+                          <span className="font-semibold">{verse.reference}</span>: {verse.content}
+                        </div>
+                      ))}
+                    </div>
+                  )}
                   <Button
                     onClick={handleDirectSearch}
                     disabled={loading || !searchQuery.trim()}
@@ -294,65 +369,67 @@ export function QuoteFinder() {
                   : `Search Results for "${searchQuery}"`}
             </h3>
             <div className="grid gap-6">
-              {quotes.map((quote, index) => (
-                <Card
-                  key={index}
-                  className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border border-amber-200/30"
-                >
-                  <CardContent className="p-8">
-                    <blockquote className="text-xl md:text-2xl text-gray-800 mb-4 leading-relaxed">
-                      {quote.content}
-                    </blockquote>
-                    <cite className="text-lg md:text-xl text-amber-700 font-semibold">— {quote.reference}</cite>
-                    <div className="mt-6 flex gap-3 flex-wrap">
-                      <Button
-                        size="lg"
-                        onClick={() => setSelectedQuoteForImage(quote)}
-                        className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white shadow-lg"
-                      >
-                        <Palette className="w-5 h-5 mr-2" />
-                        Create Image
-                      </Button>
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        onClick={() => copyToClipboard(quote, index)}
-                        className="bg-white/70 hover:bg-white/90 border-amber-300 text-amber-700 hover:text-amber-800"
-                      >
-                        {copiedIndex === index ? (
-                          <>
-                            <Check className="w-5 h-5 mr-2 text-green-600" />
-                            Copied!
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-5 h-5 mr-2" />
-                            Copy Text
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        size="lg"
-                        variant="ghost"
-                        onClick={() => toggleFavorite(quote, index)}
-                        className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                      >
-                        {favoriteStates[index] ? (
-                          <>
-                            <Heart className="w-5 h-5 mr-2 fill-current" />
-                            Favorited
-                          </>
-                        ) : (
-                          <>
-                            <HeartOff className="w-5 h-5 mr-2" />
-                            Add to Favorites
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+              {quotes.map((quote, index) => {
+                return (
+                  <Card
+                    key={index}
+                    className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border border-amber-200/30"
+                  >
+                    <CardContent className="p-8">
+                      <blockquote className="text-xl md:text-2xl text-gray-800 mb-4 leading-relaxed">
+                        {quote.content}
+                      </blockquote>
+                      <cite className="text-lg md:text-xl text-amber-700 font-semibold">— {quote.reference}</cite>
+                      <div className="mt-6 flex gap-3 flex-wrap">
+                        <Button
+                          size="lg"
+                          onClick={() => setSelectedQuoteForImage(quote)}
+                          className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white shadow-lg"
+                        >
+                          <Palette className="w-5 h-5 mr-2" />
+                          Create Image
+                        </Button>
+                        <Button
+                          size="lg"
+                          variant="outline"
+                          onClick={() => copyToClipboard(quote, index)}
+                          className="bg-white/70 hover:bg-white/90 border-amber-300 text-amber-700 hover:text-amber-800"
+                        >
+                          {copiedIndex === index ? (
+                            <>
+                              <Check className="w-5 h-5 mr-2 text-green-600" />
+                              Copied!
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-5 h-5 mr-2" />
+                              Copy Text
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          size="lg"
+                          variant="ghost"
+                          onClick={() => toggleFavorite(quote, index)}
+                          className="text-red-500 hover:text-red-600 hover:bg-red-50"
+                        >
+                          {favoriteStates[index] ? (
+                            <>
+                              <Heart className="w-5 h-5 mr-2 fill-current" />
+                              Favorited
+                            </>
+                          ) : (
+                            <>
+                              <HeartOff className="w-5 h-5 mr-2" />
+                              Add to Favorites
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         )}

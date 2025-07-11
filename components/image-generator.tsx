@@ -20,6 +20,11 @@ import {
   Twitter,
   Instagram,
 } from "lucide-react"
+import QRCode from 'qrcode'
+
+// 类型声明修复
+// @ts-ignore
+declare module 'qrcode';
 
 interface Quote {
   reference: string
@@ -32,7 +37,18 @@ interface ImageGeneratorProps {
 }
 
 // 抽象出绘制函数
-function drawQuoteImage({
+interface DrawQuoteImageParams {
+  ctx: CanvasRenderingContext2D;
+  backgroundImg: HTMLImageElement | ImageBitmap | null;
+  quote: { content: string; reference: string };
+  fontConfigs: any;
+  selectedFont: string;
+  width?: number;
+  height?: number;
+  theme?: string;
+}
+
+async function drawQuoteImage({
   ctx,
   backgroundImg,
   quote,
@@ -40,28 +56,31 @@ function drawQuoteImage({
   selectedFont,
   width = 1024,
   height = 1024,
-}: {
-  ctx: CanvasRenderingContext2D,
-  backgroundImg: HTMLImageElement | ImageBitmap | null,
-  quote: { content: string; reference: string },
-  fontConfigs: any,
-  selectedFont: string,
-  width?: number,
-  height?: number,
-}) {
-  // 背景
+  theme = 'light',
+}: DrawQuoteImageParams) {
+  // 背景和渐变根据 theme 切换
   ctx.clearRect(0, 0, width, height)
   if (backgroundImg) {
     ctx.drawImage(backgroundImg, 0, 0, width, height)
   } else {
-    ctx.fillStyle = "#222"
+    if (theme === 'dark') {
+      ctx.fillStyle = "#232b3a";
+    } else {
+      ctx.fillStyle = "#fff";
+    }
     ctx.fillRect(0, 0, width, height)
   }
   // 渐变
   const gradient = ctx.createLinearGradient(0, 0, 0, height)
-  gradient.addColorStop(0, "rgba(0,0,0,0.3)")
-  gradient.addColorStop(0.5, "rgba(0,0,0,0.1)")
-  gradient.addColorStop(1, "rgba(0,0,0,0.4)")
+  if (theme === 'dark') {
+    gradient.addColorStop(0, "rgba(0,0,0,0.45)")
+    gradient.addColorStop(0.5, "rgba(0,0,0,0.18)")
+    gradient.addColorStop(1, "rgba(0,0,0,0.55)")
+  } else {
+    gradient.addColorStop(0, "rgba(0,0,0,0.13)")
+    gradient.addColorStop(0.5, "rgba(0,0,0,0.06)")
+    gradient.addColorStop(1, "rgba(0,0,0,0.18)")
+  }
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, width, height)
 
@@ -131,7 +150,7 @@ function drawQuoteImage({
 
   // 正文排版
   ctx.font = `${fontSize}px ${serifFonts}`;
-  ctx.fillStyle = "white";
+  ctx.fillStyle = theme === 'dark' ? "#fff" : "#222";
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
   ctx.shadowColor = "rgba(0,0,0,0.9)";
@@ -153,10 +172,11 @@ function drawQuoteImage({
   ctx.font = `${refFontSize}px ${serifFonts}`;
   ctx.textAlign = "right";
   ctx.textBaseline = "bottom";
-  ctx.shadowColor = "rgba(0,0,0,0.9)";
+  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.9)";
   ctx.shadowBlur = 8;
   ctx.shadowOffsetX = 2;
   ctx.shadowOffsetY = 2;
+  ctx.fillStyle = theme === 'dark' ? '#7ecbff' : '#2563eb';
   ctx.fillText(`— ${quote.reference}`, width - sideSafe, height - bottomSafe);
 }
 
@@ -183,6 +203,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     { label: '9:16 (1080x1920)', width: 1080, height: 1920 },
     { label: '16:9 (1200x675)', width: 1200, height: 675 },
   ]
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
 
   const promptSuggestions = [
     "A beautiful white dove flying in a golden sky",
@@ -258,8 +279,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       selectedFont,
       width: resolution.width,
       height: resolution.height,
+      theme,
     })
-  }, [previewBgImg, quote, fontConfigs, selectedFont, resolution])
+  }, [previewBgImg, quote, fontConfigs, selectedFont, resolution, theme])
 
   const getTextSize = (text: string) => {
     const length = text.length
@@ -325,7 +347,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       canvas.height = resolution.height * EXPORT_SCALE
       const ctx = canvas.getContext("2d")!
       ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0); // 放大所有绘制
-      drawQuoteImage({
+      await drawQuoteImage({
         ctx,
         backgroundImg: bitmap,
         quote,
@@ -333,6 +355,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         selectedFont,
         width: resolution.width,
         height: resolution.height,
+        theme,
       })
       const link = document.createElement("a")
       link.download = `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}.png`
@@ -360,7 +383,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       canvas.height = resolution.height * EXPORT_SCALE
       const ctx = canvas.getContext("2d")!
       ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0); // 放大所有绘制
-      drawQuoteImage({
+      await drawQuoteImage({
         ctx,
         backgroundImg: bitmap,
         quote,
@@ -368,6 +391,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         selectedFont,
         width: resolution.width,
         height: resolution.height,
+        theme,
       })
       const finalBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 1.0))
       if (!finalBlob) throw new Error("Could not create image blob")
@@ -619,6 +643,14 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                           {r.label}
                         </Button>
                       ))}
+                      <Button
+                        variant={theme === 'light' ? 'outline' : 'default'}
+                        size="sm"
+                        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                        className="ml-2"
+                      >
+                        {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
+                      </Button>
                     </div>
                     <div className="flex flex-col items-center w-full">
                       <div
