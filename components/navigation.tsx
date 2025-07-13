@@ -2,21 +2,45 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Sparkles, Menu, X, Home, Info, Mail, Shield, FileText, Heart, HelpCircle } from "lucide-react"
+import { Calendar, Sparkles, Menu, X, BookOpen, Image, Heart, Newspaper } from "lucide-react"
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
+  const router = useRouter()
+
+  const handleFindQuotesClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    if (pathname === "/") {
+      const el = document.getElementById("quote-finder");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      router.push("/#quote-finder");
+    }
+  };
+
+  const handleDailyQuoteClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    e.preventDefault();
+    setIsMobileMenuOpen(false);
+    if (pathname === "/") {
+      const el = document.getElementById("daily-quote-section");
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    } else {
+      router.push("/#daily-quote-section");
+    }
+  };
 
   const navigationItems = [
-    { href: "/", label: "Home", icon: Home },
-    { href: "/about", label: "About", icon: Info },
-    { href: "/help", label: "Help", icon: HelpCircle },
-    { href: "/contact", label: "Contact", icon: Mail },
-    { href: "/privacy", label: "Privacy", icon: Shield },
-    { href: "/terms", label: "Terms", icon: FileText },
+    { href: "/#daily-quote-section", label: "Daily Quote", icon: Calendar },
+    { href: "/#quote-finder", label: "Find Quotes", icon: BookOpen },
+    { href: "/blog", label: "Blog", icon: Newspaper },
   ]
 
   const isActive = (href: string) => {
@@ -49,41 +73,71 @@ export function Navigation() {
             className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
             onClick={handleNavClick}
           >
-            <Sparkles className="w-8 h-8 text-amber-600" />
+            <img src="/favicon.ico" alt="Logo" className="w-8 h-8" />
             <span className="text-xl font-bold text-amber-700">QuoteGenerator</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={handleNavClick}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                  isActive(item.href)
-                    ? "bg-amber-100 text-amber-800"
-                    : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                }`}
-              >
-                <item.icon className="w-4 h-4" />
-                {item.label}
-              </Link>
+              item.label === "Find Quotes" ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={handleFindQuotesClick}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    isActive(item.href)
+                      ? "bg-amber-100 text-amber-800"
+                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </Link>
+              ) : item.label === "Daily Quote" ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={handleDailyQuoteClick}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    isActive(item.href)
+                      ? "bg-amber-100 text-amber-800"
+                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </Link>
+              ) : item.label === "Blog" ? (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={handleNavClick}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    isActive(item.href)
+                      ? "bg-amber-100 text-amber-800"
+                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </Link>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={handleNavClick}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                    isActive(item.href)
+                      ? "bg-amber-100 text-amber-800"
+                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                  }`}
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </Link>
+              )
             ))}
-
-            {/* Favorites Button */}
-            <Button
-              variant="outline"
-              size="sm"
-              className="ml-4 bg-white/70 border-amber-300 text-amber-700 hover:bg-amber-50"
-              onClick={() => {
-                const event = new CustomEvent("openFavorites")
-                window.dispatchEvent(event)
-              }}
-            >
-              <Heart className="w-4 h-4 mr-2" />
-              Favorites
-            </Button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -102,34 +156,64 @@ export function Navigation() {
           <div className="md:hidden py-4 border-t border-amber-200/30">
             <div className="space-y-2">
               {navigationItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "bg-amber-100 text-amber-800"
-                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                  }`}
-                  onClick={handleNavClick}
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
+                item.label === "Find Quotes" ? (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={handleFindQuotesClick}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isActive(item.href)
+                        ? "bg-amber-100 text-amber-800"
+                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </Link>
+                ) : item.label === "Daily Quote" ? (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={handleDailyQuoteClick}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isActive(item.href)
+                        ? "bg-amber-100 text-amber-800"
+                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </Link>
+                ) : item.label === "Blog" ? (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={handleNavClick}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isActive(item.href)
+                        ? "bg-amber-100 text-amber-800"
+                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </Link>
+                ) : (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={handleNavClick}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                      isActive(item.href)
+                        ? "bg-amber-100 text-amber-800"
+                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    {item.label}
+                  </Link>
+                )
               ))}
-
-              {/* Mobile Favorites Button */}
-              <Button
-                variant="outline"
-                className="w-full justify-start bg-white/70 border-amber-300 text-amber-700 hover:bg-amber-50 mt-4"
-                onClick={() => {
-                  const event = new CustomEvent("openFavorites")
-                  window.dispatchEvent(event)
-                  setIsMobileMenuOpen(false)
-                }}
-              >
-                <Heart className="w-4 h-4 mr-2" />
-                My Favorites
-              </Button>
             </div>
           </div>
         )}

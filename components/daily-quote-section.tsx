@@ -56,7 +56,7 @@ export function DailyQuoteSection() {
 
   return (
     <>
-      <section className="py-24 px-4 bg-gradient-to-br from-amber-50 via-blue-50 to-green-50">
+      <section id="daily-quote-section" className="py-24 px-4 bg-gradient-to-br from-amber-50 via-blue-50 to-green-50">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <div className="flex items-center justify-center mb-6">
