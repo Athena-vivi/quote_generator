@@ -214,7 +214,7 @@ export function QuoteFinder() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
+    <div id="quote-finder" className="max-w-6xl mx-auto scroll-mt-[112px]">
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Find More Quotes</h2>
         <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
