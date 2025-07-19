@@ -174,39 +174,7 @@ export function ExampleShowcase() {
         </div>
 
         {/* Features Highlight */}
-        <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <div className="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Sparkles className="w-6 h-6 text-amber-600" />
-            </div>
-            <h3 className="font-semibold text-gray-800 mb-1">AI Powered</h3>
-            <p className="text-sm text-gray-600">Advanced AI creates unique backgrounds</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Eye className="w-6 h-6 text-blue-600" />
-            </div>
-            <h3 className="font-semibold text-gray-800 mb-1">High Quality</h3>
-            <p className="text-sm text-gray-600">1024×1024 resolution for social media</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Download className="w-6 h-6 text-green-600" />
-            </div>
-            <h3 className="font-semibold text-gray-800 mb-1">Instant Download</h3>
-            <p className="text-sm text-gray-600">Get your image immediately</p>
-          </div>
-
-          <div className="text-center">
-            <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
-              <Share2 className="w-6 h-6 text-purple-600" />
-            </div>
-            <h3 className="font-semibold text-gray-800 mb-1">Easy Sharing</h3>
-            <p className="text-sm text-gray-600">Share directly to social platforms</p>
-          </div>
-        </div>
+        {/* 已根据需求删除AI Powered、High Quality、Instant Download、Easy Sharing四个图标和描述 */}
       </div>
     </section>
   )

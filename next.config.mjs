@@ -1,5 +1,10 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
+import mdx from '@next/mdx';
+
+const withMDX = mdx({
+  extension: /\.mdx?$/
+});
+
+const nextConfig = withMDX({
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -15,6 +20,7 @@ const nextConfig = {
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
-}
+  pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
+});
 
-export default nextConfig
+export default nextConfig;
