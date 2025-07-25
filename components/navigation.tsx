@@ -39,7 +39,7 @@ export function Navigation() {
 
   const navigationItems = [
     { href: "/#daily-quote-section", label: "Daily Quote", icon: Calendar },
-    { href: "/#quote-finder", label: "Find Quotes", icon: BookOpen },
+    { href: "/#quote-finder", label: "Explore Verses", icon: BookOpen },
     { href: "/blog", label: "Blog", icon: Newspaper },
   ]
 
@@ -80,7 +80,7 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-1">
             {navigationItems.map((item) => (
-              item.label === "Find Quotes" ? (
+              item.label === "Explore Verses" ? (
                 <Link
                   key={item.href}
                   href={item.href}
@@ -156,7 +156,7 @@ export function Navigation() {
           <div className="md:hidden py-4 border-t border-amber-200/30">
             <div className="space-y-2">
               {navigationItems.map((item) => (
-                item.label === "Find Quotes" ? (
+                item.label === "Explore Verses" ? (
                   <Link
                     key={item.href}
                     href={item.href}

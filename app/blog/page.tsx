@@ -5,26 +5,80 @@ import Link from "next/link"
 const articles = [
   {
     id: 1,
-    title: "How to Meditate on Bible Verses",
-    summary: "Discover practical steps and spiritual benefits of meditating on Scripture daily.",
+    title: "Bible Quotes About Love",
+    summary: "Discover heartwarming Bible verses about love—perfect for encouragement, sharing, and deepening your understanding of God’s love.",
     date: "2024-05-01",
     author: "John Doe",
-    href: "#"
+    href: "/blog/bible-quotes-about-love"
   },
   {
     id: 2,
-    title: "Faith in Difficult Times: Biblical Encouragement",
-    summary: "Explore Bible verses and reflections to strengthen your faith during challenges.",
+    title: "Bible Quotes About Peace",
+    summary: "Find comfort and calm with these Bible verses about peace. Let God’s word bring serenity and hope to your heart, even in times of trouble.",
     date: "2024-04-20",
     author: "Jane Smith",
-    href: "#"
+    href: "/blog/bible-quotes-about-peace"
+  },
+  {
+    id: 3,
+    title: "Bible Quotes About Strength and Resilience",
+    summary: "Discover powerful Bible verses about strength and resilience. These scriptures offer encouragement and hope for anyone facing challenges or seeking God’s strength.",
+    date: "2024-04-10",
+    author: "Alex Lee",
+    href: "/blog/bible-quotes-about-strength"
+  },
+  {
+    id: 4,
+    title: "Bible Quotes for Anxiety",
+    summary: "Find comfort and relief from anxiety with these Bible verses. God’s word offers peace, hope, and encouragement for anxious hearts.",
+    date: "2024-03-28",
+    author: "Emily Chen",
+    href: "/blog/bible-quotes-for-anxiety"
+  },
+  {
+    id: 5,
+    title: "Bible Quotes for Encouragement",
+    summary: "Uplifting Bible verses for encouragement and hope. These scriptures inspire you to stay strong and trust in God’s promises, no matter the circumstances.",
+    date: "2024-03-15",
+    author: "Michael Brown",
+    href: "/blog/bible-quotes-for-encouragement"
+  },
+  {
+    id: 6,
+    title: "Bible Quotes for Healing",
+    summary: "Find hope and comfort in these Bible verses about healing. God’s word offers encouragement and strength for those seeking physical, emotional, or spiritual healing.",
+    date: "2024-03-01",
+    author: "Sarah Kim",
+    href: "/blog/bible-quotes-for-healing"
+  },
+  {
+    id: 7,
+    title: "Inspirational Bible Verses",
+    summary: "Uplifting and inspirational Bible verses to encourage you every day. Let these scriptures fill your heart with hope, faith, and motivation.",
+    date: "2024-02-20",
+    author: "David Park",
+    href: "/blog/inspirational-bible-verses"
+  },
+  {
+    id: 8,
+    title: "Short Bible Quotes",
+    summary: "A collection of the most concise and powerful short Bible quotes for daily encouragement, inspiration, and sharing. Perfect for quick reminders of God’s love and promises.",
+    date: "2024-02-10",
+    author: "Grace Lin",
+    href: "/blog/short-bible-quotes"
   },
 ]
 
 const tags = ["Faith", "Devotional", "Prayer", "Hope", "Encouragement"]
 const popularArticles = [
-  { id: 101, title: "Why Read the Bible Daily?", href: "#" },
-  { id: 102, title: "Top 10 Encouraging Verses", href: "#" },
+  { id: 101, title: "Bible Quotes About Love", href: "/blog/bible-quotes-about-love" },
+  { id: 102, title: "Bible Quotes About Peace", href: "/blog/bible-quotes-about-peace" },
+  { id: 103, title: "Bible Quotes About Strength and Resilience", href: "/blog/bible-quotes-about-strength" },
+  { id: 104, title: "Bible Quotes for Anxiety", href: "/blog/bible-quotes-for-anxiety" },
+  { id: 105, title: "Bible Quotes for Encouragement", href: "/blog/bible-quotes-for-encouragement" },
+  { id: 106, title: "Bible Quotes for Healing", href: "/blog/bible-quotes-for-healing" },
+  { id: 107, title: "Inspirational Bible Verses", href: "/blog/inspirational-bible-verses" },
+  { id: 108, title: "Short Bible Quotes", href: "/blog/short-bible-quotes" },
 ]
 
 export default function BlogPage() {

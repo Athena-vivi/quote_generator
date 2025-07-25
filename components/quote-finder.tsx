@@ -216,9 +216,9 @@ export function QuoteFinder() {
   return (
     <div id="quote-finder" className="max-w-6xl mx-auto scroll-mt-[112px]">
       <div className="text-center mb-12">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Find More Quotes</h2>
+      <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Explore Verses</h2>
         <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
-          Search for specific Bible quotes or discover quotes that match your current mood
+         Search for specific Bible verses or discover passages that match your current mood
         </p>
       </div>
 
