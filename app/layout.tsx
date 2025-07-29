@@ -164,11 +164,10 @@ export default function RootLayout({
       </head>
 
       <body className="scroll-smooth bg-amber-50 text-gray-800">
+      <GoogleAnalytics />
         {children}
-        {/* ✅ 只有 GA ID 存在时才注入脚本 */}
-       {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
-      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
-       )}
+        
+       
       </body>
     </html>
   )
