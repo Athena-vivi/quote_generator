@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next"
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://quotegenerator.com"
+  const baseUrl = "https://quotegenerator.org"
 
   // 博客文章列表
   const blogPosts = [

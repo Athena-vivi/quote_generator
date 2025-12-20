@@ -3,8 +3,10 @@ import type { Metadata } from "next"
 import Script from "next/script"
 import "./globals.css"
 import { GoogleAnalytics } from "@/components/GoogleAnalytics"
+import { WebsiteSchema } from "@/components/seo/website-schema"
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://quotegenerator.org'),
   title: "QuoteGenerator - Transform Bible Quotes into Beautiful AI Art",
   description:
     "Create stunning, shareable images from Bible quotes with AI-powered backgrounds. Find daily inspiration, search by mood or reference, and share your faith beautifully on social media.",
@@ -42,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://quotegenerator.com",
+    url: "https://quotegenerator.org",
     siteName: "QuoteGenerator",
     title: "QuoteGenerator - Transform Bible Quotes into Beautiful AI Art",
     description:
@@ -70,7 +72,7 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   alternates: {
-    canonical: "https://quotegenerator.com",
+    canonical: "https://quotegenerator.org",
   },
   category: "Religion & Spirituality",
   generator: "v0.dev",
@@ -97,7 +99,7 @@ export default function RootLayout({
               name: "QuoteGenerator",
               description:
                 "Transform Bible quotes into beautiful AI-generated art for social media sharing",
-              url: "https://quotegenerator.com",
+              url: "https://quotegenerator.org",
               applicationCategory: "DesignApplication",
               operatingSystem: "Web Browser",
               offers: {
@@ -108,7 +110,7 @@ export default function RootLayout({
               creator: {
                 "@type": "Organization",
                 name: "QuoteGenerator Team",
-                url: "https://quotegenerator.com/about",
+                url: "https://quotegenerator.org/about",
               },
               featureList: [
                 "Daily Bible quote recommendations",
@@ -128,9 +130,6 @@ export default function RootLayout({
         />
 
         {/* Additional Meta Tags */}
-        <meta name="theme-color" content="#d4af37" />
-        <meta name="msapplication-TileColor" content="#d4af37" />
-        <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
 
         {/* Preconnect */}
         <link rel="preconnect" href="https://api.esv.org" />
@@ -139,6 +138,15 @@ export default function RootLayout({
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico?v=2" />
         <link rel="icon" type="image/png" href="/icon.png?v=2" />
+
+        {/* PWA Manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="application-name" content="QuoteGenerator" />
+        <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
+        <meta name="msapplication-TileColor" content="#d4af37" />
+        <meta name="theme-color" content="#d4af37" />
 
         {/* Google Fonts - 优化加载，只加载必要的字体 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -150,7 +158,12 @@ export default function RootLayout({
       </head>
 
       <body className="scroll-smooth bg-amber-50 text-gray-800">
-      <GoogleAnalytics />
+        <GoogleAnalytics />
+        <WebsiteSchema
+          siteName="QuoteGenerator"
+          siteUrl="https://quotegenerator.org"
+          description="Transform Bible quotes into beautiful AI-generated art for social media sharing"
+        />
         {children}
         
        

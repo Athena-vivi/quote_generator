@@ -11,9 +11,9 @@ export const metadata = {
 export default function Page() {
   // 结构化数据
   const breadcrumbs = [
-    { name: "Home", url: "https://quotegenerator.com" },
-    { name: "Blog", url: "https://quotegenerator.com/blog" },
-    { name: "Bible Quotes About Love", url: "https://quotegenerator.com/blog/bible-quotes-about-love" }
+    { name: "Home", url: "https://quotegenerator.org" },
+    { name: "Blog", url: "https://quotegenerator.org/blog" },
+    { name: "Bible Quotes About Love", url: "https://quotegenerator.org/blog/bible-quotes-about-love" }
   ];
 
   const faqs = [
@@ -28,7 +28,7 @@ export default function Page() {
       <ArticleStructuredData
         title="Bible Quotes About Love"
         description="Discover heartwarming Bible verses about love—perfect for encouragement, sharing, and deepening your understanding of God's love."
-        url="https://quotegenerator.com/blog/bible-quotes-about-love"
+        url="https://quotegenerator.org/blog/bible-quotes-about-love"
       />
       <BreadcrumbStructuredData items={breadcrumbs} />
       <FAQStructuredData faqs={faqs.map(faq => ({ question: faq.q, answer: faq.a }))} />
