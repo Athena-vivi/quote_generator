@@ -1,0 +1,27 @@
+import AIQuoteGenerator from '../../../components/AIQuoteGenerator'
+import BibleQuoteCard from '../../../components/BibleQuoteCard'
+import FAQSection from '../../../components/FAQSection'
+import CTASection from '../../../components/CTASection'
+
+# Bible Quote of the Day
+
+> Start your day with a fresh, inspiring Bible quote.
+
+<AIQuoteGenerator />
+
+---
+
+## Today's Verse
+
+<BibleQuoteCard reference="Matthew 6:34" content="Therefore do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own." />
+
+---
+
+## Frequently Asked Questions
+
+<FAQSection faqs={[
+  { q: "Is the daily quote updated automatically?", a: "Yes, a new quote is provided every day." },
+  { q: "Can I subscribe to daily quotes?", a: "Yes, you can subscribe via email or social sharing." }
+]} />
+
+<CTASection /> 
