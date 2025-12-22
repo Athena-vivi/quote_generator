@@ -46,7 +46,7 @@ export default function HomePage() {
       <HashScrollToQuoteFinder />
 
       {/* Integrated Hero + Daily Quote Section */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 sm:px-8 overflow-hidden pt-24">
+      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 sm:px-8 overflow-hidden pt-16">
         {/* Enhanced Sacred Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-white/50 to-blue-50/40"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-100/40 via-transparent to-transparent"></div>
@@ -65,36 +65,32 @@ export default function HomePage() {
           <div className="absolute top-0 left-1/2 w-1 h-full bg-gradient-to-b from-amber-300 to-transparent blur-sm animation-delay-2000"></div>
         </div>
 
-        <div className="relative z-10 w-full max-w-6xl mx-auto">
-          {/* Main Heading */}
-          <div className="text-center mb-16">
-            {/* Radial Glow Behind Title */}
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="w-[800px] h-[300px] bg-amber-200/20 rounded-full blur-3xl" style={{
-                background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.08) 40%, transparent 70%)'
-              }}></div>
+        <div className="relative z-10 w-full max-w-4xl mx-auto">
+          {/* Eyebrow Heading + Main Title */}
+          <div className="text-center mb-10">
+            {/* Eyebrow Heading */}
+            <div className="mb-6">
+              <span className="text-xs sm:text-sm font-semibold text-amber-700/60 tracking-widest uppercase">
+                AI-Powered Transformation
+              </span>
             </div>
 
-            <h1 className="leading-tight mb-8 relative">
-              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 font-quote bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent animate-shimmer">
-                Transform
-              </span>
-              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 bg-gradient-to-br from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+            {/* Main Title */}
+            <h1 className="leading-tight mb-8 drop-shadow-sm" style={{ textShadow: '0 1px 2px rgba(0, 0, 0, 0.05)' }}>
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-2 bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent">
                 Bible Quotes
               </span>
-              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-600/60 mb-4">
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light text-gray-600/70 mb-2">
                 into
               </span>
-              <span className="relative block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold">
-                <span className="relative bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent" style={{ textShadow: '0 0 20px rgba(251, 191, 36, 0.15)' }}>
-                  Divine Art
-                </span>
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent">
+                Divine Art
               </span>
             </h1>
           </div>
 
           {/* Integrated Daily Quote Card */}
-          <div className="relative group mb-16 max-w-5xl mx-auto">
+          <div className="relative group mb-12 max-w-4xl mx-auto">
             {/* Divine Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-yellow-500/20 to-amber-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000 transform scale-95 group-hover:scale-100"></div>
 
