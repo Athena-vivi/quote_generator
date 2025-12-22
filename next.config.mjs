@@ -18,7 +18,7 @@ const nextConfig = withMDX({
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
-    optimizeCss: true,
+    // optimizeCss: true, // 临时禁用以避免critters兼容性问题
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
     scrollRestoration: true,
   },
