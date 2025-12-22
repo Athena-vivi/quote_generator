@@ -5,7 +5,7 @@ import { QuoteFinder } from "@/components/quote-finder"
 import { ExampleShowcase } from "@/components/example-showcase"
 import { PageLayout } from "@/components/page-layout"
 import { HashScrollToQuoteFinder } from "@/components/hash-scroll-to-quote-finder"
-import { Sparkles, BookOpen, Calendar, Loader2, Palette, RefreshCw } from "lucide-react"
+import { BookOpen, Calendar, Loader2, Palette, RefreshCw } from "lucide-react"
 import { useState, useEffect } from "react"
 import { ImageGenerator } from "@/components/image-generator"
 
@@ -19,7 +19,6 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [selectedQuoteForImage, setSelectedQuoteForImage] = useState<Quote | null>(null)
 
-  // Auto-load daily quote on component mount
   useEffect(() => {
     loadDailyQuote()
   }, [])
@@ -29,7 +28,6 @@ export default function HomePage() {
     try {
       const response = await fetch("/api/verses/daily")
       const data = await response.json()
-
       if (data.success) {
         setDailyQuote(data.quote)
       }
@@ -40,149 +38,102 @@ export default function HomePage() {
     }
   }
 
-  
   return (
     <PageLayout showBreadcrumb={false}>
       <HashScrollToQuoteFinder />
 
-      {/* Hero Section - Premium Redesign */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 sm:px-8 overflow-hidden pt-16">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/15 via-white/30 to-blue-50/25"></div>
+      {/* Hero & Daily Quote Section - 紧凑且色调统一 */}
+      <section className="relative pt-20 pb-12 px-6 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white">
+        <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
+          
+          {/* 眉毛标题 */}
+          <div className="flex items-center gap-2 mb-6 opacity-60">
+            <div className="h-px w-8 bg-amber-400"></div>
+            <span className="text-[10px] tracking-[0.3em] uppercase font-medium text-amber-800">
+              AI-Powered Scripture Art
+            </span>
+            <div className="h-px w-8 bg-amber-400"></div>
+          </div>
 
-        <div className="relative z-10 flex flex-col items-center gap-y-6">
-          {/* Eyebrow Heading */}
-          <span className="text-xs tracking-[0.3em] opacity-50 uppercase text-amber-600/70 font-sans">
-            AI-Powered Divine Art
-          </span>
-
-          {/* Main Title - Single Line */}
-          <h1 className="text-center text-2xl md:text-4xl leading-tight font-serif">
-            <span className="font-bold" style={{ color: '#D4AF37' }}>
-              Bible Quotes
-            </span>
-            <span className="italic font-light text-gray-400 mx-6 text-sm md:text-base">
-              into
-            </span>
-            <span className="font-bold" style={{ color: '#D4AF37' }}>
-              Divine Art
-            </span>
+          {/* 紧凑标题 */}
+          <h1 className="text-center mb-12 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+            <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700">Bible Quotes</span>
+            <span className="text-xl md:text-2xl font-serif italic text-stone-400">into</span>
+            <span className="text-4xl md:text-5xl font-serif font-bold text-amber-600">Divine Art</span>
           </h1>
 
-          {/* Daily Quote Card - Expanded */}
-          <div className="relative group max-w-4xl w-full mt-8">
-            {/* Enhanced Glow Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-yellow-500/15 to-amber-600/15 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
-
-            {/* Premium Card */}
-            <div className="relative bg-white/90 backdrop-blur-2xl border border-amber-200/30 shadow-2xl rounded-3xl px-12 py-10 transform hover:scale-[1.02] transition-all duration-700">
-              {/* Subtle Decorative Elements */}
-              <div className="absolute top-6 left-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
-              <div className="absolute top-6 right-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
-              <div className="absolute bottom-6 left-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
-              <div className="absolute bottom-6 right-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
-
+          {/* Daily Quote Card - 统一阴影与宽度 */}
+          <div className="w-full max-w-4xl relative">
+            <div className="absolute -inset-2 bg-amber-100/30 rounded-[2rem] blur-2xl -z-10"></div>
+            
+            <div className="bg-white/80 backdrop-blur-md border border-amber-100 shadow-[0_20px_50px_rgba(212,175,55,0.1)] rounded-[2rem] p-8 md:p-14 transition-all hover:shadow-amber-200/20">
               {loading ? (
-                <div className="text-center py-16">
-                  <Loader2 className="w-12 h-12 mx-auto text-amber-600 animate-spin mb-6" />
-                  <p className="text-lg text-gray-600 font-light animate-pulse font-serif">
-                    Receiving divine inspiration...
-                  </p>
+                <div className="py-12 text-center">
+                  <Loader2 className="w-8 h-8 mx-auto text-amber-500 animate-spin mb-4" />
+                  <p className="text-sm font-serif italic text-stone-500">Receiving divine words...</p>
                 </div>
               ) : dailyQuote ? (
-                <div className="text-center space-y-10">
-                  {/* Elegant Header - Reduced Size */}
-                  <div className="flex items-center justify-center gap-3">
-                    <Calendar className="w-6 h-6 text-amber-600" />
-                    <h2 className="text-xl md:text-2xl font-serif bg-gradient-to-br from-amber-700 to-amber-800 bg-clip-text text-transparent">
-                      Daily Divine
-                    </h2>
+                <div className="text-center">
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 border border-amber-100 mb-8">
+                    <Calendar className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-amber-800">Today's Wisdom</span>
                   </div>
 
-                  {/* Scripture Quote */}
-                  <div className="relative">
-                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-6xl text-amber-200/50 font-serif italic">"</div>
-                    <blockquote className="text-2xl md:text-3xl lg:text-4xl font-serif text-gray-800 leading-relaxed font-light px-8 py-4">
-                      {dailyQuote.content}
-                    </blockquote>
-                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-6xl text-amber-200/50 font-serif italic">"</div>
-                  </div>
+                  <blockquote className="text-2xl md:text-3xl lg:text-4xl font-serif text-stone-800 leading-relaxed italic font-light mb-8 px-4">
+                    “{dailyQuote.content}”
+                  </blockquote>
 
-                  {/* Scripture Reference */}
-                  <cite className="text-lg md:text-xl font-serif font-semibold" style={{ color: '#D4AF37' }}>
-                    {dailyQuote.reference}
+                  <cite className="block text-lg font-serif font-semibold text-amber-600 mb-10">
+                    — {dailyQuote.reference}
                   </cite>
 
-                  {/* Action Buttons - Spaced Out */}
-                  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button
                       onClick={() => setSelectedQuoteForImage(dailyQuote)}
-                      className="px-10 py-4 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-serif"
+                      className="px-8 py-3.5 bg-amber-600 hover:bg-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 transition-all active:scale-95 flex items-center gap-2"
                     >
-                      <Palette className="w-5 h-5 inline mr-3" />
+                      <Palette className="w-4 h-4" />
                       Create Divine Image
                     </button>
-
                     <button
-                      onClick={() => {
-                        document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                      className="px-10 py-4 bg-white/70 backdrop-blur-sm border-2 border-amber-200/60 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/85 hover:border-amber-300/80 transform hover:scale-105 transition-all duration-300 font-serif"
+                      onClick={() => document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })}
+                      className="px-8 py-3.5 bg-transparent border border-amber-200 text-amber-800 font-serif font-medium rounded-xl hover:bg-amber-50 transition-all flex items-center gap-2"
                     >
-                      <BookOpen className="w-5 h-5 inline mr-3" />
+                      <BookOpen className="w-4 h-4" />
                       Explore Verses
                     </button>
                   </div>
                 </div>
-              ) : (
-                <div className="text-center py-16">
-                  <div className="mb-8" style={{ color: '#D4AF37', opacity: 0.5 }}>
-                    <span className="text-6xl font-serif italic">❝</span>
-                  </div>
-                  <p className="text-xl text-gray-600 mb-8 font-light font-serif">Unable to receive today's divine message</p>
-                  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                    <button
-                      onClick={loadDailyQuote}
-                      className="px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-serif"
-                    >
-                      <RefreshCw className="w-5 h-5 inline mr-3" />
-                      Try Again
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })
-                      }}
-                      className="px-10 py-4 bg-white/70 backdrop-blur-sm border-2 border-amber-200/60 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/85 hover:border-amber-300/80 transform hover:scale-105 transition-all duration-300 font-serif"
-                    >
-                      <BookOpen className="w-5 h-5 inline mr-3" />
-                      Explore Verses
-                    </button>
-                  </div>
-                </div>
-              )}
+              ) : null}
             </div>
           </div>
         </div>
       </section>
 
+      {/* 弹窗组件 */}
       {selectedQuoteForImage && (
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}
 
-      {/* Search Section */}
-      <section className="relative py-24 px-6 sm:px-8 bg-gradient-to-br from-blue-50/30 via-white/50 to-purple-50/30">
-        <QuoteFinder />
+      {/* 搜索区域 - 移除杂色背景，缩短间距 */}
+      <section className="py-16 px-6 bg-white border-y border-amber-50">
+        <div className="max-w-6xl mx-auto">
+          <QuoteFinder />
+        </div>
       </section>
 
-      {/* Showcase Section */}
-      <section className="relative py-24 px-6 sm:px-8 bg-gradient-to-br from-amber-50/40 via-white/60 to-yellow-50/40">
-        <ExampleShowcase />
+      {/* 展示区域 - 保持暖调 */}
+      <section className="py-16 px-6 bg-amber-50/20">
+        <div className="max-w-6xl mx-auto">
+          <ExampleShowcase />
+        </div>
       </section>
 
-      {/* Features Section */}
-      <section className="relative py-24 px-6 sm:px-8 bg-gradient-to-b from-white/70 to-amber-50/50">
-        <FeaturesSection />
+      {/* 功能区域 - 紧凑结尾 */}
+      <section className="py-16 px-6 bg-white">
+        <div className="max-w-6xl mx-auto">
+          <FeaturesSection />
+        </div>
       </section>
     </PageLayout>
   )
