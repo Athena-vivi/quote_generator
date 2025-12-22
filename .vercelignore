@@ -10,6 +10,5 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Keep lock files (needed for deployment)
-!pnpm-lock.yaml
 !package-lock.json
 !yarn.lock
