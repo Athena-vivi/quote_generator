@@ -1,4 +1,5 @@
 import mdx from '@next/mdx';
+import path from 'path';
 
 const withMDX = mdx({
   extension: /\.mdx?$/
@@ -26,6 +27,13 @@ const nextConfig = withMDX({
     removeConsole: process.env.NODE_ENV === 'production',
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(),
+    };
+    return config;
+  },
   async headers() {
     return [
       {
