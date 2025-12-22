@@ -140,7 +140,7 @@ export default function RootLayout({
 
         {/* Favicon */}
         <link rel="icon" href="/favicon.ico?v=2" />
-        <link rel="icon" type="image/png" href="/icon.png?v=2" />
+        <link rel="icon" type="image/png" href="/apple-touch-icon.png?v=2" />
 
         {/* PWA Manifest */}
         <link rel="manifest" href="/manifest.json" />
