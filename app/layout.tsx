@@ -206,26 +206,12 @@ export default function RootLayout({
           }}
         />
 
-        {/* Chrome Runtime Error Fix */}
+        {/* Enhanced Chrome Runtime Error Fix */}
         <Script
           id="chrome-runtime-fix"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
           dangerouslySetInnerHTML={{
-            __html: `
-              if (window.chrome && window.chrome.runtime) {
-                try {
-                  console.clear();
-                } catch (e) {}
-              }
-              const originalError = console.error;
-              console.error = function(...args) {
-                const message = args.join(' ');
-                if (message.includes('message port closed before a response')) {
-                  return;
-                }
-                originalError.apply(console, args);
-              };
-            `,
+            __html: "(function(){var originalError=console.error;var originalWarn=console.warn;function shouldSuppress(msg){var suppressPatterns=['message port closed before a response','runtime.lastError','Receiving end does not exist'];return suppressPatterns.some(function(pattern){return msg.toLowerCase().indexOf(pattern.toLowerCase())!==-1});}console.error=function(){var msg=Array.prototype.slice.call(arguments).join(' ');if(shouldSuppress(msg)){return}return originalError.apply(console,arguments)};console.warn=function(){var msg=Array.prototype.slice.call(arguments).join(' ');if(shouldSuppress(msg)){return}return originalWarn.apply(console,arguments)};if(window.addEventListener){window.addEventListener('error',function(e){if(e.message&&shouldSuppress(e.message)){e.preventDefault();e.stopPropagation();return false}},true);window.addEventListener('unhandledrejection',function(e){if(e.reason&&shouldSuppress(e.reason.toString())){e.preventDefault()}})}})();"
           }}
         />
 

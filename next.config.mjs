@@ -24,7 +24,8 @@ const nextConfig = withMDX({
     scrollRestoration: true,
   },
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // 移除 console 移除以保留诊断信息
+    // removeConsole: process.env.NODE_ENV === 'production',
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
   webpack: (config) => {
