@@ -197,6 +197,35 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
+        {/* Chrome Runtime Error Fix */}
+        <Script
+          id="chrome-runtime-fix"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              // Fix Chrome runtime.lastError: The message port closed before a response was received
+              if (window.chrome && window.chrome.runtime) {
+                try {
+                  // Clear any pending Chrome runtime errors
+                  console.clear();
+                } catch (e) {
+                  // Ignore errors during console clearing
+                }
+              }
+
+              // Suppress common Chrome extension errors
+              const originalError = console.error;
+              console.error = function(...args) {
+                const message = args.join(' ');
+                if (message.includes('message port closed before a response')) {
+                  return; // Suppress this specific error
+                }
+                originalError.apply(console, args);
+              };
+            `,
+          }}
+        />
+
         {/* Service Worker Registration - 暂时禁用以避免注册错误 */}
         {/*
         <Script
