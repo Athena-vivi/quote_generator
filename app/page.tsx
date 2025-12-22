@@ -45,77 +45,80 @@ export default function HomePage() {
     <PageLayout showBreadcrumb={false}>
       <HashScrollToQuoteFinder />
 
-      {/* Hero Section */}
+      {/* Hero Section - Premium Redesign */}
       <section className="relative min-h-screen flex items-center justify-center px-6 sm:px-8 overflow-hidden pt-32">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-white/50 to-blue-50/40"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-blue-50/30"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-100/20 via-transparent to-transparent"></div>
 
-        <div className="relative z-10 flex flex-col items-center">
+        <div className="relative z-10 flex flex-col items-center gap-y-6">
           {/* Eyebrow Heading */}
-          <span className="text-xs tracking-[0.2em] opacity-60 uppercase mb-4 text-amber-700/80">
+          <span className="text-xs tracking-[0.3em] opacity-60 uppercase text-amber-700/80 font-sans">
             AI-Powered Divine Art
           </span>
 
-          {/* Main Title */}
-          <h1 className="text-center text-4xl md:text-6xl font-bold mb-20 leading-tight">
-            <span className="bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent">
+          {/* Main Title - Serif Typography */}
+          <h1 className="text-center text-4xl md:text-6xl lg:text-7xl leading-tight mb-16 font-serif">
+            <span className="block font-bold" style={{ color: '#D4AF37' }}>
               Bible Quotes
             </span>
-            <span className="text-gray-600/70 font-light mx-3">into</span>
-            <span className="bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent">
+            <span className="block text-2xl md:text-3xl lg:text-4xl italic font-light mt-2" style={{ color: '#F4E4C1' }}>
+              into
+            </span>
+            <span className="block font-bold mt-2" style={{ color: '#D4AF37' }}>
               Divine Art
             </span>
           </h1>
 
-          {/* Daily Quote Card */}
-          <div className="relative group max-w-2xl w-full">
-            {/* Glow Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-yellow-500/20 to-amber-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
+          {/* Daily Quote Card - Expanded */}
+          <div className="relative group max-w-4xl w-full">
+            {/* Enhanced Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-yellow-500/15 to-amber-600/15 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
 
-            {/* Card */}
-            <div className="relative bg-white/85 backdrop-blur-2xl border border-white/40 shadow-3xl rounded-3xl p-12 md:p-16 transform hover:scale-[1.02] transition-all duration-700">
-              {/* Decorative Elements */}
-              <div className="absolute top-4 left-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
-              <div className="absolute top-4 right-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
-              <div className="absolute bottom-4 left-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
-              <div className="absolute bottom-4 right-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
+            {/* Premium Card */}
+            <div className="relative bg-white/90 backdrop-blur-2xl border border-amber-200/30 shadow-2xl rounded-3xl px-12 py-10 transform hover:scale-[1.02] transition-all duration-700">
+              {/* Subtle Decorative Elements */}
+              <div className="absolute top-6 left-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
+              <div className="absolute top-6 right-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
+              <div className="absolute bottom-6 left-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
+              <div className="absolute bottom-6 right-6 w-6 h-6 border border-amber-300/20 rounded-full"></div>
 
               {loading ? (
-                <div className="text-center py-12">
-                  <Loader2 className="w-16 h-16 mx-auto text-amber-600 animate-spin mb-6" />
-                  <p className="text-xl text-gray-600 font-light animate-pulse">
+                <div className="text-center py-16">
+                  <Loader2 className="w-12 h-12 mx-auto text-amber-600 animate-spin mb-6" />
+                  <p className="text-lg text-gray-600 font-light animate-pulse font-serif">
                     Receiving divine inspiration...
                   </p>
                 </div>
               ) : dailyQuote ? (
-                <div className="text-center space-y-8">
-                  {/* Header */}
-                  <div className="flex items-center justify-center gap-3 mb-6">
-                    <Calendar className="w-8 h-8 text-amber-600" />
-                    <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800 bg-clip-text text-transparent">
+                <div className="text-center space-y-10">
+                  {/* Elegant Header - Reduced Size */}
+                  <div className="flex items-center justify-center gap-3">
+                    <Calendar className="w-6 h-6 text-amber-600" />
+                    <h2 className="text-xl md:text-2xl font-serif bg-gradient-to-br from-amber-700 to-amber-800 bg-clip-text text-transparent">
                       Daily Divine
                     </h2>
                   </div>
 
-                  {/* Quote */}
+                  {/* Scripture Quote */}
                   <div className="relative">
-                    <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-5xl text-amber-200/60 font-serif">"</div>
-                    <blockquote className="text-xl md:text-2xl lg:text-3xl font-serif text-gray-800 leading-relaxed font-light px-4 py-2">
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-6xl text-amber-200/50 font-serif italic">"</div>
+                    <blockquote className="text-2xl md:text-3xl lg:text-4xl font-serif text-gray-800 leading-relaxed font-light px-8 py-4">
                       {dailyQuote.content}
                     </blockquote>
-                    <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 text-5xl text-amber-200/60 font-serif">"</div>
+                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-6xl text-amber-200/50 font-serif italic">"</div>
                   </div>
 
-                  {/* Reference */}
-                  <cite className="text-lg md:text-xl font-semibold bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent">
+                  {/* Scripture Reference */}
+                  <cite className="text-lg md:text-xl font-serif font-semibold" style={{ color: '#D4AF37' }}>
                     {dailyQuote.reference}
                   </cite>
 
-                  {/* Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-4">
+                  {/* Action Buttons - Spaced Out */}
+                  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
                     <button
                       onClick={() => setSelectedQuoteForImage(dailyQuote)}
-                      className="px-8 py-4 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                      className="px-10 py-4 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-serif"
                     >
                       <Palette className="w-5 h-5 inline mr-3" />
                       Create Divine Image
@@ -125,7 +128,7 @@ export default function HomePage() {
                       onClick={() => {
                         document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })
                       }}
-                      className="px-8 py-4 bg-white/70 backdrop-blur-sm border-2 border-amber-200/60 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/85 hover:border-amber-300/80 transform hover:scale-105 transition-all duration-300"
+                      className="px-10 py-4 bg-white/70 backdrop-blur-sm border-2 border-amber-200/60 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/85 hover:border-amber-300/80 transform hover:scale-105 transition-all duration-300 font-serif"
                     >
                       <BookOpen className="w-5 h-5 inline mr-3" />
                       Explore Verses
@@ -133,13 +136,15 @@ export default function HomePage() {
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12">
-                  <div className="mb-6 text-amber-600 text-5xl opacity-50">❝</div>
-                  <p className="text-xl text-gray-600 mb-6 font-light">Unable to receive today's divine message</p>
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <div className="text-center py-16">
+                  <div className="mb-8" style={{ color: '#D4AF37', opacity: 0.5 }}>
+                    <span className="text-6xl font-serif italic">❝</span>
+                  </div>
+                  <p className="text-xl text-gray-600 mb-8 font-light font-serif">Unable to receive today's divine message</p>
+                  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
                     <button
                       onClick={loadDailyQuote}
-                      className="px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+                      className="px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 font-serif"
                     >
                       <RefreshCw className="w-5 h-5 inline mr-3" />
                       Try Again
@@ -149,7 +154,7 @@ export default function HomePage() {
                       onClick={() => {
                         document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })
                       }}
-                      className="px-8 py-4 bg-white/70 backdrop-blur-sm border-2 border-amber-200/60 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/85 hover:border-amber-300/80 transform hover:scale-105 transition-all duration-300"
+                      className="px-10 py-4 bg-white/70 backdrop-blur-sm border-2 border-amber-200/60 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/85 hover:border-amber-300/80 transform hover:scale-105 transition-all duration-300 font-serif"
                     >
                       <BookOpen className="w-5 h-5 inline mr-3" />
                       Explore Verses
