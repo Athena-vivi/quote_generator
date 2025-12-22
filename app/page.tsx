@@ -2,7 +2,6 @@
 
 import { FeaturesSection } from "@/components/features-section"
 import { QuoteFinder } from "@/components/quote-finder"
-import { DailyQuoteSection } from "@/components/daily-quote-section"
 import { ExampleShowcase } from "@/components/example-showcase"
 import { PageLayout } from "@/components/page-layout"
 import { HashScrollToQuoteFinder } from "@/components/hash-scroll-to-quote-finder"
@@ -41,29 +40,13 @@ export default function HomePage() {
     }
   }
 
-  const getNewQuote = async () => {
-    setLoading(true)
-    try {
-      // Force a new quote by adding a timestamp parameter
-      const response = await fetch(`/api/verses/daily?t=${Date.now()}`)
-      const data = await response.json()
-
-      if (data.success) {
-        setDailyQuote(data.quote)
-      }
-    } catch (error) {
-      console.error("Failed to load new quote:", error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
+  
   return (
     <PageLayout showBreadcrumb={false}>
       <HashScrollToQuoteFinder />
 
       {/* Integrated Hero + Daily Quote Section */}
-      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 sm:px-8 overflow-hidden">
+      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 sm:px-8 overflow-hidden pt-24">
         {/* Enhanced Sacred Background */}
         <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-white/50 to-blue-50/40"></div>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-100/40 via-transparent to-transparent"></div>
@@ -84,20 +67,26 @@ export default function HomePage() {
 
         <div className="relative z-10 w-full max-w-6xl mx-auto">
           {/* Main Heading */}
-          <div className="text-center mb-12">
-            <h1 className="leading-tight mb-8">
-              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 font-quote bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent animate-shimmer">
+          <div className="text-center mb-16">
+            {/* Radial Glow Behind Title */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div className="w-[800px] h-[300px] bg-amber-200/20 rounded-full blur-3xl" style={{
+                background: 'radial-gradient(ellipse at center, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.08) 40%, transparent 70%)'
+              }}></div>
+            </div>
+
+            <h1 className="leading-tight mb-8 relative">
+              <span className="block text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-4 font-quote bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent animate-shimmer">
                 Transform
               </span>
-              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 bg-gradient-to-br from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+              <span className="block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 bg-gradient-to-br from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
                 Bible Quotes
               </span>
-              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-700/80 mb-4">
+              <span className="block text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-600/60 mb-4">
                 into
               </span>
-              <span className="relative block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold">
-                <span className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-600 blur-lg opacity-60 animate-pulse"></span>
-                <span className="relative bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent">
+              <span className="relative block text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold">
+                <span className="relative bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent" style={{ textShadow: '0 0 20px rgba(251, 191, 36, 0.15)' }}>
                   Divine Art
                 </span>
               </span>
@@ -105,17 +94,17 @@ export default function HomePage() {
           </div>
 
           {/* Integrated Daily Quote Card */}
-          <div className="relative group mb-12">
+          <div className="relative group mb-16 max-w-5xl mx-auto">
             {/* Divine Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-yellow-500/20 to-amber-600/20 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000 transform scale-95 group-hover:scale-100"></div>
 
             {/* Main Quote Card */}
-            <div className="relative bg-white/85 backdrop-blur-2xl border border-white/40 shadow-3xl rounded-3xl p-12 md:p-16 transform hover:scale-[1.02] transition-all duration-700">
-              {/* Divine Decorative Elements */}
-              <div className="absolute top-4 left-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
-              <div className="absolute top-4 right-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
-              <div className="absolute bottom-4 left-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
-              <div className="absolute bottom-4 right-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
+            <div className="relative bg-white/85 backdrop-blur-2xl border border-white/40 shadow-3xl rounded-3xl p-16 md:p-20 transform hover:scale-[1.02] transition-all duration-700">
+              {/* Divine Decorative Elements - Expanded outward */}
+              <div className="absolute -top-2 -left-2 w-10 h-10 border-2 border-amber-400/30 rounded-full"></div>
+              <div className="absolute -top-2 -right-2 w-10 h-10 border-2 border-amber-400/30 rounded-full"></div>
+              <div className="absolute -bottom-2 -left-2 w-10 h-10 border-2 border-amber-400/30 rounded-full"></div>
+              <div className="absolute -bottom-2 -right-2 w-10 h-10 border-2 border-amber-400/30 rounded-full"></div>
 
               {loading ? (
                 <div className="text-center py-16">
