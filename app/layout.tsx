@@ -5,6 +5,8 @@ import "./globals.css"
 import { GoogleAnalytics } from "@/components/GoogleAnalytics"
 import { WebsiteSchema } from "@/components/seo/website-schema"
 import { ThemeProvider } from "@/hooks/use-theme"
+import { InlineCriticalCSS } from "@/components/ui/inline-critical-css"
+import { FontLoader } from "@/components/ui/font-loader"
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://quotegenerator.org'),
@@ -180,6 +182,8 @@ export default function RootLayout({
       </head>
 
       <body className="scroll-smooth bg-amber-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors">
+        <InlineCriticalCSS />
+        <FontLoader />
         <ThemeProvider
           defaultTheme="system"
           storageKey="quote-generator-theme"

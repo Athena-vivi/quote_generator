@@ -1,8 +1,6 @@
 /* styles/globals.css */
 
-@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;600;700&family=Cormorant+Garamond:wght@400;600;700&family=Crimson+Pro:wght@400;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&family=Pacifico&family=Satisfy&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&display=swap');
+/* 字体已移至 layout.tsx 异步加载，避免渲染阻塞 */
 
 @tailwind base;
 @tailwind components;
