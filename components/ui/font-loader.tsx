@@ -9,8 +9,8 @@ export const FontLoader = () => {
     const webFontConfig = {
       google: {
         families: [
-          'Crimson+Text:400,600:latin',
-          'Open+Sans:400,600:latin'
+          'Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap',
+          'Open+Sans:wght@400;600;700&display=swap'
         ]
       },
       timeout: 2000,
@@ -43,21 +43,8 @@ export const FontLoader = () => {
       loadWebFontLoader()
     }
 
-    // 预加载字体文件
-    const fontFiles = [
-      'https://fonts.gstatic.com/s/crimsontext/v14/wlp2gwHKFhkUvU4CNAnRURfk.woff2',
-      'https://fonts.gstatic.com/s/opensans/v35/memSYaGs126MiZpBA-UvWbX2vVnXBbObj2OVZyOOSr4dVJWUgsg-1x4gaVQUwaEQbjA.woff2'
-    ]
-
-    fontFiles.forEach(fontUrl => {
-      const link = document.createElement('link')
-      link.rel = 'preload'
-      link.as = 'font'
-      link.type = 'font/woff2'
-      link.crossOrigin = 'anonymous'
-      link.href = fontUrl
-      document.head.appendChild(link)
-    })
+    // 移除硬编码的字体文件预加载，让 Web Font Loader 处理
+    // 避免版本不匹配导致的 404 错误
 
     return () => {
       // 清理函数（如果组件卸载）

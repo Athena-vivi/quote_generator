@@ -8,7 +8,7 @@ const STATIC_FILES = [
   '/offline',
   '/manifest.json',
   '/icon.png',
-  '/fonts/crimson-text-v14-latin-regular.woff2',
+  // 移除本地字体文件，使用 Google Fonts
 ]
 
 // API endpoints to cache

@@ -197,7 +197,8 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
-        {/* Service Worker Registration */}
+        {/* Service Worker Registration - 暂时禁用以避免注册错误 */}
+        {/*
         <Script
           id="service-worker"
           strategy="afterInteractive"
@@ -215,6 +216,7 @@ export default function RootLayout({
             `,
           }}
         />
+        */}
       </body>
     </html>
   )
