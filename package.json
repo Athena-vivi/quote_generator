@@ -7,7 +7,8 @@
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start",
-    "postinstall": "pnpm install --no-frozen-lockfile"
+    "vercel-build": "pnpm install --no-frozen-lockfile && next build",
+    "postinstall": "echo 'Post-install completed'"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
