@@ -5,6 +5,12 @@ import { useEffect } from 'react'
 // 内联关键CSS到head
 export const InlineCriticalCSS = () => {
   useEffect(() => {
+    // Add marker for diagnosis
+    const marker = document.createElement('div');
+    marker.setAttribute('data-critical-css', 'loaded');
+    marker.style.display = 'none';
+    document.head.appendChild(marker);
+
     const criticalCSS = `
       /* Critical CSS for above-the-fold content */
       :root {

@@ -156,12 +156,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
           rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=Open+Sans:wght@400;600&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
           as="style"
         />
         <noscript>
           <link
-            href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=Open+Sans:wght@400;600&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
             rel="stylesheet"
           />
         </noscript>
@@ -173,7 +173,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               const link = document.createElement('link');
-              link.href = 'https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=Open+Sans:wght@400;600&display=swap';
+              link.href = 'https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap';
               link.rel = 'stylesheet';
               document.head.appendChild(link);
             `
@@ -197,28 +197,31 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
+        {/* CSS Loading Diagnosis - Simplified */}
+        <Script
+          id="css-diagnosis"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: "window.addEventListener('DOMContentLoaded',function(){console.log('CSS Diagnosis Started');try{const rootStyles=getComputedStyle(document.documentElement);console.log('CSS Variables:',{background:rootStyles.getPropertyValue('--background'),foreground:rootStyles.getPropertyValue('--foreground')});const testElement=document.createElement('div');testElement.className='hidden bg-red-500 text-white p-2';document.body.appendChild(testElement);const testStyles=window.getComputedStyle(testElement);console.log('Tailwind Working:',testStyles.display==='none');document.body.removeChild(testElement);const fontElements=document.querySelectorAll('link[href*=fonts.googleapis.com]');console.log('Google Fonts Loaded:',fontElements.length>0);const criticalCssElement=document.querySelector('[data-critical-css]');console.log('InlineCriticalCSS Found:',!!criticalCssElement);const fontLoaderElement=document.querySelector('[data-font-loader]');console.log('FontLoader Found:',!!fontLoaderElement);setTimeout(()=>{const bodyStyles=getComputedStyle(document.body);console.log('Body Background:',bodyStyles.backgroundColor);console.log('Body Color:',bodyStyles.color);},1000)}catch(e){console.error('CSS Diagnosis Error:',e)}});"
+          }}
+        />
+
         {/* Chrome Runtime Error Fix */}
         <Script
           id="chrome-runtime-fix"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
-              // Fix Chrome runtime.lastError: The message port closed before a response was received
               if (window.chrome && window.chrome.runtime) {
                 try {
-                  // Clear any pending Chrome runtime errors
                   console.clear();
-                } catch (e) {
-                  // Ignore errors during console clearing
-                }
+                } catch (e) {}
               }
-
-              // Suppress common Chrome extension errors
               const originalError = console.error;
               console.error = function(...args) {
                 const message = args.join(' ');
                 if (message.includes('message port closed before a response')) {
-                  return; // Suppress this specific error
+                  return;
                 }
                 originalError.apply(console, args);
               };

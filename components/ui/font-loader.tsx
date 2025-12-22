@@ -5,6 +5,12 @@ import { useEffect } from 'react'
 // 字体预加载和异步加载
 export const FontLoader = () => {
   useEffect(() => {
+    // Add marker for diagnosis
+    const marker = document.createElement('div');
+    marker.setAttribute('data-font-loader', 'loaded');
+    marker.style.display = 'none';
+    document.head.appendChild(marker);
+
     // 使用 Web Font Loader 异步加载字体
     const webFontConfig = {
       google: {
