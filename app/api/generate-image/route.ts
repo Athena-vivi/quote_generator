@@ -1,7 +1,28 @@
 import { type NextRequest, NextResponse } from "next/server"
+import { generateImageLimit, getClientIdentifier } from "@/lib/rate-limit"
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientId = getClientIdentifier(request)
+    const rateLimitResult = generateImageLimit.check(clientId)
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json({
+        success: false,
+        error: "Rate limit exceeded. Please try again later.",
+        resetTime: rateLimitResult.resetTime,
+      }, {
+        status: 429,
+        headers: {
+          'X-RateLimit-Limit': '5',
+          'X-RateLimit-Remaining': '0',
+          'X-RateLimit-Reset': String(rateLimitResult.resetTime),
+          'Retry-After': String(Math.ceil((rateLimitResult.resetTime! - Date.now()) / 1000))
+        }
+      })
+    }
+
     const { prompt } = await request.json()
 
     if (!prompt) {

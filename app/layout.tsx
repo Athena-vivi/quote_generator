@@ -4,6 +4,7 @@ import Script from "next/script"
 import "./globals.css"
 import { GoogleAnalytics } from "@/components/GoogleAnalytics"
 import { WebsiteSchema } from "@/components/seo/website-schema"
+import { ThemeProvider } from "@/hooks/use-theme"
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://quotegenerator.org'),
@@ -157,16 +158,38 @@ export default function RootLayout({
         />
       </head>
 
-      <body className="scroll-smooth bg-amber-50 text-gray-800">
-        <GoogleAnalytics />
-        <WebsiteSchema
-          siteName="QuoteGenerator"
-          siteUrl="https://quotegenerator.org"
-          description="Transform Bible quotes into beautiful AI-generated art for social media sharing"
+      <body className="scroll-smooth bg-amber-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors">
+        <ThemeProvider
+          defaultTheme="system"
+          storageKey="quote-generator-theme"
+        >
+          <GoogleAnalytics />
+          <WebsiteSchema
+            siteName="QuoteGenerator"
+            siteUrl="https://quotegenerator.org"
+            description="Transform Bible quotes into beautiful AI-generated art for social media sharing"
+          />
+          {children}
+        </ThemeProvider>
+
+        {/* Service Worker Registration */}
+        <Script
+          id="service-worker"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+                navigator.serviceWorker.register('/sw.js')
+                  .then((registration) => {
+                    console.log('[SW] Registration successful', registration)
+                  })
+                  .catch((error) => {
+                    console.log('[SW] Registration failed', error)
+                  })
+              }
+            `,
+          }}
         />
-        {children}
-        
-       
       </body>
     </html>
   )

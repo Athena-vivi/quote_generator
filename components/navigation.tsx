@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Calendar, Sparkles, Menu, X, BookOpen, Image, Heart, Newspaper } from "lucide-react"
+import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -138,6 +139,11 @@ export function Navigation() {
                 </Link>
               )
             ))}
+          </div>
+
+          {/* Theme Toggle */}
+          <div className="hidden md:block">
+            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
