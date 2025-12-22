@@ -149,12 +149,33 @@ export default function RootLayout({
         <meta name="msapplication-TileColor" content="#d4af37" />
         <meta name="theme-color" content="#d4af37" />
 
-        {/* Google Fonts - 优化加载，只加载必要的字体 */}
+        {/* 字体预加载 - 不阻塞渲染 */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
+          rel="preload"
           href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=Open+Sans:wght@400;600&display=swap"
-          rel="stylesheet"
+          as="style"
+        />
+        <noscript>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=Open+Sans:wght@400;600&display=swap"
+            rel="stylesheet"
+          />
+        </noscript>
+
+        {/* 异步加载字体 */}
+        <Script
+          id="font-loader"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              const link = document.createElement('link');
+              link.href = 'https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600&family=Open+Sans:wght@400;600&display=swap';
+              link.rel = 'stylesheet';
+              document.head.appendChild(link);
+            `
+          }}
         />
       </head>
 

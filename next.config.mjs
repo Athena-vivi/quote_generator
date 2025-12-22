@@ -18,8 +18,9 @@ const nextConfig = withMDX({
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
   },
   experimental: {
-    // optimizeCss: true, // 暂时禁用，需要额外配置critters
+    optimizeCss: true,
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    scrollRestoration: true,
   },
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
