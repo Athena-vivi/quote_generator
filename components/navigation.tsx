@@ -65,84 +65,60 @@ export function Navigation() {
   }
 
   return (
-    <nav className="bg-white/90 backdrop-blur-sm border-b border-amber-200/30 sticky top-0 z-50 shadow-sm">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="flex justify-between items-center h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur-xl border-b border-white/20 shadow-lg">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+            className="group flex items-center space-x-4 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            <img src="/favicon.ico" alt="Logo" className="w-8 h-8" />
-            <span className="text-xl font-bold text-amber-700">QuoteGenerator</span>
+            <div className="relative">
+              <img src="/favicon.ico" alt="Logo" className="w-10 h-10 filter drop-shadow-lg" />
+              <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-yellow-600/20 rounded-full blur-md group-hover:from-amber-400/40 group-hover:to-yellow-600/40 transition-all duration-500"></div>
+            </div>
+            <span className="text-2xl font-bold bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 bg-clip-text text-transparent leading-none">
+              QuoteGenerator
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
-            {navigationItems.map((item) => (
-              item.label === "Explore Verses" ? (
+          <div className="hidden lg:flex items-center space-x-2">
+            {navigationItems.map((item) => {
+              const handlers = {
+                "Explore Verses": handleFindQuotesClick,
+                "Daily Quote": handleDailyQuoteClick,
+                "Blog": handleNavClick
+              };
+
+              return (
                 <Link
                   key={item.href}
                   href={item.href}
-                  onClick={handleFindQuotesClick}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
+                  onClick={handlers[item.label as keyof typeof handlers] || handleNavClick}
+                  className={`group relative px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-3 ${
                     isActive(item.href)
-                      ? "bg-amber-100 text-amber-800"
-                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                      ? "bg-gradient-to-r from-amber-500/20 to-yellow-600/20 text-amber-800 shadow-lg shadow-amber-500/20"
+                      : "text-gray-700/80 hover:text-amber-800 hover:bg-white/10"
                   }`}
                 >
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
+                  <div className="relative">
+                    <item.icon className="w-4 h-4" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/30 to-yellow-600/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  </div>
+                  <span className="relative">{item.label}</span>
+                  {isActive(item.href) && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-yellow-600/10 rounded-full blur-md"></div>
+                  )}
                 </Link>
-              ) : item.label === "Daily Quote" ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={handleDailyQuoteClick}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    isActive(item.href)
-                      ? "bg-amber-100 text-amber-800"
-                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                  }`}
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
-              ) : item.label === "Blog" ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={handleNavClick}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    isActive(item.href)
-                      ? "bg-amber-100 text-amber-800"
-                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                  }`}
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
-              ) : (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={handleNavClick}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2 ${
-                    isActive(item.href)
-                      ? "bg-amber-100 text-amber-800"
-                      : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                  }`}
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
-              )
-            ))}
+              );
+            })}
           </div>
 
-          {/* Theme Toggle */}
-          <div className="hidden md:block">
+          {/* Right side controls */}
+          <div className="hidden lg:flex items-center space-x-4">
+            <div className="w-px h-8 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
             <ThemeToggle />
           </div>
 
@@ -150,76 +126,48 @@ export function Navigation() {
           <Button
             variant="ghost"
             size="sm"
-            className="md:hidden"
+            className="lg:hidden bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 rounded-full p-3"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            {isMobileMenuOpen ? <X className="w-6 h-6 text-amber-700" /> : <Menu className="w-6 h-6 text-amber-700" />}
           </Button>
         </div>
 
         {/* Mobile Navigation */}
         {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-amber-200/30">
-            <div className="space-y-2">
-              {navigationItems.map((item) => (
-                item.label === "Explore Verses" ? (
+          <div className="lg:hidden py-6 border-t border-white/20 mt-4">
+            <div className="space-y-3">
+              {navigationItems.map((item) => {
+                const handlers = {
+                  "Explore Verses": handleFindQuotesClick,
+                  "Daily Quote": handleDailyQuoteClick,
+                  "Blog": handleNavClick
+                };
+
+                return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    onClick={handleFindQuotesClick}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
+                    onClick={handlers[item.label as keyof typeof handlers] || handleNavClick}
+                    className={`group flex items-center gap-4 px-6 py-4 rounded-2xl text-base font-medium transition-all duration-300 ${
                       isActive(item.href)
-                        ? "bg-amber-100 text-amber-800"
-                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
+                        ? "bg-gradient-to-r from-amber-500/20 to-yellow-600/20 text-amber-800 shadow-lg shadow-amber-500/20 border border-amber-400/30"
+                        : "text-gray-700/80 hover:text-amber-800 hover:bg-white/10 hover:backdrop-blur-sm"
                     }`}
                   >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
+                    <div className="relative p-2 rounded-full bg-white/50 group-hover:bg-white/70 transition-colors">
+                      <item.icon className="w-5 h-5" />
+                    </div>
+                    <span>{item.label}</span>
+                    {isActive(item.href) && (
+                      <div className="ml-auto w-2 h-2 bg-amber-500 rounded-full shadow-lg shadow-amber-500/50"></div>
+                    )}
                   </Link>
-                ) : item.label === "Daily Quote" ? (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={handleDailyQuoteClick}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                      isActive(item.href)
-                        ? "bg-amber-100 text-amber-800"
-                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                    }`}
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                ) : item.label === "Blog" ? (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={handleNavClick}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                      isActive(item.href)
-                        ? "bg-amber-100 text-amber-800"
-                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                    }`}
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                ) : (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={handleNavClick}
-                    className={`flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium transition-colors ${
-                      isActive(item.href)
-                        ? "bg-amber-100 text-amber-800"
-                        : "text-gray-600 hover:text-amber-700 hover:bg-amber-50"
-                    }`}
-                  >
-                    <item.icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                )
-              ))}
+                );
+              })}
+            </div>
+            <div className="mt-6 pt-6 border-t border-white/20 flex justify-center">
+              <ThemeToggle />
             </div>
           </div>
         )}

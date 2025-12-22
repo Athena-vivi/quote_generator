@@ -1,12 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Badge } from "@/components/ui/badge"
-import { Search, Heart, Loader2, BookOpen, Palette, Copy, Check, HeartOff } from "lucide-react"
+import { Search, Heart, Loader2, BookOpen, Palette, Copy, Check, HeartOff, Sparkles, Sun, Moon, Cloud, Zap, Flower, Star } from "lucide-react"
 import { ImageGenerator } from "./image-generator"
 import Fuse from 'fuse.js';
 
@@ -43,18 +38,14 @@ export function QuoteFinder() {
   const [suggestions, setSuggestions] = useState<typeof hotVerses>([]);
 
   const moodSuggestions = [
-    "lonely",
-    "anxious",
-    "grateful",
-    "hopeful",
-    "sad",
-    "joyful",
-    "worried",
-    "peaceful",
-    "angry",
-    "confused",
-    "blessed",
-    "fearful",
+    { mood: "peaceful", icon: Sun, gradient: "from-yellow-400 to-orange-500" },
+    { mood: "anxious", icon: Cloud, gradient: "from-gray-400 to-blue-500" },
+    { mood: "joyful", icon: Sparkles, gradient: "from-yellow-400 to-pink-500" },
+    { mood: "hopeful", icon: Star, gradient: "from-purple-400 to-indigo-500" },
+    { mood: "grateful", icon: Flower, gradient: "from-green-400 to-teal-500" },
+    { mood: "lonely", icon: Moon, gradient: "from-blue-400 to-indigo-600" },
+    { mood: "fearful", icon: Zap, gradient: "from-red-400 to-orange-500" },
+    { mood: "blessed", icon: Heart, gradient: "from-pink-400 to-red-500" },
   ]
 
   // Check if quote is favorited
@@ -214,224 +205,303 @@ export function QuoteFinder() {
   }
 
   return (
-    <div id="quote-finder" className="max-w-6xl mx-auto scroll-mt-[112px]">
-      <div className="text-center mb-12">
-      <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Explore Verses</h2>
-        <p className="text-xl md:text-2xl text-gray-600 max-w-2xl mx-auto">
-         Search for specific Bible verses or discover passages that match your current mood
+    <div id="quote-finder" className="max-w-7xl mx-auto scroll-mt-[140px] px-6 sm:px-8">
+      {/* Header */}
+      <div className="text-center mb-20">
+        <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800 bg-clip-text text-transparent mb-6">
+          Sacred Explorer
+        </h2>
+        <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
+          Discover divine wisdom through direct scripture search or emotional guidance
         </p>
       </div>
 
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-8 h-14 bg-white/70 backdrop-blur-sm border border-amber-200/30">
-          <TabsTrigger
-            value="search"
-            className="flex items-center gap-2 text-lg data-[state=active]:bg-amber-100 data-[state=active]:text-amber-800"
-          >
-            <Search className="w-5 h-5" />
-            Direct Search
-          </TabsTrigger>
-          <TabsTrigger
-            value="mood"
-            className="flex items-center gap-2 text-lg data-[state=active]:bg-amber-100 data-[state=active]:text-amber-800"
-          >
-            <Heart className="w-5 h-5" />
-            Mood Match
-          </TabsTrigger>
-        </TabsList>
+      {/* Custom Glassmorphism Tabs */}
+      <div className="mb-16">
+        <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-2 shadow-xl">
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => setActiveTab("search")}
+              className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
+                activeTab === "search"
+                  ? "bg-gradient-to-r from-amber-600/90 to-yellow-600/90 text-white shadow-lg"
+                  : "text-gray-700/80 hover:text-amber-800 hover:bg-white/20"
+              }`}
+            >
+              <Search className="w-5 h-5" />
+              Direct Search
+              {activeTab === "search" && (
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 rounded-xl blur-lg"></div>
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab("mood")}
+              className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
+                activeTab === "mood"
+                  ? "bg-gradient-to-r from-amber-600/90 to-yellow-600/90 text-white shadow-lg"
+                  : "text-gray-700/80 hover:text-amber-800 hover:bg-white/20"
+              }`}
+            >
+              <Heart className="w-5 h-5" />
+              Mood Match
+              {activeTab === "mood" && (
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 rounded-xl blur-lg"></div>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
 
-        <TabsContent value="search" className="space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm border border-amber-200/30 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl text-gray-800">
-                <BookOpen className="w-6 h-6 text-amber-600" />
-                Search by Reference or Keywords
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Enter verse reference (John 3:16) or keywords (love, peace, hope)"
-                  value={searchQuery}
-                  onChange={handleInputChange}
-                  onKeyPress={(e) => e.key === "Enter" && handleDirectSearch()}
-                  className="flex-1 text-lg h-12 border-amber-200 focus:border-amber-400 focus:ring-amber-400"
-                />
-                {/* 推荐列表 */}
-                {suggestions.length > 0 && (
-                  <div className="absolute z-10 bg-white border border-amber-200 rounded shadow w-full mt-1">
-                    {suggestions.map((verse, idx) => (
-                      <div
-                        key={idx}
-                        className="px-4 py-2 cursor-pointer hover:bg-amber-50 text-gray-800 text-base"
-                        onClick={() => handleSuggestionClick(verse)}
-                      >
-                        <span className="font-semibold">{verse.reference}</span>: {verse.content}
-                      </div>
-                    ))}
-                  </div>
-                )}
-                <Button
+      {/* Search Tab Content */}
+      {activeTab === "search" && (
+        <div className="mb-16">
+          <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
+                <BookOpen className="w-8 h-8 text-amber-600" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-800">Search Scripture</h3>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative mb-8">
+              <div className="flex gap-4">
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="Enter verse reference (John 3:16) or keywords (love, peace, hope)"
+                    value={searchQuery}
+                    onChange={(e) => handleInputChange(e)}
+                    onKeyPress={(e) => e.key === "Enter" && handleDirectSearch()}
+                    className="w-full px-6 py-4 text-lg bg-white/60 backdrop-blur-sm border border-white/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-300/60 transition-all duration-300 placeholder-gray-500/70"
+                  />
+                  {/* Suggestions Dropdown */}
+                  {suggestions.length > 0 && (
+                    <div className="absolute z-20 w-full mt-2 bg-white/90 backdrop-blur-xl border border-white/30 rounded-xl shadow-xl overflow-hidden">
+                      {suggestions.map((verse, idx) => (
+                        <div
+                          key={idx}
+                          className="px-6 py-4 cursor-pointer hover:bg-amber-50/80 transition-colors border-b border-white/20 last:border-b-0"
+                          onClick={() => handleSuggestionClick(verse)}
+                        >
+                          <span className="font-semibold text-amber-700">{verse.reference}</span>
+                          <span className="text-gray-600 ml-2">{verse.content}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button
                   onClick={handleDirectSearch}
                   disabled={loading || !searchQuery.trim()}
-                  size="lg"
-                  className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white shadow-lg"
+                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
-                </Button>
+                  {loading ? (
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                  ) : (
+                    <Search className="w-6 h-6" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                </button>
               </div>
-              <div className="space-y-2">
-                <p className="text-base text-gray-600">
-                  <strong>Verse References:</strong> "John 3:16", "Psalm 23", "Romans 8:28"
-                </p>
-                <p className="text-base text-gray-600">
-                  <strong>Keywords:</strong> "love", "peace", "strength", "forgiveness", "hope"
-                </p>
+            </div>
+
+            {/* Help Text */}
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <p className="text-sm font-medium text-gray-700 mb-2">Verse References:</p>
+                <p className="text-xs text-gray-600">"John 3:16", "Psalm 23", "Romans 8:28"</p>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="mood" className="space-y-6">
-          <Card className="bg-white/80 backdrop-blur-sm border border-amber-200/30 shadow-lg">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl text-gray-800">
-                <Heart className="w-6 h-6 text-red-600" />
-                Find Quotes by Mood
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="space-y-4">
-                <p className="text-lg text-gray-600">
-                  How are you feeling today? Enter your own mood or choose from suggestions:
-                </p>
-
-                {/* Custom mood input */}
-                <div className="flex gap-2">
-                  <Input
-                    placeholder="Enter your mood (e.g., overwhelmed, excited, discouraged)"
-                    value={customMood}
-                    onChange={(e) => setCustomMood(e.target.value)}
-                    onKeyPress={(e) => e.key === "Enter" && handleCustomMoodSearch()}
-                    className="flex-1 text-lg h-12 border-amber-200 focus:border-amber-400 focus:ring-amber-400"
-                  />
-                  <Button
-                    onClick={handleCustomMoodSearch}
-                    disabled={loading || !customMood.trim()}
-                    size="lg"
-                    className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white shadow-lg"
-                  >
-                    {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Search className="w-5 h-5" />}
-                  </Button>
-                </div>
+              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                <p className="text-sm font-medium text-gray-700 mb-2">Keywords:</p>
+                <p className="text-xs text-gray-600">"love", "peace", "strength", "forgiveness"</p>
               </div>
-
-              <div className="space-y-3">
-                <p className="text-lg text-gray-600">Or click on a mood below:</p>
-                <div className="flex flex-wrap gap-3">
-                  {moodSuggestions.map((mood) => (
-                    <Badge
-                      key={mood}
-                      variant={moodQuery === mood ? "default" : "secondary"}
-                      className={`cursor-pointer transition-colors px-4 py-2 text-base ${
-                        moodQuery === mood
-                          ? "bg-amber-600 text-white hover:bg-amber-700"
-                          : "bg-white/70 text-gray-700 hover:bg-amber-100 hover:text-amber-800 border border-amber-200"
-                      }`}
-                      onClick={() => handleMoodSearch(mood)}
-                    >
-                      {mood}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              {loading && (
-                <div className="flex items-center justify-center py-6">
-                  <Loader2 className="w-8 h-8 animate-spin mr-3 text-amber-600" />
-                  <span className="text-lg text-gray-700">Finding quotes for "{moodQuery || customMood}"...</span>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-
-      {/* Results */}
-      {quotes.length > 0 && (
-        <div className="mt-8 space-y-6">
-          <h3 className="text-3xl font-semibold text-gray-800">
-            {activeTab === "mood"
-              ? `Quotes for "${moodQuery || customMood}"`
-              : singleQuote
-                ? "Quote Found"
-                : `Search Results for "${searchQuery}"`}
-          </h3>
-          <div className="grid gap-6">
-            {quotes.map((quote, index) => {
-              return (
-                <Card
-                  key={index}
-                  className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white/80 backdrop-blur-sm border border-amber-200/30"
-                >
-                  <CardContent className="p-8">
-                    <blockquote className="text-xl md:text-2xl text-gray-800 mb-4 leading-relaxed" style={{whiteSpace: 'pre-line'}}>
-                      {quote.content}
-                    </blockquote>
-                    <cite className="text-lg md:text-xl text-amber-700 font-semibold">— {quote.reference}</cite>
-                    <div className="mt-6 flex gap-3 flex-wrap">
-                      <Button
-                        size="lg"
-                        onClick={() => setSelectedQuoteForImage(quote)}
-                        className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white shadow-lg"
-                      >
-                        <Palette className="w-5 h-5 mr-2" />
-                        Create Image
-                      </Button>
-                      <Button
-                        size="lg"
-                        variant="outline"
-                        onClick={() => copyToClipboard(quote, index)}
-                        className="bg-white/70 hover:bg-white/90 border-amber-300 text-amber-700 hover:text-amber-800"
-                      >
-                        {copiedIndex === index ? (
-                          <>
-                            <Check className="w-5 h-5 mr-2 text-green-600" />
-                            Copied!
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-5 h-5 mr-2" />
-                            Copy Text
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        size="lg"
-                        variant="ghost"
-                        onClick={() => toggleFavorite(quote, index)}
-                        className="text-red-500 hover:text-red-600 hover:bg-red-50"
-                      >
-                        {favoriteStates[index] ? (
-                          <>
-                            <Heart className="w-5 h-5 mr-2 fill-current" />
-                            Favorited
-                          </>
-                        ) : (
-                          <>
-                            <HeartOff className="w-5 h-5 mr-2" />
-                            Add to Favorites
-                          </>
-                        )}
-                      </Button>
-                    </div>
-                  </CardContent>
-                </Card>
-              );
-            })}
+            </div>
           </div>
         </div>
       )}
+
+      {/* Mood Tab Content */}
+      {activeTab === "mood" && (
+        <div className="mb-16">
+          <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
+            {/* Header */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-3 bg-gradient-to-br from-red-100/50 to-pink-100/50 rounded-2xl border border-red-200/30">
+                <Heart className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-2xl font-semibold text-gray-800">Find by Emotion</h3>
+            </div>
+
+            {/* Custom Mood Input */}
+            <div className="mb-10">
+              <p className="text-lg text-gray-700/90 mb-4">How are you feeling today?</p>
+              <div className="flex gap-4">
+                <input
+                  type="text"
+                  placeholder="Enter your mood (e.g., overwhelmed, excited, discouraged)"
+                  value={customMood}
+                  onChange={(e) => setCustomMood(e.target.value)}
+                  onKeyPress={(e) => e.key === "Enter" && handleCustomMoodSearch()}
+                  className="flex-1 px-6 py-4 text-lg bg-white/60 backdrop-blur-sm border border-white/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 focus:border-amber-300/60 transition-all duration-300 placeholder-gray-500/70"
+                />
+                <button
+                  onClick={handleCustomMoodSearch}
+                  disabled={loading || !customMood.trim()}
+                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading ? (
+                    <Loader2 className="w-6 h-6 animate-spin" />
+                  ) : (
+                    <Search className="w-6 h-6" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                </button>
+              </div>
+            </div>
+
+            {/* Mood Grid */}
+            <div>
+              <p className="text-lg text-gray-700/90 mb-6">Or choose from these emotions:</p>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {moodSuggestions.map((moodObj) => {
+                  const IconComponent = moodObj.icon;
+                  const isActive = moodQuery === moodObj.mood;
+
+                  return (
+                    <button
+                      key={moodObj.mood}
+                      onClick={() => handleMoodSearch(moodObj.mood)}
+                      className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${
+                        isActive
+                          ? "border-transparent shadow-xl scale-105"
+                          : "border-white/30 hover:border-white/50 shadow-lg"
+                      }`}
+                    >
+                      {/* Background Gradient */}
+                      <div className={`absolute inset-0 bg-gradient-to-br ${moodObj.gradient} rounded-2xl ${
+                        isActive ? "opacity-100" : "opacity-20 group-hover:opacity-40"
+                      } transition-opacity duration-300`}></div>
+
+                      {/* Content */}
+                      <div className="relative z-10 flex flex-col items-center gap-3">
+                        <div className={`p-3 rounded-xl ${
+                          isActive ? "bg-white/90" : "bg-white/60 group-hover:bg-white/80"
+                        } transition-colors duration-300`}>
+                          <IconComponent className="w-6 h-6 text-gray-800" />
+                        </div>
+                        <span className={`font-medium capitalize ${
+                          isActive ? "text-white" : "text-gray-800"
+                        }`}>
+                          {moodObj.mood}
+                        </span>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading State */}
+      {loading && (
+        <div className="flex items-center justify-center py-16">
+          <div className="relative">
+            <Loader2 className="w-12 h-12 animate-spin text-amber-600" />
+            <div className="absolute inset-0 bg-amber-400/20 rounded-full blur-2xl"></div>
+          </div>
+          <span className="ml-4 text-xl text-gray-700">
+            {activeTab === "mood"
+              ? `Finding divine wisdom for "${moodQuery || customMood}"...`
+              : "Searching sacred texts..."
+            }
+          </span>
+        </div>
+      )}
+
+      {/* Results */}
+      {quotes.length > 0 && (
+        <div className="mt-16 space-y-8">
+          <h3 className="text-4xl font-bold bg-gradient-to-br from-amber-700 to-orange-700 bg-clip-text text-transparent">
+            {activeTab === "mood"
+              ? `Divine Wisdom for "${moodQuery || customMood}"`
+              : singleQuote
+                ? "Sacred Text Found"
+                : `Search Results for "${searchQuery}"`}
+          </h3>
+          <div className="space-y-6">
+            {quotes.map((quote, index) => (
+              <div
+                key={index}
+                className="group relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-500"
+              >
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+                <div className="relative z-10">
+                  <blockquote className="text-2xl md:text-3xl font-serif text-gray-800 mb-6 leading-relaxed font-light">
+                    "{quote.content}"
+                  </blockquote>
+                  <cite className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent block mb-8">
+                    — {quote.reference}
+                  </cite>
+
+                  <div className="flex flex-wrap gap-4">
+                    <button
+                      onClick={() => setSelectedQuoteForImage(quote)}
+                      className="group/btn relative px-8 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                    >
+                      <span className="relative z-10 flex items-center gap-2">
+                        <Palette className="w-5 h-5 group-hover/btn:rotate-12 transition-transform duration-300" />
+                        Create Image
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
+                    </button>
+
+                    <button
+                      onClick={() => copyToClipboard(quote, index)}
+                      className="px-8 py-3 bg-white/60 backdrop-blur-sm border-2 border-white/40 text-amber-700 font-semibold rounded-xl shadow-lg hover:bg-white/80 hover:border-white/60 transform hover:scale-105 transition-all duration-300"
+                    >
+                      {copiedIndex === index ? (
+                        <span className="flex items-center gap-2 text-green-600">
+                          <Check className="w-5 h-5" />
+                          Copied!
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <Copy className="w-5 h-5" />
+                          Copy Text
+                        </span>
+                      )}
+                    </button>
+
+                    <button
+                      onClick={() => toggleFavorite(quote, index)}
+                      className="px-8 py-3 bg-white/60 backdrop-blur-sm border-2 border-white/40 text-red-600 font-semibold rounded-xl shadow-lg hover:bg-red-50 hover:border-red-200 transform hover:scale-105 transition-all duration-300"
+                    >
+                      {favoriteStates[index] ? (
+                        <span className="flex items-center gap-2">
+                          <Heart className="w-5 h-5 fill-current" />
+                          Favorited
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          <HeartOff className="w-5 h-5" />
+                          Add to Favorites
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {selectedQuoteForImage && (
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}

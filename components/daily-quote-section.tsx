@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
 import { Calendar, Loader2, Palette, RefreshCw } from "lucide-react"
 import { ImageGenerator } from "./image-generator"
 
@@ -56,78 +54,118 @@ export function DailyQuoteSection() {
 
   return (
     <>
-      <section id="daily-quote-section" className="py-24 px-4">
-        <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="flex items-center justify-center mb-6">
-              <Calendar className="w-10 h-10 text-amber-600 mr-3" />
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-800">Quote of the Day</h2>
+      <section id="daily-quote-section" className="py-32 px-6 sm:px-8 relative">
+        {/* Sacred Background Elements */}
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-blue-50/20"></div>
+        <div className="absolute top-0 left-1/4 w-64 h-64 bg-amber-200/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-blue-200/10 rounded-full blur-3xl"></div>
+
+        <div className="relative z-10 max-w-5xl mx-auto">
+          {/* Header with Divine Typography */}
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center mb-8 group">
+              <div className="relative p-4 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl backdrop-blur-sm border border-amber-200/30 shadow-lg">
+                <Calendar className="w-12 h-12 text-amber-600" />
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-yellow-500/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              </div>
+              <h2 className="ml-6 text-5xl md:text-6xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800 bg-clip-text text-transparent leading-tight">
+                Daily Divine
+              </h2>
             </div>
-            <p className="text-xl text-gray-600">Start your day with inspiration from God's Word</p>
+            <p className="text-xl md:text-2xl text-gray-600/80 font-light leading-relaxed">
+              Begin your spiritual journey with sacred wisdom
+            </p>
           </div>
 
-          <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-2xl border border-amber-200/20">
-            <CardContent className="p-8 md:p-12">
+          {/* Floating Quote Card */}
+          <div className="relative group">
+            {/* Glow Effect */}
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 via-yellow-500/20 to-amber-600/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+
+            {/* Main Card */}
+            <div className="relative bg-white/80 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl p-12 md:p-16 transform hover:scale-[1.02] transition-all duration-500">
+              {/* Decorative Elements */}
+              <div className="absolute top-4 left-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
+              <div className="absolute top-4 right-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
+              <div className="absolute bottom-4 left-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
+              <div className="absolute bottom-4 right-4 w-8 h-8 border-2 border-amber-400/30 rounded-full"></div>
+
               {loading ? (
-                <div className="text-center py-12">
-                  <Loader2 className="w-12 h-12 mx-auto mb-4 animate-spin text-amber-600" />
-                  <p className="text-lg text-gray-600">Loading today's quote...</p>
+                <div className="text-center py-16">
+                  <div className="relative mb-8">
+                    <Loader2 className="w-16 h-16 mx-auto text-amber-600 animate-spin" />
+                    <div className="absolute inset-0 bg-amber-400/20 rounded-full blur-2xl"></div>
+                  </div>
+                  <p className="text-xl text-gray-600 font-light animate-pulse">
+                    Receiving divine inspiration...
+                  </p>
                 </div>
               ) : dailyQuote ? (
-                <div className="text-center space-y-8">
-                  <blockquote className="text-2xl md:text-3xl lg:text-4xl font-medium text-gray-800 italic leading-relaxed">
-                    {dailyQuote.content}
-                  </blockquote>
-                  <cite className="text-xl md:text-2xl font-semibold text-amber-700 block">
-                    — {dailyQuote.reference}
-                  </cite>
+                <div className="text-center space-y-10">
+                  {/* Quote Text with Serif Typography */}
+                  <div className="relative">
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-6xl text-amber-200/50 font-serif">"</div>
+                    <blockquote className="text-3xl md:text-4xl lg:text-5xl font-serif text-gray-800 leading-relaxed font-light px-8 py-4">
+                      {dailyQuote.content}
+                    </blockquote>
+                    <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 text-6xl text-amber-200/50 font-serif">"</div>
+                  </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6">
-                    <Button
+                  {/* Reference with Golden Accent */}
+                  <div className="relative inline-block">
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 rounded-full blur-md"></div>
+                    <cite className="relative text-2xl md:text-3xl font-semibold bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent px-6 py-2">
+                      {dailyQuote.reference}
+                    </cite>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
+                    <button
                       onClick={() => setSelectedQuoteForImage(dailyQuote)}
-                      size="lg"
-                      className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-4 text-lg shadow-lg"
+                      className="group relative px-10 py-5 bg-gradient-to-r from-amber-600 via-yellow-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
                     >
-                      <Palette className="w-5 h-5 mr-2" />
-                      Create Beautiful Image
-                    </Button>
+                      <span className="relative z-10 flex items-center gap-3">
+                        <Palette className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
+                        Create Divine Image
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-600 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                    </button>
 
-                    <Button
+                    <button
                       onClick={getNewQuote}
                       disabled={loading}
-                      variant="outline"
-                      size="lg"
-                      className="px-8 py-4 text-lg bg-white/70 hover:bg-white/90 border-amber-300 text-amber-700 hover:text-amber-800"
+                      className="group px-10 py-5 bg-white/60 backdrop-blur-sm border-2 border-amber-200/50 text-amber-700 font-semibold rounded-2xl shadow-lg hover:bg-white/80 hover:border-amber-300/70 transform hover:scale-105 transition-all duration-300 text-lg"
                     >
                       {loading ? (
-                        <>
-                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                          Loading...
-                        </>
+                        <span className="flex items-center gap-3">
+                          <Loader2 className="w-6 h-6 animate-spin" />
+                          Receiving...
+                        </span>
                       ) : (
-                        <>
-                          <RefreshCw className="w-5 h-5 mr-2" />
-                          Get Another Quote
-                        </>
+                        <span className="flex items-center gap-3">
+                          <RefreshCw className="w-6 h-6 group-hover:rotate-180 transition-transform duration-500" />
+                          Divine Wisdom
+                        </span>
                       )}
-                    </Button>
+                    </button>
                   </div>
                 </div>
               ) : (
-                <div className="text-center py-12">
-                  <p className="text-lg text-gray-600 mb-4">Unable to load today's quote</p>
-                  <Button
+                <div className="text-center py-16">
+                  <div className="mb-8 text-amber-600 text-6xl opacity-50">❝</div>
+                  <p className="text-xl text-gray-600 mb-8 font-light">Unable to receive today's divine message</p>
+                  <button
                     onClick={loadDailyQuote}
-                    size="lg"
-                    className="bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 text-white px-8 py-4 text-lg shadow-lg"
+                    className="px-10 py-5 bg-gradient-to-r from-amber-600 to-amber-700 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
                   >
-                    <RefreshCw className="w-5 h-5 mr-2" />
+                    <RefreshCw className="w-6 h-6 mr-3" />
                     Try Again
-                  </Button>
+                  </button>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         </div>
       </section>
 
