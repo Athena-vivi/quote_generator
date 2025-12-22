@@ -46,32 +46,31 @@ export default function HomePage() {
       <HashScrollToQuoteFinder />
 
       {/* Hero Section - Premium Redesign */}
-      <section className="relative min-h-screen flex items-center justify-center px-6 sm:px-8 overflow-hidden pt-32">
+      <section className="relative min-h-screen flex items-center justify-center px-6 sm:px-8 overflow-hidden pt-16">
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-blue-50/30"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-100/20 via-transparent to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-50/15 via-white/30 to-blue-50/25"></div>
 
         <div className="relative z-10 flex flex-col items-center gap-y-6">
           {/* Eyebrow Heading */}
-          <span className="text-xs tracking-[0.3em] opacity-60 uppercase text-amber-700/80 font-sans">
+          <span className="text-xs tracking-[0.3em] opacity-50 uppercase text-amber-600/70 font-sans">
             AI-Powered Divine Art
           </span>
 
-          {/* Main Title - Serif Typography */}
-          <h1 className="text-center text-4xl md:text-6xl lg:text-7xl leading-tight mb-16 font-serif">
-            <span className="block font-bold" style={{ color: '#D4AF37' }}>
+          {/* Main Title - Single Line */}
+          <h1 className="text-center text-2xl md:text-4xl leading-tight font-serif">
+            <span className="font-bold" style={{ color: '#D4AF37' }}>
               Bible Quotes
             </span>
-            <span className="block text-2xl md:text-3xl lg:text-4xl italic font-light mt-2" style={{ color: '#F4E4C1' }}>
+            <span className="italic font-light text-gray-400 mx-6 text-sm md:text-base">
               into
             </span>
-            <span className="block font-bold mt-2" style={{ color: '#D4AF37' }}>
+            <span className="font-bold" style={{ color: '#D4AF37' }}>
               Divine Art
             </span>
           </h1>
 
           {/* Daily Quote Card - Expanded */}
-          <div className="relative group max-w-4xl w-full">
+          <div className="relative group max-w-4xl w-full mt-8">
             {/* Enhanced Glow Effect */}
             <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-yellow-500/15 to-amber-600/15 rounded-3xl blur-3xl opacity-0 group-hover:opacity-100 transition-all duration-1000"></div>
 
