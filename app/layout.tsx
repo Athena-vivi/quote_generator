@@ -134,14 +134,16 @@ export default function RootLayout({
 
         {/* Additional Meta Tags */}
 
-        {/* Preconnect */}
+        {/* Preconnect - Performance optimization */}
         <link rel="preconnect" href="https://api.esv.org" />
         <link rel="preconnect" href="https://fal.run" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
-        {/* Favicon & Icons */}
+        {/* Favicon & Icons - Using WebP for better performance */}
         <link rel="icon" href="/favicon.ico" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" type="image/webp" sizes="32x32" href="/favicon-32x32.webp" />
+        <link rel="icon" type="image/webp" sizes="16x16" href="/favicon-16x16.webp" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 
         {/* PWA Manifest */}

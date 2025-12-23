@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Menu, X, BookOpen, Layers, FolderKanban, Info } from "lucide-react"
@@ -63,13 +64,14 @@ export function Navigation() {
             onClick={handleNavClick}
           >
             {/* Logo Icon */}
-            <div className="relative">
-              <img
-                src="/logo.png"
+            <div className="relative h-8 w-8">
+              <Image
+                src="/logo.webp"
                 alt="QuoteGenerator Logo"
-                className="h-8 w-auto object-contain rounded-full border border-amber-500/20 shadow-[0_0_8px_rgba(212,175,55,0.15)] group-hover:-translate-y-0.5 transition-transform duration-300"
-                height={32}
-                width={32}
+                fill
+                className="object-contain rounded-full border border-amber-500/20 shadow-[0_0_8px_rgba(212,175,55,0.15)] group-hover:-translate-y-0.5 transition-transform duration-300"
+                sizes="32px"
+                priority
               />
             </div>
 

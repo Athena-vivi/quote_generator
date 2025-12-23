@@ -14,25 +14,53 @@ const nextConfig = withMDX({
   },
   images: {
     domains: ['api.esv.org', 'fal.run'],
-    formats: ['image/webp', 'image/avif'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'api.esv.org',
+      },
+      {
+        protocol: 'https',
+        hostname: 'fal.run',
+      },
+    ],
+    formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
+    minimumCacheTTL: 31536000, // 1 year cache for optimized images
   },
   experimental: {
     // optimizeCss: true, // 临时禁用以避免critters兼容性问题
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
     scrollRestoration: true,
+    // Optimize CSS loading
+    optimizeCss: false, // Set to true when critters compatibility is fixed
   },
   compiler: {
     // 移除 console 移除以保留诊断信息
     // removeConsole: process.env.NODE_ENV === 'production',
+    // Remove propNames in production to reduce bundle size
+    removeConsole: process.env.NODE_ENV === 'production' ? {
+      exclude: ['error', 'warn'],
+    } : false,
   },
+  // Modern browser target to reduce polyfill size
+  swcMinify: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-  webpack: (config) => {
+  webpack: (config, { dev, isServer }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
       '@': path.resolve(),
     };
+
+    // Optimize bundle size in production
+    if (!dev && !isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+      };
+    }
+
     return config;
   },
   async headers() {
@@ -101,11 +129,29 @@ const nextConfig = withMDX({
         ],
       },
       {
+        source: '/_next/image(.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
         source: '/images/(.*)',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=86400'
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
+        source: '/:all*(svg|jpg|jpeg|png|webp|avif|ico)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           }
         ],
       },

@@ -1,6 +1,7 @@
 "use client"
 
 import { Sparkles, Download, Share2, Feather } from "lucide-react"
+import Image from "next/image"
 
 export function ExampleShowcase() {
   return (
@@ -30,16 +31,15 @@ export function ExampleShowcase() {
               <div className="relative p-1 bg-white dark:bg-zinc-900/50 border border-amber-200/50 dark:border-white/10 shadow-xl rounded-2xl">
                 {/* Artwork Display */}
                 <div className="relative aspect-square rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(212,175,55,0.1)]">
-                  <div
-                    className="absolute inset-0"
-                    style={{
-                      backgroundImage: `url('/images/example-background.png')`,
-                      backgroundSize: 'cover',
-                      backgroundPosition: 'center',
-                    }}
-                    role="img"
-                    aria-label="Example of AI-generated Bible verse art featuring Jeremiah 29:11 with a peaceful landscape background"
-                  >
+                  <Image
+                    src="/images/example-background.webp"
+                    alt="Example of AI-generated Bible verse art featuring Jeremiah 29:11 with a peaceful landscape background"
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+                    priority
+                  />
+                  <div className="absolute inset-0" role="presentation">
                     {/* Divine Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" aria-hidden="true"></div>
 

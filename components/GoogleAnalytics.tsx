@@ -11,13 +11,16 @@ export function GoogleAnalytics() {
 
   return (
     <>
+      {/* Load GTM script with lazyOnload strategy for better performance */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       />
+
+      {/* Initialize GA configuration */}
       <Script
         id="google-analytics"
-        strategy="afterInteractive"
+        strategy="lazyOnload"
       >
         {`
           window.dataLayer = window.dataLayer || [];
@@ -26,7 +29,9 @@ export function GoogleAnalytics() {
           gtag('config', '${GA_MEASUREMENT_ID}', {
             page_title: document.title,
             page_location: window.location.href,
-            ${isProduction ? '' : 'debug_mode: true'}
+            ${isProduction ? '' : 'debug_mode: true'},
+            send_page_view: true,
+            transport_type: 'beacon'
           });
         `}
       </Script>
