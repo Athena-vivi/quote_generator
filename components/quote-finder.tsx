@@ -274,15 +274,15 @@ export function QuoteFinder() {
                     value={searchQuery}
                     onChange={(e) => handleInputChange(e)}
                     onKeyPress={(e) => e.key === "Enter" && handleDirectSearch()}
-                    className="w-full px-6 py-4 text-lg bg-white/60 dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm border border-white/30 dark:border-amber-900/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:focus:ring-amber-600/20 focus:border-amber-300/60 dark:focus:border-amber-600/50 text-gray-800 dark:text-stone-200 transition-all duration-300 placeholder-gray-500/70 dark:placeholder:text-stone-500"
+                    className="w-full px-6 py-4 text-lg bg-white dark:bg-black/20 dark:backdrop-blur-md border-2 border-dashed border-amber-200/60 dark:border-solid dark:border-white/30 dark:dark:border-amber-900/30 rounded-2xl focus:outline-none focus:border-solid focus:border-amber-500/50 dark:focus:border-amber-300/60 dark:focus:border-solid dark:focus:border-amber-600/50 focus:ring-2 focus:ring-amber-200/30 dark:focus:ring-amber-400/50 dark:focus:ring-amber-600/20 text-gray-800 dark:text-stone-200 transition-all duration-300 placeholder-gray-500/70 dark:placeholder:text-stone-500"
                   />
                   {/* Suggestions Dropdown */}
                   {suggestions.length > 0 && (
-                    <div className="absolute z-20 w-full mt-2 bg-white/90 dark:bg-black/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/30 dark:border-amber-900/30 rounded-xl shadow-xl overflow-hidden">
+                    <div className="absolute z-20 w-full mt-2 bg-white/90 dark:bg-black/40 dark:backdrop-blur-md backdrop-blur-xl border-2 border-dashed border-amber-200/40 dark:border-solid dark:border-white/30 dark:border-amber-900/30 rounded-xl shadow-xl overflow-hidden">
                       {suggestions.map((verse, idx) => (
                         <div
                           key={idx}
-                          className="px-6 py-4 cursor-pointer hover:bg-amber-50/80 dark:hover:bg-amber-950/30 transition-colors border-b border-white/20 dark:border-amber-900/20 last:border-b-0"
+                          className="px-6 py-4 cursor-pointer hover:bg-amber-50/80 dark:hover:bg-amber-950/30 transition-colors border-b border-amber-100/30 dark:border-white/20 dark:border-amber-900/20 last:border-b-0"
                           onClick={() => handleSuggestionClick(verse)}
                         >
                           <span className="font-semibold text-amber-700 dark:text-amber-400">{verse.reference}</span>
@@ -309,11 +309,11 @@ export function QuoteFinder() {
 
             {/* Help Text - Transparent with subtle amber glow */}
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white/20 dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm rounded-xl p-4 border border-amber-100/30 dark:border-amber-900/30">
+              <div className="bg-white dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm rounded-xl p-4 border-2 border-dashed border-amber-200/50 dark:border-solid dark:border-amber-900/30">
                 <p className="text-sm font-medium text-gray-700 dark:text-stone-300 mb-2">Verse References:</p>
                 <p className="text-xs text-gray-600 dark:text-stone-400">"John 3:16", "Psalm 23", "Romans 8:28"</p>
               </div>
-              <div className="bg-white/20 dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm rounded-xl p-4 border border-amber-100/30 dark:border-amber-900/30">
+              <div className="bg-white dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm rounded-xl p-4 border-2 border-dashed border-amber-200/50 dark:border-solid dark:border-amber-900/30">
                 <p className="text-sm font-medium text-gray-700 dark:text-stone-300 mb-2">Keywords:</p>
                 <p className="text-xs text-gray-600 dark:text-stone-400">"love", "peace", "strength", "forgiveness"</p>
               </div>
@@ -341,7 +341,7 @@ export function QuoteFinder() {
                   value={customMood}
                   onChange={(e) => setCustomMood(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleCustomMoodSearch()}
-                  className="flex-1 px-6 py-4 text-lg bg-white/60 dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm border border-white/30 dark:border-amber-900/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-400/50 dark:focus:ring-amber-600/20 focus:border-amber-300/60 dark:focus:border-amber-600/50 text-gray-800 dark:text-stone-200 transition-all duration-300 placeholder-gray-500/70 dark:placeholder:text-stone-500"
+                  className="flex-1 px-6 py-4 text-lg bg-white dark:bg-black/20 dark:backdrop-blur-md border-2 border-dashed border-amber-200/60 dark:border-solid dark:border-white/30 dark:dark:border-amber-900/30 rounded-2xl focus:outline-none focus:border-solid focus:border-amber-500/50 dark:focus:border-amber-300/60 dark:focus:border-solid dark:focus:border-amber-600/50 focus:ring-2 focus:ring-amber-200/30 dark:focus:ring-amber-400/50 dark:focus:ring-amber-600/20 text-gray-800 dark:text-stone-200 transition-all duration-300 placeholder-gray-500/70 dark:placeholder:text-stone-500"
                 />
                 <button
                   onClick={handleCustomMoodSearch}
