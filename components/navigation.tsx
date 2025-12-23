@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Calendar, Menu, X, BookOpen, Newspaper } from "lucide-react"
@@ -68,56 +69,28 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - The Sacred Soaring Dove */}
+          {/* Logo - High-End Art Gallery Brand */}
           <Link
             href="/"
-            className="group flex items-center space-x-2 hover:scale-105 transition-all duration-300"
+            className="group flex items-center gap-3 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            {/* Sacred Dove Icon - Calligraphic Style */}
-            <svg
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-9 h-9 text-amber-600 dark:text-amber-400"
-            >
-              {/* Body & Head */}
-              <path
-                d="M12 18c-1.5 0-3-1-4-2.5S6.5 12 6.5 10c0-2 1.5-3.5 3-3.5s2.5 1 2.5 2.5"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-              {/* Left Wing */}
-              <path
-                d="M7 10.5c-2.5-1-4.5-3.5-4.5-6.5 0 0 3 1 5.5 3.5"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              {/* Right Wing */}
-              <path
-                d="M11 9c3-1.5 7.5-4 10.5-5 0 0-1.5 5.5-5.5 9"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              {/* Tail */}
-              <path
-                d="M10 17l2 3 2-3"
-                stroke="currentColor"
-                strokeWidth="1.2"
-                strokeLinecap="round"
-              />
-            </svg>
+            {/* Logo Icon from public/logo.png */}
+            <img
+              src="/logo.png"
+              alt="QuoteGenerator Logo"
+              className="h-10 w-auto object-contain"
+              height={40}
+              width={40}
+            />
 
-            {/* Brand Text */}
-            <div className="font-serif text-base tracking-[0.1em]" style={{ fontFamily: "'Crimson Text', serif" }}>
-              <span className="font-bold text-amber-800 dark:text-amber-300">Quote</span>
-              <span className="font-light text-amber-700/70 dark:text-amber-400/70">Generator</span>
-            </div>
+            {/* Brand Text - QuoteGenerator */}
+            <span
+              className="font-semibold tracking-wider text-amber-900 dark:text-amber-300"
+              style={{ fontFamily: "'Crimson Text', serif" }}
+            >
+              QuoteGenerator
+            </span>
           </Link>
 
           {/* Desktop Navigation */}
