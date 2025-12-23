@@ -1,14 +1,17 @@
 import mdx from '@next/mdx';
 import path from 'path';
-import bundleAnalyzer from '@next/bundle-analyzer';
+import { createRequire } from 'module';
+
+const require = createRequire(import.meta.url);
 
 const withMDX = mdx({
   extension: /\.mdx?$/
 });
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
+// Conditionally apply bundle analyzer only when ANALYZE is set
+const withBundleAnalyzer = process.env.ANALYZE === 'true'
+  ? require('@next/bundle-analyzer')({ enabled: true })
+  : (config) => config;
 
 const nextConfig = withBundleAnalyzer(withMDX({
   eslint: {

@@ -10,7 +10,7 @@
     "vercel-build": "npm ci && next build",
     "postinstall": "echo 'Post-install completed'",
     "optimize-images": "node scripts/optimize-images.cjs",
-    "analyze": "ANALYZE=true npm run build"
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -77,6 +77,7 @@
   "devDependencies": {
     "@next/bundle-analyzer": "^16.1.1",
     "critters": "^0.0.23",
+    "cross-env": "^10.1.0",
     "sharp": "^0.34.5"
   }
 }
