@@ -1,6 +1,6 @@
 "use client"
 
-import { Sparkles, Eye, Download, Copy, Share2, Settings, Palette, Layers, Wand2 } from "lucide-react"
+import { Sparkles, Download, Share2 } from "lucide-react"
 
 export function ExampleShowcase() {
   return (
@@ -22,46 +22,14 @@ export function ExampleShowcase() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Editor Interface Mockup */}
-          <div className="relative">
-            <div className="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl shadow-2xl overflow-hidden border border-gray-700">
-              {/* Editor Header */}
-              <div className="bg-gray-800/90 backdrop-blur-sm border-b border-gray-700 px-4 py-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="flex gap-2">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                    </div>
-                    <span className="text-gray-300 text-sm font-medium ml-2">Divine Art Creator</span>
-                  </div>
-                  <Settings className="w-4 h-4 text-gray-400" />
-                </div>
-              </div>
-
-              {/* Editor Toolbar */}
-              <div className="bg-gray-800/60 backdrop-blur-sm border-b border-gray-700/50 px-4 py-3">
-                <div className="flex items-center gap-2">
-                  <button className="p-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors">
-                    <Layers className="w-4 h-4 text-gray-300" />
-                  </button>
-                  <div className="w-px h-6 bg-gray-600"></div>
-                  <button className="p-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors">
-                    <Palette className="w-4 h-4 text-gray-300" />
-                  </button>
-                  <button className="p-2 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors">
-                    <Wand2 className="w-4 h-4 text-gray-300" />
-                  </button>
-                  <div className="w-px h-6 bg-gray-600"></div>
-                  <span className="text-gray-400 text-sm">1024 × 1024</span>
-                </div>
-              </div>
-
-              {/* Canvas Area */}
-              <div className="relative aspect-square bg-gray-900/50 overflow-hidden">
+          {/* Gallery-Style Digital Art Frame */}
+          <div className="relative group">
+            {/* Elegant Frame Container */}
+            <div className="relative bg-amber-50/20 backdrop-blur-2xl rounded-3xl p-6 shadow-[0_20px_60px_-15px_rgba(212,175,55,0.3)] border border-amber-200/30">
+              {/* Artwork Display */}
+              <div className="relative aspect-square rounded-2xl overflow-hidden ring-1 ring-amber-200/50 shadow-2xl">
                 <div
-                  className="absolute inset-4 rounded-xl overflow-hidden"
+                  className="absolute inset-0"
                   style={{
                     backgroundImage: `url('/images/example-background.png')`,
                     backgroundSize: 'cover',
@@ -69,7 +37,7 @@ export function ExampleShowcase() {
                   }}
                 >
                   {/* Divine Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/20"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10"></div>
 
                   {/* Quote Content */}
                   <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-12">
@@ -92,56 +60,27 @@ export function ExampleShowcase() {
                       — Jeremiah 29:11
                     </cite>
 
-                    {/* AI Badge - Amber */}
-                    <div className="absolute top-6 right-6 bg-amber-600/20 backdrop-blur-md border border-amber-400/30 rounded-full px-3 py-1.5 flex items-center gap-2">
+                    {/* AI Enhanced Badge - Elegant Corner Placement */}
+                    <div className="absolute top-4 right-4 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-1.5 flex items-center gap-2">
                       <Sparkles className="w-3 h-3 text-amber-300" />
                       <span className="text-white text-xs font-medium">AI Enhanced</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Editor Selection Overlay - Amber */}
-                <div className="absolute inset-0 border-2 border-amber-400/50 rounded-xl pointer-events-none">
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full"></div>
-                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-amber-400 rounded-full"></div>
-                </div>
-              </div>
-
-              {/* Editor Footer */}
-              <div className="bg-gray-800/60 backdrop-blur-sm border-t border-gray-700/50 px-4 py-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors text-sm text-gray-300">
-                      <Download className="w-3 h-3" />
+                {/* Floating Toolbar - Hover Only */}
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 via-black/40 to-transparent backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="flex items-center justify-center gap-6 py-4">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all text-white text-sm">
+                      <Download className="w-4 h-4" />
                       Export
                     </button>
-                    <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors text-sm text-gray-300">
-                      <Copy className="w-3 h-3" />
-                      Duplicate
-                    </button>
-                    <button className="flex items-center gap-2 px-3 py-1.5 bg-gray-700/50 hover:bg-gray-700 rounded-lg transition-colors text-sm text-gray-300">
-                      <Share2 className="w-3 h-3" />
+                    <button className="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm rounded-lg transition-all text-white text-sm">
+                      <Share2 className="w-4 h-4" />
                       Share
                     </button>
                   </div>
-                  <span className="text-gray-500 text-xs">Ready to share</span>
                 </div>
-              </div>
-            </div>
-
-            {/* Floating Indicators */}
-            <div className="absolute -top-4 -left-4 bg-white/90 backdrop-blur-sm border border-amber-200/50 rounded-xl p-3 shadow-xl">
-              <div className="flex items-center gap-2">
-                <Eye className="w-4 h-4 text-amber-600" />
-                <span className="text-sm font-medium text-gray-800">4K Resolution</span>
-              </div>
-            </div>
-
-            {/* AI Powered Badge - Amber */}
-            <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white rounded-xl p-3 shadow-xl">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4" />
-                <span className="text-sm font-medium">AI Powered</span>
               </div>
             </div>
           </div>
