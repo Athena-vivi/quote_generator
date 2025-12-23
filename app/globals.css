@@ -29,6 +29,11 @@
 body {
   @apply bg-background text-foreground antialiased;
   font-feature-settings: "rlig" 1, "calt" 1;
+  /* Subtle parchment texture overlay - 3% opacity */
+  background-image:
+    linear-gradient(rgba(212, 175, 55, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* 优雅的衬线字体用于金句 */

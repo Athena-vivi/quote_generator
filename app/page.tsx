@@ -133,7 +133,7 @@ export default function HomePage() {
       </section>
 
       {/* 展示区域 - Optimized with radial gradient and center glow */}
-      <section className="py-12 px-6 relative overflow-hidden">
+      <section className="py-10 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0fdf4_0%,_transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
@@ -142,7 +142,7 @@ export default function HomePage() {
       </section>
 
       {/* 功能区域 - Optimized with radial gradient and center glow */}
-      <section className="py-12 px-6 border-t border-amber-50 relative overflow-hidden">
+      <section className="py-10 px-6 border-t border-amber-50 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#fef3c7_0%,_transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
