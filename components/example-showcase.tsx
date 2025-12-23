@@ -13,8 +13,8 @@ export function ExampleShowcase() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 mb-8">
-            Divine Creation Studio
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-8">
+            Altar of Artistry
           </h2>
           <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
             Experience the sacred transformation of Scripture into breathtaking visual masterpieces

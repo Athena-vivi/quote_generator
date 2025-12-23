@@ -205,11 +205,11 @@ export function QuoteFinder() {
   }
 
   return (
-    <div id="quote-finder" className="max-w-7xl mx-auto scroll-mt-[140px] px-6 sm:px-8">
+    <div id="quote-finder" className="max-w-7xl mx-auto scroll-mt-[140px] px-6 sm:px-8 mt-16">
       {/* Header - Serif Typography */}
       <div className="text-center mb-16">
-        <h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 mb-6">
-          Sacred Explorer
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-6">
+          Scripture Compass
         </h2>
         <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
           Discover divine wisdom through direct scripture search or emotional guidance
@@ -325,12 +325,9 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div className="mb-12">
-          <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20">
-            {/* Header - Amber Unified */}
-            <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
-                <Heart className="w-8 h-8 text-amber-600 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
-              </div>
+          <div className="relative bg-white/50 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20">
+            {/* Header - Simplified without icon */}
+            <div className="mb-8">
               <h3 className="text-2xl font-serif font-semibold text-gray-800">Find by Emotion</h3>
             </div>
 
@@ -373,10 +370,10 @@ export function QuoteFinder() {
                     <button
                       key={moodObj.mood}
                       onClick={() => handleMoodSearch(moodObj.mood)}
-                      className={`group relative p-3 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
+                      className={`group relative p-3 rounded-xl border transition-all duration-300 transform hover:scale-105 ${
                         isActive
                           ? "border-transparent shadow-lg scale-105"
-                          : "border-white/30 hover:border-white/50 shadow-md"
+                          : "border-gray-200/60 hover:border-gray-300/60 shadow-sm"
                       }`}
                     >
                       {/* Background Gradient */}
