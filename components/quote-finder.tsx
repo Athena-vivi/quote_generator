@@ -449,8 +449,8 @@ export function QuoteFinder() {
                   <div className="h-px bg-gradient-to-r from-transparent via-amber-200/30 dark:via-amber-500/20 to-transparent mb-4"></div>
 
                   {/* Reference - right aligned */}
-                  <cite className="block text-sm font-semibold text-right mb-6 pr-2" style={{ color: '#92400e' }} /* Deep amber for better contrast */>
-                    — {quote.reference}
+                  <cite className="block text-sm font-semibold text-right mb-6 pr-2" style={{ color: '#92400e' }} /* Deep amber for light mode */>
+                    <span className="dark:text-amber-400">— {quote.reference}</span>
                   </cite>
 
                   {/* Action Buttons - Enhanced for Tool Focus */}

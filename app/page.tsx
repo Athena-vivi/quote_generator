@@ -52,8 +52,9 @@ export default function HomePage() {
           {/* 眉毛标题 */}
           <div className="flex items-center gap-2 mb-8 opacity-60">
             <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
-            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: '#451a03' }} /* Deep brown for accessibility */>
-              AI-Powered Scripture Art
+            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: '#451a03' }} /* Deep brown for light mode */>
+              <span className="hidden dark:inline" style={{ color: '#fbbf24' }} /* Light amber for dark mode */>AI-Powered Scripture Art</span>
+              <span className="dark:hidden">AI-Powered Scripture Art</span>
             </span>
             <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
           </div>
@@ -82,13 +83,14 @@ export default function HomePage() {
                 </div>
               ) : dailyQuote ? (
                 <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50/50 dark:bg-amber-950/40 border border-amber-100 dark:border-amber-500/30 mb-8">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50/50 dark:bg-amber-950/60 border border-amber-100 dark:border-amber-500/30 mb-8">
                     <div className="relative">
                       <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-full p-1"></div>
                       <Feather className="relative w-3.5 h-3.5 text-amber-600/70 dark:text-amber-400 rotate-[15deg] animate-[float_3s_ease-in-out_infinite]" aria-hidden="true" />
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: '#451a03' }} /* Deep brown for accessibility */>
-                      Daily Inspiration
+                    <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: '#451a03' }} /* Deep brown for light mode */>
+                      <span className="hidden dark:inline" style={{ color: '#fcd34d' }} /* Light amber for dark mode */>Daily Inspiration</span>
+                      <span className="dark:hidden">Daily Inspiration</span>
                     </span>
                   </div>
 
@@ -96,8 +98,8 @@ export default function HomePage() {
                     "{dailyQuote.content}"
                   </blockquote>
 
-                  <cite className="block text-lg font-serif text-amber-800 dark:text-amber-400 mb-10" style={{ color: '#92400e' }} /* Deep amber for better contrast */>
-                    — {dailyQuote.reference}
+                  <cite className="block text-lg font-serif mb-10" style={{ color: '#92400e' }} /* Deep amber for light mode */>
+                    <span className="dark:text-amber-400">— {dailyQuote.reference}</span>
                   </cite>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
