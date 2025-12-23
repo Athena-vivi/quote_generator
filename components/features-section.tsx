@@ -41,9 +41,9 @@ export function FeaturesSection() {
   ]
 
   return (
-    <section className="relative py-10 px-6 sm:px-8 overflow-hidden">
-      {/* Sacred Background - Clean White/Stone */}
-      <div className="absolute inset-0 bg-gradient-to-br from-stone-50/40 via-white to-white dark:from-slate-950 dark:via-zinc-950 dark:to-zinc-950"></div>
+    <section className="relative py-10 px-6 sm:px-8 overflow-hidden bg-background">
+      {/* Sacred Background - Unified with Subtle Amber Glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-stone-50/40 via-white to-white dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.025)_0%,_transparent_80%)]"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}

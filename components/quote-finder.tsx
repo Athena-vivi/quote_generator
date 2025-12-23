@@ -307,15 +307,15 @@ export function QuoteFinder() {
               </div>
             </div>
 
-            {/* Help Text */}
+            {/* Help Text - Transparent with subtle amber glow */}
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <p className="text-sm font-medium text-gray-700 mb-2">Verse References:</p>
-                <p className="text-xs text-gray-600">"John 3:16", "Psalm 23", "Romans 8:28"</p>
+              <div className="bg-white/20 dark:bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-amber-100/30 dark:border-white/10">
+                <p className="text-sm font-medium text-gray-700 dark:text-stone-300 mb-2">Verse References:</p>
+                <p className="text-xs text-gray-600 dark:text-stone-400">"John 3:16", "Psalm 23", "Romans 8:28"</p>
               </div>
-              <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                <p className="text-sm font-medium text-gray-700 mb-2">Keywords:</p>
-                <p className="text-xs text-gray-600">"love", "peace", "strength", "forgiveness"</p>
+              <div className="bg-white/20 dark:bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-amber-100/30 dark:border-white/10">
+                <p className="text-sm font-medium text-gray-700 dark:text-stone-300 mb-2">Keywords:</p>
+                <p className="text-xs text-gray-600 dark:text-stone-400">"love", "peace", "strength", "forgiveness"</p>
               </div>
             </div>
           </div>

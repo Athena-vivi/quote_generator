@@ -42,10 +42,10 @@ export default function HomePage() {
     <PageLayout showBreadcrumb={false}>
       <HashScrollToQuoteFinder />
 
-      {/* Hero & Daily Quote Section - Midnight Sanctuary Effect */}
-      <section className="relative pt-36 pb-12 px-6 overflow-hidden bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white dark:from-slate-950 dark:via-zinc-950 dark:to-slate-950">
+      {/* Hero & Daily Quote Section - Unified Background with Sacred Amber Glow */}
+      <section className="relative pt-36 pb-12 px-6 overflow-hidden bg-background">
         {/* Divine Light Glow - Behind Title */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-radial from-amber-500/8 via-amber-600/3 to-transparent opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-500"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-radial from-amber-500/6 via-amber-600/2 to-transparent opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-500"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
 
@@ -128,28 +128,25 @@ export default function HomePage() {
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}
 
-      {/* 搜索区域 - Optimized with radial gradient and center glow */}
-      <section className="py-12 px-6 border-y border-amber-50 dark:border-amber-900/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white dark:from-amber-950/30 dark:via-slate-950 dark:to-slate-950"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.06)_0%,_transparent_70%)] pointer-events-none"></div>
+      {/* 搜索区域 - Unified Background with Subtle Amber Glow */}
+      <section className="py-12 px-6 border-y border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.03)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.04)_0%,_transparent_80%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
       </section>
 
-      {/* 展示区域 - Optimized with radial gradient and center glow */}
-      <section className="py-10 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white dark:from-amber-950/20 dark:via-slate-950 dark:to-slate-950"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0fdf4_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.05)_0%,_transparent_70%)] pointer-events-none"></div>
+      {/* 展示区域 - Unified Background with Subtle Amber Glow */}
+      <section className="py-10 px-6 relative overflow-hidden bg-background">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.025)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.035)_0%,_transparent_80%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
-      {/* 功能区域 - Optimized with radial gradient and center glow */}
-      <section className="py-10 px-6 border-t border-amber-50 dark:border-amber-900/20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white dark:from-amber-950/20 dark:via-slate-950 dark:to-slate-950"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#fef3c7_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.04)_0%,_transparent_70%)] pointer-events-none"></div>
+      {/* 功能区域 - Unified Background with Subtle Amber Glow */}
+      <section className="py-10 px-6 border-t border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.02)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.03)_0%,_transparent_80%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <FeaturesSection />
         </div>

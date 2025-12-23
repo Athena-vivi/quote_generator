@@ -4,11 +4,11 @@ import { Sparkles, Download, Share2, Feather } from "lucide-react"
 
 export function ExampleShowcase() {
   return (
-    <section id="example-showcase" className="relative py-12 px-6 sm:px-8 overflow-hidden">
-      {/* Sacred Background - Clean with Amber Glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30 dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.05)_0%,_transparent_70%)]"></div>
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 dark:from-amber-500/5 dark:to-amber-600/5 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-200/10 to-yellow-200/10 dark:from-amber-600/5 dark:to-amber-500/5 rounded-full blur-3xl"></div>
+    <section id="example-showcase" className="relative py-12 px-6 sm:px-8 overflow-hidden bg-background">
+      {/* Sacred Background - Unified with Subtle Amber Glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30 dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.03)_0%,_transparent_80%)]"></div>
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 dark:from-amber-500/4 dark:to-amber-600/4 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-200/10 to-yellow-200/10 dark:from-amber-600/4 dark:to-amber-500/4 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
