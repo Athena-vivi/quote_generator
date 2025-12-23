@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Calendar, Sparkles, Menu, X, BookOpen, Image, Heart, Newspaper } from "lucide-react"
+import { Calendar, Menu, X, BookOpen, Newspaper } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function Navigation() {
@@ -68,17 +68,63 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo */}
+          {/* Logo - Divine Feather Icon */}
           <Link
             href="/"
-            className="group flex items-center space-x-4 hover:scale-105 transition-all duration-300"
+            className="group flex items-center space-x-3 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            <div className="relative">
-              <img src="/favicon.ico" alt="Logo" className="w-10 h-10 filter drop-shadow-lg" />
-              <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-yellow-600/20 rounded-full blur-md group-hover:from-amber-400/40 group-hover:to-yellow-600/40 transition-all duration-500"></div>
+            {/* Divine Feather Icon with Amber Glow */}
+            <div className="relative flex items-center justify-center">
+              {/* Sacred Glow Effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-yellow-500/10 to-amber-500/15 rounded-full blur-lg group-hover:from-amber-400/25 group-hover:via-yellow-500/15 group-hover:to-amber-500/25 transition-all duration-500"></div>
+              {/* Feather Icon */}
+              <div className="relative">
+                <svg
+                  className="w-9 h-9"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient id="featherGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#D4AF37" />
+                      <stop offset="50%" stopColor="#F4E4BC" />
+                      <stop offset="100%" stopColor="#D4AF37" />
+                    </linearGradient>
+                    <filter id="glow">
+                      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                      <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                      </feMerge>
+                    </filter>
+                  </defs>
+                  <path
+                    d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"
+                    stroke="url(#featherGradient)"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    filter="url(#glow)"
+                  />
+                  <path
+                    d="M16 8L2 22"
+                    stroke="url(#featherGradient)"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M17.5 15H9"
+                    stroke="url(#featherGradient)"
+                    strokeWidth="1.3"
+                    strokeLinecap="round"
+                  />
+                </svg>
+              </div>
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent leading-none">
+            {/* Brand Text - Serif with Wide Tracking */}
+            <span className="text-xl md:text-2xl font-serif font-semibold tracking-wide bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent leading-none">
               QuoteGenerator
             </span>
           </Link>
