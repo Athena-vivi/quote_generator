@@ -98,7 +98,7 @@ export default function CollectionsPage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-500/20 dark:to-amber-600/20 rounded-3xl border border-amber-200/50 dark:border-amber-500/30 mb-6 shadow-lg">
               <FolderKanban className="w-10 h-10 text-amber-600 dark:text-amber-400" />
             </div>
-            <h1 className="text-4xl md:text-5xl font-serif font-bold text-gray-900 dark:text-stone-100 mb-6">
+            <h1 className="text-3xl md:text-5xl font-serif font-bold text-gray-900 dark:text-stone-100 mb-6">
               Scripture <span className="text-amber-600 dark:text-amber-400">Collections</span>
             </h1>
             <p className="text-xl text-gray-600 dark:text-stone-400 leading-relaxed max-w-3xl mx-auto font-light">
