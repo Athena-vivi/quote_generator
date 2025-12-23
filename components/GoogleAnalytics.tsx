@@ -11,10 +11,10 @@ export function GoogleAnalytics() {
 
   return (
     <>
-      {/* Partytown configuration for GTM - runs in web worker */}
+      {/* Initialize GA configuration with lazyOnload */}
       <Script
-        id="ga-partytown"
-        strategy="worker"
+        id="google-analytics"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{
           __html: `
             window.dataLayer = window.dataLayer || [];
@@ -31,10 +31,10 @@ export function GoogleAnalytics() {
         }}
       />
 
-      {/* Load GTM from Partytown worker */}
+      {/* Load GTM script with lazyOnload strategy */}
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-        strategy="worker"
+        strategy="lazyOnload"
       />
     </>
   )

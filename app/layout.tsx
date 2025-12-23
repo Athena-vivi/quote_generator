@@ -5,7 +5,6 @@ import "./globals.css"
 import { GoogleAnalytics } from "@/components/GoogleAnalytics"
 import { WebsiteSchema } from "@/components/seo/website-schema"
 import { ThemeProvider } from "@/hooks/use-theme"
-import { Partytown } from "@builder.io/partytown/react"
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://quotegenerator.org'),
@@ -215,9 +214,6 @@ export default function RootLayout({
       </head>
 
       <body className="scroll-smooth bg-amber-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors" suppressHydrationWarning>
-        {/* Partytown - Move GTM to Web Worker */}
-        <Partytown debug={false} forward={["dataLayer.push"]} />
-
         <ThemeProvider
           defaultTheme="system"
           storageKey="quote-generator-theme"
