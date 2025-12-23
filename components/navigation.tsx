@@ -68,68 +68,39 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - Artistic & Dynamic */}
+          {/* Logo - The Divine Dove */}
           <Link
             href="/"
-            className="group flex items-end space-x-2 hover:scale-105 transition-all duration-300"
+            className="group flex items-center space-x-3 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            {/* Soaring Bird Icon - Wings Up */}
-            <div className="relative -rotate-[8deg]">
-              <div className="absolute inset-0 bg-gradient-to-t from-amber-400/10 to-yellow-500/15 rounded-full blur-md group-hover:from-amber-400/20 group-hover:to-yellow-500/20 transition-all duration-500"></div>
-              {/* Custom Soaring Bird SVG */}
-              <svg
-                className="relative w-7 h-7"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <defs>
-                  <linearGradient id="birdGoldGradient" x1="0%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" stopColor="#B8860B" />
-                    <stop offset="50%" stopColor="#D4AF37" />
-                    <stop offset="100%" stopColor="#F4E4BC" />
-                  </linearGradient>
-                </defs>
-                {/* Left Wing - Soaring Up */}
-                <path
-                  d="M12 12c-2-2.5-5-4-8-4.5 1.5 2 3 3.5 5 4.5"
-                  stroke="url(#birdGoldGradient)"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Right Wing - Soaring Up */}
-                <path
-                  d="M12 12c2-2.5 5-4 8-4.5-1.5 2-3 3.5-5 4.5"
-                  stroke="url(#birdGoldGradient)"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Body */}
-                <path
-                  d="M12 12v3c0 1-1 2-2.5 2-1 0-1.5-.5-1.5-1.5"
-                  stroke="url(#birdGoldGradient)"
-                  strokeWidth="1.6"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                {/* Head */}
-                <circle
-                  cx="12"
-                  cy="11"
-                  r="1.2"
-                  fill="url(#birdGoldGradient)"
-                />
-              </svg>
-            </div>
+            {/* Divine Dove Icon - Minimalist Linear SVG */}
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-8 h-8 text-amber-600 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]"
+            >
+              {/* Minimalist soaring dove */}
+              <path
+                d="M12 22C12 22 17 19 20 15C21 13.5 22 11 22 8C22 6 20 4.5 18 5C16 5.5 14 8 12 11C10 8 8 5.5 6 5C4 4.5 2 6 2 8C2 11 3 13.5 4 15C7 19 12 22 12 22Z"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M12 11V16"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+              />
+            </svg>
 
-            {/* Brand Text - Weight Contrast & Title Case */}
-            <div className="relative leading-none pb-0.5">
-              <span className="font-serif text-base bg-gradient-to-r from-amber-800 via-yellow-600 to-amber-800 dark:from-amber-200 dark:via-amber-100 dark:to-amber-200 bg-clip-text text-transparent">
-                <span className="font-bold tracking-tight">Quote</span><span className="font-extralight tracking-[0.12em]">Generator</span>
-              </span>
+            {/* Brand Text - Typography Contrast */}
+            <div className="font-serif text-base tracking-wider" style={{ fontFamily: "'Crimson Text', serif" }}>
+              <span className="font-bold text-amber-800 dark:text-amber-300">Quote</span>
+              <span className="font-extralight italic text-amber-700/80 dark:text-amber-400/80">Generator</span>
             </div>
           </Link>
 
