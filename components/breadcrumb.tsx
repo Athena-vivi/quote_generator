@@ -33,7 +33,7 @@ export function Breadcrumb() {
   }
 
   return (
-    <nav className="bg-amber-50/50 py-3 px-4 border-b border-amber-200/30">
+    <nav className="bg-background py-3 px-4 border-b border-amber-200/30 dark:border-amber-500/10">
       <div className="max-w-6xl mx-auto">
         <ol className="flex items-center space-x-2 text-sm">
           {breadcrumbItems.map((item, index) => (

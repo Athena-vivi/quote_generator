@@ -85,6 +85,13 @@ const criticalCSS = `
   :root {
     --background: 40 33% 98%;
     --foreground: 20 14.3% 4.1%;
+    --primary: 38 92% 50%;
+  }
+
+  .dark {
+    --background: 0 0% 4%; /* Deep midnight black #0A0A0A */
+    --foreground: 40 20% 95%;
+    --primary: 38 95% 55%;
   }
 
   * { box-sizing: border-box; }
