@@ -5,7 +5,7 @@ import { QuoteFinder } from "@/components/quote-finder"
 import { ExampleShowcase } from "@/components/example-showcase"
 import { PageLayout } from "@/components/page-layout"
 import { HashScrollToQuoteFinder } from "@/components/hash-scroll-to-quote-finder"
-import { BookOpen, Calendar, Loader2, Palette, RefreshCw } from "lucide-react"
+import { BookOpen, Loader2, Palette, RefreshCw, Sparkles } from "lucide-react"
 import { useState, useEffect } from "react"
 import { ImageGenerator } from "@/components/image-generator"
 
@@ -77,9 +77,11 @@ export default function HomePage() {
                 </div>
               ) : dailyQuote ? (
                 <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-100 mb-8">
-                    <Calendar className="w-4 h-4 text-amber-600" />
-                    <span className="text-xs font-semibold uppercase tracking-wider text-amber-800">Today's Wisdom</span>
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50/50 border border-amber-100 mb-8">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-800/80 font-sans">
+                      Daily Inspiration
+                    </span>
                   </div>
 
                   <blockquote className="text-2xl md:text-3xl lg:text-4xl font-serif text-stone-800 leading-relaxed italic font-light mb-8 px-4">
