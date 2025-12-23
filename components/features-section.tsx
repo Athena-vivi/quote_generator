@@ -42,10 +42,8 @@ export function FeaturesSection() {
 
   return (
     <section className="relative py-10 px-6 sm:px-8 overflow-hidden">
-      {/* Sacred Background - Reduced Saturation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/15 via-white/40 to-amber-50/15"></div>
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-100/8 to-amber-50/8 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-50/8 to-amber-100/8 rounded-full blur-3xl"></div>
+      {/* Sacred Background - Clean White/Stone */}
+      <div className="absolute inset-0 bg-gradient-to-br from-stone-50/40 via-white to-white"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
@@ -68,8 +66,8 @@ export function FeaturesSection() {
                 key={index}
                 className="group relative"
               >
-                {/* Hover Glow Effect - Reduced Saturation */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-100/15 via-amber-50/15 to-amber-100/15 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
+                {/* Hover Glow Effect - Subtle White */}
+                <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-stone-50/40 to-white/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
 
                 {/* Card - Enhanced Quality */}
                 <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-5 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20">
@@ -95,17 +93,6 @@ export function FeaturesSection() {
                     <div className="absolute top-5 right-5 w-2 h-2 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
-
-                {/* Floating Accent - Reduced Saturation */}
-                {index % 3 === 0 && (
-                  <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-amber-100/20 to-amber-50/20 rounded-full blur-xl pointer-events-none opacity-60"></div>
-                )}
-                {index % 3 === 1 && (
-                  <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-amber-50/20 to-amber-100/20 rounded-full blur-xl pointer-events-none opacity-60"></div>
-                )}
-                {index % 3 === 2 && (
-                  <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-amber-50/20 to-amber-100/20 rounded-full blur-xl pointer-events-none opacity-60"></div>
-                )}
               </div>
             )
           })}

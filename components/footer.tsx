@@ -16,18 +16,18 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-gray-900 text-white py-12 px-4 border-t border-amber-600/20">
+    <footer className="bg-gray-900 text-white pt-10 pb-6 px-4 border-t border-amber-900/10">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
           <div>
-            <h3 className="text-xl font-semibold mb-4">QuoteGenerator</h3>
+            <h3 className="text-lg font-semibold mb-3">QuoteGenerator</h3>
             <p className="text-gray-400 leading-relaxed">
               Transform Bible quotes into beautiful, shareable art with the power of AI.
             </p>
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">Features</h4>
+            <h4 className="text-base font-semibold mb-3">Features</h4>
             <ul className="space-y-2 text-gray-400">
               <li>Daily Quote Recommendations</li>
               <li>Mood-Based Search</li>
@@ -37,7 +37,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">Company</h4>
+            <h4 className="text-base font-semibold mb-3">Company</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link href="/about" className="hover:text-white transition-colors" onClick={handleLinkClick}>
@@ -63,7 +63,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-lg font-semibold mb-4">Support</h4>
+            <h4 className="text-base font-semibold mb-3">Support</h4>
             <ul className="space-y-2 text-gray-400">
               <li>
                 <Link href="/help" className="hover:text-white transition-colors" onClick={handleLinkClick}>
@@ -88,8 +88,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-gray-800 pt-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3">
             <p className="text-gray-400 text-sm">
               Scripture quotations are from The Holy Bible, English Standard Version® (ESV®), copyright © 2001 by
               Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.
@@ -100,7 +100,7 @@ export function Footer() {
               <span>for God's glory</span>
             </div>
           </div>
-          <div className="text-center mt-4">
+          <div className="text-center mt-3">
             <p className="text-gray-500 text-sm">© {new Date().getFullYear()} QuoteGenerator. All rights reserved.</p>
           </div>
         </div>

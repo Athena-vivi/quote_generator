@@ -1,6 +1,6 @@
 "use client"
 
-import { Sparkles, Download, Share2 } from "lucide-react"
+import { Sparkles, Download, Share2, Feather } from "lucide-react"
 
 export function ExampleShowcase() {
   return (
@@ -70,7 +70,7 @@ export function ExampleShowcase() {
 
                       {/* AI Divine Seal - Bottom Right */}
                       <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 flex items-center justify-center shadow-lg">
-                        <Sparkles className="w-4 h-4 text-amber-300" />
+                        <Feather className="w-4 h-4 text-amber-300 rotate-[-15deg]" />
                       </div>
                     </div>
                   </div>
