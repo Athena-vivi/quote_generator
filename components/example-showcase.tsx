@@ -100,7 +100,7 @@ export function ExampleShowcase() {
           <div className="space-y-6">
             {/* Process Introduction */}
             <div className="mb-4">
-              <p className="text-base text-gray-600/80 dark:text-stone-400 font-light mb-6">
+              <p className="text-lg md:text-xl text-gray-700/80 dark:text-stone-400 font-serif italic font-light mb-6 text-amber-800/60 dark:text-amber-400/70">
                 Three divine steps to transform Scripture into art
               </p>
             </div>

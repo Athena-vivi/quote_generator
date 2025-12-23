@@ -326,14 +326,16 @@ export function QuoteFinder() {
       {activeTab === "mood" && (
         <div className="mb-12">
           <div className="relative bg-white/50 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
-            {/* Header - Simplified without icon */}
-            <div className="mb-8">
-              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">Find by Emotion</h3>
+            {/* Header - Simplified with Heart Icon */}
+            <div className="flex items-center gap-4 mb-8">
+              <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
+                <Heart className="w-8 h-8 text-amber-600 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+              </div>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">How are you feeling today?</h3>
             </div>
 
-            {/* Custom Mood Input */}
-            <div className="mb-10">
-              <p className="text-lg text-gray-700/90 dark:text-stone-300 mb-4">How are you feeling today?</p>
+            {/* Mood Input */}
+            <div className="relative mb-8">
               <div className="flex gap-4">
                 <input
                   type="text"
