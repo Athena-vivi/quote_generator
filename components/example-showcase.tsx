@@ -12,8 +12,8 @@ export function ExampleShowcase() {
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-8">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-4">
             Altar of Artistry
           </h2>
           <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
@@ -97,10 +97,10 @@ export function ExampleShowcase() {
           </div>
 
           {/* Process Steps - Compressed */}
-          <div className="space-y-8">
-            <div className="text-center mb-8">
-              <h3 className="text-3xl md:text-4xl font-serif font-bold text-amber-700 mb-2">Sacred Creation Process</h3>
-              <p className="text-base text-gray-600/80 font-light">
+          <div className="space-y-6">
+            {/* Process Introduction */}
+            <div className="mb-4">
+              <p className="text-base text-gray-600/80 font-light mb-6">
                 Three divine steps to transform Scripture into art
               </p>
             </div>

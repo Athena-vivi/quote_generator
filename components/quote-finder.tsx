@@ -358,10 +358,10 @@ export function QuoteFinder() {
               </div>
             </div>
 
-            {/* Mood Grid - Compact Layout */}
+            {/* Mood Grid - Compact Pill Buttons */}
             <div>
               <p className="text-base text-gray-700/90 mb-4">Or choose from these emotions:</p>
-              <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
+              <div className="flex flex-wrap gap-2">
                 {moodSuggestions.map((moodObj) => {
                   const IconComponent = moodObj.icon;
                   const isActive = moodQuery === moodObj.mood;
@@ -370,30 +370,16 @@ export function QuoteFinder() {
                     <button
                       key={moodObj.mood}
                       onClick={() => handleMoodSearch(moodObj.mood)}
-                      className={`group relative p-3 rounded-xl border transition-all duration-300 transform hover:scale-105 ${
+                      className={`group relative px-3 py-2 rounded-full border transition-all duration-300 flex items-center gap-2 ${
                         isActive
-                          ? "border-transparent shadow-lg scale-105"
-                          : "border-gray-200/60 hover:border-gray-300/60 shadow-sm"
+                          ? "border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 shadow-md"
+                          : "border-amber-100/50 hover:border-amber-300 hover:bg-amber-50"
                       }`}
                     >
-                      {/* Background Gradient */}
-                      <div className={`absolute inset-0 bg-gradient-to-br ${moodObj.gradient} rounded-2xl ${
-                        isActive ? "opacity-100" : "opacity-20 group-hover:opacity-40"
-                      } transition-opacity duration-300`}></div>
-
-                      {/* Content - Compact */}
-                      <div className="relative z-10 flex flex-col items-center gap-2">
-                        <div className={`p-2 rounded-lg ${
-                          isActive ? "bg-white/90" : "bg-white/60 group-hover:bg-white/80"
-                        } transition-colors duration-300`}>
-                          <IconComponent className="w-4 h-4 text-gray-800" />
-                        </div>
-                        <span className={`text-xs font-medium capitalize ${
-                          isActive ? "text-white" : "text-gray-800"
-                        }`}>
-                          {moodObj.mood}
-                        </span>
-                      </div>
+                      <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-700"}`} />
+                      <span className={`text-sm font-medium capitalize ${isActive ? "text-white" : "text-gray-700"}`}>
+                        {moodObj.mood}
+                      </span>
                     </button>
                   );
                 })}
