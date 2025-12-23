@@ -69,25 +69,28 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - High-End Art Gallery Brand */}
+          {/* Logo - Unified Brand with Gradient & Glow */}
           <Link
             href="/"
-            className="group flex items-center gap-3 hover:scale-105 transition-all duration-300"
+            className="group flex items-center gap-1.5 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
             {/* Logo Icon from public/logo.png */}
             <img
               src="/logo.png"
               alt="QuoteGenerator Logo"
-              className="h-10 w-auto object-contain"
-              height={40}
-              width={40}
+              className="h-9 w-auto object-contain"
+              height={36}
+              width={36}
             />
 
-            {/* Brand Text - QuoteGenerator */}
+            {/* Brand Text - QuoteGenerator with Gradient & Glow */}
             <span
-              className="font-semibold tracking-wider text-amber-900 dark:text-amber-300"
-              style={{ fontFamily: "'Crimson Text', serif" }}
+              className="font-semibold tracking-wider bg-gradient-to-r from-amber-700 via-amber-500 to-yellow-600 bg-clip-text text-transparent mt-0.5"
+              style={{
+                fontFamily: "'Crimson Text', serif",
+                filter: 'drop-shadow(0 0 2px rgba(212,175,55,0.3))'
+              }}
             >
               QuoteGenerator
             </span>
