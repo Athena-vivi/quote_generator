@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Calendar, Menu, X, BookOpen, Layers, FolderKanban } from "lucide-react"
+import { Menu, X, BookOpen, Layers, FolderKanban, Info } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function Navigation() {
@@ -25,24 +25,11 @@ export function Navigation() {
     }
   };
 
-  const handleDailyQuoteClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    e.preventDefault();
-    setIsMobileMenuOpen(false);
-    if (pathname === "/") {
-      const el = document.getElementById("daily-quote-section");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }
-    } else {
-      router.push("/#daily-quote-section");
-    }
-  };
-
   const navigationItems = [
-    { href: "/#daily-quote-section", label: "Daily Quote", icon: Calendar },
-    { href: "/#quote-finder", label: "Explore Verses", icon: BookOpen },
+    { href: "/#quote-finder", label: "Find Wisdom", icon: BookOpen },
     { href: "/themes", label: "Explore Themes", icon: Layers },
     { href: "/collections", label: "Collections", icon: FolderKanban },
+    { href: "/about", label: "About", icon: Info },
   ]
 
   const isActive = (href: string) => {
@@ -66,16 +53,16 @@ export function Navigation() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/60 dark:bg-zinc-900/60 backdrop-blur-md border-b border-amber-500/10">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - Circular Icon with Hover Animation */}
+          {/* Logo - Elegant Minimal */}
           <Link
             href="/"
             className="group flex items-center gap-2 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            {/* Logo Icon - Circular with Border & Hover Float */}
+            {/* Logo Icon */}
             <div className="relative">
               <img
                 src="/logo.png"
@@ -86,7 +73,7 @@ export function Navigation() {
               />
             </div>
 
-            {/* Brand Text - QuoteGenerator with Dark/Light Mode Colors */}
+            {/* Brand Text */}
             <span
               className="font-semibold tracking-wider text-amber-900 dark:text-amber-500"
               style={{ fontFamily: "'Crimson Text', serif" }}
@@ -95,14 +82,14 @@ export function Navigation() {
             </span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-2">
+          {/* Desktop Navigation - Premium Magazine Style */}
+          <div className="hidden lg:flex items-center space-x-10">
             {navigationItems.map((item) => {
               const handlers = {
-                "Explore Verses": handleFindQuotesClick,
-                "Daily Quote": handleDailyQuoteClick,
+                "Find Wisdom": handleFindQuotesClick,
                 "Explore Themes": handleNavClick,
-                "Collections": handleNavClick
+                "Collections": handleNavClick,
+                "About": handleNavClick
               };
 
               return (
@@ -110,20 +97,18 @@ export function Navigation() {
                   key={item.href}
                   href={item.href}
                   onClick={handlers[item.label as keyof typeof handlers] || handleNavClick}
-                  className={`group relative px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center gap-3 ${
-                    isActive(item.href)
-                      ? "bg-gradient-to-r from-amber-500/20 to-yellow-600/20 text-amber-800 dark:text-amber-300 shadow-lg shadow-amber-500/20 dark:shadow-amber-500/10"
-                      : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/10 dark:hover:bg-zinc-800/50"
-                  }`}
+                  className="group relative px-2 py-2"
                 >
-                  <div className="relative">
-                    <item.icon className="w-4 h-4" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/30 to-yellow-600/30 rounded-full blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  </div>
-                  <span className="relative">{item.label}</span>
-                  {isActive(item.href) && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-yellow-600/10 rounded-full blur-md"></div>
-                  )}
+                  {/* Navigation Text */}
+                  <span
+                    className="text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors duration-300"
+                    style={{ fontFamily: "'Crimson Text', serif" }}
+                  >
+                    {item.label}
+                  </span>
+
+                  {/* Slide-in Underline Animation */}
+                  <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-amber-500 to-amber-600 dark:from-amber-400 dark:to-amber-500 group-hover:w-full transition-all duration-300 ease-out"></span>
                 </Link>
               );
             })}
@@ -152,10 +137,10 @@ export function Navigation() {
             <div className="space-y-3">
               {navigationItems.map((item) => {
                 const handlers = {
-                  "Explore Verses": handleFindQuotesClick,
-                  "Daily Quote": handleDailyQuoteClick,
+                  "Find Wisdom": handleFindQuotesClick,
                   "Explore Themes": handleNavClick,
-                  "Collections": handleNavClick
+                  "Collections": handleNavClick,
+                  "About": handleNavClick
                 };
 
                 return (
