@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Calendar, Menu, X, BookOpen, Newspaper } from "lucide-react"
+import { Calendar, Menu, X, BookOpen, Newspaper, Bird } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function Navigation() {
@@ -68,96 +68,20 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - Divine Dove Icon */}
+          {/* Logo - Premium Art Gallery Style */}
           <Link
             href="/"
-            className="group flex items-center space-x-3 hover:scale-105 transition-all duration-300"
+            className="group flex items-center space-x-2.5 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            {/* Divine Dove Icon with Amber Glow */}
-            <div className="relative flex items-center justify-center">
-              {/* Sacred Glow Effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-yellow-500/10 to-amber-500/15 rounded-full blur-lg group-hover:from-amber-400/25 group-hover:via-yellow-500/15 group-hover:to-amber-500/25 transition-all duration-500"></div>
-              {/* Dove Icon - Fine Line Art */}
-              <div className="relative">
-                <svg
-                  className="w-9 h-9"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <defs>
-                    <linearGradient id="doveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#D4AF37" />
-                      <stop offset="50%" stopColor="#F4E4BC" />
-                      <stop offset="100%" stopColor="#D4AF37" />
-                    </linearGradient>
-                    <filter id="doveGlow">
-                      <feGaussianBlur stdDeviation="1.2" result="coloredBlur"/>
-                      <feMerge>
-                        <feMergeNode in="coloredBlur"/>
-                        <feMergeNode in="SourceGraphic"/>
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  {/* Dove body - elegant flowing line */}
-                  <path
-                    d="M18 4c-1.5 0-3 1-4 2.5-.5.8-1 1.5-1.5 2"
-                    stroke="url(#doveGradient)"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    filter="url(#doveGlow)"
-                  />
-                  {/* Wing - graceful curve */}
-                  <path
-                    d="M6 14c2-3 5-4 8-3 1.5.5 2.5 1.5 3 3"
-                    stroke="url(#doveGradient)"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    filter="url(#doveGlow)"
-                  />
-                  {/* Tail feathers */}
-                  <path
-                    d="M4 18c1.5-1 3-1.5 4.5-1"
-                    stroke="url(#doveGradient)"
-                    strokeWidth="1.1"
-                    strokeLinecap="round"
-                    filter="url(#doveGlow)"
-                  />
-                  {/* Head and beak */}
-                  <path
-                    d="M20 5l-2 1"
-                    stroke="url(#doveGradient)"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    filter="url(#doveGlow)"
-                  />
-                  {/* Eye - delicate dot */}
-                  <circle
-                    cx="19.5"
-                    cy="4.8"
-                    r="0.4"
-                    fill="url(#doveGradient)"
-                    filter="url(#doveGlow)"
-                  />
-                  {/* Olive branch - symbol of peace */}
-                  <path
-                    d="M8 16c1-1 2-1.5 3-1.5"
-                    stroke="url(#doveGradient)"
-                    strokeWidth="0.9"
-                    strokeLinecap="round"
-                    filter="url(#doveGlow)"
-                  />
-                  {/* Olive leaves */}
-                  <ellipse cx="10" cy="15" rx="0.6" ry="0.3" fill="url(#doveGradient)" filter="url(#doveGlow)" />
-                  <ellipse cx="11" cy="15.8" rx="0.5" ry="0.25" fill="url(#doveGradient)" filter="url(#doveGlow)" />
-                </svg>
-              </div>
+            {/* Bird Icon - Clean & Elegant */}
+            <div className="relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 rounded-full blur-sm group-hover:from-amber-400/15 group-hover:to-yellow-500/15 transition-all duration-300"></div>
+              <Bird className="relative w-6 h-6 text-amber-700 dark:text-amber-400" strokeWidth="1.8" />
             </div>
-            {/* Brand Text - Crimson Text Serif, All Caps */}
-            <span className="font-quote text-lg md:text-xl font-semibold tracking-[0.2em] bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent leading-none" style={{ fontFamily: "'Crimson Text', serif" }}>
+
+            {/* Brand Text - Serif, All Caps, Refined Spacing */}
+            <span className="font-serif text-base font-semibold tracking-[0.15em] bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent leading-none uppercase">
               QUOTEGENERATOR
             </span>
           </Link>
