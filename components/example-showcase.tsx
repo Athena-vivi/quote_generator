@@ -5,10 +5,10 @@ import { Sparkles, Download, Share2, Feather } from "lucide-react"
 export function ExampleShowcase() {
   return (
     <section id="example-showcase" className="relative py-12 px-6 sm:px-8 overflow-hidden">
-      {/* Sacred Background - Amber Unified */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30"></div>
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-200/10 to-yellow-200/10 rounded-full blur-3xl"></div>
+      {/* Sacred Background - Clean with Amber Glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30 dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.05)_0%,_transparent_70%)]"></div>
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 dark:from-amber-500/5 dark:to-amber-600/5 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-200/10 to-yellow-200/10 dark:from-amber-600/5 dark:to-amber-500/5 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
@@ -25,9 +25,9 @@ export function ExampleShowcase() {
           {/* Gallery-Style Digital Art Frame with Matting Effect */}
           <div className="relative group">
             {/* Elegant Frame Container */}
-            <div className="relative bg-amber-50/20 dark:bg-zinc-900/40 backdrop-blur-2xl rounded-3xl p-6 shadow-[0_20px_60px_-15px_rgba(212,175,55,0.3)] dark:shadow-[0_0_80px_rgba(212,175,55,0.15)] border border-amber-200/30 dark:border-amber-500/20">
+            <div className="relative bg-amber-50/20 dark:bg-zinc-900/30 dark:backdrop-blur-md backdrop-blur-2xl rounded-3xl p-6 shadow-[0_20px_60px_-15px_rgba(212,175,55,0.3)] dark:shadow-[0_0_80px_rgba(212,175,55,0.15)] border border-amber-200/30 dark:border-white/10">
               {/* Artwork Matting Frame */}
-              <div className="relative p-1 bg-white dark:bg-zinc-900/80 border border-amber-200/50 dark:border-amber-500/30 shadow-xl rounded-2xl">
+              <div className="relative p-1 bg-white dark:bg-zinc-900/50 border border-amber-200/50 dark:border-white/10 shadow-xl rounded-2xl">
                 {/* Artwork Display */}
                 <div className="relative aspect-square rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(212,175,55,0.1)]">
                   <div
@@ -107,7 +107,7 @@ export function ExampleShowcase() {
 
             <div className="space-y-3">
               {/* Step 1 - Flattened */}
-              <div className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/60 transition-all duration-300">
+              <div className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/50 transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <span className="text-4xl font-serif font-bold text-amber-600/80 dark:text-amber-400">1</span>
                   <div className="flex-1">
@@ -120,7 +120,7 @@ export function ExampleShowcase() {
               </div>
 
               {/* Step 2 - Flattened */}
-              <div className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/60 transition-all duration-300">
+              <div className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/50 transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <span className="text-4xl font-serif font-bold text-amber-600/80 dark:text-amber-400">2</span>
                   <div className="flex-1">
@@ -133,7 +133,7 @@ export function ExampleShowcase() {
               </div>
 
               {/* Step 3 - Flattened */}
-              <div className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/60 transition-all duration-300">
+              <div className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/50 transition-all duration-300">
                 <div className="flex items-center gap-4">
                   <span className="text-4xl font-serif font-bold text-amber-600/80 dark:text-amber-400">3</span>
                   <div className="flex-1">

@@ -70,12 +70,12 @@ export function FeaturesSection() {
                 <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-stone-50/40 to-white/40 dark:from-amber-500/5 dark:via-amber-600/5 dark:to-amber-500/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
 
                 {/* Card - Enhanced Quality */}
-                <div className="relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-5 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] dark:shadow-[0_0_30px_rgba(212,175,55,0.08)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.12)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+                <div className="relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-5 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] dark:shadow-[0_0_30px_rgba(212,175,55,0.08)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.12)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10">
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon & Title - Same Row */}
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="relative p-2.5 bg-white/80 dark:bg-zinc-800/60 backdrop-blur-sm rounded-xl border border-amber-100/40 dark:border-amber-500/20 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                      <div className="relative p-2.5 bg-white/80 dark:bg-zinc-900/50 backdrop-blur-sm rounded-xl border border-amber-100/40 dark:border-white/10 shadow-md group-hover:shadow-lg transition-shadow duration-300">
                         <div className="absolute inset-0 bg-amber-400/10 dark:bg-amber-500/10 rounded-xl blur-md"></div>
                         <IconComponent className="relative w-5 h-5 text-amber-700 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
                       </div>

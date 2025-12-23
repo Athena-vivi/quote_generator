@@ -255,7 +255,7 @@ export function QuoteFinder() {
       {/* Search Tab Content */}
       {activeTab === "search" && (
         <div className="mb-12">
-          <div className="relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+          <div className="relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
@@ -325,7 +325,7 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div className="mb-12">
-          <div className="relative bg-white/50 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+          <div className="relative bg-white/50 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header - Simplified without icon */}
             <div className="mb-8">
               <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">Find by Emotion</h3>
@@ -419,7 +419,7 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-10 shadow-2xl hover:shadow-3xl dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10"
+                className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-10 shadow-2xl hover:shadow-3xl dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10"
               >
                 {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 dark:from-amber-500/5 dark:to-amber-600/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
