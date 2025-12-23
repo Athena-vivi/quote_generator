@@ -123,22 +123,22 @@ export default function HomePage() {
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}
 
-      {/* 搜索区域 - 移除杂色背景，缩短间距 */}
-      <section className="py-12 px-6 bg-white border-y border-amber-50">
+      {/* 搜索区域 - Optimized with radial gradient */}
+      <section className="py-12 px-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white border-y border-amber-50">
         <div className="max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
       </section>
 
-      {/* 展示区域 - 保持暖调 */}
-      <section className="py-12 px-6">
+      {/* 展示区域 - Optimized with radial gradient */}
+      <section className="py-12 px-6 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white">
         <div className="max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
-      {/* 功能区域 - 紧凑结尾 */}
-      <section className="py-12 px-6 bg-white">
+      {/* 功能区域 - Optimized with radial gradient */}
+      <section className="py-12 px-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white border-t border-amber-50">
         <div className="max-w-6xl mx-auto">
           <FeaturesSection />
         </div>

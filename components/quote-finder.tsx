@@ -218,7 +218,7 @@ export function QuoteFinder() {
 
       {/* Custom Glassmorphism Tabs */}
       <div className="mb-12">
-        <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-2 shadow-xl">
+        <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-2 shadow-xl">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setActiveTab("search")}
@@ -255,7 +255,7 @@ export function QuoteFinder() {
       {/* Search Tab Content */}
       {activeTab === "search" && (
         <div className="mb-12">
-          <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
+          <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-10 shadow-2xl">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
@@ -325,7 +325,7 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div className="mb-12">
-          <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
+          <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-10 shadow-2xl">
             {/* Header - Amber Unified */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
@@ -361,10 +361,10 @@ export function QuoteFinder() {
               </div>
             </div>
 
-            {/* Mood Grid */}
+            {/* Mood Grid - Compact Layout */}
             <div>
-              <p className="text-lg text-gray-700/90 mb-6">Or choose from these emotions:</p>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <p className="text-base text-gray-700/90 mb-4">Or choose from these emotions:</p>
+              <div className="grid grid-cols-4 md:grid-cols-8 gap-3">
                 {moodSuggestions.map((moodObj) => {
                   const IconComponent = moodObj.icon;
                   const isActive = moodQuery === moodObj.mood;
@@ -373,10 +373,10 @@ export function QuoteFinder() {
                     <button
                       key={moodObj.mood}
                       onClick={() => handleMoodSearch(moodObj.mood)}
-                      className={`group relative p-6 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${
+                      className={`group relative p-3 rounded-xl border-2 transition-all duration-300 transform hover:scale-105 ${
                         isActive
-                          ? "border-transparent shadow-xl scale-105"
-                          : "border-white/30 hover:border-white/50 shadow-lg"
+                          ? "border-transparent shadow-lg scale-105"
+                          : "border-white/30 hover:border-white/50 shadow-md"
                       }`}
                     >
                       {/* Background Gradient */}
@@ -384,14 +384,14 @@ export function QuoteFinder() {
                         isActive ? "opacity-100" : "opacity-20 group-hover:opacity-40"
                       } transition-opacity duration-300`}></div>
 
-                      {/* Content */}
-                      <div className="relative z-10 flex flex-col items-center gap-3">
-                        <div className={`p-3 rounded-xl ${
+                      {/* Content - Compact */}
+                      <div className="relative z-10 flex flex-col items-center gap-2">
+                        <div className={`p-2 rounded-lg ${
                           isActive ? "bg-white/90" : "bg-white/60 group-hover:bg-white/80"
                         } transition-colors duration-300`}>
-                          <IconComponent className="w-6 h-6 text-gray-800" />
+                          <IconComponent className="w-4 h-4 text-gray-800" />
                         </div>
-                        <span className={`font-medium capitalize ${
+                        <span className={`text-xs font-medium capitalize ${
                           isActive ? "text-white" : "text-gray-800"
                         }`}>
                           {moodObj.mood}
@@ -436,7 +436,7 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-500"
+                className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-500"
               >
                 {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>

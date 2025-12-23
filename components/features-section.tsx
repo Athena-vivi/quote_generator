@@ -1,4 +1,4 @@
-import { Search, Palette, Share2, Calendar, Heart, Sparkles, Shield } from "lucide-react"
+import { Search, Palette, Share2, Calendar, Heart, Shield } from "lucide-react"
 
 export function FeaturesSection() {
   const features = [
@@ -41,7 +41,7 @@ export function FeaturesSection() {
   ]
 
   return (
-    <section className="relative py-16 px-6 sm:px-8 overflow-hidden">
+    <section className="relative py-12 px-6 sm:px-8 overflow-hidden">
       {/* Sacred Background - Amber Unified */}
       <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-white/50 to-amber-50/30"></div>
       <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 rounded-full blur-3xl"></div>
@@ -71,8 +71,8 @@ export function FeaturesSection() {
                 {/* Hover Glow Effect - Amber Unified */}
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/20 via-yellow-300/20 to-amber-200/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
 
-                {/* Card - Unified Amber Shadow */}
-                <div className="relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-3xl p-8 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500">
+                {/* Card - Enhanced Quality */}
+                <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-6 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500">
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon - Amber Unified */}
@@ -111,22 +111,6 @@ export function FeaturesSection() {
               </div>
             )
           })}
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <div className="relative inline-block">
-            <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-2xl blur-lg opacity-60"></div>
-            <button className="relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">
-              <span className="flex items-center gap-3">
-                <Sparkles className="w-5 h-5" />
-                Begin Your Spiritual Journey
-              </span>
-            </button>
-          </div>
-          <p className="mt-6 text-gray-600/80 font-light">
-            Join thousands of souls creating divine art daily
-          </p>
         </div>
       </div>
     </section>

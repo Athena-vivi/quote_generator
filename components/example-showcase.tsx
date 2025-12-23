@@ -1,10 +1,10 @@
 "use client"
 
-import { Sparkles, Eye, Download, Copy, Share2, Settings, Palette, Image, Layers, Wand2 } from "lucide-react"
+import { Sparkles, Eye, Download, Copy, Share2, Settings, Palette, Layers, Wand2 } from "lucide-react"
 
 export function ExampleShowcase() {
   return (
-    <section id="example-showcase" className="relative py-16 px-6 sm:px-8 overflow-hidden bg-amber-50/20">
+    <section id="example-showcase" className="relative py-12 px-6 sm:px-8 overflow-hidden">
       {/* Sacred Background - Amber Unified */}
       <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30"></div>
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 rounded-full blur-3xl"></div>
@@ -155,9 +155,9 @@ export function ExampleShowcase() {
               </p>
             </div>
 
-            <div className="space-y-8">
-              {/* Step 1 - Amber Unified */}
-              <div className="group relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
+            <div className="space-y-5">
+              {/* Step 1 - Compressed & Enhanced */}
+              <div className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
@@ -175,8 +175,8 @@ export function ExampleShowcase() {
                 </div>
               </div>
 
-              {/* Step 2 - Amber Unified */}
-              <div className="group relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
+              {/* Step 2 - Compressed & Enhanced */}
+              <div className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
@@ -194,8 +194,8 @@ export function ExampleShowcase() {
                 </div>
               </div>
 
-              {/* Step 3 - Amber Unified */}
-              <div className="group relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
+              {/* Step 3 - Compressed & Enhanced */}
+              <div className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
@@ -212,22 +212,6 @@ export function ExampleShowcase() {
                   </div>
                 </div>
               </div>
-            </div>
-
-            {/* CTA Button - Amber Unified */}
-            <div className="text-center pt-8">
-              <button
-                onClick={() => {
-                  document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })
-                }}
-                className="group relative px-10 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
-              >
-                <span className="relative z-10 flex items-center gap-3">
-                  <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
-                  Begin Your Creation
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
-              </button>
             </div>
           </div>
         </div>
