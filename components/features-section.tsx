@@ -101,3 +101,6 @@ export function FeaturesSection() {
     </section>
   )
 }
+
+// Add default export for Next.js dynamic imports
+export default FeaturesSection

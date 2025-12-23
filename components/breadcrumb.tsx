@@ -21,17 +21,6 @@ export function Breadcrumb() {
     }),
   ]
 
-  // 处理面包屑点击，滚动到顶部
-  const handleBreadcrumbClick = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      })
-    }, 100)
-  }
-
   return (
     <nav className="bg-background py-3 px-4 border-b border-amber-200/30 dark:border-amber-500/10">
       <div className="max-w-6xl mx-auto">
@@ -43,17 +32,16 @@ export function Breadcrumb() {
               {index === breadcrumbItems.length - 1 ? (
                 // Current page - not clickable
                 <span className="text-amber-700 font-medium flex items-center gap-1">
-                  {index === 0 && item.icon && <item.icon className="w-4 h-4" />}
+                  {index === 0 && <item.icon className="w-4 h-4" />}
                   {item.label}
                 </span>
               ) : (
                 // Clickable breadcrumb
                 <Link
                   href={item.href}
-                  onClick={handleBreadcrumbClick}
                   className="text-gray-600 hover:text-amber-700 transition-colors flex items-center gap-1"
                 >
-                  {index === 0 && item.icon && <item.icon className="w-4 h-4" />}
+                  {index === 0 && <item.icon className="w-4 h-4" />}
                   {item.label}
                 </Link>
               )}

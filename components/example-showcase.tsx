@@ -154,3 +154,6 @@ export function ExampleShowcase() {
     </section>
   )
 }
+
+// Add default export for Next.js dynamic imports
+export default ExampleShowcase

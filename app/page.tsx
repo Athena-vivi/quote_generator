@@ -1,13 +1,48 @@
 "use client"
 
-import { FeaturesSection } from "@/components/features-section"
 import { QuoteFinder } from "@/components/quote-finder"
-import { ExampleShowcase } from "@/components/example-showcase"
 import { PageLayout } from "@/components/page-layout"
 import { HashScrollToQuoteFinder } from "@/components/hash-scroll-to-quote-finder"
-import { BookOpen, Feather, Loader2, Palette, RefreshCw } from "lucide-react"
+import { BookOpen, Feather, Loader2, Palette } from "lucide-react"
 import { useState, useEffect } from "react"
-import { ImageGenerator } from "@/components/image-generator"
+import dynamic from "next/dynamic"
+
+// Dynamically import large components with loading states
+const ImageGenerator = dynamic(
+  () => import("@/components/image-generator"),
+  {
+    loading: () => (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+      </div>
+    ),
+    ssr: false,
+  }
+)
+
+const ExampleShowcase = dynamic(
+  () => import("@/components/example-showcase"),
+  {
+    loading: () => (
+      <div className="py-20 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+      </div>
+    ),
+    ssr: true,
+  }
+)
+
+const FeaturesSection = dynamic(
+  () => import("@/components/features-section"),
+  {
+    loading: () => (
+      <div className="py-20 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+      </div>
+    ),
+    ssr: true,
+  }
+)
 
 interface Quote {
   reference: string

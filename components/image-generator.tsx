@@ -861,3 +861,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     </div>
   )
 }
+
+// Add default export for Next.js dynamic imports
+export default ImageGenerator

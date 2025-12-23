@@ -1,19 +1,7 @@
-"use client"
-
-import { Heart } from "lucide-react"
-import Link from "next/link"
+import { ScrollToTopLink } from "./footer-scroll-link"
 
 export function Footer() {
-  // 处理链接点击，滚动到顶部
-  const handleLinkClick = () => {
-    setTimeout(() => {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      })
-    }, 100)
-  }
+  const currentYear = new Date().getFullYear()
 
   return (
     <footer className="bg-background text-foreground pt-10 pb-6 px-4 border-t border-amber-900/10 dark:border-white/5">
@@ -40,24 +28,16 @@ export function Footer() {
             <h4 className="text-sm font-semibold mb-3">Company</h4>
             <ul className="space-y-3 text-muted-foreground text-xs">
               <li className="min-h-[44px] flex items-center">
-                <Link href="/about" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
-                  About Us
-                </Link>
+                <ScrollToTopLink href="/about">About Us</ScrollToTopLink>
               </li>
               <li className="min-h-[44px] flex items-center">
-                <Link href="/contact" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
-                  Contact
-                </Link>
+                <ScrollToTopLink href="/contact">Contact</ScrollToTopLink>
               </li>
               <li className="min-h-[44px] flex items-center">
-                <Link href="/privacy" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
-                  Privacy Policy
-                </Link>
+                <ScrollToTopLink href="/privacy">Privacy Policy</ScrollToTopLink>
               </li>
               <li className="min-h-[44px] flex items-center">
-                <Link href="/terms" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
-                  Terms of Service
-                </Link>
+                <ScrollToTopLink href="/terms">Terms of Service</ScrollToTopLink>
               </li>
             </ul>
           </div>
@@ -66,23 +46,13 @@ export function Footer() {
             <h4 className="text-sm font-semibold mb-3">Support</h4>
             <ul className="space-y-3 text-muted-foreground text-xs">
               <li className="min-h-[44px] flex items-center">
-                <Link href="/help" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
-                  Help Center
-                </Link>
+                <ScrollToTopLink href="/help">Help Center</ScrollToTopLink>
               </li>
               <li className="min-h-[44px] flex items-center">
-                <Link
-                  href="/contact?type=feedback"
-                  className="hover:foreground transition-colors py-2"
-                  onClick={handleLinkClick}
-                >
-                  Send Feedback
-                </Link>
+                <ScrollToTopLink href="/contact?type=feedback">Send Feedback</ScrollToTopLink>
               </li>
               <li className="min-h-[44px] flex items-center">
-                <Link href="/contact?type=bug" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
-                  Report a Bug
-                </Link>
+                <ScrollToTopLink href="/contact?type=bug">Report a Bug</ScrollToTopLink>
               </li>
             </ul>
           </div>
@@ -96,15 +66,32 @@ export function Footer() {
             </p>
             <div className="flex items-center gap-2 text-muted-foreground text-xs">
               <span>Made with</span>
-              <Heart className="w-3.5 h-3.5 text-red-500" aria-hidden="true" />
+              <HeartIcon aria-hidden="true" />
               <span>for God's glory</span>
             </div>
           </div>
           <div className="text-center mt-4">
-            <p className="text-muted-foreground text-xs">© {new Date().getFullYear()} QuoteGenerator. All rights reserved.</p>
+            <p className="text-muted-foreground text-xs">© {currentYear} QuoteGenerator. All rights reserved.</p>
           </div>
         </div>
       </div>
     </footer>
+  )
+}
+
+// Server component Heart icon (SVG)
+function HeartIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className}
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    </svg>
   )
 }

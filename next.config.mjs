@@ -1,11 +1,16 @@
 import mdx from '@next/mdx';
 import path from 'path';
+import bundleAnalyzer from '@next/bundle-analyzer';
 
 const withMDX = mdx({
   extension: /\.mdx?$/
 });
 
-const nextConfig = withMDX({
+const withBundleAnalyzer = bundleAnalyzer({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+const nextConfig = withBundleAnalyzer(withMDX({
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -170,6 +175,6 @@ const nextConfig = withMDX({
       }
     ]
   },
-});
+}));
 
 export default nextConfig;
