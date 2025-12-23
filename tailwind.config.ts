@@ -93,12 +93,21 @@ const config: Config = {
   				'50%': {
   					backgroundPosition: '100% 50%'
   				}
+  			},
+  			float: {
+  				'0%, 100%': {
+  					transform: 'translateY(0px) rotate(15deg)'
+  				},
+  				'50%': {
+  					transform: 'translateY(-2px) rotate(15deg)'
+  				}
   			}
   		},
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-  			shimmer: 'shimmer 3s ease-in-out infinite'
+  			shimmer: 'shimmer 3s ease-in-out infinite',
+  			float: 'float 3s ease-in-out infinite'
   		},
   		backgroundImage: {
   			'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))'
