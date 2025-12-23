@@ -36,7 +36,7 @@ export function ExampleShowcase() {
                     alt="Example of AI-generated Bible verse art featuring Jeremiah 29:11 with a peaceful landscape background"
                     fill
                     className="object-cover"
-                    sizes="(max-width: 768px) 100vw, 450px"
+                    sizes="(max-width: 640px) 450px, (max-width: 1024px) 600px, 800px"
                     priority
                     quality={75}
                   />
