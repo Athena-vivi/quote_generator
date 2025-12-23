@@ -218,34 +218,34 @@ export function QuoteFinder() {
 
       {/* Custom Glassmorphism Tabs */}
       <div className="mb-10">
-        <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-2 shadow-xl ring-1 ring-amber-200/20">
+        <div className="relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-2xl p-2 shadow-xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setActiveTab("search")}
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "search"
-                  ? "bg-amber-100/50 text-amber-800 shadow-lg"
-                  : "text-gray-700/80 hover:text-amber-800 hover:bg-white/20"
+                  ? "bg-amber-100/50 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 shadow-lg"
+                  : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/20 dark:hover:bg-zinc-800/50"
               }`}
             >
               <Search className="w-5 h-5" />
               Direct Search
               {activeTab === "search" && (
-                <div className="absolute inset-0 bg-amber-100/30 rounded-xl blur-lg"></div>
+                <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg"></div>
               )}
             </button>
             <button
               onClick={() => setActiveTab("mood")}
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "mood"
-                  ? "bg-amber-100/50 text-amber-800 shadow-lg"
-                  : "text-gray-700/80 hover:text-amber-800 hover:bg-white/20"
+                  ? "bg-amber-100/50 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 shadow-lg"
+                  : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/20 dark:hover:bg-zinc-800/50"
               }`}
             >
               <Heart className="w-5 h-5" />
               Mood Match
               {activeTab === "mood" && (
-                <div className="absolute inset-0 bg-amber-100/30 rounded-xl blur-lg"></div>
+                <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg"></div>
               )}
             </button>
           </div>
@@ -255,13 +255,13 @@ export function QuoteFinder() {
       {/* Search Tab Content */}
       {activeTab === "search" && (
         <div className="mb-12">
-          <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20">
+          <div className="relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
-                <BookOpen className="w-8 h-8 text-amber-600 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+              <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
+                <BookOpen className="w-8 h-8 text-amber-600 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
               </div>
-              <h3 className="text-2xl font-serif font-semibold text-gray-800">Search Scripture</h3>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">Search Scripture</h3>
             </div>
 
             {/* Search Input */}
@@ -325,10 +325,10 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div className="mb-12">
-          <div className="relative bg-white/50 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20">
+          <div className="relative bg-white/50 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header - Simplified without icon */}
             <div className="mb-8">
-              <h3 className="text-2xl font-serif font-semibold text-gray-800">Find by Emotion</h3>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">Find by Emotion</h3>
             </div>
 
             {/* Custom Mood Input */}
@@ -360,7 +360,7 @@ export function QuoteFinder() {
 
             {/* Mood Grid - Compact Pill Buttons */}
             <div>
-              <p className="text-base text-gray-700/90 mb-4">Or choose from these emotions:</p>
+              <p className="text-base text-gray-700/90 dark:text-stone-300 mb-4">Or choose from these emotions:</p>
               <div className="flex flex-wrap gap-2">
                 {moodSuggestions.map((moodObj) => {
                   const IconComponent = moodObj.icon;
@@ -372,12 +372,12 @@ export function QuoteFinder() {
                       onClick={() => handleMoodSearch(moodObj.mood)}
                       className={`group relative px-3 py-2 rounded-full border transition-all duration-300 flex items-center gap-2 ${
                         isActive
-                          ? "border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 shadow-md"
-                          : "border-amber-100/50 hover:border-amber-300 hover:bg-amber-50"
+                          ? "border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 shadow-md"
+                          : "border-amber-100/50 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-500/50 hover:bg-amber-50 dark:hover:bg-amber-950/30"
                       }`}
                     >
-                      <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-700"}`} />
-                      <span className={`text-sm font-medium capitalize ${isActive ? "text-white" : "text-gray-700"}`}>
+                      <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-700 dark:text-stone-300"}`} />
+                      <span className={`text-sm font-medium capitalize ${isActive ? "text-white" : "text-gray-700 dark:text-stone-300"}`}>
                         {moodObj.mood}
                       </span>
                     </button>
@@ -408,7 +408,7 @@ export function QuoteFinder() {
       {/* Results */}
       {quotes.length > 0 && (
         <div className="mt-12 space-y-8">
-          <h3 className="text-4xl md:text-5xl font-serif font-bold text-amber-700">
+          <h3 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-400">
             {activeTab === "mood"
               ? `Divine Wisdom for "${moodQuery || customMood}"`
               : singleQuote
@@ -419,34 +419,34 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20"
+                className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-10 shadow-2xl hover:shadow-3xl dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10"
               >
                 {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 dark:from-amber-500/5 dark:to-amber-600/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                 <div className="relative z-10">
-                  <blockquote className="text-2xl md:text-3xl font-serif text-gray-800 mb-6 leading-relaxed font-light">
+                  <blockquote className="text-2xl md:text-3xl font-serif text-gray-800 dark:text-stone-200 mb-6 leading-relaxed font-light">
                     "{quote.content}"
                   </blockquote>
-                  <cite className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-700 to-yellow-700 bg-clip-text text-transparent block mb-8">
+                  <cite className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-700 to-yellow-700 dark:from-amber-400 dark:to-amber-500 bg-clip-text text-transparent block mb-8">
                     — {quote.reference}
                   </cite>
 
                   <div className="flex flex-wrap gap-4">
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
-                      className="group/btn relative px-8 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                      className="group/btn relative px-8 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                     >
                       <span className="relative z-10 flex items-center gap-2">
                         <Palette className="w-5 h-5 group-hover/btn:rotate-12 transition-transform duration-300" />
                         Create Image
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
                     </button>
 
                     <button
                       onClick={() => copyToClipboard(quote, index)}
-                      className="px-8 py-3 bg-white/60 backdrop-blur-sm border-2 border-white/40 text-amber-700 font-semibold rounded-xl shadow-lg hover:bg-white/80 hover:border-white/60 transform hover:scale-105 transition-all duration-300"
+                      className="px-8 py-3 bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border-2 border-white/40 dark:border-amber-900/40 text-amber-700 dark:text-amber-400 font-semibold rounded-xl shadow-lg hover:bg-white/80 dark:hover:bg-zinc-700/60 hover:border-white/60 dark:hover:border-amber-500/30 transform hover:scale-105 transition-all duration-300"
                     >
                       {copiedIndex === index ? (
                         <span className="flex items-center gap-2 text-green-600">

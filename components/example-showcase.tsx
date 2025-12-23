@@ -13,10 +13,10 @@ export function ExampleShowcase() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
         <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-4">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 dark:text-amber-400 mb-4">
             Altar of Artistry
           </h2>
-          <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
+          <p className="text-xl md:text-2xl text-gray-600/90 dark:text-stone-400 font-light leading-relaxed max-w-4xl mx-auto">
             Experience the sacred transformation of Scripture into breathtaking visual masterpieces
           </p>
         </div>
@@ -25,9 +25,9 @@ export function ExampleShowcase() {
           {/* Gallery-Style Digital Art Frame with Matting Effect */}
           <div className="relative group">
             {/* Elegant Frame Container */}
-            <div className="relative bg-amber-50/20 backdrop-blur-2xl rounded-3xl p-6 shadow-[0_20px_60px_-15px_rgba(212,175,55,0.3)] border border-amber-200/30">
+            <div className="relative bg-amber-50/20 dark:bg-zinc-900/40 backdrop-blur-2xl rounded-3xl p-6 shadow-[0_20px_60px_-15px_rgba(212,175,55,0.3)] dark:shadow-[0_0_80px_rgba(212,175,55,0.15)] border border-amber-200/30 dark:border-amber-500/20">
               {/* Artwork Matting Frame */}
-              <div className="relative p-1 bg-white border border-amber-200/50 shadow-xl rounded-2xl">
+              <div className="relative p-1 bg-white dark:bg-zinc-900/80 border border-amber-200/50 dark:border-amber-500/30 shadow-xl rounded-2xl">
                 {/* Artwork Display */}
                 <div className="relative aspect-square rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(212,175,55,0.1)]">
                   <div
@@ -100,19 +100,19 @@ export function ExampleShowcase() {
           <div className="space-y-6">
             {/* Process Introduction */}
             <div className="mb-4">
-              <p className="text-base text-gray-600/80 font-light mb-6">
+              <p className="text-base text-gray-600/80 dark:text-stone-400 font-light mb-6">
                 Three divine steps to transform Scripture into art
               </p>
             </div>
 
             <div className="space-y-3">
               {/* Step 1 - Flattened */}
-              <div className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-xl p-4 border-b border-amber-100/50 hover:bg-white/70 transition-all duration-300">
+              <div className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/60 transition-all duration-300">
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl font-serif font-bold text-amber-600/80">1</span>
+                  <span className="text-4xl font-serif font-bold text-amber-600/80 dark:text-amber-400">1</span>
                   <div className="flex-1">
-                    <h4 className="text-lg font-serif font-semibold text-gray-800 mb-1">Select Sacred Words</h4>
-                    <p className="text-sm text-gray-600/80 leading-snug">
+                    <h4 className="text-lg font-serif font-semibold text-gray-800 dark:text-stone-200 mb-1">Select Sacred Words</h4>
+                    <p className="text-sm text-gray-600/80 dark:text-stone-400 leading-snug">
                       Choose from daily divine inspiration, search specific scripture, or discover passages that resonate with your spiritual journey.
                     </p>
                   </div>
@@ -120,12 +120,12 @@ export function ExampleShowcase() {
               </div>
 
               {/* Step 2 - Flattened */}
-              <div className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-xl p-4 border-b border-amber-100/50 hover:bg-white/70 transition-all duration-300">
+              <div className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/60 transition-all duration-300">
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl font-serif font-bold text-amber-600/80">2</span>
+                  <span className="text-4xl font-serif font-bold text-amber-600/80 dark:text-amber-400">2</span>
                   <div className="flex-1">
-                    <h4 className="text-lg font-serif font-semibold text-gray-800 mb-1">Describe Divine Vision</h4>
-                    <p className="text-sm text-gray-600/80 leading-snug">
+                    <h4 className="text-lg font-serif font-semibold text-gray-800 dark:text-stone-200 mb-1">Describe Divine Vision</h4>
+                    <p className="text-sm text-gray-600/80 dark:text-stone-400 leading-snug">
                       Guide our AI to create heavenly backgrounds - from majestic mountains to celestial skies, from peaceful gardens to radiant light.
                     </p>
                   </div>
@@ -133,12 +133,12 @@ export function ExampleShowcase() {
               </div>
 
               {/* Step 3 - Flattened */}
-              <div className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-xl p-4 border-b border-amber-100/50 hover:bg-white/70 transition-all duration-300">
+              <div className="group relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-xl p-4 border-b border-amber-100/50 dark:border-amber-900/20 hover:bg-white/70 dark:hover:bg-zinc-800/60 transition-all duration-300">
                 <div className="flex items-center gap-4">
-                  <span className="text-4xl font-serif font-bold text-amber-600/80">3</span>
+                  <span className="text-4xl font-serif font-bold text-amber-600/80 dark:text-amber-400">3</span>
                   <div className="flex-1">
-                    <h4 className="text-lg font-serif font-semibold text-gray-800 mb-1">Share Divine Message</h4>
-                    <p className="text-sm text-gray-600/80 leading-snug">
+                    <h4 className="text-lg font-serif font-semibold text-gray-800 dark:text-stone-200 mb-1">Share Divine Message</h4>
+                    <p className="text-sm text-gray-600/80 dark:text-stone-400 leading-snug">
                       Receive your masterpiece in stunning 4K resolution and share God's word with the world through social media or personal reflection.
                     </p>
                   </div>

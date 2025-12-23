@@ -43,15 +43,15 @@ export function FeaturesSection() {
   return (
     <section className="relative py-10 px-6 sm:px-8 overflow-hidden">
       {/* Sacred Background - Clean White/Stone */}
-      <div className="absolute inset-0 bg-gradient-to-br from-stone-50/40 via-white to-white"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-stone-50/40 via-white to-white dark:from-slate-950 dark:via-zinc-950 dark:to-zinc-950"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header - Serif Typography */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-4">
+          <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 dark:text-amber-400 mb-4">
             Grace & Features
           </h2>
-          <p className="text-lg md:text-xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
+          <p className="text-lg md:text-xl text-gray-600/90 dark:text-stone-400 font-light leading-relaxed max-w-4xl mx-auto">
             Sacred tools and features designed to elevate your spiritual journey through visual scripture
           </p>
         </div>
@@ -67,30 +67,30 @@ export function FeaturesSection() {
                 className="group relative"
               >
                 {/* Hover Glow Effect - Subtle White */}
-                <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-stone-50/40 to-white/40 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-stone-50/40 to-white/40 dark:from-amber-500/5 dark:via-amber-600/5 dark:to-amber-500/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
 
                 {/* Card - Enhanced Quality */}
-                <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-5 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20">
+                <div className="relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-3xl p-5 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] dark:shadow-[0_0_30px_rgba(212,175,55,0.08)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.12)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10">
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon & Title - Same Row */}
                     <div className="flex items-center gap-3 mb-3">
-                      <div className="relative p-2.5 bg-white/80 backdrop-blur-sm rounded-xl border border-amber-100/40 shadow-md group-hover:shadow-lg transition-shadow duration-300">
-                        <div className="absolute inset-0 bg-amber-400/10 rounded-xl blur-md"></div>
-                        <IconComponent className="relative w-5 h-5 text-amber-700 drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
+                      <div className="relative p-2.5 bg-white/80 dark:bg-zinc-800/60 backdrop-blur-sm rounded-xl border border-amber-100/40 dark:border-amber-500/20 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                        <div className="absolute inset-0 bg-amber-400/10 dark:bg-amber-500/10 rounded-xl blur-md"></div>
+                        <IconComponent className="relative w-5 h-5 text-amber-700 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
                       </div>
-                      <h3 className="text-lg font-serif font-bold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
+                      <h3 className="text-lg font-serif font-bold text-gray-800 dark:text-stone-200 group-hover:text-gray-900 dark:group-hover:text-stone-100 transition-colors duration-300">
                         {feature.title}
                       </h3>
                     </div>
 
                     {/* Description */}
-                    <p className="text-sm text-gray-600/90 leading-snug font-light group-hover:text-gray-700/90 transition-colors duration-300">
+                    <p className="text-sm text-gray-600/90 dark:text-stone-400 leading-snug font-light group-hover:text-gray-700/90 dark:group-hover:text-stone-300 transition-colors duration-300">
                       {feature.description}
                     </p>
 
                     {/* Hover Indicator - Amber */}
-                    <div className="absolute top-5 right-5 w-2 h-2 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="absolute top-5 right-5 w-2 h-2 bg-gradient-to-r from-amber-400 to-yellow-500 dark:from-amber-500 dark:to-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
               </div>

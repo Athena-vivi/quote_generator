@@ -67,9 +67,9 @@ export default function HomePage() {
 
           {/* Daily Quote Card - 统一阴影与宽度 */}
           <div className="w-full max-w-4xl relative">
-            <div className="absolute -inset-2 bg-amber-100/30 rounded-[2rem] blur-2xl -z-10"></div>
-            
-            <div className="bg-white/80 backdrop-blur-md border border-amber-100 shadow-[0_20px_50px_rgba(212,175,55,0.1)] rounded-[2rem] p-8 md:p-14 transition-all hover:shadow-amber-200/20">
+            <div className="absolute -inset-2 bg-amber-100/30 dark:bg-amber-500/10 rounded-[2rem] blur-2xl -z-10"></div>
+
+            <div className="bg-white/80 dark:bg-zinc-900/60 backdrop-blur-md border border-amber-100 dark:border-amber-900/30 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.15)] rounded-[2rem] p-8 md:p-14 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.2)]">
               {loading ? (
                 <div className="py-12 text-center">
                   <Loader2 className="w-8 h-8 mx-auto text-amber-500 animate-spin mb-4" />
@@ -124,9 +124,9 @@ export default function HomePage() {
       )}
 
       {/* 搜索区域 - Optimized with radial gradient and center glow */}
-      <section className="py-12 px-6 border-y border-amber-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_transparent_70%)] pointer-events-none"></div>
+      <section className="py-12 px-6 border-y border-amber-50 dark:border-amber-900/30 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white dark:from-amber-950/30 dark:via-slate-950 dark:to-slate-950"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.06)_0%,_transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
@@ -134,17 +134,17 @@ export default function HomePage() {
 
       {/* 展示区域 - Optimized with radial gradient and center glow */}
       <section className="py-10 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0fdf4_0%,_transparent_70%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white dark:from-amber-950/20 dark:via-slate-950 dark:to-slate-950"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0fdf4_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.05)_0%,_transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
       {/* 功能区域 - Optimized with radial gradient and center glow */}
-      <section className="py-10 px-6 border-t border-amber-50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#fef3c7_0%,_transparent_70%)] pointer-events-none"></div>
+      <section className="py-10 px-6 border-t border-amber-50 dark:border-amber-900/30 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white dark:from-amber-950/20 dark:via-slate-950 dark:to-slate-950"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#fef3c7_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.04)_0%,_transparent_70%)] pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <FeaturesSection />
         </div>
