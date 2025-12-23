@@ -80,10 +80,11 @@ export const metadata: Metadata = {
 }
 
 // Inline Critical CSS for above-the-fold content to prevent FOUC
+// Using HSL values to match globals.css for consistency
 const criticalCSS = `
   :root {
-    --background: 254 246 215;
-    --foreground: 31 41 55;
+    --background: 40 33% 98%;
+    --foreground: 20 14.3% 4.1%;
   }
 
   * { box-sizing: border-box; }
@@ -98,14 +99,14 @@ const criticalCSS = `
     margin: 0;
     padding: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-    background: rgb(254, 246, 215);
-    color: rgb(31, 41, 55);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
     min-height: 100vh;
   }
 
   .dark body {
-    background: rgb(17, 24, 39);
-    color: rgb(243, 244, 246);
+    background: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
 
   /* Critical layout utilities */
@@ -196,8 +197,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="application-name" content="QuoteGenerator" />
         <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
-        <meta name="msapplication-TileColor" content="#d4af37" />
-        <meta name="theme-color" content="#d4af37" />
+        <meta name="msapplication-TileColor" content="#FDFBF7" />
+        <meta name="theme-color" content="#FDFBF7" />
 
         {/* Font preload with async fallback */}
         <link
@@ -213,7 +214,7 @@ export default function RootLayout({
         </noscript>
       </head>
 
-      <body className="scroll-smooth bg-amber-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors" suppressHydrationWarning>
+      <body className="scroll-smooth bg-background text-foreground antialiased transition-colors" suppressHydrationWarning>
         <ThemeProvider
           defaultTheme="system"
           storageKey="quote-generator-theme"

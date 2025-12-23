@@ -4,7 +4,7 @@
   "description": "Transform Bible quotes into beautiful AI-generated art for social media sharing",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#fef3c7",
+  "background_color": "#FDFBF7",
   "theme_color": "#d4af37",
   "orientation": "portrait",
   "scope": "/",

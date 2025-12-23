@@ -12,12 +12,7 @@ export const InlineCriticalCSS = () => {
     document.head.appendChild(marker);
 
     const criticalCSS = `
-      /* Critical CSS for above-the-fold content */
-      :root {
-        --color-amber-50: #fef3c7;
-        --color-gray-800: #1f2937;
-      }
-
+      /* Critical CSS for above-the-fold content - uses CSS variables from globals.css */
       * {
         box-sizing: border-box;
       }
@@ -30,14 +25,9 @@ export const InlineCriticalCSS = () => {
         margin: 0;
         padding: 0;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-        background-color: var(--color-amber-50);
-        color: var(--color-gray-800);
+        background-color: hsl(var(--background));
+        color: hsl(var(--foreground));
         -webkit-font-smoothing: antialiased;
-      }
-
-      .dark body {
-        background-color: #111827;
-        color: #f3f4f6;
       }
 
       /* Loading indicator */

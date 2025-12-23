@@ -42,10 +42,10 @@ export default function HomePage() {
     <PageLayout showBreadcrumb={false}>
       <HashScrollToQuoteFinder />
 
-      {/* Hero & Daily Quote Section - Unified Background with Sacred Amber Glow */}
+      {/* Hero & Daily Quote Section - Warm parchment with divine radial glow */}
       <section className="relative pt-36 pb-12 px-6 overflow-hidden bg-background">
-        {/* Divine Light Glow - Behind Title */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-gradient-radial from-amber-500/6 via-amber-600/2 to-transparent opacity-0 dark:opacity-100 pointer-events-none transition-opacity duration-500"></div>
+        {/* Divine Light Glow - Center radial gradient from warm white to soft amber */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-gradient-radial from-white via-amber-50/40 to-amber-50/10 dark:from-amber-950/30 dark:via-amber-900/10 dark:to-transparent pointer-events-none"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
 
@@ -134,25 +134,25 @@ export default function HomePage() {
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}
 
-      {/* 搜索区域 - Unified Background with Subtle Amber Glow */}
+      {/* 搜索区域 - Subtle radial glow */}
       <section className="py-12 px-6 border-y border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.03)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.04)_0%,_transparent_80%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-amber-50/30 via-amber-50/10 to-transparent dark:from-amber-950/20 dark:via-transparent dark:to-transparent pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
       </section>
 
-      {/* 展示区域 - Unified Background with Subtle Amber Glow */}
+      {/* 展示区域 - Subtle radial glow */}
       <section className="py-10 px-6 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.025)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.035)_0%,_transparent_80%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-amber-50/20 via-white/50 to-white dark:from-amber-950/15 dark:via-transparent dark:to-transparent pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
-      {/* 功能区域 - Unified Background with Subtle Amber Glow */}
+      {/* 功能区域 - Subtle radial glow */}
       <section className="py-10 px-6 border-t border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.02)_0%,_transparent_70%)] dark:bg-[radial-gradient(circle_at_center,_rgba(212,175,55,0.03)_0%,_transparent_80%)] pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-amber-50/15 via-white/40 to-white dark:from-amber-950/10 dark:via-transparent dark:to-transparent pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <FeaturesSection />
         </div>
