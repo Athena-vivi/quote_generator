@@ -52,11 +52,10 @@ export default function HomePage() {
           {/* 眉毛标题 */}
           <div className="flex items-center gap-2 mb-8 opacity-60">
             <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
-            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: '#451a03' }} /* Deep brown for light mode */>
-              <span className="hidden dark:inline" style={{ color: '#fbbf24' }} /* Light amber for dark mode */>AI-Powered Scripture Art</span>
-              <span className="dark:hidden">AI-Powered Scripture Art</span>
+            <span className="text-xs tracking-[0.3em] uppercase font-semibold text-amber-950 dark:text-amber-400">
+              AI-Powered Scripture Art
             </span>
-            <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
+            <div className="h-px w-8 bg-400 dark:bg-amber-500/40"></div>
           </div>
 
           {/* Enhanced title with gradient and divine light effect */}
@@ -65,7 +64,7 @@ export default function HomePage() {
             <div className="absolute inset-0 bg-gradient-radial from-amber-500/10 via-amber-600/5 to-transparent opacity-0 dark:opacity-100 blur-3xl -z-10"></div>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Transform</span>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Bible Quotes</span>
-            <span className="text-xl md:text-2xl font-serif italic text-stone-500 dark:text-stone-500">into</span>
+            <span className="text-xl md:text-2xl font-serif italic text-stone-700 dark:text-stone-500">into</span>
             <span className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent drop-shadow-sm" style={{ filter: 'drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3))' }}>
               Divine Art
             </span>
@@ -83,14 +82,13 @@ export default function HomePage() {
                 </div>
               ) : dailyQuote ? (
                 <div className="text-center">
-                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50/50 dark:bg-amber-950/60 border border-amber-100 dark:border-amber-500/30 mb-8">
+                  <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100/80 dark:bg-amber-950/60 border border-amber-200 dark:border-amber-500/30 mb-8">
                     <div className="relative">
-                      <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-full p-1"></div>
-                      <Feather className="relative w-3.5 h-3.5 text-amber-600/70 dark:text-amber-400 rotate-[15deg] animate-[float_3s_ease-in-out_infinite]" aria-hidden="true" />
+                      <div className="absolute inset-0 bg-amber-200/40 dark:bg-amber-500/10 rounded-full p-1"></div>
+                      <Feather className="relative w-3.5 h-3.5 text-amber-700 dark:text-amber-400 rotate-[15deg] animate-[float_3s_ease-in-out_infinite]" aria-hidden="true" />
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: '#451a03' }} /* Deep brown for light mode */>
-                      <span className="hidden dark:inline" style={{ color: '#fcd34d' }} /* Light amber for dark mode */>Daily Inspiration</span>
-                      <span className="dark:hidden">Daily Inspiration</span>
+                    <span className="text-xs font-bold uppercase tracking-[0.25em] text-amber-950 dark:text-amber-300">
+                      Daily Inspiration
                     </span>
                   </div>
 
@@ -98,8 +96,8 @@ export default function HomePage() {
                     "{dailyQuote.content}"
                   </blockquote>
 
-                  <cite className="block text-lg font-serif mb-10" style={{ color: '#92400e' }} /* Deep amber for light mode */>
-                    <span className="dark:text-amber-400">— {dailyQuote.reference}</span>
+                  <cite className="block text-lg font-serif text-amber-900 dark:text-amber-400 mb-10">
+                    — {dailyQuote.reference}
                   </cite>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">

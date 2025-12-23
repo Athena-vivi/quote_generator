@@ -58,8 +58,8 @@ export function VersesForPeaceClient({ peaceVerses }: VersesForPeaceClientProps)
                     <div className="h-px bg-gradient-to-r from-transparent via-amber-200/30 dark:via-amber-500/20 to-transparent mb-4"></div>
 
                     {/* Reference */}
-                    <cite className="block text-base font-semibold text-right mb-6 pr-2" style={{ color: '#92400e' }} /* Deep amber for light mode */>
-                      <span className="dark:text-amber-400">— {quote.reference}</span>
+                    <cite className="block text-base font-semibold text-right mb-6 pr-2 text-amber-900 dark:text-amber-400">
+                      — {quote.reference}
                     </cite>
 
                     {/* Action Buttons */}

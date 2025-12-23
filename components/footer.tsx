@@ -90,7 +90,7 @@ export function Footer() {
 
         <div className="border-t border-border pt-6">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-muted-foreground text-[10px] leading-relaxed">
+            <p className="text-muted-foreground text-xs leading-relaxed">
               Scripture quotations are from The Holy Bible, English Standard Version® (ESV®), copyright © 2001 by
               Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.
             </p>
