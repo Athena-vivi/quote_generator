@@ -38,14 +38,14 @@ export function QuoteFinder() {
   const [suggestions, setSuggestions] = useState<typeof hotVerses>([]);
 
   const moodSuggestions = [
-    { mood: "peaceful", icon: Sun, gradient: "from-yellow-400 to-orange-500" },
-    { mood: "anxious", icon: Cloud, gradient: "from-gray-400 to-blue-500" },
-    { mood: "joyful", icon: Sparkles, gradient: "from-yellow-400 to-pink-500" },
-    { mood: "hopeful", icon: Star, gradient: "from-purple-400 to-indigo-500" },
-    { mood: "grateful", icon: Flower, gradient: "from-green-400 to-teal-500" },
-    { mood: "lonely", icon: Moon, gradient: "from-blue-400 to-indigo-600" },
-    { mood: "fearful", icon: Zap, gradient: "from-red-400 to-orange-500" },
-    { mood: "blessed", icon: Heart, gradient: "from-pink-400 to-red-500" },
+    { mood: "peaceful", icon: Sun, gradient: "from-amber-400 to-amber-600" },
+    { mood: "anxious", icon: Cloud, gradient: "from-amber-300 to-amber-500" },
+    { mood: "joyful", icon: Sparkles, gradient: "from-amber-400 to-yellow-500" },
+    { mood: "hopeful", icon: Star, gradient: "from-amber-500 to-yellow-600" },
+    { mood: "grateful", icon: Flower, gradient: "from-yellow-400 to-amber-600" },
+    { mood: "lonely", icon: Moon, gradient: "from-amber-300 to-yellow-500" },
+    { mood: "fearful", icon: Zap, gradient: "from-amber-500 to-amber-700" },
+    { mood: "blessed", icon: Heart, gradient: "from-yellow-500 to-amber-600" },
   ]
 
   // Check if quote is favorited
@@ -206,9 +206,9 @@ export function QuoteFinder() {
 
   return (
     <div id="quote-finder" className="max-w-7xl mx-auto scroll-mt-[140px] px-6 sm:px-8">
-      {/* Header */}
-      <div className="text-center mb-20">
-        <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800 bg-clip-text text-transparent mb-6">
+      {/* Header - Serif Typography */}
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 mb-6">
           Sacred Explorer
         </h2>
         <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
@@ -217,35 +217,35 @@ export function QuoteFinder() {
       </div>
 
       {/* Custom Glassmorphism Tabs */}
-      <div className="mb-16">
+      <div className="mb-12">
         <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-2 shadow-xl">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setActiveTab("search")}
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "search"
-                  ? "bg-gradient-to-r from-amber-600/90 to-yellow-600/90 text-white shadow-lg"
+                  ? "bg-amber-100/50 text-amber-800 shadow-lg"
                   : "text-gray-700/80 hover:text-amber-800 hover:bg-white/20"
               }`}
             >
               <Search className="w-5 h-5" />
               Direct Search
               {activeTab === "search" && (
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 rounded-xl blur-lg"></div>
+                <div className="absolute inset-0 bg-amber-100/30 rounded-xl blur-lg"></div>
               )}
             </button>
             <button
               onClick={() => setActiveTab("mood")}
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "mood"
-                  ? "bg-gradient-to-r from-amber-600/90 to-yellow-600/90 text-white shadow-lg"
+                  ? "bg-amber-100/50 text-amber-800 shadow-lg"
                   : "text-gray-700/80 hover:text-amber-800 hover:bg-white/20"
               }`}
             >
               <Heart className="w-5 h-5" />
               Mood Match
               {activeTab === "mood" && (
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 rounded-xl blur-lg"></div>
+                <div className="absolute inset-0 bg-amber-100/30 rounded-xl blur-lg"></div>
               )}
             </button>
           </div>
@@ -254,14 +254,14 @@ export function QuoteFinder() {
 
       {/* Search Tab Content */}
       {activeTab === "search" && (
-        <div className="mb-16">
+        <div className="mb-12">
           <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
                 <BookOpen className="w-8 h-8 text-amber-600" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800">Search Scripture</h3>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800">Search Scripture</h3>
             </div>
 
             {/* Search Input */}
@@ -324,14 +324,14 @@ export function QuoteFinder() {
 
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
-        <div className="mb-16">
+        <div className="mb-12">
           <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-2xl">
-            {/* Header */}
+            {/* Header - Amber Unified */}
             <div className="flex items-center gap-4 mb-8">
-              <div className="p-3 bg-gradient-to-br from-red-100/50 to-pink-100/50 rounded-2xl border border-red-200/30">
-                <Heart className="w-8 h-8 text-red-600" />
+              <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
+                <Heart className="w-8 h-8 text-amber-600" />
               </div>
-              <h3 className="text-2xl font-semibold text-gray-800">Find by Emotion</h3>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800">Find by Emotion</h3>
             </div>
 
             {/* Custom Mood Input */}
@@ -424,8 +424,8 @@ export function QuoteFinder() {
 
       {/* Results */}
       {quotes.length > 0 && (
-        <div className="mt-16 space-y-8">
-          <h3 className="text-4xl font-bold bg-gradient-to-br from-amber-700 to-orange-700 bg-clip-text text-transparent">
+        <div className="mt-12 space-y-8">
+          <h3 className="text-4xl md:text-5xl font-serif font-bold text-amber-700">
             {activeTab === "mood"
               ? `Divine Wisdom for "${moodQuery || customMood}"`
               : singleQuote

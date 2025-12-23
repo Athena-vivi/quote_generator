@@ -4,16 +4,16 @@ import { Sparkles, Eye, Download, Copy, Share2, Settings, Palette, Image, Layers
 
 export function ExampleShowcase() {
   return (
-    <section id="example-showcase" className="relative py-32 px-6 sm:px-8 overflow-hidden">
-      {/* Sacred Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-50/30 via-white/50 to-amber-50/40"></div>
-      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-purple-300/10 to-pink-400/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-300/10 to-yellow-400/10 rounded-full blur-3xl"></div>
+    <section id="example-showcase" className="relative py-16 px-6 sm:px-8 overflow-hidden">
+      {/* Sacred Background - Amber Unified */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30"></div>
+      <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-to-tr from-amber-200/10 to-yellow-200/10 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-24">
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-purple-700 via-pink-600 to-amber-700 bg-clip-text text-transparent mb-8">
+        {/* Header - Serif Typography */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 mb-8">
             Divine Creation Studio
           </h2>
           <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
@@ -148,25 +148,25 @@ export function ExampleShowcase() {
           {/* Process Steps */}
           <div className="space-y-12">
             <div className="text-center mb-12">
-              <h3 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Sacred Creation Process</h3>
+              <h3 className="text-3xl md:text-4xl font-serif font-bold text-amber-700 mb-4">Sacred Creation Process</h3>
               <p className="text-lg text-gray-600/80 font-light">
                 Three divine steps to transform Scripture into art
               </p>
             </div>
 
             <div className="space-y-8">
-              {/* Step 1 */}
-              <div className="group relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/10 to-yellow-500/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              {/* Step 1 - Amber Unified */}
+              <div className="group relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
-                  <div className="relative p-4 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-2xl shadow-lg">
+                  <div className="relative p-4 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-2xl shadow-lg border border-amber-300/30">
                     <span className="text-2xl font-bold text-white">1</span>
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-300 to-yellow-400 rounded-2xl blur-lg"></div>
                   </div>
 
                   <div className="flex-1">
-                    <h4 className="text-xl font-semibold text-gray-800 mb-3">Select Sacred Words</h4>
+                    <h4 className="text-xl font-serif font-semibold text-gray-800 mb-3">Select Sacred Words</h4>
                     <p className="text-gray-600/90 leading-relaxed">
                       Choose from daily divine inspiration, search specific scripture, or discover passages that resonate with your spiritual journey.
                     </p>
@@ -174,18 +174,18 @@ export function ExampleShowcase() {
                 </div>
               </div>
 
-              {/* Step 2 */}
-              <div className="group relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-purple-500/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              {/* Step 2 - Amber Unified */}
+              <div className="group relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
-                  <div className="relative p-4 bg-gradient-to-br from-blue-400 to-purple-500 rounded-2xl shadow-lg">
+                  <div className="relative p-4 bg-gradient-to-br from-amber-500 to-yellow-600 rounded-2xl shadow-lg border border-amber-300/30">
                     <span className="text-2xl font-bold text-white">2</span>
-                    <div className="absolute inset-0 bg-gradient-to-br from-blue-300 to-purple-400 rounded-2xl blur-lg"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-yellow-500 rounded-2xl blur-lg"></div>
                   </div>
 
                   <div className="flex-1">
-                    <h4 className="text-xl font-semibold text-gray-800 mb-3">Describe Divine Vision</h4>
+                    <h4 className="text-xl font-serif font-semibold text-gray-800 mb-3">Describe Divine Vision</h4>
                     <p className="text-gray-600/90 leading-relaxed">
                       Guide our AI to create heavenly backgrounds - from majestic mountains to celestial skies, from peaceful gardens to radiant light.
                     </p>
@@ -193,18 +193,18 @@ export function ExampleShowcase() {
                 </div>
               </div>
 
-              {/* Step 3 */}
-              <div className="group relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-r from-green-400/10 to-teal-500/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              {/* Step 3 - Amber Unified */}
+              <div className="group relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
-                  <div className="relative p-4 bg-gradient-to-br from-green-400 to-teal-500 rounded-2xl shadow-lg">
+                  <div className="relative p-4 bg-gradient-to-br from-yellow-500 to-amber-600 rounded-2xl shadow-lg border border-amber-300/30">
                     <span className="text-2xl font-bold text-white">3</span>
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-teal-400 rounded-2xl blur-lg"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 to-amber-500 rounded-2xl blur-lg"></div>
                   </div>
 
                   <div className="flex-1">
-                    <h4 className="text-xl font-semibold text-gray-800 mb-3">Share Divine Message</h4>
+                    <h4 className="text-xl font-serif font-semibold text-gray-800 mb-3">Share Divine Message</h4>
                     <p className="text-gray-600/90 leading-relaxed">
                       Receive your masterpiece in stunning 4K resolution and share God's word with the world through social media or personal reflection.
                     </p>
@@ -213,19 +213,19 @@ export function ExampleShowcase() {
               </div>
             </div>
 
-            {/* CTA Button */}
+            {/* CTA Button - Amber Unified */}
             <div className="text-center pt-8">
               <button
                 onClick={() => {
                   document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })
                 }}
-                className="group relative px-10 py-4 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
+                className="group relative px-10 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 text-lg"
               >
                 <span className="relative z-10 flex items-center gap-3">
                   <Sparkles className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
                   Begin Your Creation
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
               </button>
             </div>
           </div>

@@ -6,57 +6,51 @@ export function FeaturesSection() {
       icon: Calendar,
       title: "Daily Divine Wisdom",
       description: "Receive sacred verses selected each day to uplift your spirit and guide your journey",
-      gradient: "from-amber-400 to-yellow-500",
-      bgGradient: "from-amber-100/20 to-yellow-100/20",
+      gradient: "from-amber-500 to-yellow-600",
     },
     {
       icon: Search,
       title: "Sacred Scripture Search",
       description: "Find any biblical passage instantly with our intelligent search that understands your needs",
-      gradient: "from-blue-400 to-indigo-500",
-      bgGradient: "from-blue-100/20 to-indigo-100/20",
+      gradient: "from-amber-600 to-yellow-600",
     },
     {
       icon: Heart,
       title: "Spiritual Emotional Match",
       description: "Discover verses that resonate with your heart's current state and spiritual journey",
-      gradient: "from-red-400 to-pink-500",
-      bgGradient: "from-red-100/20 to-pink-100/20",
+      gradient: "from-amber-400 to-amber-600",
     },
     {
       icon: Palette,
       title: "Divine Art Creation",
       description: "Transform sacred words into breathtaking visual masterpieces with AI-powered creativity",
-      gradient: "from-purple-400 to-violet-500",
-      bgGradient: "from-purple-100/20 to-violet-100/20",
+      gradient: "from-yellow-500 to-amber-600",
     },
     {
       icon: Shield,
       title: "Premium Quality Export",
       description: "Download your creations in stunning 4K resolution perfect for any sacred space",
-      gradient: "from-green-400 to-teal-500",
-      bgGradient: "from-green-100/20 to-teal-100/20",
+      gradient: "from-amber-500 to-yellow-500",
     },
     {
       icon: Share2,
       title: "Faith Community Sharing",
       description: "Share divine inspiration with loved ones across all social platforms with one click",
-      gradient: "from-orange-400 to-red-500",
-      bgGradient: "from-orange-100/20 to-red-100/20",
+      gradient: "from-amber-600 to-yellow-700",
     },
   ]
 
   return (
-    <section className="relative py-32 px-6 sm:px-8 overflow-hidden">
-      {/* Sacred Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/40 via-white/60 to-yellow-50/40"></div>
-      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-300/10 to-yellow-400/10 rounded-full blur-3xl"></div>
-      <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-gradient-to-tr from-yellow-300/10 to-amber-400/10 rounded-full blur-3xl"></div>
+    <section className="relative py-16 px-6 sm:px-8 overflow-hidden">
+      {/* Sacred Background - Amber Unified */}
+      <div className="absolute inset-0 bg-gradient-to-br from-amber-50/30 via-white/50 to-amber-50/30"></div>
+      <div className="absolute top-1/3 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-gradient-to-tr from-yellow-200/10 to-amber-200/10 rounded-full blur-3xl"></div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-24">
-          <h2 className="text-5xl md:text-6xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-yellow-700 bg-clip-text text-transparent mb-8">
+        {/* Header - Serif Typography */}
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 mb-8">
             Divine Instruments
           </h2>
           <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
@@ -74,26 +68,23 @@ export function FeaturesSection() {
                 key={index}
                 className="group relative"
               >
-                {/* Hover Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 via-yellow-500/20 to-amber-600/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
+                {/* Hover Glow Effect - Amber Unified */}
+                <div className="absolute inset-0 bg-gradient-to-r from-amber-200/20 via-yellow-300/20 to-amber-200/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
 
-                {/* Card */}
-                <div className="relative bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-8 shadow-xl hover:shadow-2xl transform hover:-translate-y-2 transition-all duration-500">
-                  {/* Background Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${feature.bgGradient} rounded-3xl opacity-50`}></div>
-
+                {/* Card - Unified Amber Shadow */}
+                <div className="relative bg-white/10 backdrop-blur-xl border border-amber-200/30 rounded-3xl p-8 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500">
                   {/* Content */}
                   <div className="relative z-10">
-                    {/* Icon */}
+                    {/* Icon - Amber Unified */}
                     <div className="relative mb-6 inline-block">
-                      <div className={`absolute inset-0 bg-gradient-to-r ${feature.gradient} rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300`}></div>
-                      <div className="relative p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-white/40 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                        <IconComponent className={`w-8 h-8 bg-gradient-to-r ${feature.gradient} bg-clip-text text-transparent`} />
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-200/40 to-yellow-200/40 rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                      <div className="relative p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-amber-200/40 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+                        <IconComponent className="w-8 h-8 text-amber-600" />
                       </div>
                     </div>
 
                     {/* Title */}
-                    <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-gray-900 transition-colors duration-300">
+                    <h3 className="text-xl font-serif font-bold text-gray-800 mb-4 group-hover:text-gray-900 transition-colors duration-300">
                       {feature.title}
                     </h3>
 
@@ -102,20 +93,20 @@ export function FeaturesSection() {
                       {feature.description}
                     </p>
 
-                    {/* Hover Indicator */}
+                    {/* Hover Indicator - Amber */}
                     <div className="absolute top-6 right-6 w-2 h-2 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
                 </div>
 
-                {/* Floating Accent */}
+                {/* Floating Accent - Amber Unified */}
                 {index % 3 === 0 && (
                   <div className="absolute -top-4 -right-4 w-20 h-20 bg-gradient-to-br from-amber-200/30 to-yellow-300/30 rounded-full blur-xl pointer-events-none opacity-60"></div>
                 )}
                 {index % 3 === 1 && (
-                  <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-blue-200/30 to-indigo-300/30 rounded-full blur-xl pointer-events-none opacity-60"></div>
+                  <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-gradient-to-br from-amber-200/30 to-yellow-200/30 rounded-full blur-xl pointer-events-none opacity-60"></div>
                 )}
                 {index % 3 === 2 && (
-                  <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-purple-200/30 to-violet-300/30 rounded-full blur-xl pointer-events-none opacity-60"></div>
+                  <div className="absolute -top-4 -left-4 w-24 h-24 bg-gradient-to-br from-yellow-200/30 to-amber-300/30 rounded-full blur-xl pointer-events-none opacity-60"></div>
                 )}
               </div>
             )
@@ -123,7 +114,7 @@ export function FeaturesSection() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-24">
+        <div className="text-center mt-16">
           <div className="relative inline-block">
             <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-yellow-500 rounded-2xl blur-lg opacity-60"></div>
             <button className="relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300">

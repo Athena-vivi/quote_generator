@@ -124,21 +124,21 @@ export default function HomePage() {
       )}
 
       {/* 搜索区域 - 移除杂色背景，缩短间距 */}
-      <section className="py-16 px-6 bg-white border-y border-amber-50">
+      <section className="py-12 px-6 bg-white border-y border-amber-50">
         <div className="max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
       </section>
 
       {/* 展示区域 - 保持暖调 */}
-      <section className="py-16 px-6 bg-amber-50/20">
+      <section className="py-12 px-6 bg-amber-50/20">
         <div className="max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
       {/* 功能区域 - 紧凑结尾 */}
-      <section className="py-16 px-6 bg-white">
+      <section className="py-12 px-6 bg-white">
         <div className="max-w-6xl mx-auto">
           <FeaturesSection />
         </div>
