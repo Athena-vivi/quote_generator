@@ -59,13 +59,13 @@ export default function HomePage() {
           </div>
 
           {/* Enhanced title with gradient and divine light effect */}
-          <h1 className="text-center mb-14 flex flex-col md:flex-row items-baseline justify-center gap-2 md:gap-4 md:whitespace-nowrap relative">
+          <h1 className="text-center mb-14 flex flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline relative">
             {/* Title Glow Effect */}
             <div className="absolute inset-0 bg-gradient-radial from-amber-500/10 via-amber-600/5 to-transparent opacity-0 dark:opacity-100 blur-3xl -z-10"></div>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Transform</span>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Bible Quotes</span>
-            <span className="text-xl md:text-2xl font-serif italic text-stone-400 dark:text-stone-500">into</span>
-            <span className="text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent drop-shadow-sm" style={{ filter: 'drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3))' }}>
+            <span className="text-xl md:text-2xl font-serif italic text-stone-500 dark:text-stone-500">into</span>
+            <span className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent drop-shadow-sm" style={{ filter: 'drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3))' }}>
               Divine Art
             </span>
           </h1>
@@ -103,10 +103,13 @@ export default function HomePage() {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                     <button
                       onClick={() => setSelectedQuoteForImage(dailyQuote)}
-                      className="px-8 py-3.5 bg-amber-600 hover:bg-amber-700 dark:bg-amber-500 dark:hover:bg-amber-600 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center gap-2"
+                      className="group/btn relative px-8 py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center gap-2 overflow-hidden"
                     >
-                      <Palette className="w-4 h-4" />
-                      Create Divine Image
+                      <span className="relative z-10 flex items-center gap-2">
+                        <Palette className="w-4 h-4" />
+                        Create Divine Image
+                      </span>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
                     </button>
                     <button
                       onClick={() => document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })}

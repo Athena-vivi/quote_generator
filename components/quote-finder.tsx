@@ -208,10 +208,10 @@ export function QuoteFinder() {
     <div id="quote-finder" className="max-w-7xl mx-auto scroll-mt-[140px] px-6 sm:px-8 mt-16">
       {/* Header - Serif Typography */}
       <div className="text-center mb-12">
-        <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-6">
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 dark:text-amber-400 mb-6">
           Scripture Compass
         </h2>
-        <p className="text-xl md:text-2xl text-gray-600/90 font-light leading-relaxed max-w-4xl mx-auto">
+        <p className="text-xl md:text-2xl text-gray-600/90 dark:text-stone-400 font-light leading-relaxed max-w-4xl mx-auto">
           Discover divine wisdom through direct scripture search or emotional guidance
         </p>
       </div>
@@ -255,7 +255,7 @@ export function QuoteFinder() {
       {/* Search Tab Content */}
       {activeTab === "search" && (
         <div className="mb-12">
-          <div className="relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+          <div className="relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
@@ -325,7 +325,7 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div className="mb-12">
-          <div className="relative bg-white/50 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+          <div className="relative bg-white/50 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header - Simplified without icon */}
             <div className="mb-8">
               <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">Find by Emotion</h3>
@@ -361,7 +361,7 @@ export function QuoteFinder() {
             {/* Mood Grid - Compact Pill Buttons */}
             <div>
               <p className="text-base text-gray-700/90 dark:text-stone-300 mb-4">Or choose from these emotions:</p>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex md:flex-wrap gap-2 overflow-x-auto pb-2 md:pb-0 scrollbar-hide">
                 {moodSuggestions.map((moodObj) => {
                   const IconComponent = moodObj.icon;
                   const isActive = moodQuery === moodObj.mood;
@@ -370,7 +370,7 @@ export function QuoteFinder() {
                     <button
                       key={moodObj.mood}
                       onClick={() => handleMoodSearch(moodObj.mood)}
-                      className={`group relative px-3 py-2 rounded-full border transition-all duration-300 flex items-center gap-2 ${
+                      className={`group relative px-3 py-2 rounded-full border transition-all duration-300 flex items-center gap-2 flex-shrink-0 ${
                         isActive
                           ? "border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 shadow-md"
                           : "border-amber-100/50 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-500/50 hover:bg-amber-50 dark:hover:bg-amber-950/30"
@@ -419,7 +419,7 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-10 shadow-2xl hover:shadow-3xl dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10"
+                className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl hover:shadow-3xl dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10"
               >
                 {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 dark:from-amber-500/5 dark:to-amber-600/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
