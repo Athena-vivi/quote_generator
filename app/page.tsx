@@ -56,9 +56,9 @@ export default function HomePage() {
           </div>
 
           {/* Enhanced title with gradient and metallic effect */}
-          <h1 className="text-center mb-14 flex flex-col md:flex-row items-center justify-center gap-2 md:gap-4">
+          <h1 className="text-center mb-14 flex flex-col md:flex-row items-baseline justify-center gap-2 md:gap-4 md:whitespace-nowrap">
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700">Transform</span>
-            <span className="text-3xl md:text-4xl font-serif font-bold text-amber-700">Bible Quotes</span>
+            <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700">Bible Quotes</span>
             <span className="text-xl md:text-2xl font-serif italic text-stone-400">into</span>
             <span className="text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 bg-clip-text text-transparent drop-shadow-sm" style={{ filter: 'drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3))' }}>
               Divine Art
