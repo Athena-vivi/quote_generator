@@ -124,8 +124,10 @@ export function Navigation() {
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden bg-white/10 dark:bg-zinc-800/50 hover:bg-white/20 dark:hover:bg-zinc-700/50 backdrop-blur-sm border border-white/20 dark:border-amber-500/20 rounded-full p-3"
+            className="lg:hidden bg-white/10 dark:bg-zinc-800/50 hover:bg-white/20 dark:hover:bg-zinc-700/50 backdrop-blur-sm border border-white/20 dark:border-amber-500/20 rounded-full p-3 min-h-[44px] min-w-[44px]"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={isMobileMenuOpen}
           >
             {isMobileMenuOpen ? <X className="w-6 h-6 text-amber-700 dark:text-amber-400" /> : <Menu className="w-6 h-6 text-amber-700 dark:text-amber-400" />}
           </Button>
@@ -148,18 +150,19 @@ export function Navigation() {
                     key={item.href}
                     href={item.href}
                     onClick={handlers[item.label as keyof typeof handlers] || handleNavClick}
-                    className={`group flex items-center gap-4 px-6 py-4 rounded-2xl text-base font-medium transition-all duration-300 ${
+                    className={`group flex items-center gap-4 px-6 min-h-[48px] rounded-2xl text-base font-medium transition-all duration-300 ${
                       isActive(item.href)
                         ? "bg-gradient-to-r from-amber-500/20 to-yellow-600/20 text-amber-800 dark:text-amber-300 shadow-lg shadow-amber-500/20 border border-amber-400/30 dark:border-amber-500/30"
                         : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/10 dark:hover:bg-zinc-800/50 hover:backdrop-blur-sm"
                     }`}
+                    aria-current={isActive(item.href) ? "page" : undefined}
                   >
                     <div className="relative p-2 rounded-full bg-white/50 dark:bg-zinc-800/50 group-hover:bg-white/70 dark:group-hover:bg-zinc-700/50 transition-colors">
-                      <item.icon className="w-5 h-5" />
+                      <item.icon className="w-5 h-5" aria-hidden="true" />
                     </div>
                     <span>{item.label}</span>
                     {isActive(item.href) && (
-                      <div className="ml-auto w-2 h-2 bg-amber-500 dark:bg-amber-400 rounded-full shadow-lg shadow-amber-500/50"></div>
+                      <div className="ml-auto w-2 h-2 bg-amber-500 dark:bg-amber-400 rounded-full shadow-lg shadow-amber-500/50" aria-hidden="true"></div>
                     )}
                   </Link>
                 );

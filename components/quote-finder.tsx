@@ -222,13 +222,16 @@ export function QuoteFinder() {
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setActiveTab("search")}
+              aria-label="Direct Search"
+              aria-pressed={activeTab === "search"}
+              role="tab"
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "search"
                   ? "bg-amber-100/50 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 shadow-lg"
                   : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/20 dark:hover:bg-zinc-800/50"
               }`}
             >
-              <Search className="w-5 h-5" />
+              <Search className="w-5 h-5" aria-hidden="true" />
               Direct Search
               {activeTab === "search" && (
                 <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg"></div>
@@ -236,13 +239,16 @@ export function QuoteFinder() {
             </button>
             <button
               onClick={() => setActiveTab("mood")}
+              aria-label="Mood Match"
+              aria-pressed={activeTab === "mood"}
+              role="tab"
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "mood"
                   ? "bg-amber-100/50 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 shadow-lg"
                   : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/20 dark:hover:bg-zinc-800/50"
               }`}
             >
-              <Heart className="w-5 h-5" />
+              <Heart className="w-5 h-5" aria-hidden="true" />
               Mood Match
               {activeTab === "mood" && (
                 <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg"></div>
@@ -295,13 +301,15 @@ export function QuoteFinder() {
                 <button
                   onClick={handleDirectSearch}
                   disabled={loading || !searchQuery.trim()}
+                  aria-label="Search Scripture"
                   className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
                   ) : (
-                    <Search className="w-6 h-6" />
+                    <Search className="w-6 h-6" aria-hidden="true" />
                   )}
+                  <span className="sr-only">Search</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </button>
               </div>
@@ -348,13 +356,15 @@ export function QuoteFinder() {
                 <button
                   onClick={handleCustomMoodSearch}
                   disabled={loading || !customMood.trim()}
+                  aria-label="Search by Mood"
                   className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
-                    <Loader2 className="w-6 h-6 animate-spin" />
+                    <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
                   ) : (
-                    <Search className="w-6 h-6" />
+                    <Search className="w-6 h-6" aria-hidden="true" />
                   )}
+                  <span className="sr-only">Search by Mood</span>
                   <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </button>
               </div>
@@ -372,13 +382,15 @@ export function QuoteFinder() {
                     <button
                       key={moodObj.mood}
                       onClick={() => handleMoodSearch(moodObj.mood)}
+                      aria-label={`Search for ${moodObj.mood} verses`}
+                      aria-pressed={isActive}
                       className={`group relative px-3 py-2 rounded-full border transition-all duration-300 flex items-center gap-2 flex-shrink-0 ${
                         isActive
                           ? "border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 shadow-md"
                           : "border-amber-100/50 dark:border-amber-900/40 hover:border-amber-300 dark:hover:border-amber-500/50 hover:bg-amber-50 dark:hover:bg-amber-950/30"
                       }`}
                     >
-                      <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-700 dark:text-stone-300"}`} />
+                      <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-700 dark:text-stone-300"}`} aria-hidden="true" />
                       <span className={`text-sm font-medium capitalize ${isActive ? "text-white" : "text-gray-700 dark:text-stone-300"}`}>
                         {moodObj.mood}
                       </span>
@@ -440,16 +452,17 @@ export function QuoteFinder() {
                     {/* Quick Copy - Prominent Secondary Button */}
                     <button
                       onClick={() => copyToClipboard(quote, index)}
-                      className="group/copy flex-1 px-5 py-3 bg-white dark:bg-zinc-800 border-2 border-amber-300 dark:border-amber-600/50 hover:border-amber-500 dark:hover:border-amber-500 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
+                      aria-label={copiedIndex === index ? "Copied to clipboard" : "Copy quote to clipboard"}
+                      className="group/copy flex-1 min-h-[44px] px-5 py-3 bg-white dark:bg-zinc-800 border-2 border-amber-300 dark:border-amber-600/50 hover:border-amber-500 dark:hover:border-amber-500 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
                     >
                       {copiedIndex === index ? (
                         <>
-                          <Check className="w-4 h-4 text-green-600" />
+                          <Check className="w-4 h-4 text-green-600" aria-hidden="true" />
                           <span>Copied!</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="w-4 h-4" />
+                          <Copy className="w-4 h-4" aria-hidden="true" />
                           <span>Quick Copy</span>
                         </>
                       )}
@@ -458,9 +471,10 @@ export function QuoteFinder() {
                     {/* Create Image - Primary Button */}
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
-                      className="group/btn flex-1 px-5 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
+                      aria-label="Create image from this quote"
+                      className="group/btn flex-1 min-h-[44px] px-5 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
                     >
-                      <Palette className="w-4 h-4" />
+                      <Palette className="w-4 h-4" aria-hidden="true" />
                       <span>Create Image</span>
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
                     </button>
@@ -468,13 +482,14 @@ export function QuoteFinder() {
                     {/* Favorite - Compact Icon Button */}
                     <button
                       onClick={() => toggleFavorite(quote, index)}
-                      className="group/fav p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 transition-all duration-300"
-                      title="Add to favorites"
+                      aria-label={favoriteStates[index] ? "Remove from favorites" : "Add to favorites"}
+                      aria-pressed={favoriteStates[index] || false}
+                      className="group/fav min-h-[44px] min-w-[44px] p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 transition-all duration-300 flex items-center justify-center"
                     >
                       {favoriteStates[index] ? (
-                        <Heart className="w-4 h-4 fill-current text-red-500" />
+                        <Heart className="w-4 h-4 fill-current text-red-500" aria-hidden="true" />
                       ) : (
-                        <Heart className="w-4 h-4 group-hover/fav:scale-110 transition-transform" />
+                        <Heart className="w-4 h-4 group-hover/fav:scale-110 transition-transform" aria-hidden="true" />
                       )}
                     </button>
                   </div>

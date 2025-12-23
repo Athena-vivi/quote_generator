@@ -18,7 +18,7 @@ export function Footer() {
   return (
     <footer className="bg-background text-foreground pt-10 pb-6 px-4 border-t border-amber-900/10 dark:border-white/5">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-6">
           <div className="col-span-2 md:col-span-1">
             <h3 className="text-sm font-semibold mb-2">QuoteGenerator</h3>
             <p className="text-muted-foreground text-xs leading-relaxed">
@@ -27,35 +27,35 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-2">Features</h4>
-            <ul className="space-y-1.5 text-muted-foreground text-xs">
-              <li>Daily Quote Recommendations</li>
-              <li>Mood-Based Search</li>
-              <li>AI Image Generation</li>
-              <li>Social Media Sharing</li>
+            <h4 className="text-sm font-semibold mb-3">Features</h4>
+            <ul className="space-y-3 text-muted-foreground text-xs">
+              <li className="min-h-[44px] flex items-center">Daily Quote Recommendations</li>
+              <li className="min-h-[44px] flex items-center">Mood-Based Search</li>
+              <li className="min-h-[44px] flex items-center">AI Image Generation</li>
+              <li className="min-h-[44px] flex items-center">Social Media Sharing</li>
             </ul>
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-2">Company</h4>
-            <ul className="space-y-1.5 text-muted-foreground text-xs">
-              <li>
-                <Link href="/about" className="hover:foreground transition-colors" onClick={handleLinkClick}>
+            <h4 className="text-sm font-semibold mb-3">Company</h4>
+            <ul className="space-y-3 text-muted-foreground text-xs">
+              <li className="min-h-[44px] flex items-center">
+                <Link href="/about" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
                   About Us
                 </Link>
               </li>
-              <li>
-                <Link href="/contact" className="hover:foreground transition-colors" onClick={handleLinkClick}>
+              <li className="min-h-[44px] flex items-center">
+                <Link href="/contact" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
                   Contact
                 </Link>
               </li>
-              <li>
-                <Link href="/privacy" className="hover:foreground transition-colors" onClick={handleLinkClick}>
+              <li className="min-h-[44px] flex items-center">
+                <Link href="/privacy" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
                   Privacy Policy
                 </Link>
               </li>
-              <li>
-                <Link href="/terms" className="hover:foreground transition-colors" onClick={handleLinkClick}>
+              <li className="min-h-[44px] flex items-center">
+                <Link href="/terms" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
                   Terms of Service
                 </Link>
               </li>
@@ -63,24 +63,24 @@ export function Footer() {
           </div>
 
           <div>
-            <h4 className="text-sm font-semibold mb-2">Support</h4>
-            <ul className="space-y-1.5 text-muted-foreground text-xs">
-              <li>
-                <Link href="/help" className="hover:foreground transition-colors" onClick={handleLinkClick}>
+            <h4 className="text-sm font-semibold mb-3">Support</h4>
+            <ul className="space-y-3 text-muted-foreground text-xs">
+              <li className="min-h-[44px] flex items-center">
+                <Link href="/help" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
                   Help Center
                 </Link>
               </li>
-              <li>
+              <li className="min-h-[44px] flex items-center">
                 <Link
                   href="/contact?type=feedback"
-                  className="hover:foreground transition-colors"
+                  className="hover:foreground transition-colors py-2"
                   onClick={handleLinkClick}
                 >
                   Send Feedback
                 </Link>
               </li>
-              <li>
-                <Link href="/contact?type=bug" className="hover:foreground transition-colors" onClick={handleLinkClick}>
+              <li className="min-h-[44px] flex items-center">
+                <Link href="/contact?type=bug" className="hover:foreground transition-colors py-2" onClick={handleLinkClick}>
                   Report a Bug
                 </Link>
               </li>
@@ -88,19 +88,19 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-border pt-4">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-2">
-            <p className="text-muted-foreground text-[10px]">
+        <div className="border-t border-border pt-6">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-muted-foreground text-[10px] leading-relaxed">
               Scripture quotations are from The Holy Bible, English Standard Version® (ESV®), copyright © 2001 by
               Crossway, a publishing ministry of Good News Publishers. Used by permission. All rights reserved.
             </p>
             <div className="flex items-center gap-2 text-muted-foreground text-xs">
               <span>Made with</span>
-              <Heart className="w-3.5 h-3.5 text-red-500" />
+              <Heart className="w-3.5 h-3.5 text-red-500" aria-hidden="true" />
               <span>for God's glory</span>
             </div>
           </div>
-          <div className="text-center mt-2">
+          <div className="text-center mt-4">
             <p className="text-muted-foreground text-xs">© {new Date().getFullYear()} QuoteGenerator. All rights reserved.</p>
           </div>
         </div>
