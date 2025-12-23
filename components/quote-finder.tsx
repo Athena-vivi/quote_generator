@@ -207,7 +207,7 @@ export function QuoteFinder() {
   return (
     <div id="quote-finder" className="max-w-7xl mx-auto scroll-mt-[140px] px-6 sm:px-8 mt-16">
       {/* Header - Serif Typography */}
-      <div className="text-center mb-16">
+      <div className="text-center mb-12">
         <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900/80 mb-6">
           Scripture Compass
         </h2>
@@ -217,7 +217,7 @@ export function QuoteFinder() {
       </div>
 
       {/* Custom Glassmorphism Tabs */}
-      <div className="mb-12">
+      <div className="mb-10">
         <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-2 shadow-xl ring-1 ring-amber-200/20">
           <div className="grid grid-cols-2 gap-2">
             <button

@@ -78,7 +78,8 @@ export function FeaturesSection() {
                     {/* Icon & Title - Same Row */}
                     <div className="flex items-center gap-3 mb-3">
                       <div className="relative p-2.5 bg-white/80 backdrop-blur-sm rounded-xl border border-amber-100/40 shadow-md group-hover:shadow-lg transition-shadow duration-300">
-                        <IconComponent className="w-5 h-5 text-amber-700 drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
+                        <div className="absolute inset-0 bg-amber-400/10 rounded-xl blur-md"></div>
+                        <IconComponent className="relative w-5 h-5 text-amber-700 drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
                       </div>
                       <h3 className="text-lg font-serif font-bold text-gray-800 group-hover:text-gray-900 transition-colors duration-300">
                         {feature.title}
