@@ -4,7 +4,7 @@ import { Sparkles, Eye, Download, Copy, Share2, Settings, Palette, Image, Layers
 
 export function ExampleShowcase() {
   return (
-    <section id="example-showcase" className="relative py-16 px-6 sm:px-8 overflow-hidden">
+    <section id="example-showcase" className="relative py-16 px-6 sm:px-8 overflow-hidden bg-amber-50/20">
       {/* Sacred Background - Amber Unified */}
       <div className="absolute inset-0 bg-gradient-to-br from-amber-50/20 via-white/40 to-amber-50/30"></div>
       <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-amber-200/10 to-yellow-300/10 rounded-full blur-3xl"></div>
@@ -92,18 +92,18 @@ export function ExampleShowcase() {
                       — Jeremiah 29:11
                     </cite>
 
-                    {/* AI Badge */}
-                    <div className="absolute top-6 right-6 bg-white/20 backdrop-blur-md border border-white/30 rounded-full px-3 py-1.5 flex items-center gap-2">
-                      <Sparkles className="w-3 h-3 text-white" />
+                    {/* AI Badge - Amber */}
+                    <div className="absolute top-6 right-6 bg-amber-600/20 backdrop-blur-md border border-amber-400/30 rounded-full px-3 py-1.5 flex items-center gap-2">
+                      <Sparkles className="w-3 h-3 text-amber-300" />
                       <span className="text-white text-xs font-medium">AI Enhanced</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Editor Selection Overlay */}
-                <div className="absolute inset-0 border-2 border-purple-400/50 rounded-xl pointer-events-none">
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-400 rounded-full"></div>
-                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-purple-400 rounded-full"></div>
+                {/* Editor Selection Overlay - Amber */}
+                <div className="absolute inset-0 border-2 border-amber-400/50 rounded-xl pointer-events-none">
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-amber-400 rounded-full"></div>
+                  <div className="absolute -bottom-1 -left-1 w-3 h-3 bg-amber-400 rounded-full"></div>
                 </div>
               </div>
 
@@ -137,7 +137,8 @@ export function ExampleShowcase() {
               </div>
             </div>
 
-            <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-xl p-3 shadow-xl">
+            {/* AI Powered Badge - Amber */}
+            <div className="absolute -bottom-4 -right-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white rounded-xl p-3 shadow-xl">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4" />
                 <span className="text-sm font-medium">AI Powered</span>

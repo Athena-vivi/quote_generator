@@ -131,7 +131,7 @@ export default function HomePage() {
       </section>
 
       {/* 展示区域 - 保持暖调 */}
-      <section className="py-12 px-6 bg-amber-50/20">
+      <section className="py-12 px-6">
         <div className="max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
