@@ -157,7 +157,7 @@ export function ExampleShowcase() {
 
             <div className="space-y-5">
               {/* Step 1 - Compressed & Enhanced */}
-              <div className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500">
+              <div className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
@@ -176,7 +176,7 @@ export function ExampleShowcase() {
               </div>
 
               {/* Step 2 - Compressed & Enhanced */}
-              <div className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500">
+              <div className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">
@@ -195,7 +195,7 @@ export function ExampleShowcase() {
               </div>
 
               {/* Step 3 - Compressed & Enhanced */}
-              <div className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500">
+              <div className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-5 shadow-lg hover:shadow-xl transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20">
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/10 to-yellow-200/10 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
                 <div className="relative z-10 flex items-start gap-6">

@@ -72,14 +72,14 @@ export function FeaturesSection() {
                 <div className="absolute inset-0 bg-gradient-to-r from-amber-200/20 via-yellow-300/20 to-amber-200/20 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
 
                 {/* Card - Enhanced Quality */}
-                <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-6 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500">
+                <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-6 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20">
                   {/* Content */}
                   <div className="relative z-10">
                     {/* Icon - Amber Unified */}
                     <div className="relative mb-6 inline-block">
                       <div className="absolute inset-0 bg-gradient-to-r from-amber-200/40 to-yellow-200/40 rounded-2xl blur-lg opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
                       <div className="relative p-4 bg-white/80 backdrop-blur-sm rounded-2xl border border-amber-200/40 shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-                        <IconComponent className="w-8 h-8 text-amber-600" />
+                        <IconComponent className="w-8 h-8 text-amber-600 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
                       </div>
                     </div>
 

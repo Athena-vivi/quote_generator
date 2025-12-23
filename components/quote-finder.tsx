@@ -218,7 +218,7 @@ export function QuoteFinder() {
 
       {/* Custom Glassmorphism Tabs */}
       <div className="mb-12">
-        <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-2xl p-2 shadow-xl">
+        <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-2xl p-2 shadow-xl ring-1 ring-amber-200/20">
           <div className="grid grid-cols-2 gap-2">
             <button
               onClick={() => setActiveTab("search")}
@@ -255,11 +255,11 @@ export function QuoteFinder() {
       {/* Search Tab Content */}
       {activeTab === "search" && (
         <div className="mb-12">
-          <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-10 shadow-2xl">
+          <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
-                <BookOpen className="w-8 h-8 text-amber-600" />
+                <BookOpen className="w-8 h-8 text-amber-600 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
               </div>
               <h3 className="text-2xl font-serif font-semibold text-gray-800">Search Scripture</h3>
             </div>
@@ -325,11 +325,11 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div className="mb-12">
-          <div className="relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-10 shadow-2xl">
+          <div className="relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl ring-1 ring-amber-200/20">
             {/* Header - Amber Unified */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 rounded-2xl border border-amber-200/30">
-                <Heart className="w-8 h-8 text-amber-600" />
+                <Heart className="w-8 h-8 text-amber-600 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
               </div>
               <h3 className="text-2xl font-serif font-semibold text-gray-800">Find by Emotion</h3>
             </div>
@@ -436,7 +436,7 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/60 backdrop-blur-xl border border-amber-200/20 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-500"
+                className="group relative bg-white/60 backdrop-blur-xl border border-white/40 rounded-3xl p-10 shadow-2xl hover:shadow-3xl transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20"
               >
                 {/* Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>

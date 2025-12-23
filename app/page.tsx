@@ -123,23 +123,29 @@ export default function HomePage() {
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}
 
-      {/* 搜索区域 - Optimized with radial gradient */}
-      <section className="py-12 px-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white border-y border-amber-50">
-        <div className="max-w-6xl mx-auto">
+      {/* 搜索区域 - Optimized with radial gradient and center glow */}
+      <section className="py-12 px-6 border-y border-amber-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/40 via-white to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0f9ff_0%,_transparent_70%)] pointer-events-none"></div>
+        <div className="relative max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
       </section>
 
-      {/* 展示区域 - Optimized with radial gradient */}
-      <section className="py-12 px-6 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white">
-        <div className="max-w-6xl mx-auto">
+      {/* 展示区域 - Optimized with radial gradient and center glow */}
+      <section className="py-12 px-6 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#f0fdf4_0%,_transparent_70%)] pointer-events-none"></div>
+        <div className="relative max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
-      {/* 功能区域 - Optimized with radial gradient */}
-      <section className="py-12 px-6 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white border-t border-amber-50">
-        <div className="max-w-6xl mx-auto">
+      {/* 功能区域 - Optimized with radial gradient and center glow */}
+      <section className="py-12 px-6 border-t border-amber-50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-50/30 via-white to-white"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_#fef3c7_0%,_transparent_70%)] pointer-events-none"></div>
+        <div className="relative max-w-6xl mx-auto">
           <FeaturesSection />
         </div>
       </section>
