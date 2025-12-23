@@ -50,12 +50,13 @@ export default function HomePage() {
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
 
           {/* 眉毛标题 */}
-          <div className="flex items-center gap-2 mb-8 opacity-60">
-            <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
-            <span className="text-xs tracking-[0.3em] uppercase font-semibold text-amber-950 dark:text-amber-400">
-              AI-Powered Scripture Art
+          <div className="flex items-center gap-2 mb-8">
+            <div className="h-px w-8 bg-stone-800 dark:bg-amber-500/40"></div>
+            <span className="text-xs tracking-[0.3em] uppercase font-bold" style={{ color: '#2D1B02' }}>
+              <span className="dark:hidden">AI-Powered Scripture Art</span>
+              <span className="hidden dark:inline text-amber-400">AI-Powered Scripture Art</span>
             </span>
-            <div className="h-px w-8 bg-400 dark:bg-amber-500/40"></div>
+            <div className="h-px w-8 bg-stone-800 dark:bg-amber-500/40"></div>
           </div>
 
           {/* Enhanced title with gradient and divine light effect */}
