@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { Search, Heart, Loader2, BookOpen, Palette, Copy, Check, HeartOff, Sparkles, Sun, Moon, Cloud, Zap, Flower, Star } from "lucide-react"
+import { Search, Heart, Loader2, BookOpen, Palette, Copy, Check, Sparkles, Sun, Moon, Cloud, Zap, Flower, Star } from "lucide-react"
 import { ImageGenerator } from "./image-generator"
 import Fuse from 'fuse.js';
 
@@ -407,10 +407,10 @@ export function QuoteFinder() {
         </div>
       )}
 
-      {/* Results */}
+      {/* Results - Sacred Design Matching Hero */}
       {quotes.length > 0 && (
-        <div className="mt-12 space-y-8">
-          <h3 className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-400">
+        <div className="mt-16 space-y-8">
+          <h3 className="text-2xl md:text-3xl font-serif font-semibold text-amber-800/70 dark:text-amber-400/80 text-center">
             {activeTab === "mood"
               ? `Divine Wisdom for "${moodQuery || customMood}"`
               : singleQuote
@@ -421,64 +421,62 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl hover:shadow-3xl dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.15)] transform hover:scale-[1.02] transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10"
+                className="group relative bg-white/80 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-6 md:p-8 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]"
               >
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 dark:from-amber-500/5 dark:to-amber-600/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
-
-                <div className="relative z-10">
-                  <blockquote className="text-2xl md:text-3xl font-serif text-gray-800 dark:text-stone-200 mb-6 leading-relaxed font-light">
+                <div className="relative">
+                  {/* Subtle divider line below quote content */}
+                  <blockquote className="text-lg md:text-xl font-serif text-stone-800 dark:text-stone-200 leading-relaxed italic font-light mb-6 px-2">
                     "{quote.content}"
                   </blockquote>
-                  <cite className="text-xl md:text-2xl font-bold bg-gradient-to-r from-amber-700 to-yellow-700 dark:from-amber-400 dark:to-amber-500 bg-clip-text text-transparent block mb-8">
+                  <div className="h-px bg-gradient-to-r from-transparent via-amber-200/30 dark:via-amber-500/20 to-transparent mb-4"></div>
+
+                  {/* Reference - right aligned */}
+                  <cite className="block text-sm font-semibold text-amber-600 dark:text-amber-400 text-right mb-6 pr-2">
                     — {quote.reference}
                   </cite>
 
-                  <div className="flex flex-wrap gap-4">
+                  {/* Action Buttons */}
+                  <div className="flex items-center justify-between gap-4">
+                    {/* Create Image - Primary Button */}
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
-                      className="group/btn relative px-8 py-3 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                      className="group/btn relative px-6 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center gap-2 overflow-hidden text-xs"
                     >
                       <span className="relative z-10 flex items-center gap-2">
-                        <Palette className="w-5 h-5 group-hover/btn:rotate-12 transition-transform duration-300" />
-                        Create Image
+                        <Palette className="w-3.5 h-3.5" />
+                        Create Divine Image
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
                     </button>
 
-                    <button
-                      onClick={() => copyToClipboard(quote, index)}
-                      className="px-8 py-3 bg-white/60 dark:bg-zinc-800/60 backdrop-blur-sm border-2 border-white/40 dark:border-amber-900/40 text-amber-700 dark:text-amber-400 font-semibold rounded-xl shadow-lg hover:bg-white/80 dark:hover:bg-zinc-700/60 hover:border-white/60 dark:hover:border-amber-500/30 transform hover:scale-105 transition-all duration-300"
-                    >
-                      {copiedIndex === index ? (
-                        <span className="flex items-center gap-2 text-green-600">
-                          <Check className="w-5 h-5" />
-                          Copied!
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-2">
-                          <Copy className="w-5 h-5" />
-                          Copy Text
-                        </span>
-                      )}
-                    </button>
+                    {/* Icon-only secondary actions */}
+                    <div className="flex items-center gap-2">
+                      {/* Copy Button - Icon Only */}
+                      <button
+                        onClick={() => copyToClipboard(quote, index)}
+                        className="group/copy relative p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-amber-600 dark:hover:text-amber-400 transition-all duration-300"
+                        title="Copy to clipboard"
+                      >
+                        {copiedIndex === index ? (
+                          <Check className="w-4 h-4 text-green-600" />
+                        ) : (
+                          <Copy className="w-4 h-4 group-hover/copy:scale-110 transition-transform" />
+                        )}
+                      </button>
 
-                    <button
-                      onClick={() => toggleFavorite(quote, index)}
-                      className="px-8 py-3 bg-white/60 backdrop-blur-sm border-2 border-white/40 text-red-600 font-semibold rounded-xl shadow-lg hover:bg-red-50 hover:border-red-200 transform hover:scale-105 transition-all duration-300"
-                    >
-                      {favoriteStates[index] ? (
-                        <span className="flex items-center gap-2">
-                          <Heart className="w-5 h-5 fill-current" />
-                          Favorited
-                        </span>
-                      ) : (
-                        <span className="flex items-center gap-2">
-                          <HeartOff className="w-5 h-5" />
-                          Add to Favorites
-                        </span>
-                      )}
-                    </button>
+                      {/* Favorite Button - Icon Only */}
+                      <button
+                        onClick={() => toggleFavorite(quote, index)}
+                        className="group/fav relative p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 transition-all duration-300"
+                        title="Add to favorites"
+                      >
+                        {favoriteStates[index] ? (
+                          <Heart className="w-4 h-4 fill-current text-red-500" />
+                        ) : (
+                          <Heart className="w-4 h-4 group-hover/fav:scale-110 transition-transform" />
+                        )}
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
