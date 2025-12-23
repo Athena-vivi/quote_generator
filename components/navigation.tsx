@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Calendar, Menu, X, BookOpen, Newspaper, Bird } from "lucide-react"
+import { Calendar, Menu, X, BookOpen, Newspaper } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function Navigation() {
@@ -68,22 +68,69 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - Premium Art Gallery Style */}
+          {/* Logo - Artistic & Dynamic */}
           <Link
             href="/"
-            className="group flex items-center space-x-2.5 hover:scale-105 transition-all duration-300"
+            className="group flex items-end space-x-2 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            {/* Bird Icon - Clean & Elegant */}
-            <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-amber-400/10 to-yellow-500/10 rounded-full blur-sm group-hover:from-amber-400/15 group-hover:to-yellow-500/15 transition-all duration-300"></div>
-              <Bird className="relative w-6 h-6 text-amber-700 dark:text-amber-400" strokeWidth="1.8" />
+            {/* Soaring Bird Icon - Wings Up */}
+            <div className="relative -rotate-[8deg]">
+              <div className="absolute inset-0 bg-gradient-to-t from-amber-400/10 to-yellow-500/15 rounded-full blur-md group-hover:from-amber-400/20 group-hover:to-yellow-500/20 transition-all duration-500"></div>
+              {/* Custom Soaring Bird SVG */}
+              <svg
+                className="relative w-7 h-7"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <defs>
+                  <linearGradient id="birdGoldGradient" x1="0%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" stopColor="#B8860B" />
+                    <stop offset="50%" stopColor="#D4AF37" />
+                    <stop offset="100%" stopColor="#F4E4BC" />
+                  </linearGradient>
+                </defs>
+                {/* Left Wing - Soaring Up */}
+                <path
+                  d="M12 12c-2-2.5-5-4-8-4.5 1.5 2 3 3.5 5 4.5"
+                  stroke="url(#birdGoldGradient)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Right Wing - Soaring Up */}
+                <path
+                  d="M12 12c2-2.5 5-4 8-4.5-1.5 2-3 3.5-5 4.5"
+                  stroke="url(#birdGoldGradient)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Body */}
+                <path
+                  d="M12 12v3c0 1-1 2-2.5 2-1 0-1.5-.5-1.5-1.5"
+                  stroke="url(#birdGoldGradient)"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                {/* Head */}
+                <circle
+                  cx="12"
+                  cy="11"
+                  r="1.2"
+                  fill="url(#birdGoldGradient)"
+                />
+              </svg>
             </div>
 
-            {/* Brand Text - Serif, All Caps, Refined Spacing */}
-            <span className="font-serif text-base font-semibold tracking-[0.15em] bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent leading-none uppercase">
-              QUOTEGENERATOR
-            </span>
+            {/* Brand Text - Weight Contrast & Title Case */}
+            <div className="relative leading-none pb-0.5">
+              <span className="font-serif text-base bg-gradient-to-r from-amber-800 via-yellow-600 to-amber-800 dark:from-amber-200 dark:via-amber-100 dark:to-amber-200 bg-clip-text text-transparent">
+                <span className="font-bold tracking-tight">Quote</span><span className="font-extralight tracking-[0.12em]">Generator</span>
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
