@@ -18,17 +18,17 @@
   }
 
   .dark {
-    /* Unified zinc-950 background - deep charcoal black */
-    --background: 240 10% 3.9%; /* zinc-950 equivalent (#09090b) */
+    /* Deep midnight black background - #0A0A0A equivalent */
+    --background: 0 0% 4%; /* Pure black with slight warmth (#0A0A0A) */
     --foreground: 40 20% 95%; /* stone-200 - warm light gray for body text */
-    --card: 240 10% 3.9% / 0.4; /* zinc-950/40 - transparent frosted glass */
+    --card: 0 0% 4% / 0.5; /* Semi-transparent black for frosted glass */
     --card-foreground: 40 20% 98%;
     --primary: 38 95% 55%; /* Bright amber gold for titles and accents */
-    --primary-foreground: 240 10% 3.9%;
-    --secondary: 240 10% 10%;
-    --muted: 240 10% 15%;
+    --primary-foreground: 0 0% 4%;
+    --secondary: 0 0% 10%;
+    --muted: 0 0% 15%;
     --accent: 38 95% 55%;
-    --border: 240 10% 15%;
+    --border: 0 0% 20%;
     --radius: 1rem;
   }
 }

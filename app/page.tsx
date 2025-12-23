@@ -44,8 +44,8 @@ export default function HomePage() {
 
       {/* Hero & Daily Quote Section - Warm parchment with divine radial glow */}
       <section className="relative pt-36 pb-12 px-6 overflow-hidden bg-background">
-        {/* Divine Light Glow - Center radial gradient from warm white to soft amber */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-gradient-radial from-white via-amber-50/40 to-amber-50/10 dark:from-amber-950/30 dark:via-amber-900/10 dark:to-transparent pointer-events-none"></div>
+        {/* Divine Light Glow - Center radial gradient from warm white to soft amber (light) / Golden amber glow (dark) */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-gradient-radial from-white via-amber-50/40 to-amber-50/10 dark:from-amber-500/15 dark:via-amber-600/5 dark:to-transparent pointer-events-none"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
 
@@ -66,16 +66,16 @@ export default function HomePage() {
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Transform</span>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Bible Quotes</span>
             <span className="text-xl md:text-2xl font-serif italic text-stone-700 dark:text-stone-500">into</span>
-            <span className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 dark:from-amber-400 dark:via-amber-300 dark:to-amber-400 bg-clip-text text-transparent drop-shadow-sm" style={{ filter: 'drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3))' }}>
+            <span className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold bg-gradient-to-r from-amber-600 via-yellow-500 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent drop-shadow-sm" style={{ filter: 'drop-shadow(0 1px 2px rgba(212, 175, 55, 0.3))' }}>
               Divine Art
             </span>
           </h1>
 
           {/* Daily Quote Card - Frosted Glass in Dark Mode */}
           <div className="w-full max-w-4xl relative">
-            <div className="absolute -inset-2 bg-amber-100/30 dark:bg-amber-500/5 rounded-[2rem] blur-2xl -z-10"></div>
+            <div className="absolute -inset-2 bg-amber-100/30 dark:bg-amber-500/8 rounded-[2rem] blur-2xl -z-10"></div>
 
-            <div className="bg-white/80 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-8 md:p-14 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]">
+            <div className="bg-white/80 dark:bg-zinc-900/60 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-900/40 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.15)] rounded-[2rem] p-8 md:p-14 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.25)]">
               {loading ? (
                 <div className="py-12 text-center">
                   <Loader2 className="w-8 h-8 mx-auto text-amber-500 animate-spin mb-4" />
@@ -136,7 +136,7 @@ export default function HomePage() {
 
       {/* 搜索区域 - Subtle radial glow */}
       <section className="py-12 px-6 border-y border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-radial from-amber-50/30 via-amber-50/10 to-transparent dark:from-amber-950/20 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-amber-50/30 via-amber-50/10 to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
@@ -144,7 +144,7 @@ export default function HomePage() {
 
       {/* 展示区域 - Subtle radial glow */}
       <section className="py-10 px-6 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-radial from-amber-50/20 via-white/50 to-white dark:from-amber-950/15 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-amber-50/20 via-white/50 to-white dark:from-amber-500/6 dark:via-transparent dark:to-transparent pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
@@ -152,7 +152,7 @@ export default function HomePage() {
 
       {/* 功能区域 - Subtle radial glow */}
       <section className="py-10 px-6 border-t border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-radial from-amber-50/15 via-white/40 to-white dark:from-amber-950/10 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+        <div className="absolute inset-0 bg-gradient-radial from-amber-50/15 via-white/40 to-white dark:from-amber-500/5 dark:via-transparent dark:to-transparent pointer-events-none"></div>
         <div className="relative max-w-6xl mx-auto">
           <FeaturesSection />
         </div>
