@@ -2,10 +2,9 @@
 
 import { useState } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Calendar, Menu, X, BookOpen, Newspaper } from "lucide-react"
+import { Calendar, Menu, X, BookOpen, Layers, FolderKanban } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
 
 export function Navigation() {
@@ -42,7 +41,8 @@ export function Navigation() {
   const navigationItems = [
     { href: "/#daily-quote-section", label: "Daily Quote", icon: Calendar },
     { href: "/#quote-finder", label: "Explore Verses", icon: BookOpen },
-    { href: "/blog", label: "Blog", icon: Newspaper },
+    { href: "/themes", label: "Explore Themes", icon: Layers },
+    { href: "/collections", label: "Collections", icon: FolderKanban },
   ]
 
   const isActive = (href: string) => {
@@ -101,7 +101,8 @@ export function Navigation() {
               const handlers = {
                 "Explore Verses": handleFindQuotesClick,
                 "Daily Quote": handleDailyQuoteClick,
-                "Blog": handleNavClick
+                "Explore Themes": handleNavClick,
+                "Collections": handleNavClick
               };
 
               return (
@@ -153,7 +154,8 @@ export function Navigation() {
                 const handlers = {
                   "Explore Verses": handleFindQuotesClick,
                   "Daily Quote": handleDailyQuoteClick,
-                  "Blog": handleNavClick
+                  "Explore Themes": handleNavClick,
+                  "Collections": handleNavClick
                 };
 
                 return (
