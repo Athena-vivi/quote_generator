@@ -42,7 +42,7 @@ export function VersesForPeaceClient({ peaceVerses }: VersesForPeaceClientProps)
               {peaceVerses.map((quote, index) => (
                 <div
                   key={index}
-                  className="group relative bg-white/80 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-6 md:p-8 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]"
+                  className="group relative bg-white/95 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-6 md:p-8 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]"
                 >
                   <div className="relative">
                     {/* Verse Number Badge */}
@@ -58,7 +58,7 @@ export function VersesForPeaceClient({ peaceVerses }: VersesForPeaceClientProps)
                     <div className="h-px bg-gradient-to-r from-transparent via-amber-200/30 dark:via-amber-500/20 to-transparent mb-4"></div>
 
                     {/* Reference */}
-                    <cite className="block text-base font-semibold text-amber-600 dark:text-amber-400 text-right mb-6 pr-2">
+                    <cite className="block text-base font-semibold text-right mb-6 pr-2" style={{ color: '#92400e' }} /* Deep amber for better contrast */>
                       — {quote.reference}
                     </cite>
 
@@ -67,16 +67,17 @@ export function VersesForPeaceClient({ peaceVerses }: VersesForPeaceClientProps)
                       {/* Quick Copy */}
                       <button
                         onClick={() => copyToClipboard(quote, index)}
-                        className="group/copy flex-1 px-5 py-3 bg-white dark:bg-zinc-800 border-2 border-amber-300 dark:border-amber-600/50 hover:border-amber-500 dark:hover:border-amber-500 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
+                        aria-label={copiedIndex === index ? "Copied to clipboard" : "Copy quote to clipboard"}
+                        className="group/copy flex-1 min-h-[44px] px-5 py-3 bg-white dark:bg-zinc-800 border-2 border-amber-300 dark:border-amber-600/50 hover:border-amber-500 dark:hover:border-amber-500 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
                       >
                         {copiedIndex === index ? (
                           <>
-                            <Check className="w-4 h-4 text-green-600" />
+                            <Check className="w-4 h-4 text-green-600" aria-hidden="true" />
                             <span>Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-4 h-4" />
+                            <Copy className="w-4 h-4" aria-hidden="true" />
                             <span>Quick Copy</span>
                           </>
                         )}
@@ -85,22 +86,24 @@ export function VersesForPeaceClient({ peaceVerses }: VersesForPeaceClientProps)
                       {/* Create Image */}
                       <button
                         onClick={() => setSelectedQuoteForImage(quote)}
-                        className="group/btn flex-1 px-5 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
+                        aria-label="Create image from this quote"
+                        className="group/btn flex-1 min-h-[44px] px-5 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
                       >
-                        <Palette className="w-4 h-4" />
+                        <Palette className="w-4 h-4" aria-hidden="true" />
                         <span>Create Image</span>
                       </button>
 
                       {/* Favorite */}
                       <button
                         onClick={() => toggleFavorite(quote, index)}
-                        className="group/fav p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 transition-all duration-300"
-                        title="Add to favorites"
+                        aria-label={favoriteStates[index] ? "Remove from favorites" : "Add to favorites"}
+                        aria-pressed={favoriteStates[index] || false}
+                        className="group/fav min-h-[44px] min-w-[44px] p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 transition-all duration-300 flex items-center justify-center"
                       >
                         {favoriteStates[index] ? (
-                          <Heart className="w-4 h-4 fill-current text-red-500" />
+                          <Heart className="w-4 h-4 fill-current text-red-500" aria-hidden="true" />
                         ) : (
-                          <Heart className="w-4 h-4 group-hover/fav:scale-110 transition-transform" />
+                          <Heart className="w-4 h-4 group-hover/fav:scale-110 transition-transform" aria-hidden="true" />
                         )}
                       </button>
                     </div>

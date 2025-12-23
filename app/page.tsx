@@ -52,7 +52,7 @@ export default function HomePage() {
           {/* 眉毛标题 */}
           <div className="flex items-center gap-2 mb-8 opacity-60">
             <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
-            <span className="text-[10px] tracking-[0.3em] uppercase font-medium text-amber-900 dark:text-amber-400">
+            <span className="text-xs tracking-[0.3em] uppercase font-medium" style={{ color: '#451a03' }} /* Deep brown for accessibility */>
               AI-Powered Scripture Art
             </span>
             <div className="h-px w-8 bg-amber-400 dark:bg-amber-500/40"></div>
@@ -87,7 +87,7 @@ export default function HomePage() {
                       <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-full p-1"></div>
                       <Feather className="relative w-3.5 h-3.5 text-amber-600/70 dark:text-amber-400 rotate-[15deg] animate-[float_3s_ease-in-out_infinite]" aria-hidden="true" />
                     </div>
-                    <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-amber-900 dark:text-amber-400 font-sans">
+                    <span className="text-xs font-bold uppercase tracking-[0.25em]" style={{ color: '#451a03' }} /* Deep brown for accessibility */>
                       Daily Inspiration
                     </span>
                   </div>
@@ -96,7 +96,7 @@ export default function HomePage() {
                     "{dailyQuote.content}"
                   </blockquote>
 
-                  <cite className="block text-lg font-serif font-semibold text-amber-600 dark:text-amber-400 mb-10">
+                  <cite className="block text-lg font-serif text-amber-800 dark:text-amber-400 mb-10" style={{ color: '#92400e' }} /* Deep amber for better contrast */>
                     — {dailyQuote.reference}
                   </cite>
 

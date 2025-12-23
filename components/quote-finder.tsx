@@ -216,15 +216,17 @@ export function QuoteFinder() {
         </p>
       </div>
 
-      {/* Custom Glassmorphism Tabs */}
+      {/* Custom Glassmorphism Tabs - Proper ARIA Tabs */}
       <div className="mb-10">
         <div className="relative bg-white/60 dark:bg-zinc-900/60 backdrop-blur-xl border border-white/40 dark:border-amber-900/30 rounded-2xl p-2 shadow-xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2" role="tablist" aria-label="Search options">
             <button
+              id="tab-search"
               onClick={() => setActiveTab("search")}
-              aria-label="Direct Search"
-              aria-pressed={activeTab === "search"}
+              aria-selected={activeTab === "search"}
+              aria-controls="panel-search"
               role="tab"
+              tabIndex={activeTab === "search" ? 0 : -1}
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "search"
                   ? "bg-amber-100/50 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 shadow-lg"
@@ -234,14 +236,16 @@ export function QuoteFinder() {
               <Search className="w-5 h-5" aria-hidden="true" />
               Direct Search
               {activeTab === "search" && (
-                <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg"></div>
+                <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg" aria-hidden="true"></div>
               )}
             </button>
             <button
+              id="tab-mood"
               onClick={() => setActiveTab("mood")}
-              aria-label="Mood Match"
-              aria-pressed={activeTab === "mood"}
+              aria-selected={activeTab === "mood"}
+              aria-controls="panel-mood"
               role="tab"
+              tabIndex={activeTab === "mood" ? 0 : -1}
               className={`relative px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 flex items-center justify-center gap-3 ${
                 activeTab === "mood"
                   ? "bg-amber-100/50 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300 shadow-lg"
@@ -251,7 +255,7 @@ export function QuoteFinder() {
               <Heart className="w-5 h-5" aria-hidden="true" />
               Mood Match
               {activeTab === "mood" && (
-                <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg"></div>
+                <div className="absolute inset-0 bg-amber-100/30 dark:bg-amber-500/10 rounded-xl blur-lg" aria-hidden="true"></div>
               )}
             </button>
           </div>
@@ -260,8 +264,8 @@ export function QuoteFinder() {
 
       {/* Search Tab Content */}
       {activeTab === "search" && (
-        <div className="mb-12">
-          <div className="relative bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+        <div id="panel-search" role="tabpanel" aria-labelledby="tab-search" tabIndex={0} className="mb-12">
+          <div className="relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
@@ -284,15 +288,17 @@ export function QuoteFinder() {
                   />
                   {/* Suggestions Dropdown */}
                   {suggestions.length > 0 && (
-                    <div className="absolute z-20 w-full mt-2 bg-white/90 dark:bg-black/40 dark:backdrop-blur-md backdrop-blur-xl border-2 border-dashed border-amber-200/40 dark:border-solid dark:border-white/30 dark:border-amber-900/30 rounded-xl shadow-xl overflow-hidden">
+                    <div className="absolute z-20 w-full mt-2 bg-white/95 dark:bg-black/40 dark:backdrop-blur-md backdrop-blur-xl border-2 border-dashed border-amber-200/40 dark:border-solid dark:border-white/30 dark:border-amber-900/30 rounded-xl shadow-xl overflow-hidden">
                       {suggestions.map((verse, idx) => (
                         <div
                           key={idx}
                           className="px-6 py-4 cursor-pointer hover:bg-amber-50/80 dark:hover:bg-amber-950/30 transition-colors border-b border-amber-100/30 dark:border-white/20 dark:border-amber-900/20 last:border-b-0"
                           onClick={() => handleSuggestionClick(verse)}
+                          role="option"
+                          tabIndex={0}
                         >
-                          <span className="font-semibold text-amber-700 dark:text-amber-400">{verse.reference}</span>
-                          <span className="text-gray-600 dark:text-stone-400 ml-2">{verse.content}</span>
+                          <span className="font-semibold" style={{ color: '#92400e' }} /* Deep amber for contrast */>{verse.reference}</span>
+                          <span className="text-gray-700 dark:text-stone-400 ml-2">{verse.content}</span>
                         </div>
                       ))}
                     </div>
@@ -332,8 +338,8 @@ export function QuoteFinder() {
 
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
-        <div className="mb-12">
-          <div className="relative bg-white/50 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+        <div id="panel-mood" role="tabpanel" aria-labelledby="tab-mood" tabIndex={0} className="mb-12">
+          <div className="relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header - Simplified with Heart Icon */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
@@ -433,7 +439,7 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/80 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-6 md:p-8 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]"
+                className="group relative bg-white/95 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-6 md:p-8 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]"
               >
                 <div className="relative">
                   {/* Subtle divider line below quote content */}
@@ -443,7 +449,7 @@ export function QuoteFinder() {
                   <div className="h-px bg-gradient-to-r from-transparent via-amber-200/30 dark:via-amber-500/20 to-transparent mb-4"></div>
 
                   {/* Reference - right aligned */}
-                  <cite className="block text-sm font-semibold text-amber-600 dark:text-amber-400 text-right mb-6 pr-2">
+                  <cite className="block text-sm font-semibold text-right mb-6 pr-2" style={{ color: '#92400e' }} /* Deep amber for better contrast */>
                     — {quote.reference}
                   </cite>
 
