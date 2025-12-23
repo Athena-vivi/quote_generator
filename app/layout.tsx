@@ -199,14 +199,16 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
-        {/* CSS Loading Diagnosis - Simplified */}
-        <Script
-          id="css-diagnosis"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: "window.addEventListener('DOMContentLoaded',function(){console.log('CSS Diagnosis Started');try{const rootStyles=getComputedStyle(document.documentElement);console.log('CSS Variables:',{background:rootStyles.getPropertyValue('--background'),foreground:rootStyles.getPropertyValue('--foreground')});const testElement=document.createElement('div');testElement.className='hidden bg-red-500 text-white p-2';document.body.appendChild(testElement);const testStyles=window.getComputedStyle(testElement);console.log('Tailwind Working:',testStyles.display==='none');document.body.removeChild(testElement);const fontElements=document.querySelectorAll('link[href*=fonts.googleapis.com]');console.log('Google Fonts Loaded:',fontElements.length>0);const criticalCssElement=document.querySelector('[data-critical-css]');console.log('InlineCriticalCSS Found:',!!criticalCssElement);const fontLoaderElement=document.querySelector('[data-font-loader]');console.log('FontLoader Found:',!!fontLoaderElement);setTimeout(()=>{const bodyStyles=getComputedStyle(document.body);console.log('Body Background:',bodyStyles.backgroundColor);console.log('Body Color:',bodyStyles.color);},1000)}catch(e){console.error('CSS Diagnosis Error:',e)}});"
-          }}
-        />
+        {/* CSS Loading Diagnosis - Only in development */}
+        {process.env.NODE_ENV === 'development' && (
+          <Script
+            id="css-diagnosis"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: "window.addEventListener('DOMContentLoaded',function(){console.log('CSS Diagnosis Started');try{const rootStyles=getComputedStyle(document.documentElement);console.log('CSS Variables:',{background:rootStyles.getPropertyValue('--background'),foreground:rootStyles.getPropertyValue('--foreground')});const testElement=document.createElement('div');testElement.className='hidden bg-red-500 text-white p-2';document.body.appendChild(testElement);const testStyles=window.getComputedStyle(testElement);console.log('Tailwind Working:',testStyles.display==='none');document.body.removeChild(testElement);const fontElements=document.querySelectorAll('link[href*=fonts.googleapis.com]');console.log('Google Fonts Loaded:',fontElements.length>0);const criticalCssElement=document.querySelector('[data-critical-css]');console.log('InlineCriticalCSS Found:',!!criticalCssElement);const fontLoaderElement=document.querySelector('[data-font-loader]');console.log('FontLoader Found:',!!fontLoaderElement);setTimeout(()=>{const bodyStyles=getComputedStyle(document.body);console.log('Body Background:',bodyStyles.backgroundColor);console.log('Body Color:',bodyStyles.color);},1000)}catch(e){console.error('CSS Diagnosis Error:',e)}});"
+            }}
+          />
+        )}
 
         {/* Enhanced Chrome Runtime Error Fix */}
         <Script
