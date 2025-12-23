@@ -68,17 +68,17 @@ export function Navigation() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-zinc-900/70 backdrop-blur-xl border-b border-amber-100 dark:border-amber-500/20 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
-          {/* Logo - Divine Feather Icon */}
+          {/* Logo - Divine Dove Icon */}
           <Link
             href="/"
             className="group flex items-center space-x-3 hover:scale-105 transition-all duration-300"
             onClick={handleNavClick}
           >
-            {/* Divine Feather Icon with Amber Glow */}
+            {/* Divine Dove Icon with Amber Glow */}
             <div className="relative flex items-center justify-center">
               {/* Sacred Glow Effect */}
               <div className="absolute inset-0 bg-gradient-to-br from-amber-400/15 via-yellow-500/10 to-amber-500/15 rounded-full blur-lg group-hover:from-amber-400/25 group-hover:via-yellow-500/15 group-hover:to-amber-500/25 transition-all duration-500"></div>
-              {/* Feather Icon */}
+              {/* Dove Icon - Fine Line Art */}
               <div className="relative">
                 <svg
                   className="w-9 h-9"
@@ -87,45 +87,78 @@ export function Navigation() {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>
-                    <linearGradient id="featherGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <linearGradient id="doveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor="#D4AF37" />
                       <stop offset="50%" stopColor="#F4E4BC" />
                       <stop offset="100%" stopColor="#D4AF37" />
                     </linearGradient>
-                    <filter id="glow">
-                      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+                    <filter id="doveGlow">
+                      <feGaussianBlur stdDeviation="1.2" result="coloredBlur"/>
                       <feMerge>
                         <feMergeNode in="coloredBlur"/>
                         <feMergeNode in="SourceGraphic"/>
                       </feMerge>
                     </filter>
                   </defs>
+                  {/* Dove body - elegant flowing line */}
                   <path
-                    d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"
-                    stroke="url(#featherGradient)"
-                    strokeWidth="1.8"
+                    d="M18 4c-1.5 0-3 1-4 2.5-.5.8-1 1.5-1.5 2"
+                    stroke="url(#doveGradient)"
+                    strokeWidth="1.2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    filter="url(#glow)"
+                    filter="url(#doveGlow)"
                   />
+                  {/* Wing - graceful curve */}
                   <path
-                    d="M16 8L2 22"
-                    stroke="url(#featherGradient)"
-                    strokeWidth="1.5"
+                    d="M6 14c2-3 5-4 8-3 1.5.5 2.5 1.5 3 3"
+                    stroke="url(#doveGradient)"
+                    strokeWidth="1.2"
                     strokeLinecap="round"
+                    strokeLinejoin="round"
+                    filter="url(#doveGlow)"
                   />
+                  {/* Tail feathers */}
                   <path
-                    d="M17.5 15H9"
-                    stroke="url(#featherGradient)"
-                    strokeWidth="1.3"
+                    d="M4 18c1.5-1 3-1.5 4.5-1"
+                    stroke="url(#doveGradient)"
+                    strokeWidth="1.1"
                     strokeLinecap="round"
+                    filter="url(#doveGlow)"
                   />
+                  {/* Head and beak */}
+                  <path
+                    d="M20 5l-2 1"
+                    stroke="url(#doveGradient)"
+                    strokeWidth="1.2"
+                    strokeLinecap="round"
+                    filter="url(#doveGlow)"
+                  />
+                  {/* Eye - delicate dot */}
+                  <circle
+                    cx="19.5"
+                    cy="4.8"
+                    r="0.4"
+                    fill="url(#doveGradient)"
+                    filter="url(#doveGlow)"
+                  />
+                  {/* Olive branch - symbol of peace */}
+                  <path
+                    d="M8 16c1-1 2-1.5 3-1.5"
+                    stroke="url(#doveGradient)"
+                    strokeWidth="0.9"
+                    strokeLinecap="round"
+                    filter="url(#doveGlow)"
+                  />
+                  {/* Olive leaves */}
+                  <ellipse cx="10" cy="15" rx="0.6" ry="0.3" fill="url(#doveGradient)" filter="url(#doveGlow)" />
+                  <ellipse cx="11" cy="15.8" rx="0.5" ry="0.25" fill="url(#doveGradient)" filter="url(#doveGlow)" />
                 </svg>
               </div>
             </div>
-            {/* Brand Text - Serif with Wide Tracking */}
-            <span className="text-xl md:text-2xl font-serif font-semibold tracking-wide bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent leading-none">
-              QuoteGenerator
+            {/* Brand Text - Crimson Text Serif, All Caps */}
+            <span className="font-quote text-lg md:text-xl font-semibold tracking-[0.2em] bg-gradient-to-r from-amber-700 via-yellow-600 to-amber-700 dark:from-amber-300 dark:via-amber-200 dark:to-amber-300 bg-clip-text text-transparent leading-none" style={{ fontFamily: "'Crimson Text', serif" }}>
+              QUOTEGENERATOR
             </span>
           </Link>
 
