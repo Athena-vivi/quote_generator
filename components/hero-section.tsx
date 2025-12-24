@@ -94,15 +94,15 @@ export function HeroSection() {
 
       {/* Favorites Modal */}
       {showFavorites && (
-        <div className="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-          <div className="bg-white/95 dark:bg-zinc-900/40 dark:backdrop-blur-2xl backdrop-blur-xl rounded-3xl max-w-4xl w-full max-h-[80vh] overflow-y-auto border border-amber-200/30 dark:border-amber-500/10 shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.15)]">
+        <div className="fixed inset-0 bg-black/60 dark:bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <div className="bg-white/95 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl max-w-4xl w-full max-h-[80vh] overflow-y-auto border border-amber-200/30 dark:border-amber-500/10 shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)]">
             <div className="p-6">
               <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900 dark:text-amber-200 flex items-center gap-2">
+                <h2 className="text-2xl font-bold text-gray-900 dark:text-zinc-200 flex items-center gap-2">
                   <Heart className="w-6 h-6 text-red-500" />
                   My Favorite Quotes
                 </h2>
-                <Button variant="ghost" onClick={() => setShowFavorites(false)} className="text-gray-700 dark:text-amber-400 hover:bg-amber-50 dark:hover:bg-zinc-800/50">
+                <Button variant="ghost" onClick={() => setShowFavorites(false)} className="text-gray-700 dark:text-zinc-400 hover:bg-amber-50 dark:hover:bg-white/[0.03]">
                   <X className="w-5 h-5" />
                 </Button>
               </div>

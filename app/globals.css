@@ -44,13 +44,21 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Dark mode sacred effects */
+/* Dark mode sacred effects - Obsidian Art Style */
 .dark body {
-  /* Faint amber cross pattern for dark mode */
+  /* Layered ambient lighting - radial glows */
   background-image:
-    linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
-  background-size: 32px 32px;
+    /* Top-left purple glow */
+    radial-gradient(circle at 20% 20%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
+    /* Bottom-right amber glow */
+    radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+    /* Center-subtle warm glow */
+    radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 60%),
+    /* Faint amber cross pattern */
+    linear-gradient(rgba(212, 175, 55, 0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(212, 175, 55, 0.015) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+  background-attachment: fixed, fixed, fixed, fixed, fixed;
 }
 
 /* 优雅的衬线字体用于金句 */
@@ -97,5 +105,35 @@ body {
   }
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Ultra-blur for maximum glass effect */
+  .backdrop-blur-max {
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+  }
+
+  /* Gradient border animation for focus states */
+  .glow-border-focus {
+    position: relative;
+    background: transparent;
+  }
+
+  .glow-border-focus::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.6), transparent);
+    transition: width 0.4s ease, left 0.4s ease;
+  }
+
+  .glow-border-focus:focus-within::after {
+    width: 100%;
+    left: 0;
+    transform: translateX(0);
   }
 }

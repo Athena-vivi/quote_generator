@@ -54,7 +54,7 @@ export function Navigation() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-2xl backdrop-blur-md border-b border-amber-200/30 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_20px_rgba(212,175,55,0.08)]">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-md border-b border-amber-200/30 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.06)]">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo - Elegant Minimal */}
