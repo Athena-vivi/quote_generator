@@ -110,10 +110,10 @@ async function drawQuoteImage({
   const textAreaWidth = width - sideSafe * 2
   const textAreaHeight = height - topSafe - bottomSafe
 
-  // Get font stack - Crimson Text as primary for sacred serif aesthetic
+  // Get font stack - Crimson Text with explicit weight for sacred serif aesthetic
   const serifFonts = selectedFont === "handwriting"
     ? fontConfigs.handwriting.serif.join(", ")
-    : '"Crimson Text", serif'
+    : '400 "Crimson Text", 400 serif'
 
   // Initial font size calculation
   let fontSize = Math.max(width, height) * 0.052
@@ -127,7 +127,7 @@ async function drawQuoteImage({
 
   // Text wrapping and size adjustment loop
   while (true) {
-    ctx.font = `${fontSize}px ${serifFonts}`
+    ctx.font = `400 ${fontSize}px ${serifFonts}`
 
     // Word wrapping - clean splitting
     lines = []
@@ -173,8 +173,8 @@ async function drawQuoteImage({
   // Save context state
   ctx.save()
 
-  // Draw main quote text - absolutely centered
-  ctx.font = `${fontSize}px ${serifFonts}`
+  // Draw main quote text - absolutely centered with explicit weight
+  ctx.font = `400 ${fontSize}px ${serifFonts}`
   ctx.fillStyle = textColor
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
@@ -202,11 +202,13 @@ async function drawQuoteImage({
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference - right-bottom aligned, 55% size, distinguished color, full opacity
+  // Draw reference - right-bottom aligned, 55% size, non-italic serif, amber gold
   const refY = textStartY + totalTextHeight + spacing - (totalHeight / 2) + (totalTextHeight / 2)
   const refX = width - sideSafe
 
-  ctx.font = `italic ${refFontSize}px ${serifFonts}`
+  // Use non-italic serif font for reference, minimum 24px for readability
+  const finalRefSize = Math.max(refFontSize, 24)
+  ctx.font = `400 ${finalRefSize}px ${serifFonts}`
   ctx.textAlign = "right"
   ctx.textBaseline = "top"
 
@@ -216,7 +218,7 @@ async function drawQuoteImage({
   ctx.shadowOffsetX = 1.5
   ctx.shadowOffsetY = 1.5
 
-  // Reference color - full opacity for maximum readability
+  // Reference color - full opacity amber gold for maximum readability
   ctx.fillStyle = refColor
   ctx.globalAlpha = 1.0
   ctx.fillText(`— ${cleanReference}`, refX, refY)
@@ -332,6 +334,14 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     setError(null)
 
     try {
+      // Force load Crimson Text font before generating image
+      if (document.fonts) {
+        console.log("🔤 Force loading Crimson Text font...")
+        await document.fonts.load('400 32px "Crimson Text"')
+        await document.fonts.load('400 32px "Great Vibes"')
+        console.log("✅ Crimson Text fonts loaded successfully")
+      }
+
       console.log("🚀 开始生成图片...")
 
       const response = await fetch("/api/generate-image", {
@@ -522,8 +532,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
   return (
     <div className="fixed inset-0 bg-black/70 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
-      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full max-h-[95vh] overflow-y-auto shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10">
-        <div className="p-6 md:p-10 relative">
+      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full h-[90vh] max-h-[800px] shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10 ring-1 dark:ring-amber-500/20 flex flex-col">
+        <div className="p-6 md:p-8 relative flex-shrink-0">
           {/* Floating Close Button - Amber Gold with Glow */}
           <button
             onClick={onClose}
@@ -557,10 +567,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
           )}
 
-          {/* 4:6 Asymmetric Layout - 40% Controls / 60% Preview - Reduced gaps */}
-          <div className="flex flex-row gap-4 lg:gap-6 min-h-[550px]">
-            {/* Left Side - Controls (40%) - Compressed */}
-            <div className="w-[40%] space-y-3 flex-shrink-0 flex flex-col">
+          {/* 4:6 Asymmetric Layout - 40% Controls / 60% Preview - Fixed container */}
+          <div className="flex flex-row gap-4 lg:gap-6 min-h-0 flex-1 overflow-hidden">
+            {/* Left Side - Controls (40%) - Scrollable when needed */}
+            <div className="w-[40%] space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-1">
               {/* Compact Input Area - Reduced padding */}
               <div className="bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
                 <div className="flex items-center gap-2 mb-3">
@@ -708,38 +718,38 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               )}
             </div>
 
-            {/* Right Side - Preview (60%) - Maximized Display */}
-            <div className="w-[60%] flex flex-col flex-shrink-0">
+            {/* Right Side - Preview (60%) - Fixed layout with proper overflow */}
+            <div className="w-[60%] flex flex-col flex-shrink-0 min-h-0">
               {generatedImageUrl ? (
                 <>
                   {/* Artistic Canvas Frame - Full 1:1 Square Display */}
-                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-4 relative overflow-visible">
+                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-3 relative overflow-hidden min-h-0">
                     {/* Ultra-subtle Radial Amber Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    {/* Full 1:1 Square Canvas Container - No Cropping */}
-                    <div className="relative w-full flex items-center justify-center" style={{ aspectRatio: '1/1', maxHeight: 'calc(95vh - 260px)' }}>
-                      <div className="relative w-full h-full">
+                    {/* Full 1:1 Square Canvas Container - Adaptive sizing */}
+                    <div className="relative w-full h-full flex items-center justify-center min-h-0">
+                      <div className="relative" style={{ maxWidth: '100%', maxHeight: '100%', aspectRatio: '1/1' }}>
                         {/* Elegant Frame - Refined */}
                         <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25"></div>
                         <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                        {/* Canvas - Full 1:1 square visible */}
-                        <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent aspect-square">
+                        {/* Canvas - Object contain for proper fitting */}
+                        <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent aspect-square w-full h-full">
                           <canvas
                             ref={previewCanvasRef}
                             width={1024}
                             height={1024}
-                            className="w-full h-full"
+                            className="w-full h-full object-contain"
                           />
                         </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Action Toolbar - Ultra-Compact */}
-                  <div className="mt-3 space-y-2">
+                  {/* Action Toolbar - Fixed at bottom */}
+                  <div className="mt-3 flex-shrink-0 space-y-2">
                     {/* Primary Actions - Compact */}
                     <div className="flex items-center justify-center gap-2">
                       {/* Download */}
