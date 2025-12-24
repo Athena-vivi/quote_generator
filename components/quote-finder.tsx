@@ -457,7 +457,7 @@ export function QuoteFinder() {
                 <div className="relative">
                   {/* Quote Text - Clean serif typography */}
                   <blockquote
-                    className="text-xl md:text-2xl font-serif font-light italic text-stone-800 dark:text-stone-200 leading-relaxed mb-8 px-4 py-3"
+                    className="text-2xl md:text-3xl lg:text-4xl font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-8 px-4 py-3"
                     style={{
                       letterSpacing: '0.12px'
                     }}
@@ -468,10 +468,10 @@ export function QuoteFinder() {
                   {/* Subtle divider */}
                   <div className="h-px bg-gradient-to-r from-transparent via-amber-300/15 dark:via-amber-500/10 to-transparent mb-7"></div>
 
-                  {/* Reference */}
-                  <div className="relative inline-block mb-8">
+                  {/* Reference - Right aligned */}
+                  <div className="relative flex justify-end mb-8">
                     <cite
-                      className="relative block text-base md:text-lg font-serif text-right pr-3 text-amber-800 dark:text-amber-400 font-medium italic"
+                      className="relative block text-base md:text-lg font-serif text-right text-amber-800 dark:text-amber-400 font-medium italic"
                       style={{ letterSpacing: '0.3px' }}
                     >
                       — {quote.reference}
