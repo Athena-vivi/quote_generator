@@ -10,9 +10,6 @@ import {
   AlertCircle,
   Copy,
   Check,
-  Facebook,
-  Twitter,
-  Instagram,
   X,
 } from "lucide-react"
 
@@ -40,6 +37,8 @@ interface DrawQuoteImageParams {
   width?: number;
   height?: number;
   theme?: string;
+  textColor?: string;
+  refColor?: string;
 }
 
 async function drawQuoteImage({
@@ -94,20 +93,15 @@ async function drawQuoteImage({
   // 动态调整字号和正文起始位置
   const aspectRatio = width / height;
   let fontSize: number;
-  let startYOffset: number;
   if (aspectRatio < 0.7) { // 9:16竖图
     fontSize = Math.max(width, height) * 0.052;
-    startYOffset = 0.16; // 居中略偏上
   } else if (aspectRatio < 1.1) { // 1:1
     fontSize = Math.max(width, height) * 0.06;
-    startYOffset = 0.20;
   } else { // 16:9横图
     fontSize = Math.max(width, height) * 0.058;
-    startYOffset = 0.22;
   }
 
   let serifFonts = fontConfigs[selectedFont as keyof typeof fontConfigs].serif.join(", ");
-  let currentFont = fontConfigs[selectedFont as keyof typeof fontConfigs];
   let lines: string[] = [];
   let lineHeight = fontSize * 1.22; // 行高增大，提升呼吸感
   let refFontSize = fontSize * 0.65;
@@ -184,52 +178,37 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [isFavorited, setIsFavorited] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
-  const [showShareMenu, setShowShareMenu] = useState(false)
   const [fontsLoaded, setFontsLoaded] = useState(false)
   const [selectedFont, setSelectedFont] = useState("classic")
-  const canvasRef = useRef<HTMLDivElement>(null)
   const previewCanvasRef = useRef<HTMLCanvasElement>(null)
   const [previewBgImg, setPreviewBgImg] = useState<HTMLImageElement | null>(null)
-  // 在组件顶部state中添加分辨率
-  const [resolution, setResolution] = useState<{label: string, width: number, height: number}>(
-    { label: '1:1 (1024x1024)', width: 1024, height: 1024 }
-  )
-  const resolutions = [
-    { label: '1:1 (1024x1024)', width: 1024, height: 1024 },
-    { label: '9:16 (1080x1920)', width: 1080, height: 1920 },
-    { label: '16:9 (1200x675)', width: 1200, height: 675 },
-  ]
+
+  // Force 1:1 resolution only
+  const [resolution] = useState({ label: '1:1 (1024x1024)', width: 1024, height: 1024 })
+
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  // 在 ImageGenerator 组件 state 区域添加颜色 state
   const [textColor, setTextColor] = useState<string>("#fff"); // 正文默认白色
   const [refColor, setRefColor] = useState<string>("#ffd700"); // 引用默认金色
 
+  // Simplified artistic suggestions - 6 best ones
   const promptSuggestions = [
-    "A beautiful white dove flying in a golden sky",
-    "Peaceful ocean waves at sunset with divine light",
-    "A serene forest path with heavenly sunbeams",
-    "Starry night sky over Jerusalem with soft moonlight",
-    "Gentle waterfall in the Garden of Eden",
-    "Soft clouds parting to reveal divine light",
-    "A field of white lilies with golden hour lighting",
-    "Ancient olive trees in holy land with warm light",
-    "Mountain peak with cross silhouette at sunrise",
-    "Calm lake reflecting heavenly clouds",
-    "Desert landscape with divine light rays",
-    "Peaceful shepherd scene with rolling hills",
+    "Divine light streaming through clouds",
+    "Peaceful mountain sunrise with golden rays",
+    "Serene ocean waves at sacred sunset",
+    "Ancient olive trees in holy land",
+    "Starry night over Jerusalem",
+    "Gentle waterfall in Eden garden",
   ]
 
   // Font configurations optimized for religious content
   const fontConfigs = {
     classic: {
       serif: ['"EB Garamond"', '"Crimson Text"', '"Merriweather"', '"Lora"', '"Georgia"', '"Times New Roman"', 'serif'],
-      sans: ['"Open Sans"', '"Roboto"', '"Segoe UI"', '"Helvetica"', 'sans-serif'],
-      name: "Classic"
+      name: "Classic Serif"
     },
     handwriting: {
       serif: ['"Caveat"', 'cursive', 'serif'],
-      sans: ['"Open Sans"', '"Segoe UI"', 'sans-serif'],
-      name: "Handwriting"
+      name: "Elegant Script"
     }
   }
 
@@ -283,21 +262,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       refColor,
     })
   }, [previewBgImg, quote, fontConfigs, selectedFont, resolution, theme, textColor, refColor])
-
-  const getTextSize = (text: string) => {
-    const length = text.length
-    if (length < 50) return "text-2xl"
-    if (length < 100) return "text-xl"
-    if (length < 150) return "text-lg"
-    return "text-base"
-  }
-
-  const getReferenceSize = (text: string) => {
-    const length = text.length
-    if (length < 50) return "text-lg"
-    if (length < 100) return "text-base"
-    return "text-sm"
-  }
 
   const generateImage = async () => {
     if (!prompt.trim()) return
@@ -428,25 +392,83 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }
   }
 
-  const shareToFacebook = async () => {
-    const shareText = `${quote.content} - ${quote.reference}`
-    const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}&quote=${encodeURIComponent(shareText)}`
-    window.open(facebookUrl, "_blank", "width=600,height=400")
-    setShowShareMenu(false)
-  }
+  // Native share function using Web Share API
+  const shareImage = async () => {
+    if (!generatedImageUrl || !fontsLoaded) return
 
-  const shareToTwitter = async () => {
-    const shareText = `${quote.content} - ${quote.reference} #BibleVerse #Faith #Inspiration`
-    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(window.location.href)}`
-    window.open(twitterUrl, "_blank", "width=600,height=400")
-    setShowShareMenu(false)
-  }
+    setIsComposing(true)
+    setError(null)
 
-  const shareToInstagram = () => {
-    alert(
-      "To share on Instagram:\n1. Download the image using the Download button\n2. Open Instagram app\n3. Create a new post\n4. Select the downloaded image\n5. Add your caption with the quote text",
-    )
-    setShowShareMenu(false)
+    try {
+      // Create image blob
+      const response = await fetch(generatedImageUrl, { mode: "cors" })
+      const blob = await response.blob()
+      const bitmap = await createImageBitmap(blob)
+
+      // Create high-quality canvas
+      const canvas = document.createElement("canvas")
+      canvas.width = resolution.width
+      canvas.height = resolution.height
+      const ctx = canvas.getContext("2d")!
+
+      await drawQuoteImage({
+        ctx,
+        backgroundImg: bitmap,
+        quote,
+        fontConfigs,
+        selectedFont,
+        width: resolution.width,
+        height: resolution.height,
+        theme,
+        textColor,
+        refColor,
+      })
+
+      // Convert to blob for sharing
+      const finalBlob = await new Promise<Blob | null>((resolve) =>
+        canvas.toBlob((b) => resolve(b), "image/png", 1.0)
+      )
+
+      if (!finalBlob) throw new Error("Could not create image")
+
+      // Create File object for sharing
+      const file = new File(
+        [finalBlob],
+        `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}.png`,
+        { type: "image/png" }
+      )
+
+      // Check if Web Share API is supported
+      if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          title: 'Divine Scripture Art',
+          text: `"${quote.content}" — ${quote.reference}`,
+          files: [file]
+        })
+      } else {
+        // Fallback: download and show message
+        const url = URL.createObjectURL(finalBlob)
+        const link = document.createElement("a")
+        link.href = url
+        link.download = file.name
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+
+        setError("Sharing not supported on this device. Image has been downloaded instead.")
+      }
+    } catch (err: any) {
+      if (err.name === 'AbortError') {
+        // User cancelled sharing - don't show error
+        console.log('Share cancelled by user')
+      } else {
+        console.error('Share error:', err)
+        setError("Failed to share. Please try downloading instead.")
+      }
+    } finally {
+      setIsComposing(false)
+    }
   }
 
   const toggleFavorite = () => {
@@ -469,15 +491,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     setIsFavorited(favorites.includes(quoteKey))
   }, [quote])
 
-  // 预览区canvas容器宽度动态计算
-  const maxCanvasWidth = 480; // px，对应16:9的1200px
-  const maxResolutionWidth = 1200; // 16:9的宽度
-  const scale = resolution.width / maxResolutionWidth;
-  const canvasDisplayWidth = maxCanvasWidth * scale;
-
   return (
     <div className="fixed inset-0 bg-black/60 dark:bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-      <div className="bg-white/90 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] border border-amber-100 dark:border-amber-500/10">
+      <div className="custom-scrollbar bg-white/90 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] border border-amber-100 dark:border-amber-500/10">
         <div className="p-6 md:p-8">
           <div className="flex justify-between items-center mb-8">
             <div className="flex-1 flex justify-center items-center">
@@ -538,7 +554,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         <button
                           key={index}
                           onClick={() => setPrompt(suggestion)}
-                          className="px-3 py-1.5 text-xs font-serif bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15 text-amber-800 dark:text-amber-300 rounded-full hover:bg-amber-100/70 dark:hover:bg-amber-950/50 hover:border-amber-300/60 dark:hover:border-amber-400/30 transition-all duration-300"
+                          className="px-4 py-2 text-sm font-serif bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15 text-amber-800 dark:text-amber-300 rounded-full hover:bg-amber-100/70 dark:hover:bg-amber-950/50 hover:border-amber-300/60 dark:hover:border-amber-400/30 transition-all duration-300"
                         >
                           {suggestion}
                         </button>
@@ -615,7 +631,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               {generatedImageUrl && (
                 <div className="bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-amber-100/50 dark:border-amber-500/12 shadow-lg dark:shadow-[0_0_30px_rgba(212,175,55,0.08)]">
                   {/* Controls Header */}
-                  <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center justify-between mb-8">
                     <h3 className="text-lg md:text-xl font-serif font-semibold text-gray-800 dark:text-zinc-200">
                       Your Divine Canvas
                     </h3>
@@ -624,91 +640,127 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </span>
                   </div>
 
-                  {/* Resolution & Style Controls */}
-                  <div className="mb-6 space-y-4">
-                    {/* Resolution */}
-                    <div className="flex flex-wrap gap-2 items-center justify-center p-3 bg-stone-50/50 dark:bg-stone-900/30 rounded-2xl">
-                      <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70 mr-2">Format:</span>
-                      {resolutions.map((r) => (
-                        <button
-                          key={r.label}
-                          onClick={() => setResolution(r)}
-                          className={`px-3 py-1.5 text-xs font-serif rounded-lg transition-all duration-300 ${
-                            resolution.label === r.label
-                              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
-                              : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
-                          }`}
-                        >
-                          {r.label}
-                        </button>
-                      ))}
-                    </div>
+                  {/* Elegant Style Controls - Redesigned with breathing room */}
+                  <div className="mb-8 space-y-5">
+                    {/* Color Swatches - Elegant circles */}
+                    <div className="flex flex-wrap items-center justify-center gap-6 py-4 px-5 bg-stone-50/50 dark:bg-stone-900/30 rounded-2xl">
+                      {/* Text Color */}
+                      <div className="flex flex-col items-center gap-2">
+                        <span className="text-xs font-serif uppercase tracking-wider text-amber-700/70 dark:text-amber-400/70">Text</span>
+                        <div className="flex gap-2">
+                          {["#ffd700", "#fff"].map((color) => (
+                            <button
+                              key={color}
+                              onClick={() => setTextColor(color)}
+                              className="relative w-9 h-9 rounded-full border-3 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+                              style={{
+                                background: color,
+                                borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
+                                boxShadow: textColor === color ? '0 0 16px rgba(217, 119, 6, 0.6)' : 'none',
+                              }}
+                              aria-label={`Text color ${color}`}
+                            >
+                              {textColor === color && (
+                                <div className="w-2 h-2 bg-white rounded-full" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.5))' }}></div>
+                              )}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
 
-                    {/* Color & Theme Controls */}
-                    <div className="flex flex-wrap gap-4 items-center justify-center p-3 bg-stone-50/50 dark:bg-stone-900/30 rounded-2xl">
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70">Text:</span>
-                        {["#ffd700", "#fff"].map((color) => (
-                          <button
-                            key={color}
-                            onClick={() => setTextColor(color)}
-                            className="w-7 h-7 rounded-lg border-2 transition-all duration-300 hover:scale-110"
-                            style={{
-                              background: color,
-                              borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.3)',
-                              boxShadow: textColor === color ? '0 0 12px rgba(217, 119, 6, 0.5)' : 'none',
-                            }}
-                            aria-label={`Text color ${color}`}
-                          />
-                        ))}
+                      {/* Divider */}
+                      <div className="hidden sm:block w-px h-10 bg-amber-300/30 dark:bg-amber-500/20"></div>
+
+                      {/* Reference Color */}
+                      <div className="flex flex-col items-center gap-2">
+                        <span className="text-xs font-serif uppercase tracking-wider text-amber-700/70 dark:text-amber-400/70">Reference</span>
+                        <div className="flex gap-2">
+                          {["#ffd700", "#fff"].map((color) => (
+                            <button
+                              key={color}
+                              onClick={() => setRefColor(color)}
+                              className="relative w-9 h-9 rounded-full border-3 transition-all duration-300 hover:scale-110 flex items-center justify-center"
+                              style={{
+                                background: color,
+                                borderColor: refColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
+                                boxShadow: refColor === color ? '0 0 16px rgba(217, 119, 6, 0.6)' : 'none',
+                              }}
+                              aria-label={`Reference color ${color}`}
+                            >
+                              {refColor === color && (
+                                <div className="w-2 h-2 bg-white rounded-full" style={{ filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.5))' }}></div>
+                              )}
+                            </button>
+                          ))}
+                        </div>
                       </div>
-                      <div className="w-px h-6 bg-amber-300/30 dark:bg-amber-500/20"></div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70">Ref:</span>
-                        {["#ffd700", "#fff"].map((color) => (
-                          <button
-                            key={color}
-                            onClick={() => setRefColor(color)}
-                            className="w-7 h-7 rounded-lg border-2 transition-all duration-300 hover:scale-110"
-                            style={{
-                              background: color,
-                              borderColor: refColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.3)',
-                              boxShadow: refColor === color ? '0 0 12px rgba(217, 119, 6, 0.5)' : 'none',
-                            }}
-                            aria-label={`Reference color ${color}`}
-                          />
-                        ))}
+
+                      {/* Divider */}
+                      <div className="hidden sm:block w-px h-10 bg-amber-300/30 dark:bg-amber-500/20"></div>
+
+                      {/* Theme Toggle */}
+                      <div className="flex flex-col items-center gap-2">
+                        <span className="text-xs font-serif uppercase tracking-wider text-amber-700/70 dark:text-amber-400/70">Theme</span>
+                        <button
+                          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                          className="w-12 h-9 rounded-xl bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-800 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border-2 border-stone-300/50 dark:border-stone-500/30 font-serif text-sm flex items-center justify-center"
+                        >
+                          {theme === 'light' ? '☀️' : '🌙'}
+                        </button>
                       </div>
-                      <div className="w-px h-6 bg-amber-300/30 dark:bg-amber-500/20"></div>
-                      <button
-                        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className="px-3 py-1.5 text-xs font-serif rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-800 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/50 dark:border-stone-500/30"
-                      >
-                        {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-                      </button>
+
+                      {/* Divider */}
+                      <div className="hidden sm:block w-px h-10 bg-amber-300/30 dark:bg-amber-500/20"></div>
+
+                      {/* Font Selector */}
+                      <div className="flex flex-col items-center gap-2">
+                        <span className="text-xs font-serif uppercase tracking-wider text-amber-700/70 dark:text-amber-400/70">Font</span>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setSelectedFont("classic")}
+                            className={`px-4 py-2 text-sm font-serif rounded-xl transition-all duration-300 ${
+                              selectedFont === "classic"
+                                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md"
+                                : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
+                            }`}
+                          >
+                            Serif
+                          </button>
+                          <button
+                            onClick={() => setSelectedFont("handwriting")}
+                            className={`px-4 py-2 text-sm font-serif rounded-xl transition-all duration-300 ${
+                              selectedFont === "handwriting"
+                                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md"
+                                : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
+                            }`}
+                          >
+                            Script
+                          </button>
+                        </div>
+                      </div>
                     </div>
                   </div>
 
-                  {/* Artistic Canvas Frame */}
-                  <div className="flex flex-col items-center w-full mb-6">
-                    <div className="relative" style={{ width: `${canvasDisplayWidth}px` }}>
+                  {/* Artistic Canvas Frame - Fixed 1:1 */}
+                  <div className="flex flex-col items-center w-full mb-8">
+                    <div className="relative mx-auto" style={{ width: '320px', height: '320px' }}>
                       {/* Outer Frame */}
-                      <div
-                        className="bg-gradient-to-br from-stone-100/80 to-amber-50/60 dark:from-stone-800/60 dark:to-amber-950/40 rounded-3xl shadow-2xl dark:shadow-[0_0_40px_rgba(212,175,55,0.15)] border-4 border-amber-200/60 dark:border-amber-500/20 p-3"
-                        style={{
-                          aspectRatio: `${resolution.width} / ${resolution.height}`,
-                        }}
-                      >
-                        {/* Inner Frame with Radial Glow */}
-                        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-radial from-amber-100/30 via-transparent to-transparent dark:from-amber-500/10 dark:via-transparent dark:to-transparent">
-                          <canvas
-                            ref={previewCanvasRef}
-                            width={resolution.width}
-                            height={resolution.height}
-                            className="w-full h-full object-contain rounded-xl"
-                          />
-                        </div>
+                      <div className="absolute inset-0 bg-gradient-to-br from-stone-100/80 to-amber-50/60 dark:from-stone-800/60 dark:to-amber-950/40 rounded-3xl shadow-2xl dark:shadow-[0_0_40px_rgba(212,175,55,0.15)] border-4 border-amber-200/60 dark:border-amber-500/20"></div>
+                      {/* Canvas container */}
+                      <div className="relative z-10 m-[6px] rounded-2xl overflow-hidden bg-gradient-radial from-amber-100/30 via-transparent to-transparent dark:from-amber-500/10 dark:via-transparent dark:to-transparent">
+                        <canvas
+                          ref={previewCanvasRef}
+                          width={1024}
+                          height={1024}
+                          className="w-full h-full object-contain"
+                        />
                       </div>
+                    </div>
+                    {/* 1:1 Badge */}
+                    <div className="mt-3 flex items-center justify-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-amber-400/60"></div>
+                      <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70">Square Format</span>
+                      <div className="w-2 h-2 rounded-full bg-amber-400/60"></div>
                     </div>
                   </div>
 
@@ -717,128 +769,82 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     <button
                       onClick={downloadImage}
                       disabled={isComposing || !fontsLoaded}
-                      className="min-h-[48px] px-4 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="min-h-[52px] px-4 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {isComposing ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className="w-5 h-5 animate-spin" />
                           <span className="text-sm">Processing...</span>
                         </>
                       ) : !fontsLoaded ? (
                         <>
-                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <Loader2 className="w-5 h-5 animate-spin" />
                           <span className="text-sm">Loading...</span>
                         </>
                       ) : (
                         <>
-                          <Download className="w-4 h-4" />
-                          <span className="text-sm">Download</span>
+                          <Download className="w-5 h-5" />
+                          <span className="text-sm font-serif">Download</span>
                         </>
                       )}
                     </button>
                     <button
                       onClick={copyToClipboard}
                       disabled={isComposing || !fontsLoaded}
-                      className="min-h-[48px] px-4 py-3 bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/12 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl hover:bg-amber-50 dark:hover:bg-white/[0.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+                      className="min-h-[52px] px-4 py-4 bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/12 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl hover:bg-amber-50 dark:hover:bg-white/[0.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
                     >
                       {copied ? (
                         <>
-                          <Check className="w-4 h-4 text-green-600" />
-                          <span className="text-sm">Done!</span>
+                          <Check className="w-5 h-5 text-green-600" />
+                          <span className="text-sm font-serif">Copied!</span>
                         </>
                       ) : (
                         <>
-                          <Copy className="w-4 h-4" />
-                          <span className="text-sm">Copy</span>
+                          <Copy className="w-5 h-5" />
+                          <span className="text-sm font-serif">Copy</span>
                         </>
                       )}
                     </button>
-                    <div className="relative">
-                      <button
-                        onClick={() => setShowShareMenu(!showShareMenu)}
-                        disabled={isComposing || !fontsLoaded}
-                        className="min-h-[48px] w-full px-4 py-3 bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/12 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl hover:bg-amber-50 dark:hover:bg-white/[0.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
-                      >
-                        <Share2 className="w-4 h-4" />
-                        <span className="text-sm">Share</span>
-                      </button>
-
-                      {showShareMenu && (
-                        <div className="absolute bottom-full mb-2 right-0 bg-white/95 dark:bg-stone-900/95 dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/20 rounded-2xl shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] p-2 min-w-[160px] z-10">
-                          <button
-                            onClick={shareToFacebook}
-                            className="w-full px-3 py-2 text-left text-sm font-serif text-blue-600 dark:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-blue-950/30 rounded-xl transition-colors flex items-center gap-2"
-                          >
-                            <Facebook className="w-4 h-4" />
-                            Facebook
-                          </button>
-                          <button
-                            onClick={shareToTwitter}
-                            className="w-full px-3 py-2 text-left text-sm font-serif text-sky-500 dark:text-sky-400 hover:bg-sky-50/80 dark:hover:bg-sky-950/30 rounded-xl transition-colors flex items-center gap-2"
-                          >
-                            <Twitter className="w-4 h-4" />
-                            Twitter
-                          </button>
-                          <button
-                            onClick={shareToInstagram}
-                            className="w-full px-3 py-2 text-left text-sm font-serif text-pink-500 dark:text-pink-400 hover:bg-pink-50/80 dark:hover:bg-pink-950/30 rounded-xl transition-colors flex items-center gap-2"
-                          >
-                            <Instagram className="w-4 h-4" />
-                            Instagram
-                          </button>
-                        </div>
+                    <button
+                      onClick={shareImage}
+                      disabled={isComposing || !fontsLoaded}
+                      className="min-h-[52px] px-4 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isComposing ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span className="text-sm">Sharing...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Share2 className="w-5 h-5" />
+                          <span className="text-sm font-serif">Share</span>
+                        </>
                       )}
-                    </div>
+                    </button>
                   </div>
 
                   {/* Tip - Elegant Style */}
-                  <div className="text-center p-3 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/10">
-                    <p className="text-xs font-serif text-amber-800/70 dark:text-amber-300/70">
-                      ✨ Click the page first for clipboard access, or use Download for direct save
+                  <div className="text-center p-4 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/10">
+                    <p className="text-xs font-serif text-amber-800/70 dark:text-amber-300/70 leading-relaxed">
+                      ✨ Share button uses native sharing to send the image file directly to your favorite apps
                     </p>
-                  </div>
-
-                  {/* Font Selector - Amber Style */}
-                  <div className="mt-6 pt-6 border-t border-amber-200/40 dark:border-amber-500/15">
-                    <label className="text-sm font-serif font-medium text-amber-800 dark:text-amber-300 mb-3 block">Choose Font Style</label>
-                    <div className="grid grid-cols-2 gap-3">
-                      <button
-                        onClick={() => setSelectedFont("classic")}
-                        className={`px-4 py-3 text-sm font-serif rounded-2xl transition-all duration-300 ${
-                          selectedFont === "classic"
-                            ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/30"
-                            : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
-                        }`}
-                      >
-                        Classic Serif
-                      </button>
-                      <button
-                        onClick={() => setSelectedFont("handwriting")}
-                        className={`px-4 py-3 text-sm font-serif rounded-2xl transition-all duration-300 ${
-                          selectedFont === "handwriting"
-                            ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/30"
-                            : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
-                        }`}
-                      >
-                        Elegant Script
-                      </button>
-                    </div>
                   </div>
                 </div>
               )}
 
               {!generatedImageUrl && (
-                <div className="bg-stone-100/80 dark:bg-stone-900/40 backdrop-blur-xl rounded-3xl p-8 md:p-12 border-4 border-amber-200/60 dark:border-amber-500/20 shadow-inner dark:shadow-[0_0_30px_rgba(212,175,55,0.08)]">
+                <div className="bg-stone-100/80 dark:bg-stone-900/40 backdrop-blur-xl rounded-3xl p-10 md:p-14 border-4 border-amber-200/60 dark:border-amber-500/20 shadow-inner dark:shadow-[0_0_30px_rgba(212,175,55,0.08)]">
                   <div className="flex flex-col items-center justify-center text-center">
-                    <div className="relative mb-6">
-                      <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-2xl"></div>
-                      <Palette className="relative w-16 h-16 text-amber-400/60 dark:text-amber-500/50" />
+                    <div className="relative mb-8">
+                      <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-3xl"></div>
+                      <Palette className="relative w-20 h-20 text-amber-400/60 dark:text-amber-500/50" />
                     </div>
-                    <p className="text-xl md:text-2xl font-serif text-stone-700 dark:text-zinc-300 mb-3">Your Canvas Awaits</p>
-                    <p className="text-base font-serif text-stone-500 dark:text-zinc-500 mb-2">Describe your sacred vision and let divine art emerge</p>
-                    <p className="text-sm font-serif text-amber-600/70 dark:text-amber-400/60 mt-4">FLUX-1 Schnell • Perfect Quality</p>
+                    <p className="text-2xl md:text-3xl font-serif text-stone-700 dark:text-zinc-300 mb-4">Your Canvas Awaits</p>
+                    <p className="text-lg font-serif text-stone-500 dark:text-zinc-500 mb-3">Describe your sacred vision and let divine art emerge</p>
+                    <p className="text-sm font-serif text-amber-600/70 dark:text-amber-400/60 mt-6">FLUX-1 Schnell • Perfect 1:1 Square Format</p>
                     {fontsLoaded && (
-                      <p className="text-sm font-serif text-green-600/80 dark:text-green-400/70 mt-2 flex items-center gap-2">
+                      <p className="text-sm font-serif text-green-600/80 dark:text-green-400/70 mt-3 flex items-center gap-2">
                         <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
                         Fonts loaded and ready
                       </p>
@@ -849,6 +855,27 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
           </div>
         </div>
+
+        {/* Custom scrollbar styles */}
+        <style jsx>{`
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(251, 191, 36, 0.25);
+            border-radius: 2px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(251, 191, 36, 0.4);
+          }
+          .custom-scrollbar {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(251, 191, 36, 0.25) transparent;
+          }
+        `}</style>
       </div>
     </div>
   )
