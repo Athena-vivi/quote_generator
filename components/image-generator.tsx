@@ -739,12 +739,12 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             {/* Right Side - Preview (60%) - Fixed layout with proper overflow */}
             <div className="w-[60%] flex flex-col h-full min-h-0">
               {generatedImageUrl ? (
-                <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden flex items-center justify-center p-4">
+                <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden flex items-center justify-center p-8">
                   {/* Ultra-subtle Radial Amber Glow */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
                   {/* Canvas Container with Floating Toolbar - Group for hover */}
-                  <div className="group relative">
+                  <div className="group relative max-w-full max-h-full aspect-square">
                     {/* Elegant Frame - Refined */}
                     <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
                     <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
