@@ -74,6 +74,10 @@ async function drawQuoteImage({
   textColor = '#fff',
   refColor = '#ffd700',
 }: DrawQuoteImageParams & { textColor?: string, refColor?: string }) {
+  // Clean the quote content - remove extra spaces and normalize
+  const cleanContent = quote.content.trim().replace(/\s+/g, ' ')
+  const cleanReference = quote.reference.trim()
+
   // Clear canvas
   ctx.clearRect(0, 0, width, height)
 
@@ -81,11 +85,11 @@ async function drawQuoteImage({
   if (backgroundImg) {
     ctx.drawImage(backgroundImg, 0, 0, width, height)
   } else {
-    ctx.fillStyle = theme === 'dark' ? "#1a1a1a" : "#f5f5f0";
+    ctx.fillStyle = theme === 'dark' ? "#1a1a1a" : "#f5f5f0"
     ctx.fillRect(0, 0, width, height)
   }
 
-  // Apply overlay gradient
+  // Apply overlay gradient for depth
   const gradient = ctx.createLinearGradient(0, 0, 0, height)
   if (theme === 'dark') {
     gradient.addColorStop(0, "rgba(0,0,0,0.5)")
@@ -99,10 +103,10 @@ async function drawQuoteImage({
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, width, height)
 
-  // Safe area margins
-  const sideSafe = width * 0.12
-  const topSafe = height * 0.12
-  const bottomSafe = height * 0.15
+  // Safe area margins - increased for better framing
+  const sideSafe = width * 0.14
+  const topSafe = height * 0.14
+  const bottomSafe = height * 0.18
   const textAreaWidth = width - sideSafe * 2
   const textAreaHeight = height - topSafe - bottomSafe
 
@@ -110,7 +114,7 @@ async function drawQuoteImage({
   const serifFonts = fontConfigs[selectedFont as keyof typeof fontConfigs].serif.join(", ")
 
   // Initial font size calculation
-  let fontSize = Math.max(width, height) * 0.055
+  let fontSize = Math.max(width, height) * 0.052
   let lines: string[] = []
   let lineHeight: number
   let refFontSize: number
@@ -123,12 +127,13 @@ async function drawQuoteImage({
   while (true) {
     ctx.font = `${fontSize}px ${serifFonts}`
 
-    // Word wrapping
+    // Word wrapping - clean splitting
     lines = []
     let currentLine = ""
-    const words = quote.content.split(" ")
+    const words = cleanContent.split(" ")
 
     for (const word of words) {
+      if (!word) continue // Skip empty words
       const testLine = currentLine ? `${currentLine} ${word}` : word
       const metrics = ctx.measureText(testLine)
 
@@ -141,27 +146,30 @@ async function drawQuoteImage({
     }
     if (currentLine) lines.push(currentLine)
 
-    // Calculate with leading-relaxed (1.6 for breathing room)
-    lineHeight = fontSize * 1.6
+    // Poetic line height - 1.8 for breathing room and rhythm
+    lineHeight = fontSize * 1.8
     totalTextHeight = lines.length * lineHeight
 
     // Reference is 40% smaller than main text
     refFontSize = fontSize * 0.4
-    refHeight = refFontSize * 1.5
+    refHeight = refFontSize * 1.6
 
     // Spacing between text and reference
-    spacing = fontSize * 1.8
+    spacing = fontSize * 2.0
     totalHeight = totalTextHeight + spacing + refHeight
 
     // Check if fits or minimum size reached
-    if (totalHeight <= textAreaHeight || fontSize < 20) break
-    fontSize *= 0.96
+    if (totalHeight <= textAreaHeight || fontSize < 18) break
+    fontSize *= 0.95
   }
 
-  // Calculate absolute center position
+  // Calculate absolute center position - perfect vertical centering
   const centerY = height / 2
   const textBlockHeight = totalHeight
   const textStartY = centerY - textBlockHeight / 2
+
+  // Save context state
+  ctx.save()
 
   // Draw main quote text - absolutely centered
   ctx.font = `${fontSize}px ${serifFonts}`
@@ -169,29 +177,31 @@ async function drawQuoteImage({
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
 
-  // Text shadow for readability
-  ctx.shadowColor = "rgba(0,0,0,0.85)"
-  ctx.shadowBlur = 15
+  // Elegant text shadow for readability
+  ctx.shadowColor = "rgba(0,0,0,0.8)"
+  ctx.shadowBlur = 12
   ctx.shadowOffsetX = 2
   ctx.shadowOffsetY = 2
 
-  // Draw each line with proper spacing
+  // Draw each line with proper poetic spacing
   lines.forEach((line, index) => {
-    let displayLine = line
-    // Add quotation marks
+    let displayLine = line.trim() // Trim each line
+
+    // Add quotation marks elegantly
     if (lines.length === 1) {
-      displayLine = `"${line}"`
+      displayLine = `"${displayLine}"`
     } else {
-      if (index === 0) displayLine = `"${line}`
-      else if (index === lines.length - 1) displayLine = `${line}"`
+      if (index === 0) displayLine = `"${displayLine}`
+      else if (index === lines.length - 1) displayLine = `${displayLine}"`
     }
 
-    const y = textStartY + (index * lineHeight) + (lineHeight / 2)
+    // Calculate Y position for perfect vertical alignment
+    const y = textStartY + (index * lineHeight) + (lineHeight / 2) - (totalHeight / 2) + (totalTextHeight / 2)
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference - right-bottom aligned, 40% smaller, lighter color
-  const refY = textStartY + totalTextHeight + spacing
+  // Draw reference - right-bottom aligned, 40% smaller, distinguished color
+  const refY = textStartY + totalTextHeight + spacing - (totalHeight / 2) + (totalTextHeight / 2)
   const refX = width - sideSafe
 
   ctx.font = `italic ${refFontSize}px ${serifFonts}`
@@ -199,22 +209,19 @@ async function drawQuoteImage({
   ctx.textBaseline = "top"
 
   // Lighter shadow for reference
-  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.5)"
-  ctx.shadowBlur = 6
+  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.4)"
+  ctx.shadowBlur = 4
   ctx.shadowOffsetX = 1
   ctx.shadowOffsetY = 1
 
-  // Lighter reference color (reduce opacity)
+  // Reference color - slightly muted/distinct from main text
   ctx.fillStyle = refColor
-  ctx.globalAlpha = 0.75
-  ctx.fillText(`— ${quote.reference}`, refX, refY)
+  ctx.globalAlpha = 0.7
+  ctx.fillText(`— ${cleanReference}`, refX, refY)
   ctx.globalAlpha = 1.0
 
-  // Reset shadow
-  ctx.shadowColor = "transparent"
-  ctx.shadowBlur = 0
-  ctx.shadowOffsetX = 0
-  ctx.shadowOffsetY = 0
+  // Restore context state
+  ctx.restore()
 }
 
 export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
@@ -510,7 +517,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
   return (
     <div className="fixed inset-0 bg-black/70 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
-      <div className="scrollbar-hide bg-white/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full max-h-[95vh] overflow-y-auto shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-100/30 dark:border-amber-500/10">
+      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full max-h-[95vh] overflow-y-auto shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10">
         <div className="p-6 md:p-10 relative">
           {/* Floating Close Button - Amber Gold with Glow */}
           <button
@@ -692,43 +699,46 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               )}
             </div>
 
-            {/* Right Side - Preview (60%) - Image is the Star */}
+            {/* Right Side - Preview (60%) - Image is the Star, Maximized */}
             <div className="w-[60%] flex flex-col flex-shrink-0">
               {generatedImageUrl ? (
                 <>
-                  {/* Artistic Canvas Frame - Gallery Feel with Deep Dark Background */}
-                  <div className="flex-1 flex flex-col items-center justify-center bg-[#0a0a0a] rounded-3xl p-8 relative overflow-hidden">
-                    {/* Large Radial Amber Glow Behind Image */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-amber-500/10 via-amber-600/5 to-transparent pointer-events-none"></div>
+                  {/* Artistic Canvas Frame - Maximized Display, Minimal Margins */}
+                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-4 relative overflow-hidden">
+                    {/* Ultra-subtle Radial Amber Glow Behind Image */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    <div className="relative" style={{ width: '100%', maxWidth: '500px', aspectRatio: '1/1' }}>
-                      {/* Ornate Frame with Ring Border */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/80 to-amber-50/60 dark:from-stone-800/80 dark:to-amber-950/50 rounded-2xl shadow-[0_0_60px_rgba(212,175,55,0.25)] border-[6px] border-amber-300/50 dark:border-amber-600/30"></div>
-                      {/* Amber Ring Border */}
-                      <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-500/30 pointer-events-none"></div>
-                      <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-br from-amber-400/30 via-transparent to-amber-500/20 dark:from-amber-500/20 dark:via-transparent dark:to-amber-600/15 pointer-events-none"></div>
+                    {/* Maximized Canvas Container - Fills available space */}
+                    <div className="relative w-full h-full flex items-center justify-center" style={{ maxHeight: 'calc(95vh - 280px)', minHeight: '400px' }}>
+                      <div className="relative" style={{ width: '100%', maxWidth: '100%', aspectRatio: '1/1' }}>
+                        {/* Elegant Frame - Subtle and Refined */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[4px] border-amber-200/40 dark:border-amber-600/25"></div>
+                        {/* Amber Ring Border */}
+                        <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                      {/* Canvas */}
-                      <div className="relative z-10 m-[8px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/20 via-transparent to-transparent dark:from-amber-500/10 dark:via-transparent dark:to-transparent">
-                        <canvas
-                          ref={previewCanvasRef}
-                          width={1024}
-                          height={1024}
-                          className="w-full h-full object-contain"
-                        />
+                        {/* Canvas - Full Size */}
+                        <div className="relative z-10 m-[6px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent">
+                          <canvas
+                            ref={previewCanvasRef}
+                            width={1024}
+                            height={1024}
+                            className="w-full h-full object-contain"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Action Toolbar - Below Image - Unified Style */}
-                  <div className="mt-6 space-y-3">
-                    {/* Primary Actions - Unified bg-zinc-800/50 with hover:bg-amber-600 */}
+                  {/* Action Toolbar - Below Image - Amber-Transparent in Light Mode */}
+                  <div className="mt-4 space-y-3">
+                    {/* Primary Actions - Amber-transparent unified style */}
                     <div className="flex items-center justify-center gap-3">
                       {/* Download */}
                       <button
                         onClick={downloadImage}
                         disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[48px] px-4 py-3 bg-zinc-800/50 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600 dark:hover:bg-amber-600 text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 min-h-[48px] px-4 py-3 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isComposing ? (
                           <>
@@ -747,7 +757,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       <button
                         onClick={copyToClipboard}
                         disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[48px] px-4 py-3 bg-zinc-800/50 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600 dark:hover:bg-amber-600 text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 min-h-[48px] px-4 py-3 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {copied ? (
                           <>
@@ -762,20 +772,20 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         )}
                       </button>
 
-                      {/* Share - Expands to show social icons ABOVE */}
+                      {/* Share - Badge-style Amber Circular Icons */}
                       <div className="flex-1 relative">
                         <button
                           onClick={() => setShowSocialShare(!showSocialShare)}
                           disabled={isComposing || !fontsLoaded}
-                          className="w-full min-h-[48px] px-4 py-3 bg-zinc-800/50 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600 dark:hover:bg-amber-600 text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full min-h-[48px] px-4 py-3 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Share2 className="w-5 h-5" />
                           <span className="text-sm">Share</span>
                         </button>
 
-                        {/* Expandable Social Icons - Appears ABOVE button */}
+                        {/* Badge-style Social Icons - Amber Circular Backgrounds */}
                         {showSocialShare && (
-                          <div className="absolute bottom-full left-0 right-0 mb-2 p-3 bg-white/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-200/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
+                          <div className="absolute bottom-full left-0 right-0 mb-2 p-3 bg-[#fdfbf7]/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
                             <div className="grid grid-cols-4 gap-2">
                               {socialPlatforms.map((platform) => {
                                 const IconComponent = platform.icon
@@ -783,11 +793,12 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                                   <button
                                     key={platform.id}
                                     onClick={() => shareToSocial(platform.id)}
-                                    className="group relative w-12 h-12 rounded-xl bg-amber-50/50 dark:bg-amber-950/30 hover:bg-amber-100/70 dark:hover:bg-amber-950/50 border border-amber-200/30 dark:border-amber-500/15 flex items-center justify-center transition-all duration-300 hover:scale-110"
+                                    className="group relative w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 hover:from-amber-500 hover:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-amber-500/30"
                                     aria-label={`Share to ${platform.label}`}
                                   >
-                                    <IconComponent className="w-5 h-5 text-amber-600 dark:text-amber-400 group-hover:brightness-110 transition-all" />
-                                    <div className="absolute inset-0 rounded-xl bg-amber-400/10 dark:bg-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    <IconComponent className="w-6 h-6 text-white group-hover:brightness-110 transition-all" />
+                                    {/* Shine effect */}
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                   </button>
                                 )
                               })}
