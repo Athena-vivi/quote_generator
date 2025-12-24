@@ -141,19 +141,19 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  {/* Sacred Scripture Text - Softer colors with loose spacing */}
+                  {/* Sacred Scripture Text - Divine serif typography with italic */}
                   <blockquote
-                    className="text-2xl md:text-3xl lg:text-4xl font-serif text-stone-800 dark:text-zinc-200 leading-loose font-light mb-10 px-6 py-4"
+                    className="text-2xl md:text-3xl lg:text-4xl font-serif font-light italic text-stone-800 dark:text-stone-200 leading-relaxed mb-10 px-6 py-4"
                     style={{
-                      textShadow: '0 2px 10px rgba(212, 175, 55, 0.08), 0 0 30px rgba(212, 175, 55, 0.03)',
-                      letterSpacing: '0.2px'
+                      textShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
+                      letterSpacing: '0.15px'
                     }}
                   >
                     "{dailyQuote.content}"
                   </blockquote>
 
-                  {/* Reference - Amber gold with softer glow */}
-                  <cite className="relative inline-block text-xl md:text-2xl font-serif text-amber-800 dark:text-amber-400 font-medium italic mb-12 px-6 py-2" style={{ letterSpacing: '0.6px' }}>
+                  {/* Reference - Elegant amber gold */}
+                  <cite className="relative inline-block text-xl md:text-2xl font-serif text-amber-800 dark:text-amber-400 font-medium italic mb-12 px-6 py-2" style={{ letterSpacing: '0.4px' }}>
                     — {dailyQuote.reference}
                   </cite>
 

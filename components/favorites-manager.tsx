@@ -77,7 +77,7 @@ export function FavoritesManager() {
             {favorites.map((quote, index) => (
               <Card key={index} className="bg-white/80 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-sm border border-amber-100 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_20px_rgba(212,175,55,0.06)] hover:shadow-lg dark:hover:shadow-[0_0_30px_rgba(212,175,55,0.1)] transition-all duration-300">
                 <CardContent className="p-5">
-                  <blockquote className="text-lg font-serif text-stone-800 dark:text-zinc-200 mb-3 leading-loose">{quote.content}</blockquote>
+                  <blockquote className="text-xl font-serif font-light italic text-stone-800 dark:text-stone-200 leading-relaxed mb-3">{quote.content}</blockquote>
                   <cite className="block text-base font-serif text-amber-800 dark:text-amber-400 italic mb-4" style={{ letterSpacing: '0.3px' }}>
                     — {quote.reference}
                   </cite>

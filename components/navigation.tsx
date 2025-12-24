@@ -77,15 +77,15 @@ export function Navigation() {
 
             {/* Brand Text */}
             <span
-              className="font-semibold tracking-wider text-amber-900 dark:text-amber-500"
-              style={{ fontFamily: "'Crimson Text', serif" }}
+              className="font-serif font-semibold tracking-wider text-amber-900 dark:text-amber-500"
+              style={{ letterSpacing: '0.08em' }}
             >
               QuoteGenerator
             </span>
           </Link>
 
-          {/* Desktop Navigation - Premium Magazine Style */}
-          <div className="hidden lg:flex items-center space-x-10">
+          {/* Desktop Navigation - Sacred Serif Typography */}
+          <div className="hidden lg:flex items-center space-x-12">
             {navigationItems.map((item) => {
               const handlers = {
                 "Find Wisdom": handleFindQuotesClick,
@@ -101,10 +101,10 @@ export function Navigation() {
                   onClick={handlers[item.label as keyof typeof handlers] || handleNavClick}
                   className="group relative px-2 py-2"
                 >
-                  {/* Navigation Text */}
+                  {/* Navigation Text - Serif with wide letter spacing */}
                   <span
-                    className="text-sm font-medium text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors duration-300"
-                    style={{ fontFamily: "'Crimson Text', serif" }}
+                    className="text-sm font-serif font-medium text-stone-600 dark:text-stone-400 hover:text-amber-700 dark:hover:text-amber-500 transition-colors duration-300"
+                    style={{ letterSpacing: '0.1em' }}
                   >
                     {item.label}
                   </span>
@@ -152,7 +152,7 @@ export function Navigation() {
                     key={item.href}
                     href={item.href}
                     onClick={handlers[item.label as keyof typeof handlers] || handleNavClick}
-                    className={`group flex items-center gap-4 px-6 min-h-[48px] rounded-2xl text-base font-medium transition-all duration-300 ${
+                    className={`group flex items-center gap-4 px-6 min-h-[48px] rounded-2xl text-base font-serif font-medium transition-all duration-300 ${
                       isActive(item.href)
                         ? "bg-gradient-to-r from-amber-500/20 to-yellow-600/20 text-amber-800 dark:text-amber-300 shadow-lg shadow-amber-500/20 border border-amber-400/30 dark:border-amber-500/30"
                         : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/10 dark:hover:bg-zinc-800/50 hover:backdrop-blur-sm"
@@ -162,7 +162,7 @@ export function Navigation() {
                     <div className="relative p-2 rounded-full bg-white/50 dark:bg-zinc-800/50 group-hover:bg-white/70 dark:group-hover:bg-zinc-700/50 transition-colors">
                       <item.icon className="w-5 h-5" aria-hidden="true" />
                     </div>
-                    <span>{item.label}</span>
+                    <span className="tracking-wide">{item.label}</span>
                     {isActive(item.href) && (
                       <div className="ml-auto w-2 h-2 bg-amber-500 dark:bg-amber-400 rounded-full shadow-lg shadow-amber-500/50" aria-hidden="true"></div>
                     )}

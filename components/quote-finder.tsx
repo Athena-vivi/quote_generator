@@ -457,12 +457,12 @@ export function QuoteFinder() {
                 <div className="absolute -bottom-6 right-6 text-6xl md:text-7xl font-serif text-amber-300/10 dark:text-amber-500/6 leading-none select-none">"</div>
 
                 <div className="relative">
-                  {/* Quote Text - Obsidian Art Typography */}
+                  {/* Quote Text - Sacred serif typography with italic */}
                   <blockquote
-                    className="text-lg md:text-xl font-serif text-stone-800 dark:text-zinc-200 leading-loose font-light mb-8 px-4 py-3"
+                    className="text-xl md:text-2xl font-serif font-light italic text-stone-800 dark:text-stone-200 leading-relaxed mb-8 px-4 py-3"
                     style={{
-                      textShadow: '0 2px 8px rgba(212, 175, 55, 0.06), 0 0 20px rgba(212, 175, 55, 0.02)',
-                      letterSpacing: '0.2px'
+                      textShadow: '0 1px 2px rgba(0, 0, 0, 0.06)',
+                      letterSpacing: '0.12px'
                     }}
                   >
                     "{quote.content}"
@@ -471,11 +471,11 @@ export function QuoteFinder() {
                   {/* Subtle divine divider */}
                   <div className="h-px bg-gradient-to-r from-transparent via-amber-400/20 dark:via-amber-500/15 to-transparent mb-7"></div>
 
-                  {/* Reference - Amber gold */}
+                  {/* Reference - Elegant amber gold */}
                   <div className="relative inline-block mb-8">
                     <cite
                       className="relative block text-base md:text-lg font-serif text-right pr-3 text-amber-800 dark:text-amber-400 font-medium italic"
-                      style={{ letterSpacing: '0.4px' }}
+                      style={{ letterSpacing: '0.3px' }}
                     >
                       — {quote.reference}
                     </cite>
