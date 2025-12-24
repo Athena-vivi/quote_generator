@@ -74,111 +74,147 @@ async function drawQuoteImage({
   textColor = '#fff',
   refColor = '#ffd700',
 }: DrawQuoteImageParams & { textColor?: string, refColor?: string }) {
-  // 背景和渐变根据 theme 切换
+  // Clear canvas
   ctx.clearRect(0, 0, width, height)
+
+  // Draw background
   if (backgroundImg) {
     ctx.drawImage(backgroundImg, 0, 0, width, height)
   } else {
-    if (theme === 'dark') {
-      ctx.fillStyle = "#232b3a";
-    } else {
-      ctx.fillStyle = "#fff";
-    }
+    ctx.fillStyle = theme === 'dark' ? "#1a1a1a" : "#f5f5f0";
     ctx.fillRect(0, 0, width, height)
   }
-  // 渐变
+
+  // Apply overlay gradient
   const gradient = ctx.createLinearGradient(0, 0, 0, height)
   if (theme === 'dark') {
-    gradient.addColorStop(0, "rgba(0,0,0,0.45)")
-    gradient.addColorStop(0.5, "rgba(0,0,0,0.18)")
-    gradient.addColorStop(1, "rgba(0,0,0,0.55)")
+    gradient.addColorStop(0, "rgba(0,0,0,0.5)")
+    gradient.addColorStop(0.5, "rgba(0,0,0,0.25)")
+    gradient.addColorStop(1, "rgba(0,0,0,0.6)")
   } else {
-    gradient.addColorStop(0, "rgba(0,0,0,0.13)")
-    gradient.addColorStop(0.5, "rgba(0,0,0,0.06)")
-    gradient.addColorStop(1, "rgba(0,0,0,0.18)")
+    gradient.addColorStop(0, "rgba(0,0,0,0.15)")
+    gradient.addColorStop(0.5, "rgba(0,0,0,0.08)")
+    gradient.addColorStop(1, "rgba(0,0,0,0.2)")
   }
   ctx.fillStyle = gradient
   ctx.fillRect(0, 0, width, height)
 
-  // 安全区参数
-  const sideSafe = width * 0.10;
-  const topSafe = height * 0.13;
-  const bottomSafe = height * 0.10;
-  const textAreaWidth = width - sideSafe * 2;
-  const textAreaHeight = height - topSafe - bottomSafe;
+  // Safe area margins
+  const sideSafe = width * 0.12
+  const topSafe = height * 0.12
+  const bottomSafe = height * 0.15
+  const textAreaWidth = width - sideSafe * 2
+  const textAreaHeight = height - topSafe - bottomSafe
 
-  // 内容区只用安全区的80%，上下再留白
-  const contentAreaHeight = textAreaHeight * 0.8;
-  const contentAreaTop = topSafe + (textAreaHeight - contentAreaHeight) / 2;
+  // Get font stack
+  const serifFonts = fontConfigs[selectedFont as keyof typeof fontConfigs].serif.join(", ")
 
-  // 动态调整字号 - 1:1 only now
-  let fontSize = Math.max(width, height) * 0.06;
+  // Initial font size calculation
+  let fontSize = Math.max(width, height) * 0.055
+  let lines: string[] = []
+  let lineHeight: number
+  let refFontSize: number
+  let refHeight: number
+  let spacing: number
+  let totalTextHeight: number
+  let totalHeight: number
 
-  let serifFonts = fontConfigs[selectedFont as keyof typeof fontConfigs].serif.join(", ");
-  let lines: string[] = [];
-  let lineHeight = fontSize * 1.22;
-  let refFontSize = fontSize * 0.65;
-  let refHeight = refFontSize * 1.2;
-  let spacing = fontSize * 1.25;
-  let totalTextHeight = 0;
-  let totalHeight = 0;
-
-  // 先用理想字号排版，若溢出再缩小
+  // Text wrapping and size adjustment loop
   while (true) {
-    ctx.font = `${fontSize}px ${serifFonts}`;
-    // 分行
-    lines = [];
-    let currentLine = "";
-    for (const word of quote.content.split(" ")) {
-      const testLine = currentLine + (currentLine ? " " : "") + word;
-      const metrics = ctx.measureText(testLine);
+    ctx.font = `${fontSize}px ${serifFonts}`
+
+    // Word wrapping
+    lines = []
+    let currentLine = ""
+    const words = quote.content.split(" ")
+
+    for (const word of words) {
+      const testLine = currentLine ? `${currentLine} ${word}` : word
+      const metrics = ctx.measureText(testLine)
+
       if (metrics.width > textAreaWidth && currentLine) {
-        lines.push(currentLine);
-        currentLine = word;
+        lines.push(currentLine)
+        currentLine = word
       } else {
-        currentLine = testLine;
+        currentLine = testLine
       }
     }
-    if (currentLine) lines.push(currentLine);
-    lineHeight = fontSize * 1.22;
-    totalTextHeight = lines.length * lineHeight;
-    refFontSize = fontSize * 0.65;
-    refHeight = refFontSize * 1.2;
-    spacing = fontSize * 1.25;
-    totalHeight = totalTextHeight + spacing + refHeight;
-    if (totalHeight <= contentAreaHeight || fontSize < 18) break;
-    fontSize *= 0.97;
+    if (currentLine) lines.push(currentLine)
+
+    // Calculate with leading-relaxed (1.6 for breathing room)
+    lineHeight = fontSize * 1.6
+    totalTextHeight = lines.length * lineHeight
+
+    // Reference is 40% smaller than main text
+    refFontSize = fontSize * 0.4
+    refHeight = refFontSize * 1.5
+
+    // Spacing between text and reference
+    spacing = fontSize * 1.8
+    totalHeight = totalTextHeight + spacing + refHeight
+
+    // Check if fits or minimum size reached
+    if (totalHeight <= textAreaHeight || fontSize < 20) break
+    fontSize *= 0.96
   }
 
-  // 正文排版
-  ctx.font = `${fontSize}px ${serifFonts}`;
-  ctx.fillStyle = textColor;
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.shadowColor = "rgba(0,0,0,0.9)";
-  ctx.shadowBlur = 12;
-  ctx.shadowOffsetX = 3;
-  ctx.shadowOffsetY = 3;
+  // Calculate absolute center position
+  const centerY = height / 2
+  const textBlockHeight = totalHeight
+  const textStartY = centerY - textBlockHeight / 2
 
-  const targetCenterY = contentAreaTop + contentAreaHeight * 0.44;
-  const startY = targetCenterY - totalHeight / 2 + lineHeight / 2;
+  // Draw main quote text - absolutely centered
+  ctx.font = `${fontSize}px ${serifFonts}`
+  ctx.fillStyle = textColor
+  ctx.textAlign = "center"
+  ctx.textBaseline = "middle"
+
+  // Text shadow for readability
+  ctx.shadowColor = "rgba(0,0,0,0.85)"
+  ctx.shadowBlur = 15
+  ctx.shadowOffsetX = 2
+  ctx.shadowOffsetY = 2
+
+  // Draw each line with proper spacing
   lines.forEach((line, index) => {
-    let displayLine = line;
-    if (index === 0) displayLine = `"${line}`;
-    if (index === lines.length - 1) displayLine = lines.length === 1 ? `"${line}"` : `${line}"`;
-    ctx.fillText(displayLine, width / 2, startY + index * lineHeight);
-  });
+    let displayLine = line
+    // Add quotation marks
+    if (lines.length === 1) {
+      displayLine = `"${line}"`
+    } else {
+      if (index === 0) displayLine = `"${line}`
+      else if (index === lines.length - 1) displayLine = `${line}"`
+    }
 
-  // 引用排版
-  ctx.font = `${refFontSize}px ${serifFonts}`;
-  ctx.textAlign = "right";
-  ctx.textBaseline = "bottom";
-  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.9)";
-  ctx.shadowBlur = 8;
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
-  ctx.fillStyle = refColor;
-  ctx.fillText(`— ${quote.reference}`, width - sideSafe, height - bottomSafe);
+    const y = textStartY + (index * lineHeight) + (lineHeight / 2)
+    ctx.fillText(displayLine, width / 2, y)
+  })
+
+  // Draw reference - right-bottom aligned, 40% smaller, lighter color
+  const refY = textStartY + totalTextHeight + spacing
+  const refX = width - sideSafe
+
+  ctx.font = `italic ${refFontSize}px ${serifFonts}`
+  ctx.textAlign = "right"
+  ctx.textBaseline = "top"
+
+  // Lighter shadow for reference
+  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.6)" : "rgba(0,0,0,0.5)"
+  ctx.shadowBlur = 6
+  ctx.shadowOffsetX = 1
+  ctx.shadowOffsetY = 1
+
+  // Lighter reference color (reduce opacity)
+  ctx.fillStyle = refColor
+  ctx.globalAlpha = 0.75
+  ctx.fillText(`— ${quote.reference}`, refX, refY)
+  ctx.globalAlpha = 1.0
+
+  // Reset shadow
+  ctx.shadowColor = "transparent"
+  ctx.shadowBlur = 0
+  ctx.shadowOffsetX = 0
+  ctx.shadowOffsetY = 0
 }
 
 export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
@@ -536,7 +572,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       <button
                         key={index}
                         onClick={() => setPrompt(suggestion)}
-                        className="px-2 py-1 text-xs font-serif bg-amber-50/30 dark:bg-amber-950/20 border border-amber-200/25 dark:border-amber-500/10 text-amber-700/70 dark:text-amber-300/60 rounded-full hover:bg-amber-100/50 dark:hover:bg-amber-950/35 hover:border-amber-300/40 dark:hover:border-amber-400/20 transition-all duration-300"
+                        className="px-2 py-1 text-xs font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:bg-stone-800/70 dark:hover:bg-stone-800/80 transition-all duration-300"
                       >
                         {suggestion}
                       </button>
@@ -660,11 +696,16 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             <div className="w-[60%] flex flex-col flex-shrink-0">
               {generatedImageUrl ? (
                 <>
-                  {/* Artistic Canvas Frame - Large Display - Full Height */}
-                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-6 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-2xl dark:shadow-[0_0_50px_rgba(212,175,55,0.12)]">
+                  {/* Artistic Canvas Frame - Gallery Feel with Deep Dark Background */}
+                  <div className="flex-1 flex flex-col items-center justify-center bg-[#0a0a0a] rounded-3xl p-8 relative overflow-hidden">
+                    {/* Large Radial Amber Glow Behind Image */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-gradient-radial from-amber-500/10 via-amber-600/5 to-transparent pointer-events-none"></div>
+
                     <div className="relative" style={{ width: '100%', maxWidth: '500px', aspectRatio: '1/1' }}>
-                      {/* Ornate Frame */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/80 to-amber-50/60 dark:from-stone-800/80 dark:to-amber-950/50 rounded-2xl shadow-xl dark:shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[6px] border-amber-300/50 dark:border-amber-600/30"></div>
+                      {/* Ornate Frame with Ring Border */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/80 to-amber-50/60 dark:from-stone-800/80 dark:to-amber-950/50 rounded-2xl shadow-[0_0_60px_rgba(212,175,55,0.25)] border-[6px] border-amber-300/50 dark:border-amber-600/30"></div>
+                      {/* Amber Ring Border */}
+                      <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-500/30 pointer-events-none"></div>
                       <div className="absolute inset-0 rounded-2xl p-[2px] bg-gradient-to-br from-amber-400/30 via-transparent to-amber-500/20 dark:from-amber-500/20 dark:via-transparent dark:to-amber-600/15 pointer-events-none"></div>
 
                       {/* Canvas */}
@@ -679,15 +720,15 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </div>
                   </div>
 
-                  {/* Action Toolbar - Below Image */}
+                  {/* Action Toolbar - Below Image - Unified Style */}
                   <div className="mt-6 space-y-3">
-                    {/* Primary Actions */}
+                    {/* Primary Actions - Unified bg-zinc-800/50 with hover:bg-amber-600 */}
                     <div className="flex items-center justify-center gap-3">
-                      {/* Download - Amber Solid */}
+                      {/* Download */}
                       <button
                         onClick={downloadImage}
                         disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[50px] px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 min-h-[48px] px-4 py-3 bg-zinc-800/50 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600 dark:hover:bg-amber-600 text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {isComposing ? (
                           <>
@@ -702,15 +743,15 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         )}
                       </button>
 
-                      {/* Copy - Semi-transparent */}
+                      {/* Copy */}
                       <button
                         onClick={copyToClipboard}
                         disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[50px] px-5 py-3 bg-white/50 dark:bg-white/[0.03] dark:backdrop-blur-max border border-amber-200/40 dark:border-amber-500/12 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-xl hover:bg-amber-50/70 dark:hover:bg-white/[0.05] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+                        className="flex-1 min-h-[48px] px-4 py-3 bg-zinc-800/50 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600 dark:hover:bg-amber-600 text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {copied ? (
                           <>
-                            <Check className="w-5 h-5 text-green-600" />
+                            <Check className="w-5 h-5" />
                             <span className="text-sm">Copied!</span>
                           </>
                         ) : (
@@ -721,20 +762,20 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         )}
                       </button>
 
-                      {/* Share - Expands to show social icons */}
+                      {/* Share - Expands to show social icons ABOVE */}
                       <div className="flex-1 relative">
                         <button
                           onClick={() => setShowSocialShare(!showSocialShare)}
                           disabled={isComposing || !fontsLoaded}
-                          className="w-full min-h-[50px] px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full min-h-[48px] px-4 py-3 bg-zinc-800/50 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600 dark:hover:bg-amber-600 text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <Share2 className="w-5 h-5" />
                           <span className="text-sm">Share</span>
                         </button>
 
-                        {/* Expandable Social Icons */}
+                        {/* Expandable Social Icons - Appears ABOVE button */}
                         {showSocialShare && (
-                          <div className="absolute top-full left-0 right-0 mt-2 p-3 bg-white/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-200/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-top-2 duration-300">
+                          <div className="absolute bottom-full left-0 right-0 mb-2 p-3 bg-white/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-200/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
                             <div className="grid grid-cols-4 gap-2">
                               {socialPlatforms.map((platform) => {
                                 const IconComponent = platform.icon
