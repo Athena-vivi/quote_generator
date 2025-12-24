@@ -110,10 +110,10 @@ async function drawQuoteImage({
   const textAreaWidth = width - sideSafe * 2
   const textAreaHeight = height - topSafe - bottomSafe
 
-  // Get font stack - Force Crimson Text for sacred serif aesthetic
+  // Get font stack - Crimson Text as primary for sacred serif aesthetic
   const serifFonts = selectedFont === "handwriting"
     ? fontConfigs.handwriting.serif.join(", ")
-    : '"Crimson Text", "EB Garamond", "Merriweather", "Lora", "Georgia", "Times New Roman", serif'
+    : '"Crimson Text", serif'
 
   // Initial font size calculation
   let fontSize = Math.max(width, height) * 0.052
@@ -152,8 +152,8 @@ async function drawQuoteImage({
     lineHeight = fontSize * 1.8
     totalTextHeight = lines.length * lineHeight
 
-    // Reference is 40% smaller than main text
-    refFontSize = fontSize * 0.4
+    // Reference is 55% of main text size (enlarged for readability)
+    refFontSize = fontSize * 0.55
     refHeight = refFontSize * 1.6
 
     // Spacing between text and reference
@@ -202,7 +202,7 @@ async function drawQuoteImage({
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference - right-bottom aligned, 40% smaller, distinguished color
+  // Draw reference - right-bottom aligned, 55% size, distinguished color, full opacity
   const refY = textStartY + totalTextHeight + spacing - (totalHeight / 2) + (totalTextHeight / 2)
   const refX = width - sideSafe
 
@@ -210,15 +210,15 @@ async function drawQuoteImage({
   ctx.textAlign = "right"
   ctx.textBaseline = "top"
 
-  // Lighter shadow for reference
-  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.5)" : "rgba(0,0,0,0.4)"
-  ctx.shadowBlur = 4
-  ctx.shadowOffsetX = 1
-  ctx.shadowOffsetY = 1
+  // Stronger shadow for reference visibility
+  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.6)"
+  ctx.shadowBlur = 6
+  ctx.shadowOffsetX = 1.5
+  ctx.shadowOffsetY = 1.5
 
-  // Reference color - slightly muted/distinct from main text
+  // Reference color - full opacity for maximum readability
   ctx.fillStyle = refColor
-  ctx.globalAlpha = 0.7
+  ctx.globalAlpha = 1.0
   ctx.fillText(`— ${cleanReference}`, refX, refY)
   ctx.globalAlpha = 1.0
 
@@ -269,23 +269,26 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }
   }
 
-  // Load Google Font for script
+  // Load fonts including Crimson Text for sacred serif aesthetic
   useEffect(() => {
     const loadFonts = async () => {
       try {
-        // Load Great Vibes for elegant script
-        const greatVibesLink = document.createElement('link')
-        greatVibesLink.href = 'https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&display=swap'
-        greatVibesLink.rel = 'stylesheet'
-        document.head.appendChild(greatVibesLink)
+        // Load Crimson Text for sacred serif + Great Vibes for elegant script
+        const fontsLink = document.createElement('link')
+        fontsLink.href = 'https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600;700&family=Great+Vibes&family=Dancing+Script:wght@400;700&display=swap'
+        fontsLink.rel = 'stylesheet'
+        document.head.appendChild(fontsLink)
 
-        if (document.fonts && typeof document.fonts.ready !== 'undefined') {
+        // Explicitly wait for Crimson Text to load
+        if (document.fonts) {
+          await document.fonts.load('400 32px "Crimson Text"')
+          await document.fonts.load('400 32px "Great Vibes"')
           await document.fonts.ready
-          console.log("✅ 字体加载完成，包括 Google Fonts")
+          console.log("✅ Crimson Text and script fonts loaded successfully")
         }
         setFontsLoaded(true)
       } catch (error) {
-        console.warn("⚠️ 字体加载失败，使用系统字体:", error)
+        console.warn("⚠️ Font loading failed, using system fonts:", error)
         setFontsLoaded(true)
       }
     }
@@ -709,26 +712,26 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             <div className="w-[60%] flex flex-col flex-shrink-0">
               {generatedImageUrl ? (
                 <>
-                  {/* Artistic Canvas Frame - Ultra-Compact Padding */}
-                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-3 relative overflow-hidden">
+                  {/* Artistic Canvas Frame - Full 1:1 Square Display */}
+                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-4 relative overflow-visible">
                     {/* Ultra-subtle Radial Amber Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    {/* Maximized Canvas Container */}
-                    <div className="relative w-full h-full flex items-center justify-center" style={{ maxHeight: 'calc(95vh - 240px)', minHeight: '420px' }}>
-                      <div className="relative" style={{ width: '100%', maxWidth: '100%', aspectRatio: '1/1' }}>
+                    {/* Full 1:1 Square Canvas Container - No Cropping */}
+                    <div className="relative w-full flex items-center justify-center" style={{ aspectRatio: '1/1', maxHeight: 'calc(95vh - 260px)' }}>
+                      <div className="relative w-full h-full">
                         {/* Elegant Frame - Refined */}
                         <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25"></div>
                         <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                        {/* Canvas */}
-                        <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent">
+                        {/* Canvas - Full 1:1 square visible */}
+                        <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent aspect-square">
                           <canvas
                             ref={previewCanvasRef}
                             width={1024}
                             height={1024}
-                            className="w-full h-full object-contain"
+                            className="w-full h-full"
                           />
                         </div>
                       </div>
@@ -788,21 +791,25 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                           <span className="text-xs">Share</span>
                         </button>
 
-                        {/* Horizontal Row of Small Social Icons */}
+                        {/* Horizontal Row of Elegant Outline Social Icons */}
                         {showSocialShare && (
-                          <div className="absolute bottom-full left-0 right-0 mb-2 px-2 py-2 bg-[#fdfbf7]/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
-                            <div className="flex items-center justify-center gap-1.5 flex-wrap">
+                          <div className="absolute bottom-full left-0 right-0 mb-2 px-3 py-2.5 bg-[#fdfbf7]/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
+                            <div className="flex items-center justify-center gap-2">
                               {socialPlatforms.map((platform) => {
                                 const IconComponent = platform.icon
                                 return (
                                   <button
                                     key={platform.id}
                                     onClick={() => shareToSocial(platform.id)}
-                                    className="group relative w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 hover:from-amber-500 hover:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-md shadow-amber-500/25"
+                                    className="group relative p-1.5 rounded-lg transition-all duration-300 hover:scale-105"
                                     aria-label={`Share to ${platform.label}`}
                                   >
-                                    <IconComponent className="w-4 h-4 text-white group-hover:brightness-110 transition-all" />
-                                    <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                    {/* Elegant outline icon */}
+                                    <IconComponent className="w-5 h-5 text-amber-500/80 dark:text-amber-400/80 transition-all duration-300" strokeWidth={1.5} />
+                                    {/* Subtle amber glow on hover */}
+                                    <div className="absolute inset-0 rounded-lg bg-amber-500/0 group-hover:bg-amber-500/10 dark:group-hover:bg-amber-400/10 transition-all duration-300"></div>
+                                    {/* Subtle shadow glow on hover */}
+                                    <div className="absolute inset-0 rounded-lg shadow-amber-500/0 group-hover:shadow-[0_0_12px_rgba(212,175,55,0.25)] dark:group-hover:shadow-[0_0_12px_rgba(212,175,55,0.2)] transition-all duration-300"></div>
                                   </button>
                                 )
                               })}
