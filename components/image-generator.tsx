@@ -818,9 +818,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                               <span>Share</span>
                             </button>
 
-                            {/* Vertical Row of Social Icons - Right of button */}
+                            {/* Vertical Row of Social Icons - Above button, floating over image */}
                             {showSocialShare && (
-                              <div className="absolute left-full top-0 ml-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-left-2 duration-300">
+                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-[100] animate-in slide-in-from-bottom-2 duration-300">
                                 <div className="flex flex-col gap-2">
                                   {socialPlatforms.map((platform) => {
                                     const IconComponent = platform.icon
