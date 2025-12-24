@@ -30,7 +30,6 @@ export function Navigation() {
     { href: "/#quote-finder", label: "Find Wisdom", icon: BookOpen },
     { href: "/themes", label: "Explore Themes", icon: Layers },
     { href: "/collections", label: "Collections", icon: FolderKanban },
-    { href: "/about", label: "About", icon: Info },
   ]
 
   const isActive = (href: string) => {
@@ -90,8 +89,7 @@ export function Navigation() {
               const handlers = {
                 "Find Wisdom": handleFindQuotesClick,
                 "Explore Themes": handleNavClick,
-                "Collections": handleNavClick,
-                "About": handleNavClick
+                "Collections": handleNavClick
               };
 
               return (
@@ -143,8 +141,7 @@ export function Navigation() {
                 const handlers = {
                   "Find Wisdom": handleFindQuotesClick,
                   "Explore Themes": handleNavClick,
-                  "Collections": handleNavClick,
-                  "About": handleNavClick
+                  "Collections": handleNavClick
                 };
 
                 return (
