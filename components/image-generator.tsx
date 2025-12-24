@@ -1,26 +1,20 @@
 "use client"
 
 import { useState, useRef, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Textarea } from "@/components/ui/textarea"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import {
   Loader2,
   Palette,
   Download,
   Share2,
   Heart,
-  HeartOff,
   AlertCircle,
   Copy,
   Check,
   Facebook,
   Twitter,
   Instagram,
+  X,
 } from "lucide-react"
-import QRCode from 'qrcode'
 
 // 类型声明修复
 // @ts-ignore
@@ -482,377 +476,375 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const canvasDisplayWidth = maxCanvasWidth * scale;
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto">
-        <div className="p-6">
-          <div className="flex justify-between items-center mb-6">
+    <div className="fixed inset-0 bg-black/60 dark:bg-black/85 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+      <div className="bg-white/90 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-6xl w-full max-h-[90vh] overflow-y-auto shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] border border-amber-100 dark:border-amber-500/10">
+        <div className="p-6 md:p-8">
+          <div className="flex justify-between items-center mb-8">
             <div className="flex-1 flex justify-center items-center">
-              <h2
-                className="text-4xl font-extrabold text-center"
-                style={{
-                  fontFamily: "'EB Garamond', 'Playfair Display', 'Georgia', serif",
-                  color: '#2d3143',
-                  textShadow: '0 2px 8px #e6eaf3',
-                  letterSpacing: '0.14em',
-                  lineHeight: 1.1
-                }}
-              >
-                Create Beautiful Image
+              <h2 className="text-2xl md:text-3xl font-serif font-semibold text-amber-900 dark:text-amber-300 text-center" style={{ letterSpacing: '0.08em' }}>
+                Craft Your Divine Art
               </h2>
             </div>
-            <Button
-              variant="ghost"
+            <button
               onClick={onClose}
-              className="ml-2 w-11 h-11 rounded-full flex items-center justify-center text-2xl font-extrabold
-                bg-gradient-to-br from-[#3a4668]/90 to-[#6b7a99]/90 shadow-lg border-0
-                text-white hover:scale-110 hover:shadow-2xl transition-all duration-150
-                ring-2 ring-[#bfc8e6]/60 hover:ring-[#6b7a99]/80"
+              className="ml-4 w-10 h-10 rounded-full flex items-center justify-center text-amber-600 dark:text-amber-400 hover:bg-amber-100/50 dark:hover:bg-amber-500/10 transition-all duration-300 hover:scale-110"
               aria-label="Close"
-              style={{
-                boxShadow: '0 2px 12px #bfc8e6, 0 4px 24px rgba(58,70,104,0.18)'
-              }}
             >
-              <span style={{
-                textShadow: '0 2px 8px #bfc8e6, 0 1px 0 #fff',
-                fontWeight: 900
-              }}>×</span>
-            </Button>
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {error && (
-            <Alert className="mb-6 border-red-200 bg-red-50">
-              <AlertCircle className="h-4 w-4 text-red-600" />
-              <AlertDescription className="text-red-800">{error}</AlertDescription>
-            </Alert>
+            <div className="mb-6 p-4 rounded-2xl bg-red-50/80 dark:bg-red-950/30 border border-red-200 dark:border-red-500/20 flex items-start gap-3">
+              <AlertCircle className="h-5 w-5 text-red-600 dark:text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-red-800 dark:text-red-300 font-serif text-sm">{error}</p>
+            </div>
           )}
 
           {!fontsLoaded && (
-            <Alert className="mb-6 border-blue-200 bg-blue-50">
-              <Loader2 className="h-4 w-4 text-blue-600 animate-spin" />
-              <AlertDescription className="text-blue-800">Loading beautiful fonts for download...</AlertDescription>
-            </Alert>
+            <div className="mb-6 p-4 rounded-2xl bg-blue-50/80 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-500/20 flex items-center gap-3">
+              <Loader2 className="h-5 w-5 text-blue-600 dark:text-blue-400 animate-spin" />
+              <p className="text-blue-800 dark:text-blue-300 font-serif text-sm">Loading beautiful fonts for download...</p>
+            </div>
           )}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* Left side - Controls */}
             <div className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Palette className="w-5 h-5" />
-                    Describe Your Background
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <Textarea
-                    placeholder="Describe the background scene you want (e.g., 'A peaceful mountain sunrise with golden clouds')"
-                    value={prompt}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    rows={3}
-                  />
+              {/* Input Area - Sacred Style */}
+              <div className="bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-amber-100/50 dark:border-amber-500/12 shadow-lg dark:shadow-[0_0_30px_rgba(212,175,55,0.08)]">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="p-2.5 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/15 dark:to-amber-600/15 rounded-2xl border border-amber-200/30 dark:border-amber-500/12">
+                    <Palette className="w-5 h-5 text-amber-600 dark:text-amber-400 drop-shadow-[0_0_6px_rgba(212,175,55,0.3)]" />
+                  </div>
+                  <h3 className="text-lg md:text-xl font-serif font-semibold text-gray-800 dark:text-zinc-200">Describe Your Background</h3>
+                </div>
 
-                  <div className="space-y-2">
-                    <p className="text-sm text-gray-600">Quick suggestions:</p>
+                <div className="space-y-5">
+                  <div className="relative">
+                    <textarea
+                      placeholder="Describe the background scene you want (e.g., 'A peaceful mountain sunrise with golden clouds')"
+                      value={prompt}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
+                      rows={4}
+                      className="w-full px-5 py-4 text-base bg-stone-50/50 dark:bg-stone-900/30 border-2 border-amber-200/40 dark:border-amber-500/20 rounded-2xl focus:outline-none focus:border-amber-400/60 dark:focus:border-amber-400/40 text-gray-800 dark:text-zinc-200 placeholder-gray-500/70 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none"
+                    />
+                  </div>
+
+                  <div className="space-y-3">
+                    <p className="text-xs font-serif uppercase tracking-wider text-amber-700/70 dark:text-amber-400/70">Quick suggestions:</p>
                     <div className="flex flex-wrap gap-2">
                       {promptSuggestions.map((suggestion, index) => (
-                        <Badge
+                        <button
                           key={index}
-                          variant="secondary"
-                          className="cursor-pointer hover:bg-primary hover:text-primary-foreground transition-colors"
                           onClick={() => setPrompt(suggestion)}
+                          className="px-3 py-1.5 text-xs font-serif bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15 text-amber-800 dark:text-amber-300 rounded-full hover:bg-amber-100/70 dark:hover:bg-amber-950/50 hover:border-amber-300/60 dark:hover:border-amber-400/30 transition-all duration-300"
                         >
                           {suggestion}
-                        </Badge>
+                        </button>
                       ))}
                     </div>
                   </div>
 
-                  <Button
+                  <button
                     onClick={generateImage}
                     disabled={isGenerating || !prompt.trim()}
-                    className="w-full"
-                    size="lg"
+                    className="group/btn relative w-full min-h-[52px] px-8 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/25 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2.5 overflow-hidden disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating 1024x1024...
-                      </>
-                    ) : (
-                      <>
-                        <Palette className="w-4 h-4 mr-2" />
-                        Generate Background
-                      </>
-                    )}
-                  </Button>
-                </CardContent>
-              </Card>
-
-              {/* Quote Display */}
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span style={{
-                      fontFamily: `'${fontConfigs[selectedFont as keyof typeof fontConfigs].serif[0].replace(/"/g, '')}', 'Georgia', 'Times New Roman', serif`,
-                      fontWeight: "600",
-                      letterSpacing: "0.3px"
-                    }}>
-                      Your Quote
-                    </span>
-                    <Button variant="ghost" size="sm" onClick={toggleFavorite}>
-                      {isFavorited ? (
-                        <Heart className="w-4 h-4 text-red-500 fill-current" />
+                    <span className="relative z-10 flex items-center gap-2.5">
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          Generating Divine Art...
+                        </>
                       ) : (
-                        <HeartOff className="w-4 h-4" />
+                        <>
+                          <Palette className="w-5 h-5" />
+                          Create Divine Image
+                        </>
                       )}
-                    </Button>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <blockquote 
-                    className="text-lg text-gray-800 italic mb-2"
-                    style={{
-                      fontFamily: `'${fontConfigs[selectedFont as keyof typeof fontConfigs].serif[0].replace(/"/g, '')}', 'Georgia', 'Times New Roman', serif`,
-                      lineHeight: "1.5",
-                      letterSpacing: "0.2px"
-                    }}
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+                  </button>
+                </div>
+              </div>
+
+              {/* Quote Display - Elegant Note Style */}
+              <div className="relative bg-gradient-to-br from-stone-50/80 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-amber-100/50 dark:border-amber-500/12 shadow-md dark:shadow-[0_0_20px_rgba(212,175,55,0.06)]">
+                {/* Decorative corner elements */}
+                <div className="absolute top-3 left-3 w-8 h-8 border-t-2 border-l-2 border-amber-300/40 dark:border-amber-500/20 rounded-tl-lg"></div>
+                <div className="absolute top-3 right-3 w-8 h-8 border-t-2 border-r-2 border-amber-300/40 dark:border-amber-500/20 rounded-tr-lg"></div>
+                <div className="absolute bottom-3 left-3 w-8 h-8 border-b-2 border-l-2 border-amber-300/40 dark:border-amber-500/20 rounded-bl-lg"></div>
+                <div className="absolute bottom-3 right-3 w-8 h-8 border-b-2 border-r-2 border-amber-300/40 dark:border-amber-500/20 rounded-br-lg"></div>
+
+                <div className="flex items-center justify-between mb-5">
+                  <h4 className="text-sm font-serif uppercase tracking-widest text-amber-700/70 dark:text-amber-400/70">Your Sacred Quote</h4>
+                  <button
+                    onClick={toggleFavorite}
+                    className="p-2 rounded-full hover:bg-amber-100/50 dark:hover:bg-amber-500/10 transition-colors"
+                    aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
                   >
-                    {quote.content}
-                  </blockquote>
-                  <cite 
-                    className="text-blue-600 font-semibold"
-                    style={{
-                      fontFamily: `${fontConfigs[selectedFont as keyof typeof fontConfigs].serif[0].replace(/"/g, '')}, serif`,
-                      letterSpacing: "0.5px"
-                    }}
-                  >
-                    — {quote.reference}
-                  </cite>
-                </CardContent>
-              </Card>
+                    {isFavorited ? (
+                      <Heart className="w-5 h-5 text-red-500 fill-current" />
+                    ) : (
+                      <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                    )}
+                  </button>
+                </div>
+
+                <blockquote
+                  className="text-xl md:text-2xl font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-5 px-4"
+                  style={{
+                    letterSpacing: '0.15px'
+                  }}
+                >
+                  "{quote.content}"
+                </blockquote>
+
+                <cite
+                  className="block text-base md:text-lg font-serif text-amber-800 dark:text-amber-400 font-medium italic text-right"
+                  style={{ letterSpacing: '0.4px' }}
+                >
+                  — {quote.reference}
+                </cite>
+              </div>
             </div>
 
-            {/* Right side - Preview */}
+            {/* Right side - Preview - Artistic Canvas Frame */}
             <div className="space-y-6">
               {generatedImageUrl && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Preview - {fontConfigs[selectedFont as keyof typeof fontConfigs].name} Font</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    {/* 分辨率选择器放在预览区顶部 */}
-                    <div className="mb-6 flex gap-2 items-center justify-center">
-                      <span className="text-sm text-gray-700">Resolution:</span>
+                <div className="bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-amber-100/50 dark:border-amber-500/12 shadow-lg dark:shadow-[0_0_30px_rgba(212,175,55,0.08)]">
+                  {/* Controls Header */}
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg md:text-xl font-serif font-semibold text-gray-800 dark:text-zinc-200">
+                      Your Divine Canvas
+                    </h3>
+                    <span className="text-xs font-serif uppercase tracking-wider text-amber-700/70 dark:text-amber-400/70">
+                      {fontConfigs[selectedFont as keyof typeof fontConfigs].name}
+                    </span>
+                  </div>
+
+                  {/* Resolution & Style Controls */}
+                  <div className="mb-6 space-y-4">
+                    {/* Resolution */}
+                    <div className="flex flex-wrap gap-2 items-center justify-center p-3 bg-stone-50/50 dark:bg-stone-900/30 rounded-2xl">
+                      <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70 mr-2">Format:</span>
                       {resolutions.map((r) => (
-                        <Button
+                        <button
                           key={r.label}
-                          size="sm"
-                          variant={resolution.label === r.label ? "default" : "outline"}
                           onClick={() => setResolution(r)}
-                          className="text-xs px-2"
+                          className={`px-3 py-1.5 text-xs font-serif rounded-lg transition-all duration-300 ${
+                            resolution.label === r.label
+                              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
+                              : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
+                          }`}
                         >
                           {r.label}
-                        </Button>
+                        </button>
                       ))}
                     </div>
-                    {/* 颜色选择按钮和主题切换按钮并排显示 */}
-                    <div className="flex gap-4 items-center justify-center mb-4">
+
+                    {/* Color & Theme Controls */}
+                    <div className="flex flex-wrap gap-4 items-center justify-center p-3 bg-stone-50/50 dark:bg-stone-900/30 rounded-2xl">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-600">Text color:</span>
+                        <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70">Text:</span>
                         {["#ffd700", "#fff"].map((color) => (
                           <button
                             key={color}
                             onClick={() => setTextColor(color)}
+                            className="w-7 h-7 rounded-lg border-2 transition-all duration-300 hover:scale-110"
                             style={{
                               background: color,
-                              border: textColor === color ? '2px solid #ffd700' : '1px solid #ccc',
-                              width: 28,
-                              height: 28,
-                              borderRadius: 6,
-                              cursor: 'pointer',
+                              borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.3)',
+                              boxShadow: textColor === color ? '0 0 12px rgba(217, 119, 6, 0.5)' : 'none',
                             }}
                             aria-label={`Text color ${color}`}
                           />
                         ))}
                       </div>
+                      <div className="w-px h-6 bg-amber-300/30 dark:bg-amber-500/20"></div>
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-600">Reference color:</span>
+                        <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70">Ref:</span>
                         {["#ffd700", "#fff"].map((color) => (
                           <button
                             key={color}
                             onClick={() => setRefColor(color)}
+                            className="w-7 h-7 rounded-lg border-2 transition-all duration-300 hover:scale-110"
                             style={{
                               background: color,
-                              border: refColor === color ? '2px solid #ffd700' : '1px solid #ccc',
-                              width: 28,
-                              height: 28,
-                              borderRadius: 6,
-                              cursor: 'pointer',
+                              borderColor: refColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.3)',
+                              boxShadow: refColor === color ? '0 0 12px rgba(217, 119, 6, 0.5)' : 'none',
                             }}
                             aria-label={`Reference color ${color}`}
                           />
                         ))}
                       </div>
-                      <Button
-                        variant={theme === 'light' ? 'outline' : 'default'}
-                        size="sm"
+                      <div className="w-px h-6 bg-amber-300/30 dark:bg-amber-500/20"></div>
+                      <button
                         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className="ml-2"
+                        className="px-3 py-1.5 text-xs font-serif rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-800 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/50 dark:border-stone-500/30"
                       >
                         {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
-                      </Button>
+                      </button>
                     </div>
-                    <div className="flex flex-col items-center w-full">
+                  </div>
+
+                  {/* Artistic Canvas Frame */}
+                  <div className="flex flex-col items-center w-full mb-6">
+                    <div className="relative" style={{ width: `${canvasDisplayWidth}px` }}>
+                      {/* Outer Frame */}
                       <div
+                        className="bg-gradient-to-br from-stone-100/80 to-amber-50/60 dark:from-stone-800/60 dark:to-amber-950/40 rounded-3xl shadow-2xl dark:shadow-[0_0_40px_rgba(212,175,55,0.15)] border-4 border-amber-200/60 dark:border-amber-500/20 p-3"
                         style={{
-                          width: `${canvasDisplayWidth}px`,
                           aspectRatio: `${resolution.width} / ${resolution.height}`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          background: '#f8fafc',
-                          borderRadius: 16,
-                          boxShadow: '0 4px 24px 0 rgba(0,0,0,0.08)',
-                          padding: 12,
-                          position: 'relative',
                         }}
                       >
-                        <canvas
-                          ref={previewCanvasRef}
-                          width={resolution.width}
-                          height={resolution.height}
-                          style={
-                            resolution.label === '9:16 (1080x1920)'
-                              ? { width: '100%', height: 'auto', display: 'block', borderRadius: 12, background: '#222', margin: '0 auto' }
-                              : { width: '100%', height: '100%', display: 'block', borderRadius: 12, background: '#222' }
-                          }
-                        />
+                        {/* Inner Frame with Radial Glow */}
+                        <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gradient-radial from-amber-100/30 via-transparent to-transparent dark:from-amber-500/10 dark:via-transparent dark:to-transparent">
+                          <canvas
+                            ref={previewCanvasRef}
+                            width={resolution.width}
+                            height={resolution.height}
+                            className="w-full h-full object-contain rounded-xl"
+                          />
+                        </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="grid grid-cols-3 gap-2 mt-4">
-                      <Button onClick={downloadImage} disabled={isComposing || !fontsLoaded} className="flex-1">
-                        {isComposing ? (
-                          <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Processing...
-                          </>
-                        ) : !fontsLoaded ? (
-                          <>
-                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Loading Fonts...
-                          </>
-                        ) : (
-                          <>
-                            <Download className="w-4 h-4 mr-2" />
-                            Download
-                          </>
-                        )}
-                      </Button>
-                      <Button
-                        onClick={copyToClipboard}
+                  {/* Action Buttons - Sacred Style */}
+                  <div className="grid grid-cols-3 gap-3 mb-4">
+                    <button
+                      onClick={downloadImage}
+                      disabled={isComposing || !fontsLoaded}
+                      className="min-h-[48px] px-4 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isComposing ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span className="text-sm">Processing...</span>
+                        </>
+                      ) : !fontsLoaded ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          <span className="text-sm">Loading...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Download className="w-4 h-4" />
+                          <span className="text-sm">Download</span>
+                        </>
+                      )}
+                    </button>
+                    <button
+                      onClick={copyToClipboard}
+                      disabled={isComposing || !fontsLoaded}
+                      className="min-h-[48px] px-4 py-3 bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/12 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl hover:bg-amber-50 dark:hover:bg-white/[0.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
+                    >
+                      {copied ? (
+                        <>
+                          <Check className="w-4 h-4 text-green-600" />
+                          <span className="text-sm">Done!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          <span className="text-sm">Copy</span>
+                        </>
+                      )}
+                    </button>
+                    <div className="relative">
+                      <button
+                        onClick={() => setShowShareMenu(!showShareMenu)}
                         disabled={isComposing || !fontsLoaded}
-                        variant="outline"
-                        className="flex-1 bg-transparent"
+                        className="min-h-[48px] w-full px-4 py-3 bg-white/60 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/12 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl hover:bg-amber-50 dark:hover:bg-white/[0.03] transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm hover:shadow-md"
                       >
-                        {copied ? (
-                          <>
-                            <Check className="w-4 h-4 mr-2" />
-                            Done!
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-4 h-4 mr-2" />
-                            Copy
-                          </>
-                        )}
-                      </Button>
-                      <div className="relative">
-                        <Button
-                          onClick={() => setShowShareMenu(!showShareMenu)}
-                          disabled={isComposing || !fontsLoaded}
-                          variant="outline"
-                          className="w-full bg-transparent"
-                        >
-                          <Share2 className="w-4 h-4 mr-2" />
-                          Share
-                        </Button>
+                        <Share2 className="w-4 h-4" />
+                        <span className="text-sm">Share</span>
+                      </button>
 
-                        {showShareMenu && (
-                          <div className="absolute bottom-full mb-2 right-0 bg-white border border-gray-200 rounded-lg shadow-lg p-2 min-w-[160px] z-10">
-                            <Button
-                              onClick={shareToFacebook}
-                              variant="ghost"
-                              size="sm"
-                              className="w-full justify-start text-blue-600 hover:bg-blue-50"
-                            >
-                              <Facebook className="w-4 h-4 mr-2" />
-                              Facebook
-                            </Button>
-                            <Button
-                              onClick={shareToTwitter}
-                              variant="ghost"
-                              size="sm"
-                              className="w-full justify-start text-sky-500 hover:bg-sky-50"
-                            >
-                              <Twitter className="w-4 h-4 mr-2" />
-                              Twitter
-                            </Button>
-                            <Button
-                              onClick={shareToInstagram}
-                              variant="ghost"
-                              size="sm"
-                              className="w-full justify-start text-pink-500 hover:bg-pink-50"
-                            >
-                              <Instagram className="w-4 h-4 mr-2" />
-                              Instagram
-                            </Button>
-                          </div>
-                        )}
-                      </div>
+                      {showShareMenu && (
+                        <div className="absolute bottom-full mb-2 right-0 bg-white/95 dark:bg-stone-900/95 dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/20 rounded-2xl shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] p-2 min-w-[160px] z-10">
+                          <button
+                            onClick={shareToFacebook}
+                            className="w-full px-3 py-2 text-left text-sm font-serif text-blue-600 dark:text-blue-400 hover:bg-blue-50/80 dark:hover:bg-blue-950/30 rounded-xl transition-colors flex items-center gap-2"
+                          >
+                            <Facebook className="w-4 h-4" />
+                            Facebook
+                          </button>
+                          <button
+                            onClick={shareToTwitter}
+                            className="w-full px-3 py-2 text-left text-sm font-serif text-sky-500 dark:text-sky-400 hover:bg-sky-50/80 dark:hover:bg-sky-950/30 rounded-xl transition-colors flex items-center gap-2"
+                          >
+                            <Twitter className="w-4 h-4" />
+                            Twitter
+                          </button>
+                          <button
+                            onClick={shareToInstagram}
+                            className="w-full px-3 py-2 text-left text-sm font-serif text-pink-500 dark:text-pink-400 hover:bg-pink-50/80 dark:hover:bg-pink-950/30 rounded-xl transition-colors flex items-center gap-2"
+                          >
+                            <Instagram className="w-4 h-4" />
+                            Instagram
+                          </button>
+                        </div>
+                      )}
                     </div>
+                  </div>
 
-                    {/* Copy Tip */}
-                    <div className="mt-3 text-xs text-gray-500 text-center">
-                      💡 Tip: Click on the page first for clipboard access, or use Download for direct save
-                    </div>
+                  {/* Tip - Elegant Style */}
+                  <div className="text-center p-3 bg-amber-50/50 dark:bg-amber-950/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/10">
+                    <p className="text-xs font-serif text-amber-800/70 dark:text-amber-300/70">
+                      ✨ Click the page first for clipboard access, or use Download for direct save
+                    </p>
+                  </div>
 
-                    {/* Font Selector */}
-                    <div className="mt-6 pt-4 border-t border-gray-200">
-                      <label className="text-sm font-medium text-gray-700 mb-3 block">Choose Font Style</label>
-                      <div className="grid grid-cols-2 gap-2 mb-4">
-                        <Button
-                          variant={selectedFont === "classic" ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedFont("classic")}
-                          className="text-xs"
-                        >
-                          Classic
-                        </Button>
-                        <Button
-                          variant={selectedFont === "handwriting" ? "default" : "outline"}
-                          size="sm"
-                          onClick={() => setSelectedFont("handwriting")}
-                          className="text-xs"
-                        >
-                          Handwriting
-                        </Button>
-                      </div>
+                  {/* Font Selector - Amber Style */}
+                  <div className="mt-6 pt-6 border-t border-amber-200/40 dark:border-amber-500/15">
+                    <label className="text-sm font-serif font-medium text-amber-800 dark:text-amber-300 mb-3 block">Choose Font Style</label>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        onClick={() => setSelectedFont("classic")}
+                        className={`px-4 py-3 text-sm font-serif rounded-2xl transition-all duration-300 ${
+                          selectedFont === "classic"
+                            ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/30"
+                            : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
+                        }`}
+                      >
+                        Classic Serif
+                      </button>
+                      <button
+                        onClick={() => setSelectedFont("handwriting")}
+                        className={`px-4 py-3 text-sm font-serif rounded-2xl transition-all duration-300 ${
+                          selectedFont === "handwriting"
+                            ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-lg shadow-amber-500/30"
+                            : "bg-white/60 dark:bg-white/[0.02] text-amber-800 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/30 border border-amber-200/40 dark:border-amber-500/15"
+                        }`}
+                      >
+                        Elegant Script
+                      </button>
                     </div>
-                  </CardContent>
-                </Card>
+                  </div>
+                </div>
               )}
 
               {!generatedImageUrl && (
-                <Card className="border-dashed border-2 border-gray-300">
-                  <CardContent className="flex flex-col items-center justify-center py-12 text-center">
-                    <Palette className="w-12 h-12 text-gray-400 mb-4" />
-                    <p className="text-gray-500 text-lg">Your generated image will appear here</p>
-                    <p className="text-gray-400 text-sm">Describe your background and click generate</p>
-                    <p className="text-gray-400 text-xs mt-2">FLUX-1 Schnell - Perfect 1024x1024</p>
-                    {fontsLoaded && <p className="text-green-600 text-xs mt-1">✅ Fonts loaded and ready!</p>}
-                  </CardContent>
-                </Card>
+                <div className="bg-stone-100/80 dark:bg-stone-900/40 backdrop-blur-xl rounded-3xl p-8 md:p-12 border-4 border-amber-200/60 dark:border-amber-500/20 shadow-inner dark:shadow-[0_0_30px_rgba(212,175,55,0.08)]">
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <div className="relative mb-6">
+                      <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-2xl"></div>
+                      <Palette className="relative w-16 h-16 text-amber-400/60 dark:text-amber-500/50" />
+                    </div>
+                    <p className="text-xl md:text-2xl font-serif text-stone-700 dark:text-zinc-300 mb-3">Your Canvas Awaits</p>
+                    <p className="text-base font-serif text-stone-500 dark:text-zinc-500 mb-2">Describe your sacred vision and let divine art emerge</p>
+                    <p className="text-sm font-serif text-amber-600/70 dark:text-amber-400/60 mt-4">FLUX-1 Schnell • Perfect Quality</p>
+                    {fontsLoaded && (
+                      <p className="text-sm font-serif text-green-600/80 dark:text-green-400/70 mt-2 flex items-center gap-2">
+                        <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                        Fonts loaded and ready
+                      </p>
+                    )}
+                  </div>
+                </div>
               )}
             </div>
           </div>
