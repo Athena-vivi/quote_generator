@@ -154,7 +154,7 @@ export default function HomePage() {
                   </cite>
 
                   {/* Action Buttons */}
-                  <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                  <div className="flex flex-row gap-4 justify-center items-center">
                     <button
                       onClick={() => setSelectedQuoteForImage(dailyQuote)}
                       aria-label="Create divine image from daily quote"
