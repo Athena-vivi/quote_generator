@@ -818,20 +818,21 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                               <span>Share</span>
                             </button>
 
-                            {/* Horizontal Row of Outline Social Icons - Right of button */}
+                            {/* Vertical Row of Social Icons - Right of button */}
                             {showSocialShare && (
-                              <div className="absolute left-full top-0 ml-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-left-2 duration-300">
-                                <div className="flex items-center justify-center gap-2">
+                              <div className="absolute left-full top-0 ml-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-left-2 duration-300">
+                                <div className="flex flex-col gap-2">
                                   {socialPlatforms.map((platform) => {
                                     const IconComponent = platform.icon
                                     return (
                                       <button
                                         key={platform.id}
                                         onClick={() => shareToSocial(platform.id)}
-                                        className="group/social p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/40 dark:hover:bg-amber-500/15"
+                                        className="group/social p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/40 dark:hover:bg-amber-500/15 flex items-center gap-2"
                                         aria-label={`Share to ${platform.label}`}
                                       >
                                         <IconComponent className="w-5 h-5 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
+                                        <span className="text-xs font-serif text-amber-700 dark:text-amber-300">{platform.label}</span>
                                       </button>
                                     )
                                   })}
