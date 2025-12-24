@@ -1,10 +1,19 @@
 import type React from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
+import { Crimson_Text } from "next/font/google"
 import "./globals.css"
-import { GoogleAnalytics } from "@/components/GoogleAnalytics"
 import { WebsiteSchema } from "@/components/seo/website-schema"
 import { ThemeProvider } from "@/hooks/use-theme"
+
+// Next.js Font optimization with display: swap for instant text rendering
+const crimsonText = Crimson_Text({
+  subsets: ["latin"],
+  display: "swap", // Critical: show text immediately with system font fallback
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
+  variable: "--font-crimson",
+})
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://quotegenerator.org'),
@@ -123,6 +132,11 @@ const criticalCSS = `
     color: hsl(var(--foreground));
   }
 
+  /* Serif font fallback for instant rendering */
+  .font-serif {
+    font-family: ${crimsonText.style.fontFamily}, Georgia, 'Times New Roman', serif;
+  }
+
   /* Critical layout utilities for Hero section */
   .flex { display: flex; }
   .flex-col { flex-direction: column; }
@@ -181,15 +195,33 @@ const criticalCSS = `
   .text-4xl { font-size: 2.25rem; }
   .text-5xl { font-size: 3rem; }
   .font-bold { font-weight: 700; }
-  .font-serif { font-family: Georgia, 'Times New Roman', serif; }
   .italic { font-style: italic; }
   .leading-relaxed { line-height: 1.625; }
+
+  /* Gradient utilities */
+  .bg-gradient-to-r {
+    background-image: linear-gradient(to right, var(--tw-gradient-stops));
+  }
+  .from-amber-600 { --tw-gradient-from: #d97706; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(217, 119, 6, 0)); }
+  .to-amber-700 { --tw-gradient-to: #b45309; }
+  .from-amber-500 { --tw-gradient-from: #f59e0b; }
+  .to-amber-600 { --tw-gradient-to: #d97706; }
+  .text-transparent {
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+  .bg-clip-text {
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
 
   /* Button styles */
   .inline-flex { display: inline-flex; }
   .items-center { align-items: center; }
   .min-h-44 { min-height: 2.75rem; }
   .rounded-xl { border-radius: 0.75rem; }
+  .shadow-lg { box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
 
   /* Responsive */
   @media (min-width: 768px) {
@@ -207,7 +239,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={crimsonText.variable}>
       <head>
         {/* Inline Critical CSS */}
         <style dangerouslySetInnerHTML={{ __html: criticalCSS }} />
@@ -255,8 +287,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://api.esv.org" />
         <link rel="preconnect" href="https://fal.run" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         {/* Favicon & Icons - Using WebP for better performance */}
@@ -273,19 +303,6 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-title" content="QuoteGenerator" />
         <meta name="msapplication-TileColor" content="#FDFBF7" />
         <meta name="theme-color" content="#FDFBF7" />
-
-        {/* Font preload with async fallback */}
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
-          as="style"
-        />
-        <noscript>
-          <link
-            href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
-            rel="stylesheet"
-          />
-        </noscript>
       </head>
 
       <body className="scroll-smooth bg-background text-foreground antialiased transition-colors" suppressHydrationWarning>
@@ -293,7 +310,6 @@ export default function RootLayout({
           defaultTheme="system"
           storageKey="quote-generator-theme"
         >
-          <GoogleAnalytics />
           <WebsiteSchema
             siteName="QuoteGenerator"
             siteUrl="https://quotegenerator.org"
@@ -302,12 +318,29 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
-        {/* Async font loading */}
+        {/* Google Analytics with requestIdleCallback wrapper */}
         <Script
-          id="font-loader"
-          strategy="afterInteractive"
+          id="ga-deferred-loader"
+          strategy="lazyOnload"
           dangerouslySetInnerHTML={{
-            __html: `(function(){const link=document.createElement('link');link.href='https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap';link.rel='stylesheet';document.head.appendChild(link);})();`
+            __html: `
+              (function() {
+                // Use requestIdleCallback to defer GA loading until browser is idle
+                if ('requestIdleCallback' in window) {
+                  requestIdleCallback(function() {
+                    // Dynamically load GoogleAnalytics component
+                    import('@/components/GoogleAnalytics').then(module => {
+                      // GA will be initialized by the component
+                    });
+                  }, { timeout: 2000 });
+                } else {
+                  // Fallback for older browsers
+                  setTimeout(function() {
+                    import('@/components/GoogleAnalytics');
+                  }, 2000);
+                }
+              })();
+            `
           }}
         />
 
