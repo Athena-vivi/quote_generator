@@ -739,108 +739,110 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             {/* Right Side - Preview (60%) - Fixed layout with proper overflow */}
             <div className="w-[60%] flex flex-col h-full min-h-0">
               {generatedImageUrl ? (
-                <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden flex items-center justify-center p-16">
-                  {/* Ultra-subtle Radial Amber Glow */}
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
+                <>
+                  {/* Canvas Area - Aligned to top */}
+                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-start justify-center pt-16 px-16 pb-8">
+                    {/* Ultra-subtle Radial Amber Glow */}
+                    <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                  {/* Canvas Container with Floating Toolbar - Group for hover */}
-                  <div className="group relative max-w-full max-h-full aspect-square">
-                    {/* Elegant Frame - Refined */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
-                    <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
-                    <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
+                    {/* Canvas Container */}
+                    <div className="group relative max-w-full max-h-[calc(100%-80px)] aspect-square">
+                      {/* Elegant Frame - Refined */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                    {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
-                    <canvas
-                      ref={previewCanvasRef}
-                      width={1024}
-                      height={1024}
-                      className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl rounded-lg relative z-10"
-                    />
+                      {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
+                      <canvas
+                        ref={previewCanvasRef}
+                        width={1024}
+                        height={1024}
+                        className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl rounded-lg relative z-10"
+                      />
+                    </div>
+                  </div>
 
-                    {/* Floating Glass Toolbar - Bottom of image with better contrast */}
-                    <div className="absolute bottom-6 left-6 right-6 z-20">
-                      <div className="bg-white/40 dark:bg-black/60 backdrop-blur-md rounded-2xl border border-amber-200/30 dark:border-amber-500/15 shadow-lg transition-opacity duration-300 opacity-40 group-hover:opacity-100">
-                        {/* Toolbar Actions - Horizontal row */}
-                        <div className="flex items-center justify-between gap-2 p-2.5">
-                          {/* Download */}
+                  {/* Toolbar - Fixed at bottom of preview area */}
+                  <div className="flex-shrink-0 px-16 pb-8 pt-4">
+                    <div className="bg-white/80 dark:bg-black/70 backdrop-blur-xl rounded-2xl border border-amber-200/40 dark:border-amber-500/20 shadow-lg">
+                      <div className="flex items-center justify-between gap-3 p-3">
+                        {/* Download */}
+                        <button
+                          onClick={downloadImage}
+                          disabled={isComposing || !fontsLoaded}
+                          className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
+                          aria-label="Download image"
+                        >
+                          {isComposing ? (
+                            <>
+                              <Loader2 className="w-4 h-4 animate-spin" />
+                              <span>Processing...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Download className="w-4 h-4" />
+                              <span>Download</span>
+                            </>
+                          )}
+                        </button>
+
+                        {/* Copy */}
+                        <button
+                          onClick={copyToClipboard}
+                          disabled={isComposing || !fontsLoaded}
+                          className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
+                          aria-label="Copy to clipboard"
+                        >
+                          {copied ? (
+                            <>
+                              <Check className="w-4 h-4" />
+                              <span>Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <Copy className="w-4 h-4" />
+                              <span>Copy</span>
+                            </>
+                          )}
+                        </button>
+
+                        {/* Share with Social Icons */}
+                        <div className="relative flex-1">
                           <button
-                            onClick={downloadImage}
+                            onClick={() => setShowSocialShare(!showSocialShare)}
                             disabled={isComposing || !fontsLoaded}
-                            className="min-h-[38px] px-3 bg-white/70 dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
-                            aria-label="Download image"
+                            className="w-full min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                            aria-label="Share"
                           >
-                            {isComposing ? (
-                              <>
-                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                <span>Processing...</span>
-                              </>
-                            ) : (
-                              <>
-                                <Download className="w-3.5 h-3.5" />
-                                <span>Download</span>
-                              </>
-                            )}
+                            <Share2 className="w-4 h-4" />
+                            <span>Share</span>
                           </button>
 
-                          {/* Copy */}
-                          <button
-                            onClick={copyToClipboard}
-                            disabled={isComposing || !fontsLoaded}
-                            className="min-h-[38px] px-3 bg-white/70 dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
-                            aria-label="Copy to clipboard"
-                          >
-                            {copied ? (
-                              <>
-                                <Check className="w-3.5 h-3.5" />
-                                <span>Copied!</span>
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-3.5 h-3.5" />
-                                <span>Copy</span>
-                              </>
-                            )}
-                          </button>
-
-                          {/* Share with Social Icons */}
-                          <div className="relative flex-1">
-                            <button
-                              onClick={() => setShowSocialShare(!showSocialShare)}
-                              disabled={isComposing || !fontsLoaded}
-                              className="w-full min-h-[38px] px-3 bg-white/70 dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
-                              aria-label="Share"
-                            >
-                              <Share2 className="w-3.5 h-3.5" />
-                              <span>Share</span>
-                            </button>
-
-                            {/* Horizontal Row of Outline Social Icons */}
-                            {showSocialShare && (
-                              <div className="absolute bottom-full left-0 right-0 mb-2 px-2.5 py-2 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
-                                <div className="flex items-center justify-center gap-1.5">
-                                  {socialPlatforms.map((platform) => {
-                                    const IconComponent = platform.icon
-                                    return (
-                                      <button
-                                        key={platform.id}
-                                        onClick={() => shareToSocial(platform.id)}
-                                        className="group/social p-1.5 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/30 dark:hover:bg-amber-500/10"
-                                        aria-label={`Share to ${platform.label}`}
-                                      >
-                                        <IconComponent className="w-4 h-4 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
-                                      </button>
-                                    )
-                                  })}
-                                </div>
+                          {/* Horizontal Row of Outline Social Icons */}
+                          {showSocialShare && (
+                            <div className="absolute bottom-full left-0 right-0 mb-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
+                              <div className="flex items-center justify-center gap-2">
+                                {socialPlatforms.map((platform) => {
+                                  const IconComponent = platform.icon
+                                  return (
+                                    <button
+                                      key={platform.id}
+                                      onClick={() => shareToSocial(platform.id)}
+                                      className="group/social p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/40 dark:hover:bg-amber-500/15"
+                                      aria-label={`Share to ${platform.label}`}
+                                    >
+                                      <IconComponent className="w-5 h-5 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
+                                    </button>
+                                  )
+                                })}
                               </div>
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </>
               ) : (
                 /* Empty State - Compact */
                 <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-8 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[450px]">
