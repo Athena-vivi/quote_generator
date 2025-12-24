@@ -311,7 +311,7 @@ export function QuoteFinder() {
                   onClick={handleDirectSearch}
                   disabled={loading || !searchQuery.trim()}
                   aria-label="Search Scripture"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl dark:shadow-amber-500/20 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
@@ -319,7 +319,6 @@ export function QuoteFinder() {
                     <Search className="w-6 h-6" aria-hidden="true" />
                   )}
                   <span className="sr-only">Search</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </button>
               </div>
             </div>
@@ -371,7 +370,7 @@ export function QuoteFinder() {
                   onClick={handleCustomMoodSearch}
                   disabled={loading || !customMood.trim()}
                   aria-label="Search by Mood"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl dark:shadow-amber-500/20 transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-serif font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
@@ -379,7 +378,6 @@ export function QuoteFinder() {
                     <Search className="w-6 h-6" aria-hidden="true" />
                   )}
                   <span className="sr-only">Search by Mood</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>
                 </button>
               </div>
             </div>
@@ -447,10 +445,10 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/85 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-8 md:p-12 transition-all duration-500 shadow-lg dark:shadow-[0_0_40px_rgba(212,175,55,0.12)] hover:shadow-xl dark:hover:shadow-[0_0_60px_rgba(212,175,55,0.2)] hover:scale-[1.01]"
+                className="group relative bg-white/85 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-8 md:p-12 transition-all duration-300 shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:-translate-y-1 border border-amber-100/30 dark:border-amber-500/8 hover:border-amber-200/50 dark:hover:border-amber-500/20"
               >
-                {/* Gradient border overlay */}
-                <div className="absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-br from-amber-500/12 via-transparent to-amber-500/6 dark:from-amber-400/8 dark:via-transparent dark:to-amber-600/5 pointer-events-none"></div>
+                {/* Gradient border overlay - static, no hover */}
+                <div className="absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-br from-amber-500/8 via-transparent to-amber-500/4 dark:from-amber-400/6 dark:via-transparent dark:to-amber-600/3 pointer-events-none group-hover:from-amber-500/12 group-hover:to-amber-500/6 dark:group-hover:from-amber-400/10 dark:group-hover:to-amber-600/5 transition-opacity duration-300"></div>
 
                 {/* Decorative Quote Marks - Subtle */}
                 <div className="absolute -top-2 left-6 text-6xl md:text-7xl font-serif text-amber-300/10 dark:text-amber-500/6 leading-none select-none">"</div>
@@ -506,11 +504,10 @@ export function QuoteFinder() {
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
                       aria-label="Create image from this quote"
-                      className="group/btn flex-1 min-h-[48px] px-6 py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/15 dark:shadow-amber-500/20 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
+                      className="group/btn flex-1 min-h-[48px] px-6 py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
                       <Palette className="w-4 h-4 group-hover/btn:rotate-12 transition-transform duration-300" aria-hidden="true" />
                       <span>Create Image</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
                     </button>
 
                     {/* Favorite - Icon button */}
