@@ -57,8 +57,8 @@ const nextConfig = withBundleAnalyzer(withMDX({
   // Modern browser target to reduce polyfill size
   swcMinify: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-  // Modern browsers only - no IE11 support reduces polyfill bloat
-  swcTargets: 'es2017', // Targets browsers from 2017+, removes ~12KB of legacy polyfills
+  // Modern browsers only - ES2022 for latest features
+  swcTargets: 'es2022', // Targets modern browsers, removes legacy polyfills
   webpack: (config, { dev, isServer }) => {
     config.resolve.alias = {
       ...config.resolve.alias,
