@@ -739,7 +739,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             {/* Right Side - Preview (60%) - Fixed layout with proper overflow */}
             <div className="w-[60%] flex flex-col h-full min-h-0">
               {generatedImageUrl ? (
-                <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden flex items-center justify-center p-8">
+                <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden flex items-center justify-center p-16">
                   {/* Ultra-subtle Radial Amber Glow */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
