@@ -110,10 +110,10 @@ async function drawQuoteImage({
   const textAreaWidth = width - sideSafe * 2
   const textAreaHeight = height - topSafe - bottomSafe
 
-  // Get font stack - Crimson Text with explicit weight for sacred serif aesthetic
-  const serifFonts = selectedFont === "handwriting"
-    ? fontConfigs.handwriting.serif.join(", ")
-    : '400 "Crimson Text", 400 serif'
+  // Use single font family - Crimson Text only for consistency with hero card
+  const fontFamily = selectedFont === "handwriting"
+    ? '"Great Vibes", cursive'
+    : '"Crimson Text", serif'
 
   // Initial font size calculation
   let fontSize = Math.max(width, height) * 0.052
@@ -127,7 +127,7 @@ async function drawQuoteImage({
 
   // Text wrapping and size adjustment loop
   while (true) {
-    ctx.font = `400 ${fontSize}px ${serifFonts}`
+    ctx.font = `${fontSize}px ${fontFamily}`
 
     // Word wrapping - clean splitting
     lines = []
@@ -152,8 +152,8 @@ async function drawQuoteImage({
     lineHeight = fontSize * 1.8
     totalTextHeight = lines.length * lineHeight
 
-    // Reference is 55% of main text size (enlarged for readability)
-    refFontSize = fontSize * 0.55
+    // Reference is smaller than main text - positioned at bottom-right
+    refFontSize = fontSize * 0.45 // Reduced from 0.55 for better hierarchy
     refHeight = refFontSize * 1.6
 
     // Spacing between text and reference
@@ -173,8 +173,8 @@ async function drawQuoteImage({
   // Save context state
   ctx.save()
 
-  // Draw main quote text - absolutely centered with explicit weight
-  ctx.font = `400 ${fontSize}px ${serifFonts}`
+  // Draw main quote text - centered with Crimson Text
+  ctx.font = `${fontSize}px ${fontFamily}`
   ctx.fillStyle = textColor
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
@@ -202,15 +202,15 @@ async function drawQuoteImage({
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference - right-bottom aligned, 55% size, non-italic serif, amber gold
-  const refY = textStartY + totalTextHeight + spacing - (totalHeight / 2) + (totalTextHeight / 2)
-  const refX = width - sideSafe
-
-  // Use non-italic serif font for reference, minimum 24px for readability
-  const finalRefSize = Math.max(refFontSize, 24)
-  ctx.font = `400 ${finalRefSize}px ${serifFonts}`
+  // Draw reference - smaller, positioned at bottom-right corner
+  const finalRefSize = Math.max(refFontSize, 20) // Minimum 20px for readability
+  ctx.font = `italic ${finalRefSize}px ${fontFamily}` // Italic for reference
   ctx.textAlign = "right"
-  ctx.textBaseline = "top"
+  ctx.textBaseline = "bottom"
+
+  // Reference position - bottom-right with proper padding
+  const refX = width - sideSafe
+  const refY = height - bottomSafe
 
   // Stronger shadow for reference visibility
   ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.6)"
@@ -281,10 +281,20 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         fontsLink.rel = 'stylesheet'
         document.head.appendChild(fontsLink)
 
-        // Explicitly wait for Crimson Text to load
+        // Explicitly wait for Crimson Text to load and verify
         if (document.fonts) {
           await document.fonts.load('400 32px "Crimson Text"')
           await document.fonts.load('400 32px "Great Vibes"')
+
+          // Verify fonts are actually loaded before proceeding
+          const crimsonLoaded = document.fonts.check('400 32px "Crimson Text"')
+          const vibLoaded = document.fonts.check('400 32px "Great Vibes"')
+
+          if (!crimsonLoaded || !vibLoaded) {
+            console.warn("⚠️ Font verification failed, retrying...")
+            await new Promise(resolve => setTimeout(resolve, 200))
+          }
+
           await document.fonts.ready
           console.log("✅ Crimson Text and script fonts loaded successfully")
         }
@@ -334,11 +344,21 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     setError(null)
 
     try {
-      // Force load Crimson Text font before generating image
+      // Force load Crimson Text font before generating image with verification
       if (document.fonts) {
         console.log("🔤 Force loading Crimson Text font...")
         await document.fonts.load('400 32px "Crimson Text"')
         await document.fonts.load('400 32px "Great Vibes"')
+
+        // Verify fonts are loaded
+        const crimsonLoaded = document.fonts.check('400 32px "Crimson Text"')
+        const vibLoaded = document.fonts.check('400 32px "Great Vibes"')
+
+        if (!crimsonLoaded || !vibLoaded) {
+          console.warn("⚠️ Font verification failed, waiting...")
+          await new Promise(resolve => setTimeout(resolve, 300))
+        }
+
         console.log("✅ Crimson Text fonts loaded successfully")
       }
 
@@ -721,115 +741,112 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             {/* Right Side - Preview (60%) - Fixed layout with proper overflow */}
             <div className="w-[60%] flex flex-col flex-shrink-0 min-h-0">
               {generatedImageUrl ? (
-                <>
-                  {/* Artistic Canvas Frame - Full 1:1 Square Display */}
-                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-3 relative overflow-hidden min-h-0">
-                    {/* Ultra-subtle Radial Amber Glow */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
+                <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-3 relative overflow-hidden min-h-0">
+                  {/* Ultra-subtle Radial Amber Glow */}
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    {/* Full 1:1 Square Canvas Container - Adaptive sizing */}
-                    <div className="relative w-full h-full flex items-center justify-center min-h-0">
-                      <div className="relative" style={{ maxWidth: '100%', maxHeight: '100%', aspectRatio: '1/1' }}>
-                        {/* Elegant Frame - Refined */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25"></div>
-                        <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
-                        <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
+                  {/* Canvas Container with Floating Toolbar - Group for hover */}
+                  <div className="group relative w-full h-full flex items-center justify-center">
+                    <div className="relative max-w-full max-h-full aspect-square">
+                      {/* Elegant Frame - Refined */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25"></div>
+                      <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
+                      <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                        {/* Canvas - Object contain for proper fitting */}
-                        <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent aspect-square w-full h-full">
-                          <canvas
-                            ref={previewCanvasRef}
-                            width={1024}
-                            height={1024}
-                            className="w-full h-full object-contain"
-                          />
+                      {/* Canvas with object-contain */}
+                      <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent aspect-square w-full h-full">
+                        <canvas
+                          ref={previewCanvasRef}
+                          width={1024}
+                          height={1024}
+                          className="w-full h-full object-contain"
+                        />
+                      </div>
+
+                      {/* Floating Glass Toolbar - Bottom of image, hover reveal */}
+                      <div className="absolute bottom-3 left-3 right-3 z-20">
+                        <div className="bg-white/40 dark:bg-black/40 backdrop-blur-md rounded-2xl border border-amber-200/30 dark:border-amber-500/15 shadow-lg transition-opacity duration-300 opacity-30 group-hover:opacity-100">
+                          {/* Toolbar Actions - Horizontal row */}
+                          <div className="flex items-center justify-between gap-2 p-2.5">
+                            {/* Download */}
+                            <button
+                              onClick={downloadImage}
+                              disabled={isComposing || !fontsLoaded}
+                              className="min-h-[38px] px-3 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
+                              aria-label="Download image"
+                            >
+                              {isComposing ? (
+                                <>
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                  <span>Processing...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Download className="w-3.5 h-3.5" />
+                                  <span>Download</span>
+                                </>
+                              )}
+                            </button>
+
+                            {/* Copy */}
+                            <button
+                              onClick={copyToClipboard}
+                              disabled={isComposing || !fontsLoaded}
+                              className="min-h-[38px] px-3 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
+                              aria-label="Copy to clipboard"
+                            >
+                              {copied ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  <span>Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3.5 h-3.5" />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </button>
+
+                            {/* Share with Social Icons */}
+                            <div className="relative flex-1">
+                              <button
+                                onClick={() => setShowSocialShare(!showSocialShare)}
+                                disabled={isComposing || !fontsLoaded}
+                                className="w-full min-h-[38px] px-3 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+                                aria-label="Share"
+                              >
+                                <Share2 className="w-3.5 h-3.5" />
+                                <span>Share</span>
+                              </button>
+
+                              {/* Horizontal Row of Outline Social Icons */}
+                              {showSocialShare && (
+                                <div className="absolute bottom-full left-0 right-0 mb-2 px-2.5 py-2 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
+                                  <div className="flex items-center justify-center gap-1.5">
+                                    {socialPlatforms.map((platform) => {
+                                      const IconComponent = platform.icon
+                                      return (
+                                        <button
+                                          key={platform.id}
+                                          onClick={() => shareToSocial(platform.id)}
+                                          className="group/social p-1.5 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/30 dark:hover:bg-amber-500/10"
+                                          aria-label={`Share to ${platform.label}`}
+                                        >
+                                          <IconComponent className="w-4 h-4 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
+                                        </button>
+                                      )
+                                    })}
+                                  </div>
+                                </div>
+                              )}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-
-                  {/* Action Toolbar - Fixed at bottom */}
-                  <div className="mt-3 flex-shrink-0 space-y-2">
-                    {/* Primary Actions - Compact */}
-                    <div className="flex items-center justify-center gap-2">
-                      {/* Download */}
-                      <button
-                        onClick={downloadImage}
-                        disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[42px] px-3 py-2 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                      >
-                        {isComposing ? (
-                          <>
-                            <Loader2 className="w-4 h-4 animate-spin" />
-                            <span className="text-xs">Processing...</span>
-                          </>
-                        ) : (
-                          <>
-                            <Download className="w-4 h-4" />
-                            <span className="text-xs">Download</span>
-                          </>
-                        )}
-                      </button>
-
-                      {/* Copy */}
-                      <button
-                        onClick={copyToClipboard}
-                        disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[42px] px-3 py-2 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                      >
-                        {copied ? (
-                          <>
-                            <Check className="w-4 h-4" />
-                            <span className="text-xs">Copied!</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-4 h-4" />
-                            <span className="text-xs">Copy</span>
-                          </>
-                        )}
-                      </button>
-
-                      {/* Share - Small Horizontal Row Icons */}
-                      <div className="flex-1 relative">
-                        <button
-                          onClick={() => setShowSocialShare(!showSocialShare)}
-                          disabled={isComposing || !fontsLoaded}
-                          className="w-full min-h-[42px] px-3 py-2 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                        >
-                          <Share2 className="w-4 h-4" />
-                          <span className="text-xs">Share</span>
-                        </button>
-
-                        {/* Horizontal Row of Elegant Outline Social Icons */}
-                        {showSocialShare && (
-                          <div className="absolute bottom-full left-0 right-0 mb-2 px-3 py-2.5 bg-[#fdfbf7]/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
-                            <div className="flex items-center justify-center gap-2">
-                              {socialPlatforms.map((platform) => {
-                                const IconComponent = platform.icon
-                                return (
-                                  <button
-                                    key={platform.id}
-                                    onClick={() => shareToSocial(platform.id)}
-                                    className="group relative p-1.5 rounded-lg transition-all duration-300 hover:scale-105"
-                                    aria-label={`Share to ${platform.label}`}
-                                  >
-                                    {/* Elegant outline icon */}
-                                    <IconComponent className="w-5 h-5 text-amber-500/80 dark:text-amber-400/80 transition-all duration-300" strokeWidth={1.5} />
-                                    {/* Subtle amber glow on hover */}
-                                    <div className="absolute inset-0 rounded-lg bg-amber-500/0 group-hover:bg-amber-500/10 dark:group-hover:bg-amber-400/10 transition-all duration-300"></div>
-                                    {/* Subtle shadow glow on hover */}
-                                    <div className="absolute inset-0 rounded-lg shadow-amber-500/0 group-hover:shadow-[0_0_12px_rgba(212,175,55,0.25)] dark:group-hover:shadow-[0_0_12px_rgba(212,175,55,0.2)] transition-all duration-300"></div>
-                                  </button>
-                                )
-                              })}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </>
+                </div>
               ) : (
                 /* Empty State - Compact */
                 <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-8 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[450px]">
