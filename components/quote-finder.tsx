@@ -265,13 +265,13 @@ export function QuoteFinder() {
       {/* Search Tab Content */}
       {activeTab === "search" && (
         <div id="panel-search" role="tabpanel" aria-labelledby="tab-search" tabIndex={0} className="mb-12">
-          <div className="relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+          <div className="relative bg-white/85 dark:bg-white/[0.03] dark:backdrop-blur-3xl backdrop-blur-xl border border-amber-200/40 dark:border-amber-500/10 shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-3xl p-6 md:p-10 ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
                 <BookOpen className="w-8 h-8 text-amber-600 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
               </div>
-              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">Search Scripture</h3>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-amber-100">Search Scripture</h3>
             </div>
 
             {/* Search Input */}
@@ -284,21 +284,21 @@ export function QuoteFinder() {
                     value={searchQuery}
                     onChange={(e) => handleInputChange(e)}
                     onKeyPress={(e) => e.key === "Enter" && handleDirectSearch()}
-                    className="w-full px-6 py-4 text-lg bg-white dark:bg-black/20 dark:backdrop-blur-md border-2 border-dashed border-amber-200/60 dark:border-solid dark:border-white/30 dark:dark:border-amber-900/30 rounded-2xl focus:outline-none focus:border-solid focus:border-amber-500/50 dark:focus:border-amber-300/60 dark:focus:border-solid dark:focus:border-amber-600/50 focus:ring-2 focus:ring-amber-200/30 dark:focus:ring-amber-400/50 dark:focus:ring-amber-600/20 text-gray-800 dark:text-stone-200 transition-all duration-300 placeholder-gray-500/70 dark:placeholder:text-stone-500"
+                    className="w-full px-6 py-4 text-lg bg-white dark:bg-white/[0.02] dark:backdrop-blur-xl border-2 border-dashed border-amber-200/60 dark:border-solid dark:border-amber-500/15 rounded-2xl focus:outline-none focus:border-solid focus:border-amber-500/50 dark:focus:border-amber-400/40 dark:focus:border-solid focus:ring-2 focus:ring-amber-200/30 dark:focus:ring-amber-400/30 text-gray-800 dark:text-amber-50 transition-all duration-300 placeholder-gray-500/70 dark:placeholder:text-amber-200/50"
                   />
                   {/* Suggestions Dropdown */}
                   {suggestions.length > 0 && (
-                    <div className="absolute z-20 w-full mt-2 bg-white/95 dark:bg-black/40 dark:backdrop-blur-md backdrop-blur-xl border-2 border-dashed border-amber-200/40 dark:border-solid dark:border-white/30 dark:border-amber-900/30 rounded-xl shadow-xl overflow-hidden">
+                    <div className="absolute z-20 w-full mt-2 bg-white/95 dark:bg-white/[0.02] dark:backdrop-blur-2xl backdrop-blur-xl border-2 border-dashed border-amber-200/40 dark:border-solid dark:border-amber-500/15 rounded-xl shadow-xl dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] overflow-hidden">
                       {suggestions.map((verse, idx) => (
                         <div
                           key={idx}
-                          className="px-6 py-4 cursor-pointer hover:bg-amber-50/80 dark:hover:bg-amber-950/30 transition-colors border-b border-amber-100/30 dark:border-white/20 dark:border-amber-900/20 last:border-b-0"
+                          className="px-6 py-4 cursor-pointer hover:bg-amber-50/80 dark:hover:bg-amber-950/20 transition-colors border-b border-amber-100/30 dark:border-amber-500/10 last:border-b-0"
                           onClick={() => handleSuggestionClick(verse)}
                           role="option"
                           tabIndex={0}
                         >
-                          <span className="font-semibold" style={{ color: '#92400e' }} /* Deep amber for contrast */>{verse.reference}</span>
-                          <span className="text-gray-700 dark:text-stone-400 ml-2">{verse.content}</span>
+                          <span className="font-semibold text-amber-900 dark:text-amber-300">{verse.reference}</span>
+                          <span className="text-gray-700 dark:text-amber-100/70 ml-2">{verse.content}</span>
                         </div>
                       ))}
                     </div>
@@ -308,7 +308,7 @@ export function QuoteFinder() {
                   onClick={handleDirectSearch}
                   disabled={loading || !searchQuery.trim()}
                   aria-label="Search Scripture"
-                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="group relative px-8 py-4 bg-gradient-to-r from-amber-600 to-yellow-600 dark:from-amber-500 dark:to-amber-600 text-white font-semibold rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? (
                     <Loader2 className="w-6 h-6 animate-spin" aria-hidden="true" />
@@ -316,20 +316,20 @@ export function QuoteFinder() {
                     <Search className="w-6 h-6" aria-hidden="true" />
                   )}
                   <span className="sr-only">Search</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover:opacity-50 transition-opacity duration-300"></div>
                 </button>
               </div>
             </div>
 
-            {/* Help Text - Transparent with subtle amber glow */}
+            {/* Help Text - Ultra-transparent with subtle amber glow */}
             <div className="grid md:grid-cols-2 gap-6">
-              <div className="bg-white dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm rounded-xl p-4 border-2 border-dashed border-amber-200/50 dark:border-solid dark:border-amber-900/30">
-                <p className="text-sm font-medium text-gray-700 dark:text-stone-300 mb-2">Verse References:</p>
-                <p className="text-xs text-gray-600 dark:text-stone-400">"John 3:16", "Psalm 23", "Romans 8:28"</p>
+              <div className="bg-white dark:bg-white/[0.02] dark:backdrop-blur-xl backdrop-blur-sm rounded-xl p-4 border-2 border-dashed border-amber-200/50 dark:border-solid dark:border-amber-500/15">
+                <p className="text-sm font-medium text-gray-700 dark:text-amber-200 mb-2">Verse References:</p>
+                <p className="text-xs text-gray-600 dark:text-amber-100/60">"John 3:16", "Psalm 23", "Romans 8:28"</p>
               </div>
-              <div className="bg-white dark:bg-black/20 dark:backdrop-blur-md backdrop-blur-sm rounded-xl p-4 border-2 border-dashed border-amber-200/50 dark:border-solid dark:border-amber-900/30">
-                <p className="text-sm font-medium text-gray-700 dark:text-stone-300 mb-2">Keywords:</p>
-                <p className="text-xs text-gray-600 dark:text-stone-400">"love", "peace", "strength", "forgiveness"</p>
+              <div className="bg-white dark:bg-white/[0.02] dark:backdrop-blur-xl backdrop-blur-sm rounded-xl p-4 border-2 border-dashed border-amber-200/50 dark:border-solid dark:border-amber-500/15">
+                <p className="text-sm font-medium text-gray-700 dark:text-amber-200 mb-2">Keywords:</p>
+                <p className="text-xs text-gray-600 dark:text-amber-100/60">"love", "peace", "strength", "forgiveness"</p>
               </div>
             </div>
           </div>
@@ -339,13 +339,13 @@ export function QuoteFinder() {
       {/* Mood Tab Content */}
       {activeTab === "mood" && (
         <div id="panel-mood" role="tabpanel" aria-labelledby="tab-mood" tabIndex={0} className="mb-12">
-          <div className="relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 md:p-10 shadow-2xl ring-1 ring-amber-200/20 dark:ring-amber-500/10">
+          <div className="relative bg-white/85 dark:bg-white/[0.03] dark:backdrop-blur-3xl backdrop-blur-xl border border-amber-200/40 dark:border-amber-500/10 shadow-2xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-3xl p-6 md:p-10 ring-1 ring-amber-200/20 dark:ring-amber-500/10">
             {/* Header - Simplified with Heart Icon */}
             <div className="flex items-center gap-4 mb-8">
               <div className="p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30">
                 <Heart className="w-8 h-8 text-amber-600 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
               </div>
-              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-stone-200">How are you feeling today?</h3>
+              <h3 className="text-2xl font-serif font-semibold text-gray-800 dark:text-amber-100">How are you feeling today?</h3>
             </div>
 
             {/* Mood Input */}
@@ -425,10 +425,10 @@ export function QuoteFinder() {
         </div>
       )}
 
-      {/* Results - Sacred Design Matching Hero */}
+      {/* Results - Sacred Scrolls Floating in Midnight */}
       {quotes.length > 0 && (
         <div className="mt-16 space-y-8">
-          <h3 className="text-2xl md:text-3xl font-serif font-semibold text-amber-800/70 dark:text-amber-400/80 text-center">
+          <h3 className="text-2xl md:text-3xl font-serif font-semibold text-amber-800/70 dark:text-amber-300/80 text-center">
             {activeTab === "mood"
               ? `Divine Wisdom for "${moodQuery || customMood}"`
               : singleQuote
@@ -439,41 +439,45 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-2xl backdrop-blur-xl border border-amber-100 dark:border-amber-500/10 shadow-xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)] hover:scale-[1.01]"
+                className="group relative bg-white/85 dark:bg-white/[0.03] dark:backdrop-blur-3xl backdrop-blur-xl border border-amber-200/40 dark:border-amber-500/10 shadow-xl dark:shadow-[0_0_60px_rgba(212,175,55,0.15)] rounded-3xl p-8 md:p-12 transition-all duration-500 hover:shadow-amber-200/20 dark:hover:shadow-[0_0_90px_rgba(212,175,55,0.25)] hover:scale-[1.01]"
               >
+                {/* Decorative Quote Marks - Sacred Golden Glow */}
+                <div className="absolute -top-2 left-6 text-6xl md:text-7xl font-serif text-amber-300/15 dark:text-amber-500/8 leading-none select-none">"</div>
+                <div className="absolute -bottom-6 right-6 text-6xl md:text-7xl font-serif text-amber-300/15 dark:text-amber-500/8 leading-none select-none">"</div>
+
                 <div className="relative">
-                  {/* Quote Text - Enhanced Serif Typography with Glow */}
+                  {/* Quote Text - Enhanced Sacred Typography */}
                   <blockquote
-                    className="text-xl md:text-2xl font-serif text-stone-800 dark:text-amber-50 leading-relaxed font-light mb-8 px-4 py-2"
+                    className="text-lg md:text-xl font-serif text-stone-800 dark:text-amber-50 leading-relaxed font-light mb-8 px-4 py-3"
                     style={{
-                      textShadow: '0 2px 8px rgba(212, 175, 55, 0.08)',
-                      letterSpacing: '0.2px'
+                      textShadow: '0 2px 10px rgba(212, 175, 55, 0.08), 0 0 30px rgba(212, 175, 55, 0.04)',
+                      letterSpacing: '0.25px'
                     }}
                   >
                     "{quote.content}"
                   </blockquote>
 
-                  {/* Subtle divider with amber glow */}
-                  <div className="h-px bg-gradient-to-r from-transparent via-amber-300/40 dark:via-amber-500/30 to-transparent mb-6"></div>
+                  {/* Subtle divine divider with amber glow */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-amber-400/30 dark:via-amber-500/25 to-transparent mb-7"></div>
 
-                  {/* Reference - Amber Gold Gradient with Italic & Letter-spacing */}
+                  {/* Reference - Amber Gold Divine Typography */}
                   <div className="relative inline-block mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 dark:from-amber-400/30 dark:to-amber-300/40 rounded-full blur-md"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/15 to-yellow-500/15 dark:from-amber-400/25 dark:to-amber-300/35 rounded-full blur-md"></div>
                     <cite
-                      className="relative block text-lg md:text-xl font-semibold text-right pr-4 bg-gradient-to-r from-amber-700 to-yellow-700 dark:from-amber-300 dark:to-amber-200 bg-clip-text text-transparent italic"
-                      style={{ letterSpacing: '0.6px' }}
+                      className="relative block text-base md:text-lg font-serif text-right pr-3 bg-gradient-to-r from-amber-800 to-amber-700 dark:from-amber-300 dark:to-amber-200 bg-clip-text text-transparent font-semibold italic"
+                      style={{ letterSpacing: '0.5px' }}
                     >
                       — {quote.reference}
                     </cite>
                   </div>
 
-                  {/* Action Buttons */}
+                  {/* Action Buttons - Enhanced Transparency */}
                   <div className="flex items-center gap-4">
-                    {/* Quick Copy - Flattened Transparent Button */}
+                    {/* Quick Copy - Ultra-Transparent Button */}
                     <button
                       onClick={() => copyToClipboard(quote, index)}
                       aria-label={copiedIndex === index ? "Copied to clipboard" : "Copy quote to clipboard"}
-                      className="group/copy flex-1 min-h-[48px] px-6 py-4 bg-white/60 dark:bg-zinc-900/30 dark:backdrop-blur-sm backdrop-blur-sm border-2 border-amber-300/60 dark:border-amber-500/30 hover:border-amber-500 dark:hover:border-amber-400/50 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
+                      className="group/copy flex-1 min-h-[48px] px-6 py-3.5 bg-white/50 dark:bg-white/[0.02] dark:backdrop-blur-xl backdrop-blur-sm border-2 border-amber-300/50 dark:border-amber-500/15 hover:border-amber-500/70 dark:hover:border-amber-400/40 text-amber-900 dark:text-amber-300 font-serif font-semibold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
                       {copiedIndex === index ? (
                         <>
@@ -488,15 +492,15 @@ export function QuoteFinder() {
                       )}
                     </button>
 
-                    {/* Create Image - Primary Button with Glow */}
+                    {/* Create Image - Primary Divine Button with Glow */}
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
                       aria-label="Create image from this quote"
-                      className="group/btn flex-1 min-h-[48px] px-6 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/30 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
+                      className="group/btn flex-1 min-h-[48px] px-6 py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/25 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
                       <Palette className="w-4 h-4 group-hover/btn:rotate-12 transition-transform duration-300" aria-hidden="true" />
                       <span>Create Image</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover/btn:opacity-60 transition-opacity duration-300"></div>
                     </button>
 
                     {/* Favorite - Icon Button */}
@@ -504,7 +508,7 @@ export function QuoteFinder() {
                       onClick={() => toggleFavorite(quote, index)}
                       aria-label={favoriteStates[index] ? "Remove from favorites" : "Add to favorites"}
                       aria-pressed={favoriteStates[index] || false}
-                      className="group/fav min-h-[48px] min-w-[48px] p-3 rounded-2xl bg-stone-100/50 dark:bg-zinc-900/30 dark:backdrop-blur-sm border border-stone-200/50 dark:border-amber-500/20 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-500/30 transition-all duration-300 flex items-center justify-center"
+                      className="group/fav min-h-[48px] min-w-[48px] p-3 rounded-2xl bg-stone-100/40 dark:bg-white/[0.02] dark:backdrop-blur-xl border border-stone-200/40 dark:border-amber-500/15 text-stone-500 dark:text-stone-400 hover:text-red-500 dark:hover:text-red-400 hover:border-red-300/50 dark:hover:border-red-500/25 transition-all duration-300 flex items-center justify-center"
                     >
                       {favoriteStates[index] ? (
                         <Heart className="w-5 h-5 fill-current text-red-500" aria-hidden="true" />
