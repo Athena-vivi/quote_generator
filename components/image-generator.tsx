@@ -764,7 +764,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       </div>
 
                       {/* Toolbar - Attached to bottom of canvas */}
-                      <div className="mt-0 px-6 pb-6 pt-3 bg-white/80 dark:bg-black/70 backdrop-blur-xl rounded-b-2xl border-x border-b border-amber-200/40 dark:border-amber-500/20 shadow-lg -mx-[3px]">
+                      <div className="mt-0 px-6 pb-6 pt-3">
                         <div className="flex items-center justify-between gap-3">
                           {/* Download */}
                           <button
@@ -818,9 +818,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                               <span>Share</span>
                             </button>
 
-                            {/* Horizontal Row of Outline Social Icons */}
+                            {/* Horizontal Row of Outline Social Icons - Below button */}
                             {showSocialShare && (
-                              <div className="absolute bottom-full left-0 right-0 mb-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
+                              <div className="absolute top-full left-0 right-0 mt-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-top-2 duration-300">
                                 <div className="flex items-center justify-center gap-2">
                                   {socialPlatforms.map((platform) => {
                                     const IconComponent = platform.icon
