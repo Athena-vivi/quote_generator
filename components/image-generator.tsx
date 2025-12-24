@@ -510,9 +510,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
           )}
 
           {/* 4:6 Asymmetric Layout - 40% Controls / 60% Preview */}
-          <div className="flex flex-col lg:flex-row gap-8 lg:gap-10">
+          <div className="flex flex-row gap-8 lg:gap-10 min-h-[600px]">
             {/* Left Side - Controls (40%) */}
-            <div className="lg:w-[40%] space-y-5">
+            <div className="w-[40%] space-y-5 flex-shrink-0">
               {/* Compact Input Area */}
               <div className="bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-5 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
                 <div className="flex items-center gap-2 mb-4">
@@ -592,7 +592,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
 
             {/* Right Side - Preview (60%) - Image is the Star */}
-            <div className="lg:w-[60%] flex flex-col">
+            <div className="w-[60%] flex flex-col flex-shrink-0">
               {generatedImageUrl ? (
                 <>
                   {/* Style Controls - Compact */}
