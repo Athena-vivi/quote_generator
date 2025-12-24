@@ -110,8 +110,10 @@ async function drawQuoteImage({
   const textAreaWidth = width - sideSafe * 2
   const textAreaHeight = height - topSafe - bottomSafe
 
-  // Get font stack
-  const serifFonts = fontConfigs[selectedFont as keyof typeof fontConfigs].serif.join(", ")
+  // Get font stack - Force Crimson Text for sacred serif aesthetic
+  const serifFonts = selectedFont === "handwriting"
+    ? fontConfigs.handwriting.serif.join(", ")
+    : '"Crimson Text", "EB Garamond", "Merriweather", "Lora", "Georgia", "Times New Roman", serif'
 
   // Initial font size calculation
   let fontSize = Math.max(width, height) * 0.052
@@ -552,34 +554,34 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
           )}
 
-          {/* 4:6 Asymmetric Layout - 40% Controls / 60% Preview */}
-          <div className="flex flex-row gap-6 lg:gap-8 min-h-[600px]">
-            {/* Left Side - Controls (40%) */}
-            <div className="w-[40%] space-y-5 flex-shrink-0 flex flex-col">
-              {/* Compact Input Area */}
-              <div className="bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-5 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
-                <div className="flex items-center gap-2 mb-4">
-                  <Palette className="w-5 h-5 text-amber-600 dark:text-amber-400" />
-                  <h3 className="text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
+          {/* 4:6 Asymmetric Layout - 40% Controls / 60% Preview - Reduced gaps */}
+          <div className="flex flex-row gap-4 lg:gap-6 min-h-[550px]">
+            {/* Left Side - Controls (40%) - Compressed */}
+            <div className="w-[40%] space-y-3 flex-shrink-0 flex flex-col">
+              {/* Compact Input Area - Reduced padding */}
+              <div className="bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
+                <div className="flex items-center gap-2 mb-3">
+                  <Palette className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                  <h3 className="text-base font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
                 </div>
 
                 <textarea
                   placeholder="Describe the background scene..."
                   value={prompt}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
-                  rows={3}
-                  className="w-full px-4 py-3 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-3"
+                  rows={2}
+                  className="w-full px-3 py-2 text-sm bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
                 />
 
                 {/* Compressed Quick Suggestions */}
-                <div className="space-y-2">
-                  <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
-                  <div className="flex flex-wrap gap-1.5">
+                <div className="space-y-1.5 mb-3">
+                  <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
+                  <div className="flex flex-wrap gap-1">
                     {promptSuggestions.map((suggestion, index) => (
                       <button
                         key={index}
                         onClick={() => setPrompt(suggestion)}
-                        className="px-2 py-1 text-xs font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:bg-stone-800/70 dark:hover:bg-stone-800/80 transition-all duration-300"
+                        className="px-1.5 py-0.5 text-[10px] font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:bg-stone-800/70 dark:hover:bg-stone-800/80 transition-all duration-300"
                       >
                         {suggestion}
                       </button>
@@ -591,89 +593,93 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 <button
                   onClick={generateImage}
                   disabled={isGenerating || !prompt.trim()}
-                  className="mt-4 w-full min-h-[48px] px-5 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-base"
+                  className="w-full min-h-[42px] px-4 py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 >
                   {isGenerating ? (
                     <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <Loader2 className="w-4 h-4 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Palette className="w-5 h-5" />
+                      <Palette className="w-4 h-4" />
                       Generate
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Quote Preview - Compact */}
-              <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-3xl p-5 border border-amber-100/40 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.04)]">
-                <div className="flex items-center justify-between mb-3">
-                  <h4 className="text-xs font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
+              {/* Quote Preview - Ultra Compact */}
+              <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.04)]">
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-[10px] font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
                   <button
                     onClick={toggleFavorite}
-                    className="p-1.5 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
+                    className="p-1 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
                     aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
                   >
                     {isFavorited ? (
-                      <Heart className="w-5 h-5 text-red-500 fill-current" />
+                      <Heart className="w-4 h-4 text-red-500 fill-current" />
                     ) : (
-                      <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                      <Heart className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                     )}
                   </button>
                 </div>
 
-                <blockquote className="text-lg font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-2">
+                <blockquote className="text-sm font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-1">
                   "{quote.content}"
                 </blockquote>
 
-                <cite className="block text-base font-serif text-amber-800 dark:text-amber-400 italic text-right">
+                <cite className="block text-xs font-serif text-amber-800 dark:text-amber-400 italic text-right">
                   — {quote.reference}
                 </cite>
               </div>
 
-              {/* Style Controls - Moved to Left Sidebar */}
+              {/* Style Controls - Compact Grid Layout */}
               {generatedImageUrl && (
-                <div className="mt-auto bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-5 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
-                  <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-4">Style Options</h4>
+                <div className="mt-auto bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
+                  <h4 className="text-xs font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
 
-                  <div className="space-y-4">
-                    {/* Colors */}
+                  {/* Compact 2-Column Grid Layout */}
+                  <div className="grid grid-cols-2 gap-3">
+                    {/* Text Color */}
                     <div>
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Text Color</p>
-                      <div className="flex gap-2">
+                      <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1.5">Color</p>
+                      <div className="flex gap-1.5">
                         {["#ffd700", "#fff"].map((color) => (
                           <button
                             key={color}
                             onClick={() => setTextColor(color)}
-                            className="relative w-9 h-9 rounded-full border-2 transition-all duration-300 hover:scale-110"
+                            className="relative w-7 h-7 rounded-full border-2 transition-all duration-300 hover:scale-110 flex-shrink-0"
                             style={{
                               background: color,
                               borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
-                              boxShadow: textColor === color ? '0 0 14px rgba(217, 119, 6, 0.5)' : 'none',
+                              boxShadow: textColor === color ? '0 0 10px rgba(217, 119, 6, 0.4)' : 'none',
                             }}
                           />
                         ))}
                       </div>
                     </div>
 
-                    {/* Theme & Font */}
-                    <div className="space-y-2">
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Theme & Font</p>
-
+                    {/* Theme Toggle */}
+                    <div>
+                      <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1.5">Theme</p>
                       <button
                         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className="w-full h-10 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 font-serif text-sm flex items-center justify-center gap-2"
+                        className="w-full h-8 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 font-serif text-xs flex items-center justify-center gap-1.5"
                       >
                         <span>{theme === 'light' ? '☀️' : '🌙'}</span>
                         <span>{theme === 'light' ? 'Light' : 'Dark'}</span>
                       </button>
+                    </div>
 
-                      <div className="flex gap-2">
+                    {/* Font Selection - Spans full width */}
+                    <div className="col-span-2">
+                      <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1.5">Font</p>
+                      <div className="flex gap-1.5">
                         <button
                           onClick={() => setSelectedFont("classic")}
-                          className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all duration-300 ${
+                          className={`flex-1 px-2 py-1.5 text-xs font-serif rounded-lg transition-all duration-300 ${
                             selectedFont === "classic"
                               ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
                               : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
@@ -683,7 +689,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         </button>
                         <button
                           onClick={() => setSelectedFont("handwriting")}
-                          className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all duration-300 ${
+                          className={`flex-1 px-2 py-1.5 text-xs font-serif rounded-lg transition-all duration-300 ${
                             selectedFont === "handwriting"
                               ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
                               : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
@@ -699,26 +705,25 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               )}
             </div>
 
-            {/* Right Side - Preview (60%) - Image is the Star, Maximized */}
+            {/* Right Side - Preview (60%) - Maximized Display */}
             <div className="w-[60%] flex flex-col flex-shrink-0">
               {generatedImageUrl ? (
                 <>
-                  {/* Artistic Canvas Frame - Maximized Display, Minimal Margins */}
-                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-4 relative overflow-hidden">
-                    {/* Ultra-subtle Radial Amber Glow Behind Image */}
+                  {/* Artistic Canvas Frame - Ultra-Compact Padding */}
+                  <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-3 relative overflow-hidden">
+                    {/* Ultra-subtle Radial Amber Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    {/* Maximized Canvas Container - Fills available space */}
-                    <div className="relative w-full h-full flex items-center justify-center" style={{ maxHeight: 'calc(95vh - 280px)', minHeight: '400px' }}>
+                    {/* Maximized Canvas Container */}
+                    <div className="relative w-full h-full flex items-center justify-center" style={{ maxHeight: 'calc(95vh - 240px)', minHeight: '420px' }}>
                       <div className="relative" style={{ width: '100%', maxWidth: '100%', aspectRatio: '1/1' }}>
-                        {/* Elegant Frame - Subtle and Refined */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[4px] border-amber-200/40 dark:border-amber-600/25"></div>
-                        {/* Amber Ring Border */}
+                        {/* Elegant Frame - Refined */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25"></div>
                         <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                        {/* Canvas - Full Size */}
-                        <div className="relative z-10 m-[6px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent">
+                        {/* Canvas */}
+                        <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent">
                           <canvas
                             ref={previewCanvasRef}
                             width={1024}
@@ -730,25 +735,25 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </div>
                   </div>
 
-                  {/* Action Toolbar - Below Image - Amber-Transparent in Light Mode */}
-                  <div className="mt-4 space-y-3">
-                    {/* Primary Actions - Amber-transparent unified style */}
-                    <div className="flex items-center justify-center gap-3">
+                  {/* Action Toolbar - Ultra-Compact */}
+                  <div className="mt-3 space-y-2">
+                    {/* Primary Actions - Compact */}
+                    <div className="flex items-center justify-center gap-2">
                       {/* Download */}
                       <button
                         onClick={downloadImage}
                         disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[48px] px-4 py-3 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 min-h-[42px] px-3 py-2 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                       >
                         {isComposing ? (
                           <>
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                            <span className="text-sm">Processing...</span>
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                            <span className="text-xs">Processing...</span>
                           </>
                         ) : (
                           <>
-                            <Download className="w-5 h-5" />
-                            <span className="text-sm">Download</span>
+                            <Download className="w-4 h-4" />
+                            <span className="text-xs">Download</span>
                           </>
                         )}
                       </button>
@@ -757,47 +762,46 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       <button
                         onClick={copyToClipboard}
                         disabled={isComposing || !fontsLoaded}
-                        className="flex-1 min-h-[48px] px-4 py-3 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="flex-1 min-h-[42px] px-3 py-2 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                       >
                         {copied ? (
                           <>
-                            <Check className="w-5 h-5" />
-                            <span className="text-sm">Copied!</span>
+                            <Check className="w-4 h-4" />
+                            <span className="text-xs">Copied!</span>
                           </>
                         ) : (
                           <>
-                            <Copy className="w-5 h-5" />
-                            <span className="text-sm">Copy</span>
+                            <Copy className="w-4 h-4" />
+                            <span className="text-xs">Copy</span>
                           </>
                         )}
                       </button>
 
-                      {/* Share - Badge-style Amber Circular Icons */}
+                      {/* Share - Small Horizontal Row Icons */}
                       <div className="flex-1 relative">
                         <button
                           onClick={() => setShowSocialShare(!showSocialShare)}
                           disabled={isComposing || !fontsLoaded}
-                          className="w-full min-h-[48px] px-4 py-3 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                          className="w-full min-h-[42px] px-3 py-2 bg-amber-600/20 dark:bg-zinc-800/60 backdrop-blur-md hover:bg-amber-600/40 dark:hover:bg-amber-600 text-amber-900 dark:text-white font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                         >
-                          <Share2 className="w-5 h-5" />
-                          <span className="text-sm">Share</span>
+                          <Share2 className="w-4 h-4" />
+                          <span className="text-xs">Share</span>
                         </button>
 
-                        {/* Badge-style Social Icons - Amber Circular Backgrounds */}
+                        {/* Horizontal Row of Small Social Icons */}
                         {showSocialShare && (
-                          <div className="absolute bottom-full left-0 right-0 mb-2 p-3 bg-[#fdfbf7]/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
-                            <div className="grid grid-cols-4 gap-2">
+                          <div className="absolute bottom-full left-0 right-0 mb-2 px-2 py-2 bg-[#fdfbf7]/95 dark:bg-black/80 dark:backdrop-blur-max backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.15)] z-10 animate-in slide-in-from-bottom-2 duration-300">
+                            <div className="flex items-center justify-center gap-1.5 flex-wrap">
                               {socialPlatforms.map((platform) => {
                                 const IconComponent = platform.icon
                                 return (
                                   <button
                                     key={platform.id}
                                     onClick={() => shareToSocial(platform.id)}
-                                    className="group relative w-14 h-14 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 hover:from-amber-500 hover:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-amber-500/30"
+                                    className="group relative w-8 h-8 rounded-full bg-gradient-to-br from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 hover:from-amber-500 hover:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-md shadow-amber-500/25"
                                     aria-label={`Share to ${platform.label}`}
                                   >
-                                    <IconComponent className="w-6 h-6 text-white group-hover:brightness-110 transition-all" />
-                                    {/* Shine effect */}
+                                    <IconComponent className="w-4 h-4 text-white group-hover:brightness-110 transition-all" />
                                     <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                                   </button>
                                 )
@@ -810,18 +814,18 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   </div>
                 </>
               ) : (
-                /* Empty State - Large and Elegant */
-                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-12 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[500px]">
+                /* Empty State - Compact */
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-8 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[450px]">
                   <div className="text-center">
-                    <div className="relative inline-block mb-8">
+                    <div className="relative inline-block mb-6">
                       <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <Palette className="relative w-24 h-24 text-amber-400/60 dark:text-amber-500/50" />
+                      <Palette className="relative w-20 h-20 text-amber-400/60 dark:text-amber-500/50" />
                     </div>
-                    <p className="text-3xl md:text-4xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-4">Your Canvas Awaits</p>
-                    <p className="text-lg font-serif text-stone-500 dark:text-zinc-500 mb-6 max-w-md">Describe your sacred vision on the left and let divine art emerge</p>
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-100/50 dark:bg-amber-950/30 rounded-full border border-amber-200/40 dark:border-amber-500/15">
-                      <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                      <span className="text-sm font-serif text-amber-700/70 dark:text-amber-400/70">Ready to create • 1:1 Square Format</span>
+                    <p className="text-2xl md:text-3xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-3">Your Canvas Awaits</p>
+                    <p className="text-base font-serif text-stone-500 dark:text-zinc-500 mb-4 max-w-md">Describe your sacred vision on the left and let divine art emerge</p>
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-100/50 dark:bg-amber-950/30 rounded-full border border-amber-200/40 dark:border-amber-500/15">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                      <span className="text-xs font-serif text-amber-700/70 dark:text-amber-400/70">Ready to create • 1:1 Square Format</span>
                     </div>
                   </div>
                 </div>
