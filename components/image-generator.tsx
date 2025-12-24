@@ -561,8 +561,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               {/* Compact Input Area - Reduced padding */}
               <div className="bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
                 <div className="flex items-center gap-2 mb-3">
-                  <Palette className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                  <h3 className="text-base font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
+                  <Palette className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                  <h3 className="text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
                 </div>
 
                 <textarea
@@ -570,18 +570,18 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   value={prompt}
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
                   rows={2}
-                  className="w-full px-3 py-2 text-sm bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
+                  className="w-full px-3 py-2 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
                 />
 
                 {/* Compressed Quick Suggestions */}
-                <div className="space-y-1.5 mb-3">
-                  <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
-                  <div className="flex flex-wrap gap-1">
+                <div className="space-y-2 mb-3">
+                  <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
+                  <div className="flex flex-wrap gap-1.5">
                     {promptSuggestions.map((suggestion, index) => (
                       <button
                         key={index}
                         onClick={() => setPrompt(suggestion)}
-                        className="px-1.5 py-0.5 text-[10px] font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:bg-stone-800/70 dark:hover:bg-stone-800/80 transition-all duration-300"
+                        className="px-2 py-1 text-xs font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:bg-stone-800/70 dark:hover:bg-stone-800/80 transition-all duration-300"
                       >
                         {suggestion}
                       </button>
@@ -597,40 +597,40 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 >
                   {isGenerating ? (
                     <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       Generating...
                     </>
                   ) : (
                     <>
-                      <Palette className="w-4 h-4" />
+                      <Palette className="w-5 h-5" />
                       Generate
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Quote Preview - Ultra Compact */}
+              {/* Quote Preview - Compact */}
               <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.04)]">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-[10px] font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
+                  <h4 className="text-xs font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
                   <button
                     onClick={toggleFavorite}
                     className="p-1 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
                     aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
                   >
                     {isFavorited ? (
-                      <Heart className="w-4 h-4 text-red-500 fill-current" />
+                      <Heart className="w-5 h-5 text-red-500 fill-current" />
                     ) : (
-                      <Heart className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                      <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                     )}
                   </button>
                 </div>
 
-                <blockquote className="text-sm font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-1">
+                <blockquote className="text-base font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-1">
                   "{quote.content}"
                 </blockquote>
 
-                <cite className="block text-xs font-serif text-amber-800 dark:text-amber-400 italic text-right">
+                <cite className="block text-sm font-serif text-amber-800 dark:text-amber-400 italic text-right">
                   — {quote.reference}
                 </cite>
               </div>
@@ -638,19 +638,19 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               {/* Style Controls - Compact Grid Layout */}
               {generatedImageUrl && (
                 <div className="mt-auto bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
-                  <h4 className="text-xs font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
+                  <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
 
                   {/* Compact 2-Column Grid Layout */}
                   <div className="grid grid-cols-2 gap-3">
                     {/* Text Color */}
                     <div>
-                      <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1.5">Color</p>
-                      <div className="flex gap-1.5">
+                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Color</p>
+                      <div className="flex gap-2">
                         {["#ffd700", "#fff"].map((color) => (
                           <button
                             key={color}
                             onClick={() => setTextColor(color)}
-                            className="relative w-7 h-7 rounded-full border-2 transition-all duration-300 hover:scale-110 flex-shrink-0"
+                            className="relative w-8 h-8 rounded-full border-2 transition-all duration-300 hover:scale-110 flex-shrink-0"
                             style={{
                               background: color,
                               borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
@@ -663,10 +663,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
                     {/* Theme Toggle */}
                     <div>
-                      <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1.5">Theme</p>
+                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Theme</p>
                       <button
                         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className="w-full h-8 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 font-serif text-xs flex items-center justify-center gap-1.5"
+                        className="w-full h-9 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 font-serif text-sm flex items-center justify-center gap-2"
                       >
                         <span>{theme === 'light' ? '☀️' : '🌙'}</span>
                         <span>{theme === 'light' ? 'Light' : 'Dark'}</span>
@@ -675,11 +675,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
                     {/* Font Selection - Spans full width */}
                     <div className="col-span-2">
-                      <p className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1.5">Font</p>
-                      <div className="flex gap-1.5">
+                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Font</p>
+                      <div className="flex gap-2">
                         <button
                           onClick={() => setSelectedFont("classic")}
-                          className={`flex-1 px-2 py-1.5 text-xs font-serif rounded-lg transition-all duration-300 ${
+                          className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all duration-300 ${
                             selectedFont === "classic"
                               ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
                               : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
@@ -689,7 +689,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         </button>
                         <button
                           onClick={() => setSelectedFont("handwriting")}
-                          className={`flex-1 px-2 py-1.5 text-xs font-serif rounded-lg transition-all duration-300 ${
+                          className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all duration-300 ${
                             selectedFont === "handwriting"
                               ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
                               : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
