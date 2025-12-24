@@ -590,7 +590,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             {/* Left Side - Controls (40%) - Scrollable when needed */}
             <div className="w-[40%] space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-1">
               {/* Compact Input Area - Reduced padding */}
-              <div className="bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
+              <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
                 <div className="flex items-center gap-2 mb-3">
                   <Palette className="w-5 h-5 text-amber-600 dark:text-amber-400" />
                   <h3 className="text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
@@ -668,7 +668,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
               {/* Style Controls - Compact Grid Layout */}
               {generatedImageUrl && (
-                <div className="mt-auto bg-white/70 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
+                <div className="mt-auto bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
                   <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
 
                   {/* Compact 2-Column Grid Layout */}
@@ -818,9 +818,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                               <span>Share</span>
                             </button>
 
-                            {/* Horizontal Row of Outline Social Icons - Below button */}
+                            {/* Horizontal Row of Outline Social Icons - Right of button */}
                             {showSocialShare && (
-                              <div className="absolute top-full left-0 right-0 mt-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-top-2 duration-300">
+                              <div className="absolute left-full top-0 ml-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-left-2 duration-300">
                                 <div className="flex items-center justify-center gap-2">
                                   {socialPlatforms.map((platform) => {
                                     const IconComponent = platform.icon
