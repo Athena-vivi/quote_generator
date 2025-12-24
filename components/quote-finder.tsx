@@ -439,27 +439,41 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/95 dark:bg-zinc-900/50 dark:backdrop-blur-2xl backdrop-blur-md border border-amber-100 dark:border-amber-500/20 shadow-[0_20px_50px_rgba(212,175,55,0.1)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-[2rem] p-6 md:p-8 transition-all hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]"
+                className="group relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-2xl backdrop-blur-xl border border-amber-100 dark:border-amber-500/10 shadow-xl dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] rounded-3xl p-8 md:p-10 transition-all duration-500 hover:shadow-amber-200/20 dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)] hover:scale-[1.01]"
               >
                 <div className="relative">
-                  {/* Subtle divider line below quote content */}
-                  <blockquote className="text-lg md:text-xl font-serif text-stone-800 dark:text-stone-200 leading-relaxed italic font-light mb-6 px-2">
+                  {/* Quote Text - Enhanced Serif Typography with Glow */}
+                  <blockquote
+                    className="text-xl md:text-2xl font-serif text-stone-800 dark:text-amber-50 leading-relaxed font-light mb-8 px-4 py-2"
+                    style={{
+                      textShadow: '0 2px 8px rgba(212, 175, 55, 0.08)',
+                      letterSpacing: '0.2px'
+                    }}
+                  >
                     "{quote.content}"
                   </blockquote>
-                  <div className="h-px bg-gradient-to-r from-transparent via-amber-200/30 dark:via-amber-500/20 to-transparent mb-4"></div>
 
-                  {/* Reference - right aligned */}
-                  <cite className="block text-sm font-semibold text-right mb-6 pr-2 text-amber-900 dark:text-amber-400">
-                    — {quote.reference}
-                  </cite>
+                  {/* Subtle divider with amber glow */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-amber-300/40 dark:via-amber-500/30 to-transparent mb-6"></div>
 
-                  {/* Action Buttons - Enhanced for Tool Focus */}
-                  <div className="flex items-center gap-3">
-                    {/* Quick Copy - Prominent Secondary Button */}
+                  {/* Reference - Amber Gold Gradient with Italic & Letter-spacing */}
+                  <div className="relative inline-block mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-400/20 to-yellow-500/20 dark:from-amber-400/30 dark:to-amber-300/40 rounded-full blur-md"></div>
+                    <cite
+                      className="relative block text-lg md:text-xl font-semibold text-right pr-4 bg-gradient-to-r from-amber-700 to-yellow-700 dark:from-amber-300 dark:to-amber-200 bg-clip-text text-transparent italic"
+                      style={{ letterSpacing: '0.6px' }}
+                    >
+                      — {quote.reference}
+                    </cite>
+                  </div>
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-4">
+                    {/* Quick Copy - Flattened Transparent Button */}
                     <button
                       onClick={() => copyToClipboard(quote, index)}
                       aria-label={copiedIndex === index ? "Copied to clipboard" : "Copy quote to clipboard"}
-                      className="group/copy flex-1 min-h-[44px] px-5 py-3 bg-white dark:bg-zinc-800 border-2 border-amber-300 dark:border-amber-600/50 hover:border-amber-500 dark:hover:border-amber-500 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-xl shadow-sm hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
+                      className="group/copy flex-1 min-h-[48px] px-6 py-4 bg-white/60 dark:bg-zinc-900/30 dark:backdrop-blur-sm backdrop-blur-sm border-2 border-amber-300/60 dark:border-amber-500/30 hover:border-amber-500 dark:hover:border-amber-400/50 text-amber-800 dark:text-amber-400 font-serif font-semibold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
                       {copiedIndex === index ? (
                         <>
@@ -468,34 +482,34 @@ export function QuoteFinder() {
                         </>
                       ) : (
                         <>
-                          <Copy className="w-4 h-4" aria-hidden="true" />
+                          <Copy className="w-4 h-4 group-hover/copy:scale-110 transition-transform" aria-hidden="true" />
                           <span>Quick Copy</span>
                         </>
                       )}
                     </button>
 
-                    {/* Create Image - Primary Button */}
+                    {/* Create Image - Primary Button with Glow */}
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
                       aria-label="Create image from this quote"
-                      className="group/btn flex-1 min-h-[44px] px-5 py-3 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-600 dark:hover:to-amber-700 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/20 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"
+                      className="group/btn flex-1 min-h-[48px] px-6 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/30 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
-                      <Palette className="w-4 h-4" aria-hidden="true" />
+                      <Palette className="w-4 h-4 group-hover/btn:rotate-12 transition-transform duration-300" aria-hidden="true" />
                       <span>Create Image</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-700 ease-in-out"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-amber-500 to-yellow-500 dark:from-amber-400 dark:to-amber-500 rounded-2xl blur-md opacity-0 group-hover/btn:opacity-50 transition-opacity duration-300"></div>
                     </button>
 
-                    {/* Favorite - Compact Icon Button */}
+                    {/* Favorite - Icon Button */}
                     <button
                       onClick={() => toggleFavorite(quote, index)}
                       aria-label={favoriteStates[index] ? "Remove from favorites" : "Add to favorites"}
                       aria-pressed={favoriteStates[index] || false}
-                      className="group/fav min-h-[44px] min-w-[44px] p-3 rounded-xl bg-stone-100/50 dark:bg-zinc-800/50 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 transition-all duration-300 flex items-center justify-center"
+                      className="group/fav min-h-[48px] min-w-[48px] p-3 rounded-2xl bg-stone-100/50 dark:bg-zinc-900/30 dark:backdrop-blur-sm border border-stone-200/50 dark:border-amber-500/20 text-stone-400 dark:text-stone-500 hover:text-red-500 dark:hover:text-red-400 hover:border-red-300 dark:hover:border-red-500/30 transition-all duration-300 flex items-center justify-center"
                     >
                       {favoriteStates[index] ? (
-                        <Heart className="w-4 h-4 fill-current text-red-500" aria-hidden="true" />
+                        <Heart className="w-5 h-5 fill-current text-red-500" aria-hidden="true" />
                       ) : (
-                        <Heart className="w-4 h-4 group-hover/fav:scale-110 transition-transform" aria-hidden="true" />
+                        <Heart className="w-5 h-5 group-hover/fav:scale-110 transition-transform" aria-hidden="true" />
                       )}
                     </button>
                   </div>
