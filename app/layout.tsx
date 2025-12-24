@@ -283,11 +283,9 @@ export default function RootLayout({
           }}
         />
 
-        {/* Preconnect - Performance optimization */}
+        {/* Preconnect - Only for critical external resources */}
         <link rel="preconnect" href="https://api.esv.org" />
         <link rel="preconnect" href="https://fal.run" />
-        <link rel="preconnect" href="https://www.googletagmanager.com" />
-        <link rel="dns-prefetch" href="https://www.google-analytics.com" />
 
         {/* Favicon & Icons - Using WebP for better performance */}
         <link rel="icon" href="/favicon.ico" />
@@ -318,33 +316,7 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
 
-        {/* Google Analytics with requestIdleCallback wrapper */}
-        <Script
-          id="ga-deferred-loader"
-          strategy="lazyOnload"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                // Use requestIdleCallback to defer GA loading until browser is idle
-                if ('requestIdleCallback' in window) {
-                  requestIdleCallback(function() {
-                    // Dynamically load GoogleAnalytics component
-                    import('@/components/GoogleAnalytics').then(module => {
-                      // GA will be initialized by the component
-                    });
-                  }, { timeout: 2000 });
-                } else {
-                  // Fallback for older browsers
-                  setTimeout(function() {
-                    import('@/components/GoogleAnalytics');
-                  }, 2000);
-                }
-              })();
-            `
-          }}
-        />
-
-        {/* Chrome Runtime Error Fix */}
+        {/* Chrome Runtime Error Fix - Suppress harmless Chrome extension errors */}
         <Script
           id="chrome-runtime-fix"
           strategy="beforeInteractive"
