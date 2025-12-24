@@ -283,9 +283,13 @@ export default function RootLayout({
           }}
         />
 
-        {/* Preconnect - Only for critical external resources */}
+        {/* Preconnect - Critical external resources for performance */}
         <link rel="preconnect" href="https://api.esv.org" />
         <link rel="preconnect" href="https://fal.run" />
+        <link rel="dns-prefetch" href="https://quotegenerator.org" />
+
+        {/* Preconnect for image optimization - Next.js Image component */}
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
 
         {/* Favicon & Icons - Using WebP for better performance */}
         <link rel="icon" href="/favicon.ico" />
