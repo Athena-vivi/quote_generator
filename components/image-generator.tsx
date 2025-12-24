@@ -740,104 +740,105 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             <div className="w-[60%] flex flex-col h-full min-h-0">
               {generatedImageUrl ? (
                 <>
-                  {/* Canvas Area - Aligned to top */}
-                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-start justify-center pt-16 px-16 pb-8">
+                  {/* Canvas Area - Aligned to top with reduced padding */}
+                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-start justify-center pt-4 px-16 pb-0">
                     {/* Ultra-subtle Radial Amber Glow */}
-                    <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
+                    <div className="absolute top-8 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    {/* Canvas Container */}
-                    <div className="group relative max-w-full max-h-[calc(100%-80px)] aspect-square">
-                      {/* Elegant Frame - Refined */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
-                      <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
-                      <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
+                    {/* Canvas Container with Toolbar */}
+                    <div className="group relative max-w-full aspect-square flex flex-col">
+                      {/* Canvas Frame Area */}
+                      <div className="relative flex-1">
+                        {/* Elegant Frame - Refined */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                      {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
-                      <canvas
-                        ref={previewCanvasRef}
-                        width={1024}
-                        height={1024}
-                        className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl rounded-lg relative z-10"
-                      />
-                    </div>
-                  </div>
+                        {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
+                        <canvas
+                          ref={previewCanvasRef}
+                          width={1024}
+                          height={1024}
+                          className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl rounded-lg relative z-10"
+                        />
+                      </div>
 
-                  {/* Toolbar - Fixed at bottom of preview area */}
-                  <div className="flex-shrink-0 px-16 pb-8 pt-4">
-                    <div className="bg-white/80 dark:bg-black/70 backdrop-blur-xl rounded-2xl border border-amber-200/40 dark:border-amber-500/20 shadow-lg">
-                      <div className="flex items-center justify-between gap-3 p-3">
-                        {/* Download */}
-                        <button
-                          onClick={downloadImage}
-                          disabled={isComposing || !fontsLoaded}
-                          className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
-                          aria-label="Download image"
-                        >
-                          {isComposing ? (
-                            <>
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                              <span>Processing...</span>
-                            </>
-                          ) : (
-                            <>
-                              <Download className="w-4 h-4" />
-                              <span>Download</span>
-                            </>
-                          )}
-                        </button>
-
-                        {/* Copy */}
-                        <button
-                          onClick={copyToClipboard}
-                          disabled={isComposing || !fontsLoaded}
-                          className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
-                          aria-label="Copy to clipboard"
-                        >
-                          {copied ? (
-                            <>
-                              <Check className="w-4 h-4" />
-                              <span>Copied!</span>
-                            </>
-                          ) : (
-                            <>
-                              <Copy className="w-4 h-4" />
-                              <span>Copy</span>
-                            </>
-                          )}
-                        </button>
-
-                        {/* Share with Social Icons */}
-                        <div className="relative flex-1">
+                      {/* Toolbar - Attached to bottom of canvas */}
+                      <div className="mt-0 px-6 pb-6 pt-3 bg-white/80 dark:bg-black/70 backdrop-blur-xl rounded-b-2xl border-x border-b border-amber-200/40 dark:border-amber-500/20 shadow-lg -mx-[3px]">
+                        <div className="flex items-center justify-between gap-3">
+                          {/* Download */}
                           <button
-                            onClick={() => setShowSocialShare(!showSocialShare)}
+                            onClick={downloadImage}
                             disabled={isComposing || !fontsLoaded}
-                            className="w-full min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-                            aria-label="Share"
+                            className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
+                            aria-label="Download image"
                           >
-                            <Share2 className="w-4 h-4" />
-                            <span>Share</span>
+                            {isComposing ? (
+                              <>
+                                <Loader2 className="w-4 h-4 animate-spin" />
+                                <span>Processing...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Download className="w-4 h-4" />
+                                <span>Download</span>
+                              </>
+                            )}
                           </button>
 
-                          {/* Horizontal Row of Outline Social Icons */}
-                          {showSocialShare && (
-                            <div className="absolute bottom-full left-0 right-0 mb-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
-                              <div className="flex items-center justify-center gap-2">
-                                {socialPlatforms.map((platform) => {
-                                  const IconComponent = platform.icon
-                                  return (
-                                    <button
-                                      key={platform.id}
-                                      onClick={() => shareToSocial(platform.id)}
-                                      className="group/social p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/40 dark:hover:bg-amber-500/15"
-                                      aria-label={`Share to ${platform.label}`}
-                                    >
-                                      <IconComponent className="w-5 h-5 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
-                                    </button>
-                                  )
-                                })}
+                          {/* Copy */}
+                          <button
+                            onClick={copyToClipboard}
+                            disabled={isComposing || !fontsLoaded}
+                            className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
+                            aria-label="Copy to clipboard"
+                          >
+                            {copied ? (
+                              <>
+                                <Check className="w-4 h-4" />
+                                <span>Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-4 h-4" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+
+                          {/* Share with Social Icons */}
+                          <div className="relative flex-1">
+                            <button
+                              onClick={() => setShowSocialShare(!showSocialShare)}
+                              disabled={isComposing || !fontsLoaded}
+                              className="w-full min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                              aria-label="Share"
+                            >
+                              <Share2 className="w-4 h-4" />
+                              <span>Share</span>
+                            </button>
+
+                            {/* Horizontal Row of Outline Social Icons */}
+                            {showSocialShare && (
+                              <div className="absolute bottom-full left-0 right-0 mb-3 px-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
+                                <div className="flex items-center justify-center gap-2">
+                                  {socialPlatforms.map((platform) => {
+                                    const IconComponent = platform.icon
+                                    return (
+                                      <button
+                                        key={platform.id}
+                                        onClick={() => shareToSocial(platform.id)}
+                                        className="group/social p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/40 dark:hover:bg-amber-500/15"
+                                        aria-label={`Share to ${platform.label}`}
+                                      >
+                                        <IconComponent className="w-5 h-5 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
+                                      </button>
+                                    )
+                                  })}
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
