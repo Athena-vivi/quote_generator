@@ -77,27 +77,24 @@ export default function HomePage() {
     <PageLayout showBreadcrumb={false}>
       <HashScrollToQuoteFinder />
 
-      {/* Hero & Daily Quote Section - Warm parchment with divine radial glow */}
-      <section className="relative pt-36 pb-12 px-6 overflow-hidden bg-background">
-        {/* Divine Light Glow - Center radial gradient from warm white to soft amber (light) / Golden amber glow (dark) */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[800px] bg-gradient-radial from-white via-amber-50/40 to-amber-50/10 dark:from-amber-500/15 dark:via-amber-600/5 dark:to-transparent pointer-events-none"></div>
+      {/* Hero & Daily Quote Section - Clean with centered halo effect */}
+      <section className="relative pt-36 pb-12 px-6 overflow-hidden bg-stone-50/50 dark:bg-background">
+        {/* Centered Halo Effect - Light emanating from behind the card */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-radial from-amber-100/20 via-amber-50/10 to-transparent dark:from-amber-500/12 dark:via-amber-600/4 dark:to-transparent pointer-events-none"></div>
 
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
 
-          {/* 眉毛标题 */}
+          {/* Eyebrow Header */}
           <div className="flex items-center gap-2 mb-8">
             <div className="h-px w-8 bg-stone-800 dark:bg-amber-500/40"></div>
-            <span className="text-xs tracking-[0.3em] uppercase font-bold" style={{ color: '#2D1B02' }}>
-              <span className="dark:hidden">AI-Powered Scripture Art</span>
-              <span className="hidden dark:inline text-amber-400">AI-Powered Scripture Art</span>
+            <span className="text-xs tracking-[0.3em] uppercase font-bold text-stone-800 dark:text-amber-400">
+              AI-Powered Scripture Art
             </span>
             <div className="h-px w-8 bg-stone-800 dark:bg-amber-500/40"></div>
           </div>
 
-          {/* Enhanced title with gradient and divine light effect */}
-          <h1 className="text-center mb-14 flex flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline relative">
-            {/* Title Glow Effect */}
-            <div className="absolute inset-0 bg-gradient-radial from-amber-500/10 via-amber-600/5 to-transparent opacity-0 dark:opacity-100 blur-3xl -z-10"></div>
+          {/* Enhanced title - clean without glow */}
+          <h1 className="text-center mb-14 flex flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline">
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Transform</span>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-300">Bible Quotes</span>
             <span className="text-xl md:text-2xl font-serif italic text-stone-700 dark:text-stone-500">into</span>
@@ -106,13 +103,13 @@ export default function HomePage() {
             </span>
           </h1>
 
-          {/* Daily Quote Card - Obsidian Art Style */}
+          {/* Daily Quote Card - Clean with subtle aura */}
           <div className="w-full max-w-4xl relative">
-            {/* Divine golden aura - enhanced for obsidian effect */}
-            <div className="absolute -inset-4 bg-gradient-radial from-amber-400/15 via-amber-500/8 to-transparent dark:from-amber-400/12 dark:via-amber-500/4 dark:to-transparent rounded-[3rem] blur-3xl -z-10 animate-pulse-slow"></div>
+            {/* Subtle golden aura - emanating from behind */}
+            <div className="absolute inset-0 bg-gradient-radial from-amber-200/10 via-amber-100/5 to-transparent dark:from-amber-500/8 dark:via-amber-600/3 dark:to-transparent rounded-[3rem] blur-3xl -z-10"></div>
 
             {/* Card with gradient border effect */}
-            <div className="relative bg-white/85 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-[2.5rem] p-10 md:p-16 transition-all duration-700 shadow-[0_20px_60px_rgba(212,175,55,0.1)] dark:shadow-[0_0_80px_rgba(212,175,55,0.15)] hover:shadow-[0_30px_80px_rgba(212,175,55,0.15)] dark:hover:shadow-[0_0_100px_rgba(212,175,55,0.25)]">
+            <div className="relative bg-white/90 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-[2.5rem] p-10 md:p-16 transition-all duration-700 shadow-[0_20px_60px_rgba(0,0,0,0.08)] dark:shadow-[0_0_60px_rgba(212,175,55,0.12)] hover:shadow-[0_30px_80px_rgba(0,0,0,0.12)] dark:hover:shadow-[0_0_80px_rgba(212,175,55,0.18)]">
               {/* Gradient border overlay - fades into darkness */}
               <div className="absolute inset-0 rounded-[2.5rem] p-[1px] bg-gradient-to-br from-amber-500/20 via-transparent to-amber-500/10 dark:from-amber-400/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
@@ -191,25 +188,22 @@ export default function HomePage() {
         <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
       )}
 
-      {/* 搜索区域 - Subtle radial glow */}
-      <section className="py-12 px-6 border-y border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-radial from-amber-50/30 via-amber-50/10 to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+      {/* 搜索区域 - Clean background */}
+      <section className="py-12 px-6 border-y border-stone-100 dark:border-white/5 relative overflow-hidden bg-white dark:bg-background">
         <div className="relative max-w-6xl mx-auto">
           <QuoteFinder />
         </div>
       </section>
 
-      {/* 展示区域 - Subtle radial glow */}
-      <section className="py-10 px-6 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-radial from-amber-50/20 via-white/50 to-white dark:from-amber-500/6 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+      {/* 展示区域 - Clean background */}
+      <section className="py-10 px-6 relative overflow-hidden bg-stone-50/30 dark:bg-background">
         <div className="relative max-w-6xl mx-auto">
           <ExampleShowcase />
         </div>
       </section>
 
-      {/* 功能区域 - Subtle radial glow */}
-      <section className="py-10 px-6 border-t border-amber-50 dark:border-white/5 relative overflow-hidden bg-background">
-        <div className="absolute inset-0 bg-gradient-radial from-amber-50/15 via-white/40 to-white dark:from-amber-500/5 dark:via-transparent dark:to-transparent pointer-events-none"></div>
+      {/* 功能区域 - Clean background */}
+      <section className="py-10 px-6 border-t border-stone-100 dark:border-white/5 relative overflow-hidden bg-white dark:bg-background">
         <div className="relative max-w-6xl mx-auto">
           <FeaturesSection />
         </div>

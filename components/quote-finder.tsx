@@ -445,31 +445,30 @@ export function QuoteFinder() {
             {quotes.map((quote, index) => (
               <div
                 key={index}
-                className="group relative bg-white/85 dark:bg-white/[0.02] dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-8 md:p-12 transition-all duration-300 shadow-lg hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.1)] dark:hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.3)] hover:-translate-y-1 border border-amber-100/30 dark:border-amber-500/8 hover:border-amber-200/50 dark:hover:border-amber-500/20"
+                className="group relative bg-white/90 dark:bg-zinc-900/40 dark:backdrop-blur-max backdrop-blur-xl rounded-3xl p-8 md:p-12 transition-transform duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 border border-amber-100/30 dark:border-amber-500/10 hover:border-amber-200/50 dark:hover:border-amber-500/40"
               >
-                {/* Gradient border overlay - static, no hover */}
-                <div className="absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-br from-amber-500/8 via-transparent to-amber-500/4 dark:from-amber-400/6 dark:via-transparent dark:to-amber-600/3 pointer-events-none group-hover:from-amber-500/12 group-hover:to-amber-500/6 dark:group-hover:from-amber-400/10 dark:group-hover:to-amber-600/5 transition-opacity duration-300"></div>
+                {/* Static gradient border - no hover changes */}
+                <div className="absolute inset-0 rounded-3xl p-[1px] bg-gradient-to-br from-amber-500/6 via-transparent to-amber-500/3 dark:from-amber-400/5 dark:via-transparent dark:to-amber-600/3 pointer-events-none"></div>
 
-                {/* Decorative Quote Marks - Subtle */}
-                <div className="absolute -top-2 left-6 text-6xl md:text-7xl font-serif text-amber-300/10 dark:text-amber-500/6 leading-none select-none">"</div>
-                <div className="absolute -bottom-6 right-6 text-6xl md:text-7xl font-serif text-amber-300/10 dark:text-amber-500/6 leading-none select-none">"</div>
+                {/* Decorative Quote Marks - Static, no hover */}
+                <div className="absolute -top-2 left-6 text-6xl md:text-7xl font-serif text-amber-200/10 dark:text-amber-500/5 leading-none select-none">"</div>
+                <div className="absolute -bottom-6 right-6 text-6xl md:text-7xl font-serif text-amber-200/10 dark:text-amber-500/5 leading-none select-none">"</div>
 
                 <div className="relative">
-                  {/* Quote Text - Sacred serif typography with italic */}
+                  {/* Quote Text - Clean serif typography */}
                   <blockquote
                     className="text-xl md:text-2xl font-serif font-light italic text-stone-800 dark:text-stone-200 leading-relaxed mb-8 px-4 py-3"
                     style={{
-                      textShadow: '0 1px 2px rgba(0, 0, 0, 0.06)',
                       letterSpacing: '0.12px'
                     }}
                   >
                     "{quote.content}"
                   </blockquote>
 
-                  {/* Subtle divine divider */}
-                  <div className="h-px bg-gradient-to-r from-transparent via-amber-400/20 dark:via-amber-500/15 to-transparent mb-7"></div>
+                  {/* Subtle divider */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-amber-300/15 dark:via-amber-500/10 to-transparent mb-7"></div>
 
-                  {/* Reference - Elegant amber gold */}
+                  {/* Reference */}
                   <div className="relative inline-block mb-8">
                     <cite
                       className="relative block text-base md:text-lg font-serif text-right pr-3 text-amber-800 dark:text-amber-400 font-medium italic"
@@ -481,11 +480,11 @@ export function QuoteFinder() {
 
                   {/* Action Buttons */}
                   <div className="flex items-center gap-4">
-                    {/* Quick Copy - Ultra-transparent */}
+                    {/* Quick Copy - Clean */}
                     <button
                       onClick={() => copyToClipboard(quote, index)}
                       aria-label={copiedIndex === index ? "Copied to clipboard" : "Copy quote to clipboard"}
-                      className="group/copy flex-1 min-h-[48px] px-6 py-3.5 bg-white/40 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-300/40 dark:border-amber-500/12 hover:border-amber-500/60 dark:hover:border-amber-400/30 text-amber-900 dark:text-amber-300 font-serif font-semibold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
+                      className="flex-1 min-h-[48px] px-6 py-3.5 bg-white/50 dark:bg-white/[0.02] dark:backdrop-blur-max border border-amber-200/50 dark:border-amber-500/15 hover:border-amber-300/70 dark:hover:border-amber-500/30 text-amber-900 dark:text-amber-300 font-serif font-semibold rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
                       {copiedIndex === index ? (
                         <>
@@ -494,33 +493,33 @@ export function QuoteFinder() {
                         </>
                       ) : (
                         <>
-                          <Copy className="w-4 h-4 group-hover/copy:scale-110 transition-transform" aria-hidden="true" />
+                          <Copy className="w-4 h-4" aria-hidden="true" />
                           <span>Quick Copy</span>
                         </>
                       )}
                     </button>
 
-                    {/* Create Image - Primary button */}
+                    {/* Create Image - Clean gradient */}
                     <button
                       onClick={() => setSelectedQuoteForImage(quote)}
                       aria-label="Create image from this quote"
-                      className="group/btn flex-1 min-h-[48px] px-6 py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
+                      className="flex-1 min-h-[48px] px-6 py-3.5 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2"
                     >
-                      <Palette className="w-4 h-4 group-hover/btn:rotate-12 transition-transform duration-300" aria-hidden="true" />
+                      <Palette className="w-4 h-4" aria-hidden="true" />
                       <span>Create Image</span>
                     </button>
 
-                    {/* Favorite - Icon button */}
+                    {/* Favorite - Clean */}
                     <button
                       onClick={() => toggleFavorite(quote, index)}
                       aria-label={favoriteStates[index] ? "Remove from favorites" : "Add to favorites"}
                       aria-pressed={favoriteStates[index] || false}
-                      className="group/fav min-h-[48px] min-w-[48px] p-3 rounded-2xl bg-stone-100/30 dark:bg-white/[0.02] dark:backdrop-blur-max border border-stone-200/30 dark:border-amber-500/10 text-stone-500 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:border-red-300/40 dark:hover:border-red-500/20 transition-all duration-300 flex items-center justify-center"
+                      className="min-h-[48px] min-w-[48px] p-3 rounded-2xl bg-stone-100/30 dark:bg-white/[0.02] dark:backdrop-blur-max border border-stone-200/30 dark:border-amber-500/10 text-stone-500 dark:text-zinc-500 hover:text-red-500 dark:hover:text-red-400 hover:border-red-300/40 dark:hover:border-red-500/20 transition-all duration-300 flex items-center justify-center"
                     >
                       {favoriteStates[index] ? (
                         <Heart className="w-5 h-5 fill-current text-red-500" aria-hidden="true" />
                       ) : (
-                        <Heart className="w-5 h-5 group-hover/fav:scale-110 transition-transform" aria-hidden="true" />
+                        <Heart className="w-5 h-5" aria-hidden="true" />
                       )}
                     </button>
                   </div>
