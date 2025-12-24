@@ -11,10 +11,8 @@ import {
   Copy,
   Check,
   X,
-  Instagram,
   Facebook,
   Linkedin,
-  Mail,
 } from "lucide-react"
 
 // Twitter/X icon
@@ -74,6 +72,9 @@ async function drawQuoteImage({
   textColor = '#fff',
   refColor = '#ffd700',
 }: DrawQuoteImageParams & { textColor?: string, refColor?: string }) {
+  // CRITICAL: Wait for fonts to be ready before drawing
+  await document.fonts.ready
+
   // Clean the quote content - remove extra spaces and normalize
   const cleanContent = quote.content.trim().replace(/\s+/g, ' ')
   const cleanReference = quote.reference.trim()
@@ -127,7 +128,7 @@ async function drawQuoteImage({
 
   // Text wrapping and size adjustment loop
   while (true) {
-    ctx.font = `${fontSize}px ${fontFamily}`
+    ctx.font = `italic ${fontSize}px ${fontFamily}`
 
     // Word wrapping - clean splitting
     lines = []
@@ -148,13 +149,13 @@ async function drawQuoteImage({
     }
     if (currentLine) lines.push(currentLine)
 
-    // Poetic line height - 1.8 for breathing room and rhythm
-    lineHeight = fontSize * 1.8
+    // Line height set to 1.5 for better readability with word wrap
+    lineHeight = fontSize * 1.5
     totalTextHeight = lines.length * lineHeight
 
-    // Reference is smaller than main text - positioned at bottom-right
-    refFontSize = fontSize * 0.45 // Reduced from 0.55 for better hierarchy
-    refHeight = refFontSize * 1.6
+    // Reference is 28px for better visibility (as requested)
+    refFontSize = 28
+    refHeight = refFontSize * 1.5
 
     // Spacing between text and reference
     spacing = fontSize * 2.0
@@ -173,8 +174,8 @@ async function drawQuoteImage({
   // Save context state
   ctx.save()
 
-  // Draw main quote text - centered with Crimson Text
-  ctx.font = `${fontSize}px ${fontFamily}`
+  // Draw main quote text - ITALIC for sacred feel, Crimson Text
+  ctx.font = `italic 400 ${fontSize}px ${fontFamily}`
   ctx.fillStyle = textColor
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
@@ -185,7 +186,7 @@ async function drawQuoteImage({
   ctx.shadowOffsetX = 2
   ctx.shadowOffsetY = 2
 
-  // Draw each line with proper poetic spacing
+  // Draw each line with proper word wrap spacing (lineHeight 1.5)
   lines.forEach((line, index) => {
     let displayLine = line.trim() // Trim each line
 
@@ -202,9 +203,8 @@ async function drawQuoteImage({
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference - smaller, positioned at bottom-right corner
-  const finalRefSize = Math.max(refFontSize, 20) // Minimum 20px for readability
-  ctx.font = `italic ${finalRefSize}px ${fontFamily}` // Italic for reference
+  // Draw reference - 28px bold, positioned at bottom-right corner
+  ctx.font = `700 28px ${fontFamily}` // Bold 28px for reference
   ctx.textAlign = "right"
   ctx.textBaseline = "bottom"
 
@@ -541,13 +541,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   }, [quote])
 
   const socialPlatforms = [
-    { id: 'instagram', icon: Instagram, label: 'Instagram' },
     { id: 'facebook', icon: Facebook, label: 'Facebook' },
     { id: 'twitter', icon: TwitterX, label: 'X' },
     { id: 'pinterest', icon: PinterestIcon, label: 'Pinterest' },
     { id: 'linkedin', icon: Linkedin, label: 'LinkedIn' },
     { id: 'whatsapp', icon: WhatsAppIcon, label: 'WhatsApp' },
-    { id: 'email', icon: Mail, label: 'Email' },
   ]
 
   return (
@@ -739,108 +737,104 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
 
             {/* Right Side - Preview (60%) - Fixed layout with proper overflow */}
-            <div className="w-[60%] flex flex-col flex-shrink-0 min-h-0">
+            <div className="w-[60%] flex flex-col h-full min-h-0">
               {generatedImageUrl ? (
-                <div className="flex-1 flex items-center justify-center bg-gradient-to-br from-stone-200/30 to-amber-100/20 dark:from-stone-900/60 dark:to-amber-950/40 rounded-3xl p-3 relative overflow-hidden min-h-0">
+                <div className="flex-1 relative w-full h-full min-h-0 overflow-hidden flex items-center justify-center p-4">
                   {/* Ultra-subtle Radial Amber Glow */}
                   <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
                   {/* Canvas Container with Floating Toolbar - Group for hover */}
-                  <div className="group relative w-full h-full flex items-center justify-center">
-                    <div className="relative max-w-full max-h-full aspect-square">
-                      {/* Elegant Frame - Refined */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25"></div>
-                      <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
-                      <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
+                  <div className="group relative">
+                    {/* Elegant Frame - Refined */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
+                    <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
+                    <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                      {/* Canvas with object-contain */}
-                      <div className="relative z-10 m-[5px] rounded-xl overflow-hidden bg-gradient-radial from-amber-100/15 via-transparent to-transparent dark:from-amber-500/8 dark:via-transparent dark:to-transparent aspect-square w-full h-full">
-                        <canvas
-                          ref={previewCanvasRef}
-                          width={1024}
-                          height={1024}
-                          className="w-full h-full object-contain"
-                        />
-                      </div>
+                    {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
+                    <canvas
+                      ref={previewCanvasRef}
+                      width={1024}
+                      height={1024}
+                      className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl rounded-lg relative z-10"
+                    />
 
-                      {/* Floating Glass Toolbar - Bottom of image, hover reveal */}
-                      <div className="absolute bottom-3 left-3 right-3 z-20">
-                        <div className="bg-white/40 dark:bg-black/40 backdrop-blur-md rounded-2xl border border-amber-200/30 dark:border-amber-500/15 shadow-lg transition-opacity duration-300 opacity-30 group-hover:opacity-100">
-                          {/* Toolbar Actions - Horizontal row */}
-                          <div className="flex items-center justify-between gap-2 p-2.5">
-                            {/* Download */}
+                    {/* Floating Glass Toolbar - Bottom of image with better contrast */}
+                    <div className="absolute bottom-6 left-6 right-6 z-20">
+                      <div className="bg-white/40 dark:bg-black/60 backdrop-blur-md rounded-2xl border border-amber-200/30 dark:border-amber-500/15 shadow-lg transition-opacity duration-300 opacity-40 group-hover:opacity-100">
+                        {/* Toolbar Actions - Horizontal row */}
+                        <div className="flex items-center justify-between gap-2 p-2.5">
+                          {/* Download */}
+                          <button
+                            onClick={downloadImage}
+                            disabled={isComposing || !fontsLoaded}
+                            className="min-h-[38px] px-3 bg-white/70 dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
+                            aria-label="Download image"
+                          >
+                            {isComposing ? (
+                              <>
+                                <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                                <span>Processing...</span>
+                              </>
+                            ) : (
+                              <>
+                                <Download className="w-3.5 h-3.5" />
+                                <span>Download</span>
+                              </>
+                            )}
+                          </button>
+
+                          {/* Copy */}
+                          <button
+                            onClick={copyToClipboard}
+                            disabled={isComposing || !fontsLoaded}
+                            className="min-h-[38px] px-3 bg-white/70 dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
+                            aria-label="Copy to clipboard"
+                          >
+                            {copied ? (
+                              <>
+                                <Check className="w-3.5 h-3.5" />
+                                <span>Copied!</span>
+                              </>
+                            ) : (
+                              <>
+                                <Copy className="w-3.5 h-3.5" />
+                                <span>Copy</span>
+                              </>
+                            )}
+                          </button>
+
+                          {/* Share with Social Icons */}
+                          <div className="relative flex-1">
                             <button
-                              onClick={downloadImage}
+                              onClick={() => setShowSocialShare(!showSocialShare)}
                               disabled={isComposing || !fontsLoaded}
-                              className="min-h-[38px] px-3 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
-                              aria-label="Download image"
+                              className="w-full min-h-[38px] px-3 bg-white/70 dark:bg-white/20 hover:bg-white/90 dark:hover:bg-white/30 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
+                              aria-label="Share"
                             >
-                              {isComposing ? (
-                                <>
-                                  <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                                  <span>Processing...</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Download className="w-3.5 h-3.5" />
-                                  <span>Download</span>
-                                </>
-                              )}
+                              <Share2 className="w-3.5 h-3.5" />
+                              <span>Share</span>
                             </button>
 
-                            {/* Copy */}
-                            <button
-                              onClick={copyToClipboard}
-                              disabled={isComposing || !fontsLoaded}
-                              className="min-h-[38px] px-3 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs flex-1"
-                              aria-label="Copy to clipboard"
-                            >
-                              {copied ? (
-                                <>
-                                  <Check className="w-3.5 h-3.5" />
-                                  <span>Copied!</span>
-                                </>
-                              ) : (
-                                <>
-                                  <Copy className="w-3.5 h-3.5" />
-                                  <span>Copy</span>
-                                </>
-                              )}
-                            </button>
-
-                            {/* Share with Social Icons */}
-                            <div className="relative flex-1">
-                              <button
-                                onClick={() => setShowSocialShare(!showSocialShare)}
-                                disabled={isComposing || !fontsLoaded}
-                                className="w-full min-h-[38px] px-3 bg-white/60 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 text-amber-900 dark:text-amber-100 font-serif font-medium rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed text-xs"
-                                aria-label="Share"
-                              >
-                                <Share2 className="w-3.5 h-3.5" />
-                                <span>Share</span>
-                              </button>
-
-                              {/* Horizontal Row of Outline Social Icons */}
-                              {showSocialShare && (
-                                <div className="absolute bottom-full left-0 right-0 mb-2 px-2.5 py-2 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
-                                  <div className="flex items-center justify-center gap-1.5">
-                                    {socialPlatforms.map((platform) => {
-                                      const IconComponent = platform.icon
-                                      return (
-                                        <button
-                                          key={platform.id}
-                                          onClick={() => shareToSocial(platform.id)}
-                                          className="group/social p-1.5 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/30 dark:hover:bg-amber-500/10"
-                                          aria-label={`Share to ${platform.label}`}
-                                        >
-                                          <IconComponent className="w-4 h-4 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
-                                        </button>
-                                      )
-                                    })}
-                                  </div>
+                            {/* Horizontal Row of Outline Social Icons */}
+                            {showSocialShare && (
+                              <div className="absolute bottom-full left-0 right-0 mb-2 px-2.5 py-2 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/40 dark:border-amber-500/15 shadow-xl z-30 animate-in slide-in-from-bottom-2 duration-300">
+                                <div className="flex items-center justify-center gap-1.5">
+                                  {socialPlatforms.map((platform) => {
+                                    const IconComponent = platform.icon
+                                    return (
+                                      <button
+                                        key={platform.id}
+                                        onClick={() => shareToSocial(platform.id)}
+                                        className="group/social p-1.5 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/30 dark:hover:bg-amber-500/10"
+                                        aria-label={`Share to ${platform.label}`}
+                                      >
+                                        <IconComponent className="w-4 h-4 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
+                                      </button>
+                                    )
+                                  })}
                                 </div>
-                              )}
-                            </div>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </div>
