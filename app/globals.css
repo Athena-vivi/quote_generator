@@ -145,3 +145,18 @@ body {
     transform: translateX(0);
   }
 }
+
+/* iOS Safe Area Support for mobile fixed bottom bars */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-area-inset-bottom {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+  }
+}
+
+/* Touch-friendly tap targets - Ensure minimum 44x44px on mobile */
+@layer utilities {
+  .tap-target-min {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
