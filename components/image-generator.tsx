@@ -846,68 +846,125 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   <span className="text-xs text-amber-700/60 dark:text-amber-400/60 line-clamp-1 max-w-[200px]">{prompt}</span>
                 </button>
               ) : (
-                <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
-                  <div className="flex items-center justify-between mb-2 md:mb-3">
-                    <div className="flex items-center gap-2">
-                      <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
-                      <h3 className="text-base md:text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
-                    </div>
-                    {generatedImageUrl && (
-                      <button
+                <>
+                  {/* MOBILE: Floating overlay panel when editing with existing image */}
+                  {generatedImageUrl && (
+                    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 animate-in slide-in-from-bottom-4 duration-200 ease-out">
+                      {/* Backdrop */}
+                      <div
+                        className="absolute inset-0 bg-black/20 backdrop-blur-sm"
                         onClick={() => setIsInputCollapsed(true)}
-                        className="p-1.5 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
-                        aria-label="Collapse input"
-                      >
-                        <X className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                      </button>
-                    )}
-                  </div>
-
-                  <textarea
-                    placeholder="Describe the background scene..."
-                    value={prompt}
-                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
-                    rows={2}
-                    className="w-full px-3 py-2.5 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
-                  />
-
-                  {/* Quick Suggestions - Only show when NO image exists */}
-                  {!generatedImageUrl && (
-                    <div className="space-y-1.5 md:space-y-2 mb-3">
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
-                      <div className="flex flex-wrap gap-1.5">
-                        {promptSuggestions.map((suggestion, index) => (
+                      />
+                      {/* Floating Input Card */}
+                      <div className="relative bg-[#fdfbf7]/95 dark:bg-black/80 backdrop-blur-2xl rounded-t-3xl border-t border-x border-amber-200/50 dark:border-amber-500/20 shadow-2xl p-4 safe-area-inset-bottom">
+                        <div className="flex items-center justify-between mb-2 md:mb-3">
+                          <div className="flex items-center gap-2">
+                            <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
+                            <h3 className="text-base md:text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
+                          </div>
                           <button
-                            key={index}
-                            onClick={() => setPrompt(suggestion)}
-                            className="px-3 py-2 min-h-[44px] text-sm md:text-xs md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300 active:scale-95"
+                            onClick={() => setIsInputCollapsed(true)}
+                            className="p-1.5 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
+                            aria-label="Collapse input"
                           >
-                            {suggestion}
+                            <X className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                           </button>
-                        ))}
+                        </div>
+
+                        <textarea
+                          placeholder="Describe the background scene..."
+                          value={prompt}
+                          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
+                          rows={2}
+                          className="w-full px-3 py-2.5 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
+                        />
+
+                        {/* Generate Button - MOBILE: Larger touch target */}
+                        <button
+                          onClick={generateImage}
+                          disabled={isGenerating || !prompt.trim()}
+                          className="w-full min-h-[48px] md:min-h-[42px] px-4 py-3 md:py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-sm"
+                        >
+                          {isGenerating ? (
+                            <>
+                              <Loader2 className="w-5 h-5 animate-spin" />
+                              <span>Generating...</span>
+                            </>
+                          ) : (
+                            <>
+                              <Palette className="w-5 h-5" />
+                              <span>Generate</span>
+                            </>
+                          )}
+                        </button>
                       </div>
                     </div>
                   )}
 
-                  {/* Generate Button - MOBILE: Larger touch target */}
-                  <button
-                    onClick={generateImage}
-                    disabled={isGenerating || !prompt.trim()}
-                    className="w-full min-h-[48px] md:min-h-[42px] px-4 py-3 md:py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-sm"
-                  >
-                    {isGenerating ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span>Generating...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Palette className="w-5 h-5" />
-                        <span>Generate</span>
-                      </>
+                  {/* DESKTOP: Normal inline card when editing */}
+                  <div className={`${generatedImageUrl ? 'hidden md:block' : ''} bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]`}>
+                    <div className="flex items-center justify-between mb-2 md:mb-3">
+                      <div className="flex items-center gap-2">
+                        <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
+                        <h3 className="text-base md:text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
+                      </div>
+                      {generatedImageUrl && (
+                        <button
+                          onClick={() => setIsInputCollapsed(true)}
+                          className="p-1.5 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
+                          aria-label="Collapse input"
+                        >
+                          <X className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                        </button>
+                      )}
+                    </div>
+
+                    <textarea
+                      placeholder="Describe the background scene..."
+                      value={prompt}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
+                      rows={2}
+                      className="w-full px-3 py-2.5 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
+                    />
+
+                    {/* Quick Suggestions - Only show when NO image exists */}
+                    {!generatedImageUrl && (
+                      <div className="space-y-1.5 md:space-y-2 mb-3">
+                        <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
+                        <div className="flex flex-wrap gap-1.5">
+                          {promptSuggestions.map((suggestion, index) => (
+                            <button
+                              key={index}
+                              onClick={() => setPrompt(suggestion)}
+                              className="px-3 py-2 min-h-[44px] text-sm md:text-xs md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300 active:scale-95"
+                            >
+                              {suggestion}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     )}
-                  </button>
-                </div>
+
+                    {/* Generate Button - MOBILE: Larger touch target */}
+                    <button
+                      onClick={generateImage}
+                      disabled={isGenerating || !prompt.trim()}
+                      className="w-full min-h-[48px] md:min-h-[42px] px-4 py-3 md:py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-sm"
+                    >
+                      {isGenerating ? (
+                        <>
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                          <span>Generating...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Palette className="w-5 h-5" />
+                          <span>Generate</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </>
               )}
 
               {/* Quote Preview - Only show when NO image exists */}
