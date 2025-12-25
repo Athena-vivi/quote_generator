@@ -234,6 +234,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [isSharing, setIsSharing] = useState(false)
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
+  const [isInputCollapsed, setIsInputCollapsed] = useState(false)
 
   // Simplified artistic suggestions
   const promptSuggestions = [
@@ -361,6 +362,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
       if (data.success) {
         setGeneratedImageUrl(data.imageUrl)
+        setIsInputCollapsed(true) // Auto-collapse input on mobile after generation
         console.log("✅ 图片生成成功:", data.imageUrl)
       } else {
         setError(data.error || "Failed to generate image")
@@ -697,24 +699,29 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   }, [quote])
 
   return (
-    <div className="fixed inset-0 bg-black/70 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-2 md:p-4 z-50">
-      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full h-[92vh] md:h-[90vh] max-h-[800px] shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10 ring-1 dark:ring-amber-500/20 flex flex-col">
-        <div className="p-4 md:p-8 relative flex-shrink-0">
+    <div className="fixed inset-0 bg-black/70 dark:bg-black/90 backdrop-blur-md flex items-end md:items-center justify-center p-0 md:p-4 z-50">
+      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-t-[2rem] md:rounded-[2rem] max-w-7xl w-full h-[95vh] md:h-[90vh] max-h-[95vh] md:max-h-[800px] shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10 ring-1 dark:ring-amber-500/20 flex flex-col">
+        {/* MOBILE: Drag handle for swipe-down-to-close */}
+        <div className="md:hidden flex justify-center pt-3 pb-1">
+          <div className="w-12 h-1.5 bg-amber-300/50 dark:bg-amber-600/50 rounded-full" />
+        </div>
+
+        <div className="p-2 md:p-8 relative flex-shrink-0">
           {/* Floating Close Button - Amber Gold with Glow - MOBILE: Adjusted position */}
           <button
             onClick={onClose}
-            className="absolute top-3 right-3 md:top-6 md:right-6 z-50 group"
+            className="absolute top-2 right-3 md:top-6 md:right-6 z-50 group"
             aria-label="Close"
           >
-            <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/30 dark:shadow-amber-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-amber-500/50 dark:group-hover:shadow-amber-500/60">
+            <div className="relative w-9 h-9 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/30 dark:shadow-amber-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-amber-500/50 dark:group-hover:shadow-amber-500/60">
               <div className="absolute inset-0 rounded-full bg-amber-400/20 dark:bg-amber-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <X className="relative w-5 h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
+              <X className="relative w-4 h-4 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
             </div>
           </button>
 
           {/* Centered Title - MOBILE: Smaller font size */}
-          <div className="text-center mb-4 md:mb-8">
-            <h2 className="text-xl md:text-3xl lg:text-4xl font-serif font-bold text-amber-900 dark:text-amber-300" style={{ letterSpacing: '0.12em' }}>
+          <div className="text-center mb-2 md:mb-8">
+            <h2 className="text-lg md:text-3xl lg:text-4xl font-serif font-bold text-amber-900 dark:text-amber-300" style={{ letterSpacing: '0.12em' }}>
               Craft Your Divine Art
             </h2>
           </div>
@@ -741,7 +748,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
               {generatedImageUrl ? (
                 <>
                   {/* Canvas Area - MOBILE: Full width, minimal padding for maximum display */}
-                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-center justify-center p-1 md:p-4">
+                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-center justify-center p-0.5 md:p-4">
                     {/* Ultra-subtle Radial Amber Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[600px] h-[200px] md:h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
@@ -826,146 +833,219 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
             {/* LEFT SIDE (Mobile: Below Image, Desktop: Left) - Controls */}
             <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-0 md:pr-1 max-h-[32vh] md:max-h-full">
-              {/* Compact Input Area - Mobile optimized padding */}
-              <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
-                <div className="flex items-center gap-2 mb-2 md:mb-3">
-                  <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
-                  <h3 className="text-base md:text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
-                </div>
-
-                <textarea
-                  placeholder="Describe the background scene..."
-                  value={prompt}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
-                  rows={2}
-                  className="w-full px-3 py-2.5 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
-                />
-
-                {/* Quick Suggestions - MOBILE OPTIMIZED: Larger touch targets (44px min) */}
-                <div className="space-y-1.5 md:space-y-2 mb-3">
-                  <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {promptSuggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setPrompt(suggestion)}
-                        className="px-3 py-2 min-h-[44px] text-sm md:text-xs md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300 active:scale-95"
-                      >
-                        {suggestion}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Generate Button - MOBILE: Larger touch target */}
+              {/* MOBILE: Collapsible Input Area - Shows as button when collapsed */}
+              {isInputCollapsed && generatedImageUrl ? (
                 <button
-                  onClick={generateImage}
-                  disabled={isGenerating || !prompt.trim()}
-                  className="w-full min-h-[48px] md:min-h-[42px] px-4 py-3 md:py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-sm"
+                  onClick={() => setIsInputCollapsed(false)}
+                  className="w-full min-h-[44px] bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-amber-200/50 dark:border-amber-500/20 rounded-2xl px-4 py-3 flex items-center justify-between shadow-md active:scale-98 transition-all"
                 >
-                  {isGenerating ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>Generating...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Palette className="w-5 h-5" />
-                      <span>Generate</span>
-                    </>
-                  )}
+                  <div className="flex items-center gap-2">
+                    <Palette className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                    <span className="text-sm font-serif text-amber-900 dark:text-amber-300">Edit Prompt</span>
+                  </div>
+                  <span className="text-xs text-amber-700/60 dark:text-amber-400/60 line-clamp-1 max-w-[200px]">{prompt}</span>
                 </button>
-              </div>
-
-              {/* Quote Preview - Compact */}
-              <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.04)]">
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-xs font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
-                  <button
-                    onClick={toggleFavorite}
-                    className="p-2 min-h-[44px] min-w-[44px] rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors active:scale-95"
-                    aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
-                  >
-                    {isFavorited ? (
-                      <Heart className="w-5 h-5 text-red-500 fill-current" />
-                    ) : (
-                      <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+              ) : (
+                <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
+                  <div className="flex items-center justify-between mb-2 md:mb-3">
+                    <div className="flex items-center gap-2">
+                      <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
+                      <h3 className="text-base md:text-lg font-serif font-semibold text-gray-800 dark:text-zinc-200">Background Scene</h3>
+                    </div>
+                    {generatedImageUrl && (
+                      <button
+                        onClick={() => setIsInputCollapsed(true)}
+                        className="p-1.5 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors"
+                        aria-label="Collapse input"
+                      >
+                        <X className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                      </button>
                     )}
-                  </button>
-                </div>
+                  </div>
 
-                <blockquote className="text-sm md:text-base font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-1">
-                  "{quote.content}"
-                </blockquote>
+                  <textarea
+                    placeholder="Describe the background scene..."
+                    value={prompt}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value)}
+                    rows={2}
+                    className="w-full px-3 py-2.5 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
+                  />
 
-                <cite className="block text-xs md:text-sm font-serif text-amber-800 dark:text-amber-400 italic text-right">
-                  — {quote.reference}
-                </cite>
-              </div>
-
-              {/* Style Controls - Only show when image exists */}
-              {generatedImageUrl && (
-                <div className="mt-auto bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
-                  <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-2 md:mb-3">Style Options</h4>
-
-                  {/* Compact 2-Column Grid Layout */}
-                  <div className="grid grid-cols-2 gap-2 md:gap-3">
-                    {/* Text Color - MOBILE: Larger touch targets */}
-                    <div>
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Color</p>
-                      <div className="flex gap-2 md:gap-2">
-                        {["#ffd700", "#fff"].map((color) => (
+                  {/* Quick Suggestions - Hide on mobile when image exists */}
+                  {(!generatedImageUrl || !isInputCollapsed) && (
+                    <div className="space-y-1.5 md:space-y-2 mb-3">
+                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
+                      <div className="flex flex-wrap gap-1.5">
+                        {promptSuggestions.map((suggestion, index) => (
                           <button
-                            key={color}
-                            onClick={() => setTextColor(color)}
-                            className="relative w-10 h-10 md:w-8 md:h-8 min-h-[44px] md:min-h-0 min-w-[44px] md:min-w-0 rounded-full border-2 transition-all duration-300 hover:scale-110 active:scale-95 flex-shrink-0"
-                            style={{
-                              background: color,
-                              borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
-                              boxShadow: textColor === color ? '0 0 10px rgba(217, 119, 6, 0.4)' : 'none',
-                            }}
-                          />
+                            key={index}
+                            onClick={() => setPrompt(suggestion)}
+                            className="px-3 py-2 min-h-[44px] text-sm md:text-xs md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300 active:scale-95"
+                          >
+                            {suggestion}
+                          </button>
                         ))}
                       </div>
                     </div>
+                  )}
 
-                    {/* Theme Toggle - MOBILE: Larger touch target */}
-                    <div>
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Theme</p>
+                  {/* Generate Button - MOBILE: Larger touch target */}
+                  <button
+                    onClick={generateImage}
+                    disabled={isGenerating || !prompt.trim()}
+                    className="w-full min-h-[48px] md:min-h-[42px] px-4 py-3 md:py-2.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 dark:hover:from-amber-300 dark:hover:to-amber-400 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-sm"
+                  >
+                    {isGenerating ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>Generating...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Palette className="w-5 h-5" />
+                        <span>Generate</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
+
+              {/* Quote Preview - HIDE ON MOBILE when image exists (text is already on image) */}
+              {(!generatedImageUrl || !isInputCollapsed) && (
+                <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.04)]">
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-xs font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
+                    <button
+                      onClick={toggleFavorite}
+                      className="p-2 min-h-[44px] min-w-[44px] rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-colors active:scale-95"
+                      aria-label={isFavorited ? "Remove from favorites" : "Add to favorites"}
+                    >
+                      {isFavorited ? (
+                        <Heart className="w-5 h-5 text-red-500 fill-current" />
+                      ) : (
+                        <Heart className="w-5 h-5 text-amber-600 dark:text-amber-400" />
+                      )}
+                    </button>
+                  </div>
+
+                  <blockquote className="text-sm md:text-base font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-1">
+                    "{quote.content}"
+                  </blockquote>
+
+                  <cite className="block text-xs md:text-sm font-serif text-amber-800 dark:text-amber-400 italic text-right">
+                    — {quote.reference}
+                  </cite>
+                </div>
+              )}
+
+              {/* Style Controls - MOBILE: Horizontal icon row when image exists */}
+              {generatedImageUrl && (
+                <div className="mt-auto">
+                  {/* MOBILE: Compact horizontal icon bar */}
+                  <div className="md:hidden bg-white/90 dark:bg-black/80 backdrop-blur-xl rounded-2xl border border-amber-200/50 dark:border-amber-500/20 shadow-md p-2">
+                    <div className="flex items-center justify-between gap-2">
+                      {/* Color Picker */}
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Color</span>
+                        <div className="flex gap-1">
+                          {["#ffd700", "#fff"].map((color) => (
+                            <button
+                              key={color}
+                              onClick={() => setTextColor(color)}
+                              className="w-7 h-7 min-h-[44px] min-w-[44px] rounded-full border-2 transition-all duration-300 active:scale-90 flex-shrink-0"
+                              style={{
+                                background: color,
+                                borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
+                                boxShadow: textColor === color ? '0 0 8px rgba(217, 119, 6, 0.4)' : 'none',
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Theme Toggle */}
                       <button
                         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className="w-full h-10 md:h-9 min-h-[44px] md:min-h-0 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 font-serif text-sm flex items-center justify-center gap-2 active:scale-95"
+                        className="min-h-[44px] min-w-[44px] px-2 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 text-xs font-serif flex items-center justify-center gap-1 active:scale-95"
                       >
                         <span>{theme === 'light' ? '☀️' : '🌙'}</span>
-                        <span>{theme === 'light' ? 'Light' : 'Dark'}</span>
+                        <span className="hidden sm:inline">{theme === 'light' ? 'Light' : 'Dark'}</span>
+                      </button>
+
+                      {/* Font Toggle */}
+                      <button
+                        onClick={() => setSelectedFont(selectedFont === "classic" ? "handwriting" : "classic")}
+                        className="min-h-[44px] px-3 rounded-lg bg-gradient-to-r from-amber-500 to-amber-600 dark:from-amber-400 dark:to-amber-500 text-white text-xs font-serif transition-all duration-300 active:scale-95"
+                        style={selectedFont === "handwriting" ? { fontFamily: 'Great Vibes, cursive' } : {}}
+                      >
+                        {selectedFont === "classic" ? "Serif" : "Script"}
                       </button>
                     </div>
+                  </div>
 
-                    {/* Font Selection - Spans full width */}
-                    <div className="col-span-2">
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Font</p>
-                      <div className="flex gap-2">
+                  {/* DESKTOP: Full expanded card */}
+                  <div className="hidden md:block bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-3xl p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
+                    <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
+
+                    {/* Compact 2-Column Grid Layout */}
+                    <div className="grid grid-cols-2 gap-3">
+                      {/* Text Color */}
+                      <div>
+                        <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Color</p>
+                        <div className="flex gap-2">
+                          {["#ffd700", "#fff"].map((color) => (
+                            <button
+                              key={color}
+                              onClick={() => setTextColor(color)}
+                              className="relative w-8 h-8 rounded-full border-2 transition-all duration-300 hover:scale-110 active:scale-95 flex-shrink-0"
+                              style={{
+                                background: color,
+                                borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
+                                boxShadow: textColor === color ? '0 0 10px rgba(217, 119, 6, 0.4)' : 'none',
+                              }}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Theme Toggle */}
+                      <div>
+                        <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Theme</p>
                         <button
-                          onClick={() => setSelectedFont("classic")}
-                          className={`flex-1 px-4 py-2.5 md:py-2 md:px-3 min-h-[44px] md:min-h-0 text-sm font-serif rounded-lg transition-all duration-300 active:scale-95 ${
-                            selectedFont === "classic"
-                              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
-                              : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
-                          }`}
+                          onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                          className="w-full h-9 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all duration-300 border border-stone-300/40 dark:border-stone-500/20 font-serif text-sm flex items-center justify-center gap-2 active:scale-95"
                         >
-                          Serif
+                          <span>{theme === 'light' ? '☀️' : '🌙'}</span>
+                          <span>{theme === 'light' ? 'Light' : 'Dark'}</span>
                         </button>
-                        <button
-                          onClick={() => setSelectedFont("handwriting")}
-                          className={`flex-1 px-4 py-2.5 md:py-2 md:px-3 min-h-[44px] md:min-h-0 text-sm font-serif rounded-lg transition-all duration-300 active:scale-95 ${
-                            selectedFont === "handwriting"
-                              ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
-                              : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
-                          }`}
-                          style={{ fontFamily: 'Great Vibes, cursive' }}
-                        >
-                          Script
-                        </button>
+                      </div>
+
+                      {/* Font Selection - Spans full width */}
+                      <div className="col-span-2">
+                        <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Font</p>
+                        <div className="flex gap-2">
+                          <button
+                            onClick={() => setSelectedFont("classic")}
+                            className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all duration-300 active:scale-95 ${
+                              selectedFont === "classic"
+                                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
+                                : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
+                            }`}
+                          >
+                            Serif
+                          </button>
+                          <button
+                            onClick={() => setSelectedFont("handwriting")}
+                            className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all duration-300 active:scale-95 ${
+                              selectedFont === "handwriting"
+                                ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-sm"
+                                : "bg-white/50 dark:bg-white/[0.02] text-amber-700 dark:text-amber-300 hover:bg-amber-50 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
+                            }`}
+                            style={{ fontFamily: 'Great Vibes, cursive' }}
+                          >
+                            Script
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -975,64 +1055,64 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
             {/* MOBILE: Fixed Bottom Toolbar - Only visible on mobile when image exists */}
             {generatedImageUrl && (
-              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/90 backdrop-blur-xl border-t border-amber-200/50 dark:border-amber-500/20 px-2 py-2 safe-area-inset-bottom">
-                <div className="flex items-center justify-between gap-1.5">
-                  {/* Download - MOBILE: Reduced padding */}
+              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/80 dark:bg-black/70 backdrop-blur-2xl border-t border-amber-200/40 dark:border-amber-500/10 px-3 py-1.5 safe-area-inset-bottom">
+                <div className="flex items-center justify-between gap-2">
+                  {/* Download - MOBILE: Compressed height */}
                   <button
                     onClick={downloadImage}
                     disabled={isComposing || !fontsLoaded}
-                    className="group/download flex-1 min-h-[48px] px-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 text-white font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-0.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-500/30"
+                    className="group/download flex-1 min-h-[40px] bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 text-white font-serif font-semibold rounded-lg transition-all duration-300 active:scale-95 flex flex-row items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm shadow-amber-500/20"
                     aria-label="Download image"
                   >
                     {isComposing ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span className="text-[10px]">Processing...</span>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span className="text-[9px]">Processing...</span>
                       </>
                     ) : (
                       <>
-                        <Download className="w-5 h-5" />
-                        <span className="text-[10px] font-semibold">Download</span>
+                        <Download className="w-4 h-4" />
+                        <span className="text-[9px] font-semibold">Download</span>
                       </>
                     )}
                   </button>
 
-                  {/* Copy - MOBILE: Amber style, reduced padding */}
+                  {/* Copy - MOBILE: Compressed height */}
                   <button
                     onClick={copyToClipboard}
                     disabled={isComposing || !fontsLoaded}
-                    className="flex-1 min-h-[48px] px-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-0.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-amber-500/25"
+                    className="flex-1 min-h-[40px] bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-semibold rounded-lg transition-all duration-300 active:scale-95 flex flex-row items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-sm shadow-amber-500/15"
                     aria-label="Copy to clipboard"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-4 h-4 text-green-200" />
-                        <span className="text-[10px]">Copied!</span>
+                        <Check className="w-3.5 h-3.5 text-green-200" />
+                        <span className="text-[9px]">Copied!</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-4 h-4" />
-                        <span className="text-[10px]">Copy</span>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span className="text-[9px]">Copy</span>
                       </>
                     )}
                   </button>
 
-                  {/* Share - MOBILE: Reduced padding */}
+                  {/* Share - MOBILE: Compressed height */}
                   <button
                     onClick={shareImage}
                     disabled={isSharing || isComposing || !fontsLoaded}
-                    className="flex-1 min-h-[48px] px-2 bg-gradient-to-br from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-bold rounded-xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-0.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-amber-500/40"
+                    className="flex-1 min-h-[40px] bg-gradient-to-br from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-bold rounded-lg transition-all duration-300 active:scale-95 flex flex-row items-center justify-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-amber-500/25"
                     aria-label="Share image"
                   >
                     {isSharing ? (
                       <>
-                        <Loader2 className="w-5 h-5 animate-spin" />
-                        <span className="text-[10px] font-semibold">Sharing...</span>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        <span className="text-[9px]">Sharing...</span>
                       </>
                     ) : (
                       <>
-                        <Share2 className="w-5 h-5" />
-                        <span className="text-[10px] font-bold">Share</span>
+                        <Share2 className="w-4 h-4" />
+                        <span className="text-[9px]">Share</span>
                       </>
                     )}
                   </button>
