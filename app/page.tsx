@@ -85,7 +85,7 @@ export default function HomePage() {
         <div className="relative z-10 max-w-5xl mx-auto flex flex-col items-center">
 
           {/* Eyebrow Header - No background */}
-          <div className="flex items-center gap-2 mb-8">
+          <div className="hidden md:flex items-center gap-2 mb-8">
             <div className="h-px w-8 bg-stone-800 dark:bg-amber-500/30"></div>
             <span className="text-xs tracking-[0.3em] uppercase font-bold text-stone-800 dark:text-amber-400">
               AI-Powered Scripture Art
@@ -94,7 +94,7 @@ export default function HomePage() {
           </div>
 
           {/* Title - No background, transparent */}
-          <h1 className="text-center mb-14 flex flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline">
+          <h1 className="hidden md:block text-center mb-14 flex flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline">
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-200">Transform</span>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-200">Bible Quotes</span>
             <span className="text-xl md:text-2xl font-serif italic text-stone-700 dark:text-zinc-500">into</span>
