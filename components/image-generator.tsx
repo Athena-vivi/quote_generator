@@ -604,7 +604,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   className="w-full px-3 py-2 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
                 />
 
-                {/* Compressed Quick Suggestions */}
+                {/* Compressed Quick Suggestions - With Hover Animation */}
                 <div className="space-y-2 mb-3">
                   <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
                   <div className="flex flex-wrap gap-1.5">
@@ -612,7 +612,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       <button
                         key={index}
                         onClick={() => setPrompt(suggestion)}
-                        className="px-2 py-1 text-xs font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:bg-stone-800/70 dark:hover:bg-stone-800/80 transition-all duration-300"
+                        className="px-2 py-1 text-xs font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300"
                       >
                         {suggestion}
                       </button>
@@ -749,9 +749,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     <div className="group relative max-w-full aspect-square flex flex-col">
                       {/* Canvas Frame Area */}
                       <div className="relative flex-1">
-                        {/* Elegant Frame - Refined */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-[0_0_40px_rgba(212,175,55,0.2)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
-                        <div className="absolute inset-0 rounded-2xl ring-2 ring-amber-400/20 dark:ring-amber-500/20 pointer-events-none"></div>
+                        {/* Elegant Frame - Enhanced with shadow-2xl and ring-1 */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-2xl shadow-black/20 dark:shadow-[0_0_60px_rgba(212,175,55,0.25)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
+                        <div className="absolute inset-0 rounded-2xl ring-1 ring-white/30 dark:ring-amber-400/15 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
                         {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
@@ -766,22 +766,24 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       {/* Toolbar - Attached to bottom of canvas */}
                       <div className="mt-0 px-6 pb-6 pt-3">
                         <div className="flex items-center justify-between gap-3">
-                          {/* Download */}
+                          {/* Download - With Amber Pulse Glow on Hover */}
                           <button
                             onClick={downloadImage}
                             disabled={isComposing || !fontsLoaded}
-                            className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
+                            className="group/download min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1 relative overflow-hidden"
                             aria-label="Download image"
                           >
+                            {/* Amber Pulse Glow Effect */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-amber-400/0 via-amber-400/10 to-amber-400/0 opacity-0 group-hover/download:opacity-100 group-hover/download:animate-pulse transition-opacity duration-500"></div>
                             {isComposing ? (
                               <>
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                                <span>Processing...</span>
+                                <Loader2 className="w-4 h-4 animate-spin relative z-10" />
+                                <span className="relative z-10">Processing...</span>
                               </>
                             ) : (
                               <>
-                                <Download className="w-4 h-4" />
-                                <span>Download</span>
+                                <Download className="w-4 h-4 relative z-10" />
+                                <span className="relative z-10">Download</span>
                               </>
                             )}
                           </button>
@@ -806,7 +808,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                             )}
                           </button>
 
-                          {/* Share with Social Icons */}
+                          {/* Share with Social Icons - Horizontal Layout */}
                           <div className="relative flex-1">
                             <button
                               onClick={() => setShowSocialShare(!showSocialShare)}
@@ -818,21 +820,20 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                               <span>Share</span>
                             </button>
 
-                            {/* Vertical Row of Social Icons - Above button, floating over image */}
+                            {/* Horizontal Social Icons - Floating bubble above button */}
                             {showSocialShare && (
-                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 py-2.5 bg-white/95 dark:bg-black/90 backdrop-blur-xl rounded-2xl border border-amber-300/50 dark:border-amber-500/20 shadow-xl z-[100] animate-in slide-in-from-bottom-2 duration-300">
-                                <div className="flex flex-col gap-2">
+                              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-3 px-3 py-2.5 bg-white/90 dark:bg-black/85 backdrop-blur-xl rounded-full border border-amber-300/60 dark:border-amber-500/25 shadow-xl dark:shadow-[0_0_30px_rgba(212,175,55,0.2)] z-[100] animate-in slide-in-from-bottom-2 duration-300">
+                                <div className="flex items-center gap-1">
                                   {socialPlatforms.map((platform) => {
                                     const IconComponent = platform.icon
                                     return (
                                       <button
                                         key={platform.id}
                                         onClick={() => shareToSocial(platform.id)}
-                                        className="group/social p-2 rounded-lg transition-all duration-300 hover:scale-110 hover:bg-amber-100/40 dark:hover:bg-amber-500/15 flex items-center gap-2"
+                                        className="group/social p-2 rounded-full transition-all duration-300 hover:scale-110 hover:bg-amber-100/50 dark:hover:bg-amber-500/20"
                                         aria-label={`Share to ${platform.label}`}
                                       >
-                                        <IconComponent className="w-5 h-5 text-amber-600/70 dark:text-amber-400/70" strokeWidth={1.5} />
-                                        <span className="text-xs font-serif text-amber-700 dark:text-amber-300">{platform.label}</span>
+                                        <IconComponent className="w-5 h-5 text-amber-600/80 dark:text-amber-400/80 group-hover/social:text-amber-700 dark:group-hover/social:text-amber-300 transition-colors" strokeWidth={1.5} />
                                       </button>
                                     )
                                   })}
@@ -845,6 +846,67 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </div>
                   </div>
                 </>
+              ) : isGenerating ? (
+                /* Elegant Loading Skeleton - Divine Masterpiece Creation */
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-amber-50/80 via-white/60 to-amber-100/70 dark:from-stone-900/60 dark:via-black/40 dark:to-amber-950/50 rounded-3xl p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_60px_rgba(212,175,55,0.15)] min-h-[450px] relative overflow-hidden">
+                  {/* Subtle Animated Background Pattern */}
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-300/20 via-transparent to-amber-400/20 animate-pulse"></div>
+                    <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-amber-400/10 rounded-full blur-3xl animate-blob"></div>
+                    <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl animate-blob animation-delay-2000"></div>
+                  </div>
+
+                  <div className="relative z-10 text-center">
+                    {/* Elegant Loading Icon */}
+                    <div className="relative inline-block mb-8">
+                      {/* Outer glow ring */}
+                      <div className="absolute inset-0 rounded-full bg-amber-400/20 blur-xl animate-ping" style={{ animationDuration: '3s' }}></div>
+                      {/* Middle rotating ring */}
+                      <div className="absolute inset-0 rounded-full border-2 border-amber-400/30 border-t-amber-500/80 animate-spin" style={{ animationDuration: '2s' }}></div>
+                      {/* Inner pulsing core */}
+                      <div className="relative w-24 h-24 rounded-full bg-gradient-to-br from-amber-100 to-amber-200 dark:from-amber-900/50 dark:to-amber-800/50 flex items-center justify-center shadow-lg shadow-amber-500/30">
+                        <Palette className="w-12 h-12 text-amber-600 dark:text-amber-400 animate-pulse" />
+                      </div>
+                    </div>
+
+                    {/* Elegant Typography */}
+                    <h3 className="text-2xl md:text-3xl font-serif font-semibold text-amber-900 dark:text-amber-200 mb-3" style={{ letterSpacing: '0.15em' }}>
+                      Crafting Your Divine Masterpiece
+                    </h3>
+
+                    <p className="text-base font-serif text-amber-700/70 dark:text-amber-400/60 italic mb-6 max-w-md mx-auto">
+                      "Every stroke of light is a prayer, every color a blessing"
+                    </p>
+
+                    {/* Progress Indicator */}
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></div>
+                      <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse animation-delay-200"></div>
+                      <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse animation-delay-400"></div>
+                    </div>
+                  </div>
+
+                  {/* Custom Animation Keyframes */}
+                  <style jsx>{`
+                    @keyframes blob {
+                      0%, 100% { transform: translate(0, 0) scale(1); }
+                      33% { transform: translate(30px, -50px) scale(1.1); }
+                      66% { transform: translate(-20px, 20px) scale(0.9); }
+                    }
+                    .animate-blob {
+                      animation: blob 7s infinite;
+                    }
+                    .animation-delay-2000 {
+                      animation-delay: 2s;
+                    }
+                    .animation-delay-200 {
+                      animation-delay: 0.2s;
+                    }
+                    .animation-delay-400 {
+                      animation-delay: 0.4s;
+                    }
+                  `}</style>
+                </div>
               ) : (
                 /* Empty State - Compact */
                 <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-8 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[450px]">
