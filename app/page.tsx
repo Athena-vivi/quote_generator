@@ -94,7 +94,7 @@ export default function HomePage() {
           </div>
 
           {/* Title - No background, transparent */}
-          <h1 className="hidden md:block text-center mb-14 flex flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline">
+          <h1 className="hidden md:flex text-center mb-14 flex-col items-center justify-center gap-1 md:gap-4 md:flex-row md:items-baseline">
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-200">Transform</span>
             <span className="text-4xl md:text-5xl font-serif font-bold text-amber-700 dark:text-amber-200">Bible Quotes</span>
             <span className="text-xl md:text-2xl font-serif italic text-stone-700 dark:text-zinc-500">into</span>
