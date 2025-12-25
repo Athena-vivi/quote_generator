@@ -885,27 +885,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       <div className="w-2 h-2 rounded-full bg-amber-400 animate-pulse animation-delay-400"></div>
                     </div>
                   </div>
-
-                  {/* Custom Animation Keyframes */}
-                  <style jsx>{`
-                    @keyframes blob {
-                      0%, 100% { transform: translate(0, 0) scale(1); }
-                      33% { transform: translate(30px, -50px) scale(1.1); }
-                      66% { transform: translate(-20px, 20px) scale(0.9); }
-                    }
-                    .animate-blob {
-                      animation: blob 7s infinite;
-                    }
-                    .animation-delay-2000 {
-                      animation-delay: 2s;
-                    }
-                    .animation-delay-200 {
-                      animation-delay: 0.2s;
-                    }
-                    .animation-delay-400 {
-                      animation-delay: 0.4s;
-                    }
-                  `}</style>
                 </div>
               ) : (
                 /* Empty State - Compact */
@@ -927,17 +906,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
           </div>
         </div>
-
-        {/* Custom scrollbar hide styles */}
-        <style jsx>{`
-          .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-          }
-          .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
       </div>
     </div>
   )
