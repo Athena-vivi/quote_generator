@@ -932,7 +932,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                             <button
                               key={index}
                               onClick={() => setPrompt(suggestion)}
-                              className="px-3 py-1 min-h-[44px] text-sm md:text-xs md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300 active:scale-95"
+                              className="px-3 py-1 min-h-[32px] text-sm md:text-xs md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 hover:bg-amber-100/50 dark:hover:bg-amber-950/60 hover:text-amber-900 dark:hover:text-amber-200 transition-all duration-300 active:scale-95"
                             >
                               {suggestion}
                             </button>
