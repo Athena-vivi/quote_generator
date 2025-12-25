@@ -849,14 +849,15 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 <>
                   {/* MOBILE: Floating overlay panel when editing with existing image */}
                   {generatedImageUrl && (
-                    <div className="md:hidden fixed bottom-0 left-0 right-0 z-40 animate-in slide-in-from-bottom-4 duration-200 ease-out">
-                      {/* Backdrop */}
+                    <div className="md:hidden fixed bottom-[52px] left-0 right-0 z-[60] animate-in slide-in-from-bottom-4 duration-200 ease-out">
+                      {/* Backdrop - Only show above, not over bottom toolbar */}
                       <div
                         className="absolute inset-0 bg-black/20 backdrop-blur-sm"
+                        style={{ top: '-100vh', bottom: '52px' }}
                         onClick={() => setIsInputCollapsed(true)}
                       />
                       {/* Floating Input Card */}
-                      <div className="relative bg-[#fdfbf7]/95 dark:bg-black/80 backdrop-blur-2xl rounded-t-3xl border-t border-x border-amber-200/50 dark:border-amber-500/20 shadow-2xl p-4 safe-area-inset-bottom">
+                      <div className="relative bg-[#fdfbf7]/95 dark:bg-black/80 backdrop-blur-2xl rounded-t-2xl border-t border-x border-amber-200/50 dark:border-amber-500/20 shadow-2xl p-4 max-h-[60vh] overflow-y-auto">
                         <div className="flex items-center justify-between mb-2 md:mb-3">
                           <div className="flex items-center gap-2">
                             <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
