@@ -1,0 +1,131 @@
+[33m7e1dfb5[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: commit: 重构图片生成组件
+[33mcc88a25[m HEAD@{1}: commit: 图片生成组件精修
+[33m69a87b7[m HEAD@{2}: commit: 图片生成组件精修
+[33m2827402[m HEAD@{3}: commit: 图片生成组件精修
+[33me67d364[m HEAD@{4}: commit: 汉堡菜单按钮
+[33m445b0bf[m HEAD@{5}: commit: 汉堡菜单按钮
+[33me5a9f03[m HEAD@{6}: commit: 汉堡菜单按钮
+[33m810295c[m HEAD@{7}: commit: 移除导航栏的about
+[33mdb295f8[m HEAD@{8}: commit: 分享弹窗
+[33mcdcefcf[m HEAD@{9}: commit: 分享弹窗竖着排列
+[33m3ca285a[m HEAD@{10}: commit: 控制器背景统一
+[33mde47d20[m HEAD@{11}: commit: 按钮优化
+[33m2de44f5[m HEAD@{12}: commit: 移动按钮
+[33m07ba6cf[m HEAD@{13}: commit: 移动按钮
+[33mdf74b9f[m HEAD@{14}: commit: 图片尺寸约束
+[33m39fdf0d[m HEAD@{15}: commit: 图片尺寸约束
+[33m45cf404[m HEAD@{16}: reset: moving to HEAD~1
+[33md93da3c[m HEAD@{17}: commit: 图片生成组件升级
+[33m45cf404[m HEAD@{18}: commit: 图片生成组件升级
+[33mdfb0774[m HEAD@{19}: commit: 图片生成组件升级
+[33m32afe76[m HEAD@{20}: commit: 图片生成组件升级
+[33m9d0534c[m HEAD@{21}: commit: 图片生成组件升级
+[33m75c1f68[m HEAD@{22}: commit: 图片生成组件升级
+[33m4e7d4cb[m HEAD@{23}: commit: 图片生成组件升级
+[33m55ccd98[m HEAD@{24}: commit: 图片生成组件升级
+[33m3802d43[m HEAD@{25}: commit: 图片生成组件升级
+[33m45c042d[m HEAD@{26}: commit: 图片生成组件升级
+[33m010eefe[m HEAD@{27}: commit: 图片生成组件升级
+[33m39f4c6a[m HEAD@{28}: commit: 图片生成组件升级
+[33m8b1b58f[m HEAD@{29}: commit: 图片生成组件升级
+[33mfd5871a[m HEAD@{30}: commit: 图片生成组件升级
+[33m7fe9dcf[m HEAD@{31}: commit: 搜索结果优化
+[33m21410de[m HEAD@{32}: commit: 交互优化
+[33mac042db[m HEAD@{33}: commit: 交互优化
+[33m4bd8c59[m HEAD@{34}: commit: 交互优化
+[33m10a0023[m HEAD@{35}: commit: 字体优化
+[33m33c891f[m HEAD@{36}: commit: 深色模式优化
+[33m0059d4c[m HEAD@{37}: commit: 深色模式优化
+[33m413ffc9[m HEAD@{38}: commit: 深色模式优化
+[33mdee7e8e[m HEAD@{39}: commit: 深色模式优化
+[33m716dc51[m HEAD@{40}: commit: 移动端性能优化
+[33mc4f9217[m HEAD@{41}: commit: 移动端性能优化
+[33me2afaba[m HEAD@{42}: commit: 移动端性能优化
+[33m5e38e00[m HEAD@{43}: commit: 移动端性能优化
+[33m819dbec[m HEAD@{44}: commit: 移动端性能优化
+[33m77e6cdc[m HEAD@{45}: commit: 移动端性能优化
+[33m6f67370[m HEAD@{46}: commit: 移动端性能优化
+[33m028f216[m HEAD@{47}: commit: 性能优化
+[33m2b7d23e[m HEAD@{48}: commit: 修复背景颜色
+[33m332e091[m HEAD@{49}: commit: 修复背景颜色
+[33m50c9178[m HEAD@{50}: commit: 修复背景颜色
+[33m93029de[m HEAD@{51}: commit: 修复背景颜色
+[33m4353b5d[m HEAD@{52}: commit: 性能优化
+[33m997f8de[m HEAD@{53}: commit: 全站无障碍与 SEO 优化
+[33m98a1584[m HEAD@{54}: commit: 全站无障碍与 SEO 优化
+[33me3b6c34[m HEAD@{55}: commit: 全站无障碍与 SEO 优化
+[33m5a120b1[m HEAD@{56}: commit: 全站无障碍与 SEO 优化
+[33mbede2f0[m HEAD@{57}: commit: 全站无障碍与 SEO 优化
+[33m85450ff[m HEAD@{58}: commit: 全站无障碍与 SEO 优化
+[33m80d5615[m HEAD@{59}: commit: 全站无障碍与 SEO 优化
+[33mdb5624e[m HEAD@{60}: commit: 减少未使用的 JavaScript
+[33m579c02a[m HEAD@{61}: commit: 内容策略对齐
+[33mc479a8a[m HEAD@{62}: commit: 升级导航栏
+[33m1a9a81f[m HEAD@{63}: commit: Blog 转型为经文分类集
+[33m105a90a[m HEAD@{64}: commit: Blog 转型为经文分类集
+[33m55a74c5[m HEAD@{65}: commit: 优化logo设计
+[33m9d1be24[m HEAD@{66}: commit: 优化logo设计
+[33m58a4fa9[m HEAD@{67}: commit: 优化logo设计
+[33m5dd595c[m HEAD@{68}: commit: 优化logo设计
+[33m96ebf9e[m HEAD@{69}: commit: 优化logo设计
+[33m1135c7a[m HEAD@{70}: commit: 优化logo设计
+[33macd69a1[m HEAD@{71}: commit: 优化UI设计
+[33mc4824b9[m HEAD@{72}: commit: 优化UI设计
+[33mfd75e8e[m HEAD@{73}: commit: 优化UI设计
+[33mb03e5fb[m HEAD@{74}: commit: 优化UI设计
+[33m1fc53c7[m HEAD@{75}: commit: 优化UI设计
+[33m174c920[m HEAD@{76}: commit: 优化UI设计
+[33m09c270d[m HEAD@{77}: commit: 优化UI设计
+[33m1d0e92d[m HEAD@{78}: commit: 优化UI设计
+[33mf29a2e1[m HEAD@{79}: commit: 优化UI设计
+[33me3cc08c[m HEAD@{80}: commit: 优化UI设计
+[33m8e7ca17[m HEAD@{81}: commit: 优化UI设计
+[33m87d6d51[m HEAD@{82}: commit: 优化UI设计
+[33m7c69e50[m HEAD@{83}: commit: 优化UI设计
+[33me64cc67[m HEAD@{84}: commit: 优化UI设计
+[33m53c317d[m HEAD@{85}: commit: 优化UI设计
+[33m0b2820c[m HEAD@{86}: commit: 优化UI设计
+[33mc664328[m HEAD@{87}: commit: 优化UI设计
+[33m4f7559d[m HEAD@{88}: commit: UI重新设计
+[33mc05f759[m HEAD@{89}: commit: UI重新设计
+[33md84516d[m HEAD@{90}: commit: UI重新设计
+[33mbec5b70[m HEAD@{91}: commit: UI重新设计
+[33ma5a9fd2[m HEAD@{92}: commit: UI重新设计
+[33m3c709f5[m HEAD@{93}: commit: UI重新设计
+[33maf9f4fe[m HEAD@{94}: commit: UI重新设计
+[33ma1c108e[m HEAD@{95}: commit: UI重新设计
+[33m821985c[m HEAD@{96}: commit: UI重新设计
+[33m68b4773[m HEAD@{97}: commit: UI重新设计
+[33m4bb9df4[m HEAD@{98}: commit: UI重新设计
+[33m2f3241a[m HEAD@{99}: commit: UI重新设计
+[33m251dc3f[m HEAD@{100}: commit: UI重新设计
+[33mcbe444b[m HEAD@{101}: commit: UI重新设计
+[33ma733e39[m HEAD@{102}: commit: UI重新设计
+[33m578225d[m HEAD@{103}: commit: UI重新设计
+[33mcad908e[m HEAD@{104}: commit: UI重新设计
+[33m28c7c79[m HEAD@{105}: commit: UI重新设计
+[33mcdb037a[m HEAD@{106}: commit: UI重新设计
+[33meaf21e9[m HEAD@{107}: commit: Fix CSS loading issues with optimized color variables
+[33m5c992a1[m HEAD@{108}: commit: Fix console removal and enhance Chrome runtime error handling
+[33mdc1634a[m HEAD@{109}: commit: Add CSS loading diagnosis and fix .env.local format
+[33me1b3634[m HEAD@{110}: commit: Add Chrome runtime error suppression script
+[33m3aab565[m HEAD@{111}: commit: Fix PWA manifest and icon loading issues
+[33m74de814[m HEAD@{112}: commit: Fix critical runtime issues affecting user experience
+[33m483c3fa[m HEAD@{113}: reset: moving to HEAD@{1}
+[33mcb523a5[m HEAD@{114}: reset: moving to cb523a5
+[33m483c3fa[m HEAD@{115}: commit: Fix CSS loading issues and performance optimization
+[33mf5a7405[m HEAD@{116}: commit: Fix TypeScript dependencies for production builds
+[33m5c8aff1[m HEAD@{117}: commit: Fix postcss dependency for production builds
+[33m50f1ecb[m HEAD@{118}: commit: Fix cssnano dependency issue for production builds
+[33m7f3f71a[m HEAD@{119}: commit: Fix module resolution issues for Vercel deployment
+[33md7543e3[m HEAD@{120}: commit: Fix Vercel deployment by switching to npm
+[33m7bb0b72[m HEAD@{121}: commit: Add Vercel deployment fixes
+[33m9c65526[m HEAD@{122}: commit: Fix Vercel deployment with vercel-build script
+[33m3252c76[m HEAD@{123}: commit: 优化CSS加载
+[33mcd675b1[m HEAD@{124}: commit: 优化CSS加载
+[33m80032f8[m HEAD@{125}: commit: 优化CSS加载
+[33m78c6f07[m HEAD@{126}: commit: 优化静态资源
+[33mce61de2[m HEAD@{127}: commit: SEO优化
+[33mcb523a5[m HEAD@{128}: reset: moving to HEAD
+[33mcb523a5[m HEAD@{129}: Branch: renamed refs/heads/master to refs/heads/main
+[33mcb523a5[m HEAD@{131}: commit (initial): Initial commit

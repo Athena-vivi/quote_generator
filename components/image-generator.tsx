@@ -759,18 +759,18 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                           ref={previewCanvasRef}
                           width={1024}
                           height={1024}
-                          className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl rounded-lg relative z-10"
+                          className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl dark:shadow-[0_0_30px_rgba(212,175,55,0.1)] rounded-lg relative z-10"
                         />
                       </div>
 
                       {/* Toolbar - Attached to bottom of canvas */}
                       <div className="mt-0 px-6 pb-6 pt-3">
                         <div className="flex items-center justify-between gap-3">
-                          {/* Download - With Amber Pulse Glow on Hover */}
+                          {/* Download - With border and amber glow on hover */}
                           <button
                             onClick={downloadImage}
                             disabled={isComposing || !fontsLoaded}
-                            className="group/download min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1 relative overflow-hidden"
+                            className="group/download min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1 relative overflow-hidden border border-white/10 dark:border-white/5 hover:border-amber-500/50 dark:hover:border-amber-400/40"
                             aria-label="Download image"
                           >
                             {/* Amber Pulse Glow Effect */}
@@ -788,11 +788,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                             )}
                           </button>
 
-                          {/* Copy */}
+                          {/* Copy - With border and amber glow on hover */}
                           <button
                             onClick={copyToClipboard}
                             disabled={isComposing || !fontsLoaded}
-                            className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1"
+                            className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm flex-1 border border-white/10 dark:border-white/5 hover:border-amber-500/50 dark:hover:border-amber-400/40"
                             aria-label="Copy to clipboard"
                           >
                             {copied ? (
@@ -813,7 +813,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                             <button
                               onClick={() => setShowSocialShare(!showSocialShare)}
                               disabled={isComposing || !fontsLoaded}
-                              className="w-full min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                              className="w-full min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm border border-white/10 dark:border-white/5 hover:border-amber-500/50 dark:hover:border-amber-400/40"
                               aria-label="Share"
                             >
                               <Share2 className="w-4 h-4" />
