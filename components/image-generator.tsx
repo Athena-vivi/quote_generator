@@ -1107,7 +1107,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
             {/* MOBILE: Fixed Bottom Toolbar - Only visible on mobile when image exists */}
             {generatedImageUrl && (
-              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-amber-200/40 dark:border-amber-500/10 px-3 py-1.5 safe-area-inset-bottom">
+              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white dark:bg-black border-t border-amber-200/40 dark:border-amber-500/10 px-3 py-1.5">
                 <div className="flex items-center justify-between gap-2">
                   {/* Download - MOBILE: Compressed height */}
                   <button
