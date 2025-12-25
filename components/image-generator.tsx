@@ -814,14 +814,14 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 </div>
               ) : (
                 /* Empty State - Compact on mobile */
-                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-3 md:p-8 border-2 md:border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[180px] md:min-h-[450px]">
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-3 md:p-8 border-2 md:border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[120px] md:min-h-[450px]">
                   <div className="text-center px-2 md:px-4">
-                    <div className="relative inline-block mb-2 md:mb-6">
+                    <div className="relative inline-block mb-1 md:mb-6">
                       <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <Palette className="relative w-12 h-12 md:w-20 md:h-20 text-amber-400/60 dark:text-amber-500/50" />
+                      <Palette className="relative w-10 h-10 md:w-20 md:h-20 text-amber-400/60 dark:text-amber-500/50" />
                     </div>
-                    <p className="text-base md:text-2xl lg:text-3xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-1 md:mb-3">Your Canvas Awaits</p>
-                    <p className="text-xs md:text-base font-serif text-stone-500 dark:text-zinc-500 mb-2 md:mb-4 max-w-md">Describe your sacred vision below and let divine art emerge</p>
+                    <p className="text-sm md:text-2xl lg:text-3xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-1 md:mb-3">Your Canvas Awaits</p>
+                    <p className="text-[11px] md:text-base font-serif text-stone-500 dark:text-zinc-500 mb-2 md:mb-4 max-w-md">Describe your sacred vision below and let divine art emerge</p>
                     <div className="inline-flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 bg-amber-100/50 dark:bg-amber-950/30 rounded-full border border-amber-200/40 dark:border-amber-500/15">
                       <div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-green-500 animate-pulse"></div>
                       <span className="text-[10px] md:text-sm font-serif text-amber-700/70 dark:text-amber-400/70">Ready to create</span>
@@ -832,7 +832,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
 
             {/* LEFT SIDE (Mobile: Below Image, Desktop: Left) - Controls */}
-            <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-0 md:pr-1 max-h-[32vh] md:max-h-full">
+            <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col pr-0 md:pr-1">
               {/* MOBILE: Collapsible Input Area - Shows as button when collapsed */}
               {isInputCollapsed && generatedImageUrl ? (
                 <button
