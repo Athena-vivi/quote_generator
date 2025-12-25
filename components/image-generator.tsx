@@ -596,24 +596,24 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   }, [quote])
 
   return (
-    <div className="fixed inset-0 bg-black/70 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-4 z-50">
-      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full h-[90vh] max-h-[800px] shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10 ring-1 dark:ring-amber-500/20 flex flex-col">
-        <div className="p-6 md:p-8 relative flex-shrink-0">
-          {/* Floating Close Button - Amber Gold with Glow */}
+    <div className="fixed inset-0 bg-black/70 dark:bg-black/90 backdrop-blur-md flex items-center justify-center p-2 md:p-4 z-50">
+      <div className="scrollbar-hide bg-[#fdfbf7]/95 dark:bg-black/60 dark:backdrop-blur-max backdrop-blur-2xl rounded-[2rem] max-w-7xl w-full h-[92vh] md:h-[90vh] max-h-[800px] shadow-2xl dark:shadow-[0_0_100px_rgba(212,175,55,0.15)] border border-amber-200/40 dark:border-amber-500/10 ring-1 dark:ring-amber-500/20 flex flex-col">
+        <div className="p-4 md:p-8 relative flex-shrink-0">
+          {/* Floating Close Button - Amber Gold with Glow - MOBILE: Adjusted position */}
           <button
             onClick={onClose}
-            className="absolute top-6 right-6 z-50 group"
+            className="absolute top-3 right-3 md:top-6 md:right-6 z-50 group"
             aria-label="Close"
           >
-            <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/30 dark:shadow-amber-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-amber-500/50 dark:group-hover:shadow-amber-500/60">
+            <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/30 dark:shadow-amber-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-amber-500/50 dark:group-hover:shadow-amber-500/60">
               <div className="absolute inset-0 rounded-full bg-amber-400/20 dark:bg-amber-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              <X className="relative w-6 h-6 text-white" strokeWidth={2.5} />
+              <X className="relative w-5 h-5 md:w-6 md:h-6 text-white" strokeWidth={2.5} />
             </div>
           </button>
 
-          {/* Centered Title */}
-          <div className="text-center mb-8">
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-amber-900 dark:text-amber-300" style={{ letterSpacing: '0.12em' }}>
+          {/* Centered Title - MOBILE: Smaller font size */}
+          <div className="text-center mb-4 md:mb-8">
+            <h2 className="text-xl md:text-3xl lg:text-4xl font-serif font-bold text-amber-900 dark:text-amber-300" style={{ letterSpacing: '0.12em' }}>
               Craft Your Divine Art
             </h2>
           </div>
@@ -639,26 +639,26 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             <div className="order-1 md:order-2 w-full md:w-[60%] flex flex-col h-full min-h-0 md:min-h-0 relative">
               {generatedImageUrl ? (
                 <>
-                  {/* Canvas Area - Mobile: Center with minimal padding, Desktop: As before */}
-                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-start justify-center pt-2 md:pt-4 px-4 md:px-16 pb-0">
+                  {/* Canvas Area - MOBILE: Full width, minimal padding for maximum display */}
+                  <div className="flex-1 relative w-full min-h-0 overflow-hidden flex items-center justify-center p-1 md:p-4">
                     {/* Ultra-subtle Radial Amber Glow */}
-                    <div className="absolute top-4 md:top-8 left-1/2 -translate-x-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[600px] h-[200px] md:h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
                     {/* Canvas Container with Toolbar */}
-                    <div className="group relative max-w-full aspect-square flex flex-col w-full">
+                    <div className="group relative w-full aspect-square max-h-full flex flex-col">
                       {/* Canvas Frame Area */}
                       <div className="relative flex-1">
                         {/* Elegant Frame - Enhanced with shadow-2xl and ring-1 */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-2xl shadow-black/20 dark:shadow-[0_0_60px_rgba(212,175,55,0.25)] border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-2xl shadow-black/20 dark:shadow-[0_0_60px_rgba(212,175,55,0.25)] border-[2px] md:border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-white/30 dark:ring-amber-400/15 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl p-[1px] bg-gradient-to-br from-amber-400/20 via-transparent to-amber-500/10 dark:from-amber-500/15 dark:via-transparent dark:to-amber-600/8 pointer-events-none"></div>
 
-                        {/* Canvas - CRITICAL: max-w-full max-h-full for proper scaling */}
+                        {/* Canvas - CRITICAL: w-full for mobile maximum display */}
                         <canvas
                           ref={previewCanvasRef}
                           width={1024}
                           height={1024}
-                          className="max-w-full max-h-full w-auto h-auto object-contain shadow-2xl dark:shadow-[0_0_30px_rgba(212,175,55,0.1)] rounded-lg relative z-10"
+                          className="w-full h-full object-contain shadow-2xl dark:shadow-[0_0_30px_rgba(212,175,55,0.1)] rounded-lg relative z-10"
                         />
                       </div>
                     </div>
@@ -666,7 +666,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 </>
               ) : isGenerating ? (
                 /* Elegant Loading Skeleton */
-                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-amber-50/80 via-white/60 to-amber-100/70 dark:from-stone-900/60 dark:via-black/40 dark:to-amber-950/50 rounded-3xl p-4 md:p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_60px_rgba(212,175,55,0.15)] min-h-[300px] md:min-h-[450px] relative overflow-hidden">
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-amber-50/80 via-white/60 to-amber-100/70 dark:from-stone-900/60 dark:via-black/40 dark:to-amber-950/50 rounded-3xl p-4 md:p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_60px_rgba(212,175,55,0.15)] min-h-[200px] md:min-h-[450px] relative overflow-hidden">
                   {/* Subtle Animated Background Pattern */}
                   <div className="absolute inset-0 opacity-30">
                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-amber-300/20 via-transparent to-amber-400/20 animate-pulse"></div>
@@ -705,18 +705,18 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   </div>
                 </div>
               ) : (
-                /* Empty State - Compact */
-                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-4 md:p-8 border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[300px] md:min-h-[450px]">
-                  <div className="text-center px-4">
-                    <div className="relative inline-block mb-4 md:mb-6">
+                /* Empty State - Compact on mobile */
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-3 md:p-8 border-2 md:border-4 border-amber-200/50 dark:border-amber-500/15 shadow-inner dark:shadow-[0_0_40px_rgba(212,175,55,0.1)] min-h-[180px] md:min-h-[450px]">
+                  <div className="text-center px-2 md:px-4">
+                    <div className="relative inline-block mb-2 md:mb-6">
                       <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <Palette className="relative w-16 h-16 md:w-20 md:h-20 text-amber-400/60 dark:text-amber-500/50" />
+                      <Palette className="relative w-12 h-12 md:w-20 md:h-20 text-amber-400/60 dark:text-amber-500/50" />
                     </div>
-                    <p className="text-xl md:text-2xl lg:text-3xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-2 md:mb-3">Your Canvas Awaits</p>
-                    <p className="text-sm md:text-base font-serif text-stone-500 dark:text-zinc-500 mb-3 md:mb-4 max-w-md">Describe your sacred vision below and let divine art emerge</p>
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-100/50 dark:bg-amber-950/30 rounded-full border border-amber-200/40 dark:border-amber-500/15">
-                      <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                      <span className="text-xs md:text-sm font-serif text-amber-700/70 dark:text-amber-400/70">Ready to create • 1:1 Square Format</span>
+                    <p className="text-base md:text-2xl lg:text-3xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-1 md:mb-3">Your Canvas Awaits</p>
+                    <p className="text-xs md:text-base font-serif text-stone-500 dark:text-zinc-500 mb-2 md:mb-4 max-w-md">Describe your sacred vision below and let divine art emerge</p>
+                    <div className="inline-flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 bg-amber-100/50 dark:bg-amber-950/30 rounded-full border border-amber-200/40 dark:border-amber-500/15">
+                      <div className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                      <span className="text-[10px] md:text-sm font-serif text-amber-700/70 dark:text-amber-400/70">Ready to create</span>
                     </div>
                   </div>
                 </div>
@@ -724,7 +724,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
 
             {/* LEFT SIDE (Mobile: Below Image, Desktop: Left) - Controls */}
-            <div className="order-2 md:order-1 w-full md:w-[40%] space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-0 md:pr-1 max-h-[40vh] md:max-h-full">
+            <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-0 md:pr-1 max-h-[32vh] md:max-h-full">
               {/* Compact Input Area - Mobile optimized padding */}
               <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]">
                 <div className="flex items-center gap-2 mb-2 md:mb-3">
@@ -874,64 +874,64 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
             {/* MOBILE: Fixed Bottom Toolbar - Only visible on mobile when image exists */}
             {generatedImageUrl && (
-              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/90 backdrop-blur-xl border-t border-amber-200/50 dark:border-amber-500/20 px-4 py-3 safe-area-inset-bottom">
-                <div className="flex items-center justify-between gap-2">
-                  {/* Download - MOBILE OPTIMIZED */}
+              <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-black/90 backdrop-blur-xl border-t border-amber-200/50 dark:border-amber-500/20 px-2 py-2 safe-area-inset-bottom">
+                <div className="flex items-center justify-between gap-1.5">
+                  {/* Download - MOBILE: Reduced padding */}
                   <button
                     onClick={downloadImage}
                     disabled={isComposing || !fontsLoaded}
-                    className="group/download flex-1 min-h-[52px] px-4 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 text-white font-serif font-semibold rounded-2xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-500/30"
+                    className="group/download flex-1 min-h-[48px] px-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 text-white font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-0.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-amber-500/30"
                     aria-label="Download image"
                   >
                     {isComposing ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        <span className="text-xs">Processing...</span>
+                        <span className="text-[10px]">Processing...</span>
                       </>
                     ) : (
                       <>
-                        <Download className="w-6 h-6" />
-                        <span className="text-xs font-semibold">Download</span>
+                        <Download className="w-5 h-5" />
+                        <span className="text-[10px] font-semibold">Download</span>
                       </>
                     )}
                   </button>
 
-                  {/* Copy - MOBILE OPTIMIZED */}
+                  {/* Copy - MOBILE: Amber style, reduced padding */}
                   <button
                     onClick={copyToClipboard}
                     disabled={isComposing || !fontsLoaded}
-                    className="flex-1 min-h-[52px] px-4 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-2xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed border border-amber-200/50 dark:border-amber-500/20"
+                    className="flex-1 min-h-[48px] px-2 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-500 hover:to-amber-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-semibold rounded-xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-0.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-amber-500/25"
                     aria-label="Copy to clipboard"
                   >
                     {copied ? (
                       <>
-                        <Check className="w-5 h-5 text-green-600" />
-                        <span className="text-xs">Copied!</span>
+                        <Check className="w-4 h-4 text-green-200" />
+                        <span className="text-[10px]">Copied!</span>
                       </>
                     ) : (
                       <>
-                        <Copy className="w-5 h-5" />
-                        <span className="text-xs">Copy</span>
+                        <Copy className="w-4 h-4" />
+                        <span className="text-[10px]">Copy</span>
                       </>
                     )}
                   </button>
 
-                  {/* Share - MOBILE: Emphasized with gradient for native share */}
+                  {/* Share - MOBILE: Reduced padding */}
                   <button
                     onClick={shareImage}
                     disabled={isSharing || isComposing || !fontsLoaded}
-                    className="flex-1 min-h-[52px] px-4 bg-gradient-to-br from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-bold rounded-2xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-amber-500/40"
+                    className="flex-1 min-h-[48px] px-2 bg-gradient-to-br from-amber-400 to-yellow-500 hover:from-amber-500 hover:to-yellow-600 dark:from-amber-300 dark:to-amber-400 text-white font-serif font-bold rounded-xl transition-all duration-300 active:scale-95 flex flex-col items-center justify-center gap-0.5 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl shadow-amber-500/40"
                     aria-label="Share image"
                   >
                     {isSharing ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
-                        <span className="text-xs font-semibold">Sharing...</span>
+                        <span className="text-[10px] font-semibold">Sharing...</span>
                       </>
                     ) : (
                       <>
-                        <Share2 className="w-6 h-6" />
-                        <span className="text-xs font-bold">Share</span>
+                        <Share2 className="w-5 h-5" />
+                        <span className="text-[10px] font-bold">Share</span>
                       </>
                     )}
                   </button>
