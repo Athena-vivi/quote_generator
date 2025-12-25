@@ -84,7 +84,7 @@ export function Navigation() {
           </Link>
 
           {/* Desktop Navigation - Sacred Serif Typography */}
-          <div className="hidden lg:flex items-center space-x-12">
+          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
             {navigationItems.map((item) => {
               const handlers = {
                 "Find Wisdom": handleFindQuotesClick,
@@ -115,7 +115,7 @@ export function Navigation() {
           </div>
 
           {/* Right side controls */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden md:flex items-center space-x-4">
             <div className="w-px h-8 bg-gradient-to-b from-transparent via-amber-300/30 dark:via-amber-500/20 to-transparent"></div>
             <ThemeToggle />
           </div>
