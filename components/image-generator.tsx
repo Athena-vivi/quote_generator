@@ -469,55 +469,84 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }, 2500)
   }
 
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+
   const handleShareToWhatsApp = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
     setShowShareMenu(false)
-    smartRedirect(
-      nativeAppLinks.whatsapp(quoteText),
-      webFallbackLinks.whatsapp(quoteText)
-    )
+
+    if (isMobile) {
+      smartRedirect(
+        nativeAppLinks.whatsapp(quoteText),
+        webFallbackLinks.whatsapp(quoteText)
+      )
+    } else {
+      window.open(webFallbackLinks.whatsapp(quoteText), '_blank', 'width=600,height=600')
+    }
   }
 
   const handleShareToFacebook = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
     setShowShareMenu(false)
-    smartRedirect(
-      nativeAppLinks.facebook(),
-      webFallbackLinks.facebook(window.location.href)
-    )
+
+    const shareUrl = window.location.href
+
+    if (isMobile) {
+      smartRedirect(
+        nativeAppLinks.facebook(),
+        webFallbackLinks.facebook(shareUrl)
+      )
+    } else {
+      window.open(webFallbackLinks.facebook(shareUrl), '_blank', 'width=600,height=400')
+    }
   }
 
   const handleShareToX = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
     setShowShareMenu(false)
-    smartRedirect(
-      nativeAppLinks.x(quoteText),
-      webFallbackLinks.x(quoteText)
-    )
+
+    if (isMobile) {
+      smartRedirect(
+        nativeAppLinks.x(quoteText),
+        webFallbackLinks.x(quoteText)
+      )
+    } else {
+      window.open(webFallbackLinks.x(quoteText), '_blank', 'width=600,height=400')
+    }
   }
 
   const handleShareToInstagram = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
-    showToast("Image saved to gallery. Please select it in Instagram.")
     setShowShareMenu(false)
-    downloadImage()
 
-    setTimeout(() => {
-      const nativeUrl = nativeAppLinks.instagram()
-      const webUrl = webFallbackLinks.instagram()
-      setShowInstagramOpenButton(true)
-      window.location.href = nativeUrl
+    if (isMobile) {
+      showToast("Image saved to gallery. Please select it in Instagram.")
+      downloadImage()
 
       setTimeout(() => {
-        if (showInstagramOpenButton) {
-          window.location.href = webUrl
-        }
-      }, 2500)
-    }, 300)
+        const nativeUrl = nativeAppLinks.instagram()
+        const webUrl = webFallbackLinks.instagram()
+        setShowInstagramOpenButton(true)
+        window.location.href = nativeUrl
+
+        setTimeout(() => {
+          if (showInstagramOpenButton) {
+            window.location.href = webUrl
+          }
+        }, 2500)
+      }, 300)
+    } else {
+      showToast("Image downloaded. Upload it to Instagram manually.")
+      downloadImage()
+      // Desktop: Open Instagram in new tab after short delay
+      setTimeout(() => {
+        window.open(webFallbackLinks.instagram(), '_blank')
+      }, 1000)
+    }
   }
 
   const forceOpenInstagram = () => {
