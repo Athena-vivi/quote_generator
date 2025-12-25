@@ -13,6 +13,12 @@ import {
   X,
 } from "lucide-react"
 
+// Social media icons for share menu
+import { MessageCircle } from "lucide-react"
+import { Facebook } from "lucide-react"
+import { Youtube } from "lucide-react" // Using for X/Twitter
+import { Instagram } from "lucide-react"
+
 interface Quote {
   reference: string
   content: string
@@ -225,6 +231,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [textColor, setTextColor] = useState<string>("#fff");
   const [refColor, setRefColor] = useState<string>("#ffd700");
   const [isSharing, setIsSharing] = useState(false)
+  const [showShareMenu, setShowShareMenu] = useState(false)
+  const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   // Simplified artistic suggestions
   const promptSuggestions = [
@@ -460,7 +468,66 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }
   }
 
-  // Share image using Web Share API with fallback
+  // App link protocols for social media
+  const appLinks = {
+    whatsapp: (text: string) => `https://wa.me/?text=${encodeURIComponent(text)}`,
+    facebook: (url: string) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
+    x: (text: string) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
+    instagram: () => `instagram://library`, // Opens Instagram to library
+  }
+
+  // Auto-copy quote content to clipboard
+  const copyQuoteText = async () => {
+    const quoteText = `"${quote.content}" — ${quote.reference}`
+    try {
+      await navigator.clipboard.writeText(quoteText)
+      return true
+    } catch (error) {
+      console.warn('Failed to copy quote text:', error)
+      return false
+    }
+  }
+
+  // Show toast message with auto-dismiss
+  const showToast = (message: string) => {
+    setToastMessage(message)
+    setTimeout(() => setToastMessage(null), 3000)
+  }
+
+  // Share handlers for each platform
+  const handleShareToWhatsApp = async () => {
+    const quoteText = `"${quote.content}" — ${quote.reference}`
+    await copyQuoteText()
+    window.location.href = appLinks.whatsapp(quoteText)
+    setShowShareMenu(false)
+  }
+
+  const handleShareToFacebook = async () => {
+    const quoteText = `"${quote.content}" — ${quote.reference}`
+    await copyQuoteText()
+    window.location.href = appLinks.facebook(window.location.href)
+    setShowShareMenu(false)
+  }
+
+  const handleShareToX = async () => {
+    const quoteText = `"${quote.content}" — ${quote.reference}`
+    await copyQuoteText()
+    window.location.href = appLinks.x(quoteText)
+    setShowShareMenu(false)
+  }
+
+  const handleShareToInstagram = async () => {
+    // For Instagram: download first, then redirect
+    showToast("Art saved! Opening Instagram...")
+    await downloadImage()
+    await copyQuoteText()
+    setTimeout(() => {
+      window.location.href = appLinks.instagram()
+      setShowShareMenu(false)
+    }, 500)
+  }
+
+  // Main share function - uses native share API or shows menu
   const shareImage = async () => {
     if (!previewCanvasRef.current || !fontsLoaded) return
 
@@ -493,16 +560,15 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         // Use Web Share API for direct image sharing
         await navigator.share(shareData)
       } else {
-        // Fallback: show error message for unsupported browsers
-        setError('Your browser doesn\'t support direct image sharing. Please Download the image and share it manually.')
-        setTimeout(() => setError(null), 5000)
+        // Fallback: show share menu for app-specific sharing
+        setShowShareMenu(true)
       }
     } catch (err) {
       // User cancelled sharing or error occurred
       if (err instanceof Error && err.name !== 'AbortError') {
         console.error('Share failed:', err)
-        setError('Sharing failed. Please try downloading the image instead.')
-        setTimeout(() => setError(null), 5000)
+        // Show share menu instead of error
+        setShowShareMenu(true)
       }
     } finally {
       setIsSharing(false)
@@ -942,6 +1008,102 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             )}
           </div>
         </div>
+
+        {/* Share Menu - Slide-up panel for mobile */}
+        {showShareMenu && (
+          <>
+            {/* Backdrop */}
+            <div
+              className="absolute inset-0 bg-black/40 backdrop-blur-sm z-40 animate-in fade-in duration-200"
+              onClick={() => setShowShareMenu(false)}
+            />
+
+            {/* Slide-up Menu */}
+            <div className="absolute bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom-4 duration-300 ease-out">
+              <div className="bg-white/95 dark:bg-black/95 backdrop-blur-xl border-t border-amber-200/50 dark:border-amber-500/20 rounded-t-3xl p-6 safe-area-inset-bottom">
+                {/* Handle bar */}
+                <div className="flex justify-center mb-6">
+                  <div className="w-12 h-1.5 bg-amber-300/50 dark:bg-amber-600/50 rounded-full" />
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-serif font-semibold text-amber-900 dark:text-amber-300 text-center mb-6">
+                  Share to App
+                </h3>
+
+                {/* App icons grid */}
+                <div className="grid grid-cols-4 gap-4 mb-6">
+                  {/* WhatsApp */}
+                  <button
+                    onClick={handleShareToWhatsApp}
+                    className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-amber-100/50 dark:hover:bg-amber-950/30 transition-all duration-300 active:scale-95 group"
+                  >
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center shadow-lg shadow-green-500/30 group-hover:shadow-green-500/50 transition-all duration-300">
+                      <MessageCircle className="w-7 h-7 md:w-8 md:h-8 text-white" strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-serif text-stone-700 dark:text-stone-300">WhatsApp</span>
+                  </button>
+
+                  {/* Facebook */}
+                  <button
+                    onClick={handleShareToFacebook}
+                    className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-amber-100/50 dark:hover:bg-amber-950/30 transition-all duration-300 active:scale-95 group"
+                  >
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-all duration-300">
+                      <Facebook className="w-7 h-7 md:w-8 md:h-8 text-white" strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-serif text-stone-700 dark:text-stone-300">Facebook</span>
+                  </button>
+
+                  {/* X / Twitter */}
+                  <button
+                    onClick={handleShareToX}
+                    className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-amber-100/50 dark:hover:bg-amber-950/30 transition-all duration-300 active:scale-95 group"
+                  >
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-stone-700 to-black dark:from-stone-600 dark:to-stone-900 flex items-center justify-center shadow-lg shadow-stone-500/30 group-hover:shadow-stone-500/50 transition-all duration-300">
+                      <Youtube className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-serif text-stone-700 dark:text-stone-300">X</span>
+                  </button>
+
+                  {/* Instagram */}
+                  <button
+                    onClick={handleShareToInstagram}
+                    className="flex flex-col items-center gap-2 p-3 rounded-2xl hover:bg-amber-100/50 dark:hover:bg-amber-950/30 transition-all duration-300 active:scale-95 group"
+                  >
+                    <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-orange-500 flex items-center justify-center shadow-lg shadow-pink-500/30 group-hover:shadow-pink-500/50 transition-all duration-300">
+                      <Instagram className="w-7 h-7 md:w-8 md:h-8 text-white" strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-serif text-stone-700 dark:text-stone-300">Instagram</span>
+                  </button>
+                </div>
+
+                {/* Note about auto-copy */}
+                <p className="text-center text-xs font-serif text-stone-500 dark:text-stone-400 italic">
+                  Quote text copied to clipboard • Image saved for Instagram
+                </p>
+
+                {/* Cancel button */}
+                <button
+                  onClick={() => setShowShareMenu(false)}
+                  className="w-full mt-4 py-3 px-4 bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-serif rounded-xl hover:bg-stone-200 dark:hover:bg-stone-700 transition-all duration-300 active:scale-98"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* Toast Notification */}
+        {toastMessage && (
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-2 duration-300">
+            <div className="bg-amber-500 text-white px-6 py-3 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center gap-2">
+              <Check className="w-5 h-5" />
+              <span className="font-serif text-sm font-semibold">{toastMessage}</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
