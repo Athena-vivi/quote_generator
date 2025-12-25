@@ -42,7 +42,7 @@ export function HeroSection() {
           </div>
 
           <div className="relative z-10 text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+            <h1 className="hidden md:block text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
               Transform Bible Quotes into
               <span className="bg-gradient-to-r from-amber-600 to-blue-600 bg-clip-text text-transparent">
                 {" "}

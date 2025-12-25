@@ -711,7 +711,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
           {/* Floating Close Button - Amber Gold with Glow - MOBILE: Adjusted position */}
           <button
             onClick={onClose}
-            className="absolute top-2 right-3 md:top-6 md:right-6 z-50 group"
+            className="absolute top-3 right-3 md:top-6 md:right-6 z-50 group"
             aria-label="Close"
           >
             <div className="relative w-9 h-9 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 dark:from-amber-500 dark:to-amber-700 flex items-center justify-center shadow-lg shadow-amber-500/30 dark:shadow-amber-500/40 transition-all duration-300 group-hover:scale-110 group-hover:shadow-amber-500/50 dark:group-hover:shadow-amber-500/60">
