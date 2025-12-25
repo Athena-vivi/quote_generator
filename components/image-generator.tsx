@@ -18,6 +18,7 @@ import { MessageCircle } from "lucide-react"
 import { Facebook } from "lucide-react"
 import { Youtube } from "lucide-react" // Using for X/Twitter
 import { Instagram } from "lucide-react"
+import { ExternalLink } from "lucide-react"
 
 interface Quote {
   reference: string
@@ -473,7 +474,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     whatsapp: (text: string) => `whatsapp://send?text=${encodeURIComponent(text)}`,
     facebook: () => `fb://sharer/`,
     x: (text: string) => `twitter://post?message=${encodeURIComponent(text)}`,
-    instagram: () => `instagram://library`,
+    instagram: () => `instagram://app`, // Changed to more universal scheme
   }
 
   // Web fallback URLs
@@ -483,6 +484,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     x: (text: string) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
     instagram: () => `https://www.instagram.com/`,
   }
+
+  // Instagram manual open state for confirmation fallback
+  const [showInstagramOpenButton, setShowInstagramOpenButton] = useState(false)
 
   // Auto-copy quote content to clipboard
   const copyQuoteText = async () => {
@@ -565,17 +569,50 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   }
 
   const handleShareToInstagram = async () => {
-    // For Instagram: download first, then redirect
-    showToast("Saved to Album. Redirecting to Instagram...")
-    await downloadImage()
+    const quoteText = `"${quote.content}" — ${quote.reference}`
+
+    // Step 1: Copy quote text immediately
     await copyQuoteText()
+
+    // Step 2: Show toast with quote copied message
+    showToast("Copied quote! Now paste it on Instagram.")
+
+    // Step 3: Close share menu
     setShowShareMenu(false)
+
+    // Step 4: Start download immediately (non-blocking)
+    downloadImage()
+
+    // Step 5: Delay redirect by 300ms to bypass browser interception
     setTimeout(() => {
-      smartRedirect(
-        nativeAppLinks.instagram(),
-        webFallbackLinks.instagram()
-      )
-    }, 500)
+      // Try native app first
+      const nativeUrl = nativeAppLinks.instagram()
+      const webUrl = webFallbackLinks.instagram()
+
+      // Set up fallback button if redirect might fail
+      setShowInstagramOpenButton(true)
+
+      // Attempt redirect
+      window.location.href = nativeUrl
+
+      // If app doesn't open in 2.5s, show web fallback
+      setTimeout(() => {
+        if (showInstagramOpenButton) {
+          window.location.href = webUrl
+        }
+      }, 2500)
+    }, 300)
+  }
+
+  // Manual Instagram open from toast button
+  const handleManualInstagramOpen = () => {
+    setShowInstagramOpenButton(false)
+    window.location.href = nativeAppLinks.instagram()
+
+    // Fallback to web after 2s
+    setTimeout(() => {
+      window.location.href = webFallbackLinks.instagram()
+    }, 2000)
   }
 
   // Main share function - uses native share API or shows menu
@@ -1146,13 +1183,28 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
           </>
         )}
 
-        {/* Toast Notification */}
-        {toastMessage && (
-          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-2 duration-300">
-            <div className="bg-amber-500 text-white px-6 py-3 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center gap-2">
-              <Check className="w-5 h-5" />
-              <span className="font-serif text-sm font-semibold">{toastMessage}</span>
-            </div>
+        {/* Toast Notification with Instagram fallback button */}
+        {(toastMessage || showInstagramOpenButton) && (
+          <div className="absolute top-24 left-1/2 -translate-x-1/2 z-50 animate-in slide-in-from-top-2 duration-300 flex flex-col items-center gap-3">
+            {/* Main toast message */}
+            {toastMessage && (
+              <div className="bg-amber-500 text-white px-6 py-3 rounded-2xl shadow-lg shadow-amber-500/30 flex items-center gap-2">
+                <Check className="w-5 h-5" />
+                <span className="font-serif text-sm font-semibold">{toastMessage}</span>
+              </div>
+            )}
+
+            {/* Instagram manual open button - appears when Instagram share is triggered */}
+            {showInstagramOpenButton && (
+              <button
+                onClick={handleManualInstagramOpen}
+                className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white px-6 py-3 rounded-2xl shadow-lg shadow-pink-500/30 flex items-center gap-2 hover:shadow-pink-500/50 transition-all duration-300 active:scale-95 font-serif text-sm font-semibold"
+              >
+                <Instagram className="w-5 h-5" />
+                <span>Open Instagram</span>
+                <ExternalLink className="w-4 h-4" />
+              </button>
+            )}
           </div>
         )}
       </div>
