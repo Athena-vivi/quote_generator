@@ -11,6 +11,7 @@ import {
   Copy,
   Check,
   X,
+  Menu,
 } from "lucide-react"
 
 // Social media icons for share menu
@@ -835,16 +836,26 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col pr-0 md:pr-1">
               {/* MOBILE: Collapsible Input Area - Shows as button when collapsed */}
               {isInputCollapsed && generatedImageUrl ? (
-                <button
-                  onClick={() => setIsInputCollapsed(false)}
-                  className="w-full min-h-[44px] bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-amber-200/50 dark:border-amber-500/20 rounded-2xl px-4 py-3 flex items-center justify-between shadow-md active:scale-98 transition-all"
-                >
-                  <div className="flex items-center gap-2">
-                    <Palette className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                    <span className="text-sm font-serif text-amber-900 dark:text-amber-300">Edit Prompt</span>
-                  </div>
-                  <span className="text-xs text-amber-700/60 dark:text-amber-400/60 line-clamp-1 max-w-[200px]">{prompt}</span>
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setIsInputCollapsed(false)}
+                    className="flex-1 min-h-[44px] bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-amber-200/50 dark:border-amber-500/20 rounded-2xl px-4 py-3 flex items-center justify-between shadow-md active:scale-98 transition-all"
+                  >
+                    <div className="flex items-center gap-2">
+                      <Palette className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                      <span className="text-sm font-serif text-amber-900 dark:text-amber-300">Edit Prompt</span>
+                    </div>
+                    <span className="text-xs text-amber-700/60 dark:text-amber-400/60 line-clamp-1 max-w-[120px]">{prompt}</span>
+                  </button>
+                  <button
+                    onClick={shareImage}
+                    disabled={isSharing || isComposing || !fontsLoaded}
+                    className="min-h-[44px] min-w-[44px] bg-white/90 dark:bg-black/80 backdrop-blur-xl border border-amber-200/50 dark:border-amber-500/20 rounded-2xl shadow-md active:scale-98 transition-all flex items-center justify-center text-amber-600 dark:text-amber-400 disabled:opacity-50"
+                    aria-label="Share"
+                  >
+                    <Menu className="w-5 h-5" />
+                  </button>
+                </div>
               ) : (
                 <>
                   {/* MOBILE: Floating overlay panel when editing with existing image */}
