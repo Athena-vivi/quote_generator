@@ -399,7 +399,7 @@ export function QuoteFinder() {
                       className={`group relative px-3 py-2 rounded-full border transition-all duration-300 flex items-center gap-2 flex-shrink-0 ${
                         isActive
                           ? "border-amber-400 bg-gradient-to-r from-amber-400 to-amber-500 dark:from-amber-500 dark:to-amber-600 shadow-sm"
-                          : "border-cyan-200/50 dark:border-cyan-400/20 hover:border-cyan-300/60 dark:hover:border-cyan-300/40 bg-cyan-50/30 dark:bg-cyan-950/20"
+                          : "border-cyan-200/50 dark:border-cyan-400/20 hover:border-cyan-300/60 dark:hover:border-cyan-300/40 bg-cyan-50/30 dark:bg-cyan-900/20"
                       }`}
                     >
                       <IconComponent className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-gray-700 dark:text-zinc-400"}`} aria-hidden="true" />

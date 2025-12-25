@@ -70,7 +70,7 @@ export function DailyQuoteSection() {
                 <Calendar className="w-12 h-12 text-amber-600 dark:text-amber-400" />
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-400/20 to-yellow-500/20 dark:from-amber-400/30 dark:to-amber-500/30 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               </div>
-              <h2 className="ml-6 text-5xl md:text-6xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800 dark:from-amber-300 via-yellow-400 to-amber-400 bg-clip-text text-transparent leading-tight">
+              <h2 className="hidden md:block ml-6 text-5xl md:text-6xl font-bold bg-gradient-to-br from-amber-700 via-orange-600 to-amber-800 dark:from-amber-300 via-yellow-400 to-amber-400 bg-clip-text text-transparent leading-tight">
                 Daily Divine
               </h2>
             </div>
