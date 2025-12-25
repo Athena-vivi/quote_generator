@@ -753,10 +753,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     {/* Ultra-subtle Radial Amber Glow */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] md:w-[600px] h-[200px] md:h-[600px] bg-gradient-radial from-amber-400/6 via-amber-500/3 to-transparent pointer-events-none"></div>
 
-                    {/* Canvas Container with Toolbar */}
-                    <div className="group relative w-full aspect-square max-h-full flex flex-col">
+                    {/* Canvas Container with Toolbar - Desktop: h-full, Mobile: aspect-square */}
+                    <div className="group relative w-full h-full md:h-full max-w-full max-h-full flex flex-col">
                       {/* Canvas Frame Area */}
-                      <div className="relative flex-1">
+                      <div className="relative flex-1 aspect-square md:aspect-auto">
                         {/* Elegant Frame - Enhanced with shadow-2xl and ring-1 */}
                         <div className="absolute inset-0 bg-gradient-to-br from-amber-100/60 to-amber-50/40 dark:from-stone-800/70 dark:to-amber-950/50 rounded-2xl shadow-2xl shadow-black/20 dark:shadow-[0_0_60px_rgba(212,175,55,0.25)] border-[2px] md:border-[3px] border-amber-200/40 dark:border-amber-600/25 pointer-events-none"></div>
                         <div className="absolute inset-0 rounded-2xl ring-1 ring-white/30 dark:ring-amber-400/15 pointer-events-none"></div>
