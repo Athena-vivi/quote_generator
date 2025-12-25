@@ -574,8 +574,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     // Step 1: Copy quote text immediately
     await copyQuoteText()
 
-    // Step 2: Show toast with quote copied message
-    showToast("Copied quote! Now paste it on Instagram.")
+    // Step 2: Show toast with gallery saved message
+    showToast("Image saved to gallery. Please select it in Instagram.")
 
     // Step 3: Close share menu
     setShowShareMenu(false)
@@ -604,15 +604,28 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }, 300)
   }
 
-  // Manual Instagram open from toast button
-  const handleManualInstagramOpen = () => {
+  // Force open Instagram with platform-aware logic
+  const forceOpenInstagram = () => {
     setShowInstagramOpenButton(false)
-    window.location.href = nativeAppLinks.instagram()
 
-    // Fallback to web after 2s
-    setTimeout(() => {
-      window.location.href = webFallbackLinks.instagram()
-    }, 2000)
+    const isAndroid = /Android/i.test(navigator.userAgent)
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent)
+
+    if (isAndroid) {
+      // Android: Use Intent scheme for guaranteed native app opening
+      const intentUrl = 'intent://instagram.com/#Intent;package=com.instagram.android;scheme=https;end'
+      window.location.href = intentUrl
+    } else if (isIOS) {
+      // iOS: Try camera first (directs to posting), fallback to app
+      window.location.href = 'instagram://camera'
+      // Fallback after 1.5s if camera doesn't work
+      setTimeout(() => {
+        window.location.href = 'instagram://app'
+      }, 1500)
+    } else {
+      // Desktop/Other: Standard URL scheme
+      window.location.href = 'instagram://app'
+    }
   }
 
   // Main share function - uses native share API or shows menu
@@ -1197,8 +1210,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             {/* Instagram manual open button - appears when Instagram share is triggered */}
             {showInstagramOpenButton && (
               <button
-                onClick={handleManualInstagramOpen}
-                className="bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white px-6 py-3 rounded-2xl shadow-lg shadow-pink-500/30 flex items-center gap-2 hover:shadow-pink-500/50 transition-all duration-300 active:scale-95 font-serif text-sm font-semibold"
+                onClick={forceOpenInstagram}
+                className="bg-gradient-to-r from-amber-500 to-amber-600 dark:from-amber-400 dark:to-amber-500 text-white px-6 py-3 rounded-2xl shadow-lg shadow-amber-500/30 dark:shadow-amber-400/30 flex items-center gap-2 hover:shadow-amber-500/50 dark:hover:shadow-amber-400/50 transition-all duration-300 active:scale-95 font-serif text-sm font-semibold"
               >
                 <Instagram className="w-5 h-5" />
                 <span>Open Instagram</span>
