@@ -468,12 +468,20 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }
   }
 
-  // App link protocols for social media
-  const appLinks = {
+  // Native app protocols for social media
+  const nativeAppLinks = {
+    whatsapp: (text: string) => `whatsapp://send?text=${encodeURIComponent(text)}`,
+    facebook: () => `fb://sharer/`,
+    x: (text: string) => `twitter://post?message=${encodeURIComponent(text)}`,
+    instagram: () => `instagram://library`,
+  }
+
+  // Web fallback URLs
+  const webFallbackLinks = {
     whatsapp: (text: string) => `https://wa.me/?text=${encodeURIComponent(text)}`,
     facebook: (url: string) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
     x: (text: string) => `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,
-    instagram: () => `instagram://library`, // Opens Instagram to library
+    instagram: () => `https://www.instagram.com/`,
   }
 
   // Auto-copy quote content to clipboard
@@ -494,36 +502,79 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     setTimeout(() => setToastMessage(null), 3000)
   }
 
+  // Smart redirect with fallback - try native app, fall back to web
+  const smartRedirect = (nativeUrl: string, webUrl: string) => {
+    // Track if user left the page (app opened successfully)
+    const appOpened = { value: false }
+
+    // Set a timeout to check if app was opened
+    setTimeout(() => {
+      if (!appOpened.value) {
+        // App didn't open, redirect to web version
+        window.location.href = webUrl
+      }
+    }, 2000)
+
+    // Try to open native app
+    // Set appOpened when page visibility changes (user returned)
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        appOpened.value = true
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    // Attempt to open native app
+    window.location.href = nativeUrl
+
+    // Cleanup listener after delay
+    setTimeout(() => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+    }, 2500)
+  }
+
   // Share handlers for each platform
   const handleShareToWhatsApp = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
-    window.location.href = appLinks.whatsapp(quoteText)
     setShowShareMenu(false)
+    smartRedirect(
+      nativeAppLinks.whatsapp(quoteText),
+      webFallbackLinks.whatsapp(quoteText)
+    )
   }
 
   const handleShareToFacebook = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
-    window.location.href = appLinks.facebook(window.location.href)
     setShowShareMenu(false)
+    smartRedirect(
+      nativeAppLinks.facebook(),
+      webFallbackLinks.facebook(window.location.href)
+    )
   }
 
   const handleShareToX = async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
-    window.location.href = appLinks.x(quoteText)
     setShowShareMenu(false)
+    smartRedirect(
+      nativeAppLinks.x(quoteText),
+      webFallbackLinks.x(quoteText)
+    )
   }
 
   const handleShareToInstagram = async () => {
     // For Instagram: download first, then redirect
-    showToast("Art saved! Opening Instagram...")
+    showToast("Saved to Album. Redirecting to Instagram...")
     await downloadImage()
     await copyQuoteText()
+    setShowShareMenu(false)
     setTimeout(() => {
-      window.location.href = appLinks.instagram()
-      setShowShareMenu(false)
+      smartRedirect(
+        nativeAppLinks.instagram(),
+        webFallbackLinks.instagram()
+      )
     }, 500)
   }
 
