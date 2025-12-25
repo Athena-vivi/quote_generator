@@ -153,8 +153,8 @@ async function drawQuoteImage({
     lineHeight = fontSize * 1.5
     totalTextHeight = lines.length * lineHeight
 
-    // Reference is 80% of main text size for better proportion
-    refFontSize = fontSize * 0.8
+    // Reference is 64% of main text size (reduced by 20%)
+    refFontSize = fontSize * 0.64
     refHeight = refFontSize * 1.5
 
     // Spacing between text and reference - reduced to move reference up by 1/3
