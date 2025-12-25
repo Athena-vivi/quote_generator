@@ -871,8 +871,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     className="w-full px-3 py-2.5 text-base bg-stone-50/50 dark:bg-stone-900/30 border border-amber-200/30 dark:border-amber-500/15 rounded-xl focus:outline-none focus:border-amber-400/50 dark:focus:border-amber-400/30 text-gray-800 dark:text-zinc-200 placeholder-gray-500/60 dark:placeholder:text-zinc-500 transition-all duration-300 font-serif resize-none mb-2"
                   />
 
-                  {/* Quick Suggestions - Hide on mobile when image exists */}
-                  {(!generatedImageUrl || !isInputCollapsed) && (
+                  {/* Quick Suggestions - Only show when NO image exists */}
+                  {!generatedImageUrl && (
                     <div className="space-y-1.5 md:space-y-2 mb-3">
                       <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50">Suggestions:</p>
                       <div className="flex flex-wrap gap-1.5">
@@ -910,8 +910,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 </div>
               )}
 
-              {/* Quote Preview - HIDE ON MOBILE when image exists (text is already on image) */}
-              {(!generatedImageUrl || !isInputCollapsed) && (
+              {/* Quote Preview - Only show when NO image exists */}
+              {!generatedImageUrl && (
                 <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-sm dark:shadow-[0_0_15px_rgba(212,175,55,0.04)]">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="text-xs font-serif uppercase tracking-widest text-amber-700/60 dark:text-amber-400/50">Your Quote</h4>
@@ -938,8 +938,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 </div>
               )}
 
-              {/* Style Controls - MOBILE: Horizontal icon row when image exists */}
-              {generatedImageUrl && (
+              {/* Style Controls - MOBILE: Only show when collapsed AND image exists */}
+              {isInputCollapsed && generatedImageUrl && (
                 <div className="mt-auto">
                   {/* MOBILE: Compact horizontal icon bar */}
                   <div className="md:hidden bg-white/90 dark:bg-black/80 backdrop-blur-xl rounded-2xl border border-amber-200/50 dark:border-amber-500/20 shadow-md p-2">
