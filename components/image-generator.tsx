@@ -590,15 +590,21 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         text: `"${quote.content}" — ${quote.reference}`,
       }
 
-      if (navigator.canShare && navigator.canShare(shareData)) {
-        await navigator.share(shareData)
+      // Only use native share on mobile devices that support it
+      if (isMobile && navigator.canShare && navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData)
+        } catch (shareErr) {
+          if (shareErr instanceof Error && shareErr.name !== 'AbortError') {
+            setShowShareMenu(true)
+          }
+        }
       } else {
+        // Desktop or unsupported: show share menu directly
         setShowShareMenu(true)
       }
     } catch (err) {
-      if (err instanceof Error && err.name !== 'AbortError') {
-        setShowShareMenu(true)
-      }
+      setShowShareMenu(true)
     } finally {
       setIsSharing(false)
     }
