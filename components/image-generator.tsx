@@ -153,12 +153,12 @@ async function drawQuoteImage({
     lineHeight = fontSize * 1.5
     totalTextHeight = lines.length * lineHeight
 
-    // Reference is 28px for better visibility (as requested)
-    refFontSize = 28
+    // Reference is 80% of main text size for better proportion
+    refFontSize = fontSize * 0.8
     refHeight = refFontSize * 1.5
 
-    // Spacing between text and reference
-    spacing = fontSize * 2.0
+    // Spacing between text and reference - reduced to move reference up by 1/3
+    spacing = fontSize * 1.33
     totalHeight = totalTextHeight + spacing + refHeight
 
     // Check if fits or minimum size reached
@@ -203,8 +203,8 @@ async function drawQuoteImage({
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference - 28px bold, positioned at bottom-right corner
-  ctx.font = `700 28px ${fontFamily}` // Bold 28px for reference
+  // Draw reference - italic style, 80% of main text, positioned closer to text
+  ctx.font = `italic 700 ${refFontSize.toFixed(1)}px ${fontFamily}`
   ctx.textAlign = "right"
   ctx.textBaseline = "bottom"
 
