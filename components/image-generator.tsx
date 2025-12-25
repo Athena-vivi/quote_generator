@@ -833,7 +833,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             </div>
 
             {/* LEFT SIDE (Mobile: Below Image, Desktop: Left) - Controls */}
-            <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col pr-0 md:pr-1">
+            <div className="order-2 md:order-1 w-full md:w-[40%] space-y-2 md:space-y-3 flex-shrink-0 flex flex-col overflow-y-auto pr-0 md:pr-1 max-h-[32vh] md:max-h-full">
               {/* MOBILE: Collapsible Input Area - Shows as button when collapsed */}
               {isInputCollapsed && generatedImageUrl ? (
                 <button
