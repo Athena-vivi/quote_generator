@@ -69,6 +69,15 @@ const articles = [
   },
 ]
 
+// Tag to article mapping
+const tagLinks: Record<string, string> = {
+  "Faith": "/blog/bible-quotes-about-strength",
+  "Devotional": "/blog/bible-quotes-about-love",
+  "Prayer": "/blog/bible-quotes-for-healing",
+  "Hope": "/blog/bible-quotes-for-encouragement",
+  "Encouragement": "/blog/bible-quotes-for-encouragement",
+}
+
 const tags = ["Faith", "Devotional", "Prayer", "Hope", "Encouragement"]
 const popularArticles = [
   { id: 101, title: "Bible Quotes About Love", href: "/blog/bible-quotes-about-love" },
@@ -130,7 +139,7 @@ export default function BlogPage() {
               {tags.map(tag => (
                 <Link
                   key={tag}
-                  href={`/blog/tag/${tag.toLowerCase()}`}
+                  href={tagLinks[tag] || "/blog"}
                   className="px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-sm border border-amber-200 cursor-pointer hover:bg-amber-100 transition"
                 >
                   {tag}
