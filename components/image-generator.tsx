@@ -784,16 +784,17 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 <div className="bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10">
                   <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
 
-                  <div className="space-y-3">
+                  {/* Mobile: Horizontal layout, Desktop: Vertical layout */}
+                  <div className="flex md:flex-row flex-col gap-2 md:space-y-3 md:gap-0">
                     {/* Text Color */}
-                    <div>
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Color</p>
-                      <div className="flex gap-2">
+                    <div className="flex-1 flex flex-col items-center md:items-start">
+                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1 md:mb-2">Color</p>
+                      <div className="flex gap-1.5 md:gap-2">
                         {["#ffd700", "#fff"].map((color) => (
                           <button
                             key={color}
                             onClick={() => setTextColor(color)}
-                            className="relative w-8 h-8 rounded-full border-2 hover:scale-110 transition-all flex-shrink-0"
+                            className="relative w-6 h-6 md:w-8 md:h-8 rounded-full border-2 hover:scale-110 transition-all flex-shrink-0"
                             style={{
                               background: color,
                               borderColor: textColor === color ? '#d97706' : 'rgba(251, 191, 36, 0.25)',
@@ -805,21 +806,23 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </div>
 
                     {/* Theme */}
-                    <button
-                      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                      className="w-full h-9 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all font-serif text-sm flex items-center justify-center gap-2"
-                    >
-                      <span>{theme === 'light' ? '☀️' : '🌙'}</span>
-                      <span>{theme === 'light' ? 'Light' : 'Dark'}</span>
-                    </button>
+                    <div className="flex-1 flex flex-col items-center">
+                      <button
+                        onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                        className="h-8 md:h-9 px-2 md:px-0 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all font-serif text-xs md:text-sm flex items-center justify-center gap-1 md:gap-2 w-full"
+                      >
+                        <span className="text-sm md:text-base">{theme === 'light' ? '☀️' : '🌙'}</span>
+                        <span className="hidden md:inline">{theme === 'light' ? 'Light' : 'Dark'}</span>
+                      </button>
+                    </div>
 
                     {/* Font */}
-                    <div>
-                      <p className="text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-2">Font</p>
-                      <div className="flex gap-2">
+                    <div className="flex-1 flex flex-col items-center md:items-start">
+                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1 md:mb-2">Font</p>
+                      <div className="flex gap-1.5 md:gap-2">
                         <button
                           onClick={() => setSelectedFont("classic")}
-                          className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all ${
+                          className={`flex-1 px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm font-serif rounded-lg transition-all ${
                             selectedFont === "classic"
                               ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white"
                               : "bg-white/50 text-amber-700 hover:bg-amber-50 dark:bg-white/[0.02] dark:text-amber-300 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
@@ -829,7 +832,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                         </button>
                         <button
                           onClick={() => setSelectedFont("handwriting")}
-                          className={`flex-1 px-3 py-2 text-sm font-serif rounded-lg transition-all ${
+                          className={`flex-1 px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm font-serif rounded-lg transition-all ${
                             selectedFont === "handwriting"
                               ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white"
                               : "bg-white/50 text-amber-700 hover:bg-amber-50 dark:bg-white/[0.02] dark:text-amber-300 dark:hover:bg-amber-950/25 border border-amber-200/30 dark:border-amber-500/10"
