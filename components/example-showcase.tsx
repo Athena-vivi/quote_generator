@@ -47,7 +47,7 @@ export function ExampleShowcase() {
 
                     {/* Quote Content */}
                     <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4 sm:p-8 md:p-12">
-                      <blockquote className="text-white text-base sm:text-lg md:text-2xl lg:text-3xl font-serif leading-tight md:leading-relaxed max-w-[95%] sm:max-w-[90%] md:max-w-[85%] font-light"
+                      <blockquote className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-serif leading-tight md:leading-relaxed max-w-[95%] sm:max-w-[90%] md:max-w-[85%] font-light"
                         style={{
                           textShadow: "2px 2px 8px rgba(0,0,0,0.8), 0 0 16px rgba(0,0,0,0.6)",
                           letterSpacing: "0.3px",
