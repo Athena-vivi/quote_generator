@@ -33,7 +33,7 @@ const nextConfig = withBundleAnalyzer(withMDX({
       },
     ],
     formats: ['image/avif', 'image/webp'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
+    deviceSizes: [448, 460, 640, 750, 828, 1080, 1200], // 优化移动端和桌面端尺寸
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 31536000, // 1 year cache for optimized images
   },
@@ -51,14 +51,10 @@ const nextConfig = withBundleAnalyzer(withMDX({
     removeConsole: process.env.NODE_ENV === 'production' ? {
       exclude: ['error', 'warn'],
     } : false,
-    // Remove React prop names in production to reduce bundle size (~12KB savings)
-    removeReactProperties: process.env.NODE_ENV === 'production',
   },
   // Modern browser target to reduce polyfill size
   swcMinify: true,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'mdx'],
-  // Modern browsers only - ES2022 for latest features
-  swcTargets: 'es2022', // Targets modern browsers, removes legacy polyfills
   webpack: (config, { dev, isServer }) => {
     config.resolve.alias = {
       ...config.resolve.alias,

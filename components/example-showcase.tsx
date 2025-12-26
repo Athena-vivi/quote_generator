@@ -32,14 +32,14 @@ export function ExampleShowcase() {
                 {/* Artwork Display */}
                 <div className="relative aspect-square rounded-xl overflow-hidden shadow-[0_20px_50px_rgba(212,175,55,0.1)]">
                   <Image
-                    src="/images/example-background.webp"
+                    src="/images/example-background-448.webp"
                     alt="Example of AI-generated Bible verse art featuring Jeremiah 29:11 with a peaceful landscape background"
                     fill
                     className="object-cover"
-                    sizes="(max-width: 640px) 450px, (max-width: 1024px) 700px, 800px"
+                    sizes="(max-width: 1024px) 448px, 460px"
                     priority
                     fetchPriority="high"
-                    quality={70}
+                    quality={75}
                   />
                   <div className="absolute inset-0" role="presentation">
                     {/* Divine Overlay */}
