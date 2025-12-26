@@ -14,11 +14,11 @@ const ESV_API_BASE = "https://api.esv.org/v3/passage/text/"
  * Clean scripture text - remove extra whitespace and formatting
  */
 function cleanScriptureText(text: string): string {
+  if (!text) return ""
   return text
-    // Replace multiple spaces with single space
-    .replace(/\s+/g, " ")
-    // Remove leading/trailing whitespace
     .trim()
+    .replace(/\s+/g, " ")  // 合并多余空格
+    .replace(/\n/g, "")    // 移除换行符
 }
 
 /**
@@ -45,11 +45,16 @@ export async function fetchESVPassage(reference: string): Promise<Verse> {
     throw new Error(`ESV API error: ${response.status} ${response.statusText}`)
   }
 
-  const text = await response.text()
+  // Parse JSON response (not text!)
+  const data = await response.json()
+
+  // Extract from JSON structure: passages[0] for content, canonical for reference
+  const content = data.passages?.[0] || ""
+  const canonical = data.canonical || reference
 
   return {
-    reference,
-    content: cleanScriptureText(text),
+    reference: canonical,
+    content: cleanScriptureText(content),
   }
 }
 
@@ -87,7 +92,7 @@ export async function fetchESVPassages(references: string[]): Promise<Verse[]> {
       "include-footnotes": "false",
       "include-verse-numbers": "false",
       "include-short-copyright": "false",
-      "include-passage-references": "true", // Include reference separators
+      "include-passage-references": "false",
     })
 
     const response = await fetch(`${ESV_API_BASE}?${params}`, {
@@ -101,51 +106,25 @@ export async function fetchESVPassages(references: string[]): Promise<Verse[]> {
       throw new Error(`ESV API error: ${response.status} ${response.statusText}`)
     }
 
-    // ESV returns raw text - need to parse it
-    // Format: passages are separated by double newlines, with reference like "John 3:16" before each
-    const text = await response.text()
+    // Parse JSON response
+    const data = await response.json()
 
-    // Split by double newlines to get individual passages
-    const rawPassages = text.split(/\n\s*\n/)
+    // Extract passages and canonical references from JSON
+    const passages = data.passages || []
+    const canonical = data.canonical || ""
 
-    // Parse each passage
-    for (let i = 0; i < rawPassages.length; i++) {
-      const rawPassage = rawPassages[i]
+    // For batch query, parse canonical to get individual references
+    const referenceList = canonical ? canonical.split("; ") : batch
 
-      // Split into lines
-      const lines = rawPassage.split("\n").map(line => line.trim()).filter(Boolean)
+    // Map each passage to its reference
+    for (let i = 0; i < passages.length; i++) {
+      const content = passages[i]
+      const ref = referenceList[i] || batch[i] || references[allResults.length]
 
-      // Find the content (skip the reference line if present)
-      // ESV puts the reference as the first line like "John 3:16" or "John 3:16-17"
-      let contentStartIndex = 0
-
-      for (let j = 0; j < lines.length; j++) {
-        const line = lines[j]
-        // Check if this line looks like a reference (contains "chapter:verse" pattern)
-        // Example: "John 3:16", "Psalm 23:1-3"
-        const isReferenceLine = /^\d*\s*\w+\s+\d+:\d+/.test(line)
-
-        if (!isReferenceLine && contentStartIndex === 0) {
-          // Found first non-reference line - this is content
-          contentStartIndex = j
-          break
-        }
-      }
-
-      // Extract content from this point
-      const contentLines = lines.slice(contentStartIndex)
-
-      // If we couldn't find proper content (maybe reference wasn't on its own line), use all lines
-      const finalContent = contentLines.length > 0
-        ? contentLines.join(" ")
-        : lines.join(" ")
-
-      const cleanContent = cleanScriptureText(finalContent)
-
-      if (cleanContent) {
+      if (content) {
         allResults.push({
-          reference: batch[i] || references[allResults.length],
-          content: cleanContent,
+          reference: ref,
+          content: cleanScriptureText(content),
         })
       }
     }
