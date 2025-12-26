@@ -212,6 +212,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [isInputCollapsed, setIsInputCollapsed] = useState(false)
+  const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<number | null>(null)
 
   const promptSuggestions = [
     "Divine light streaming",
@@ -714,10 +715,20 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                       {promptSuggestions.map((suggestion, index) => (
                         <button
                           key={index}
-                          onClick={() => setPrompt(suggestion)}
-                          className="px-3 py-1 text-sm md:py-1 md:px-2 font-serif bg-stone-900/50 dark:bg-stone-900/60 text-amber-200/80 dark:text-amber-300/70 rounded-full hover:scale-105 transition-all"
+                          onClick={() => {
+                            setPrompt(suggestion)
+                            setSelectedSuggestionIndex(index)
+                          }}
+                          className={`px-3 py-1 text-sm md:py-1 md:px-2 font-serif rounded-full transition-all relative ${
+                            selectedSuggestionIndex === index
+                              ? 'bg-amber-500 text-white border-2 border-amber-400 shadow-lg shadow-amber-500/50 scale-105'
+                              : 'bg-transparent text-amber-700/80 dark:bg-stone-900/60 dark:text-amber-300/70 border-2 border-dashed border-amber-400/60 hover:border-amber-500 hover:scale-105'
+                          }`}
                         >
-                          {suggestion}
+                          {selectedSuggestionIndex === index && (
+                            <span className="absolute inset-0 rounded-full animate-ping bg-amber-400/30"></span>
+                          )}
+                          <span className="relative">{suggestion}</span>
                         </button>
                       ))}
                     </div>
