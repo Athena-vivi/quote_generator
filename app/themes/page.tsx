@@ -1,14 +1,14 @@
 import Link from "next/link"
 import { Metadata } from "next"
 import {
-  Feather, Heart, Shield, Sun, Flower, Star,
-  BookOpen, Sparkles, Moon, Trees, Wind, Droplets
+  Wind, Shield, Heart, CloudRain, Sparkles,
+  BookOpen, TrendingUp
 } from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
 
 export const metadata: Metadata = {
   title: "Bible Themes - Scripture Quotes Collections by Topic | QuoteGenerator",
-  description: "Explore Bible quotes by themes: Peace, Strength, Encouragement, Healing, Wisdom, and more. Find curated scripture collections for every life situation.",
+  description: "Explore Bible quotes by themes: Peace, Strength, Love, Anxiety, Healing, Wisdom, Success, and more. Find curated scripture collections for every life situation.",
   keywords: ["bible themes", "bible quotes by topic", "scripture collections", "bible verse collections", "daily bible verses"],
 }
 
@@ -17,7 +17,7 @@ const themes = [
     slug: "verses-for-peace",
     name: "Peace",
     description: "Find serenity in God's promises",
-    icon: Feather,
+    icon: Wind,
     verseCount: 24,
     gradient: "from-blue-400 to-cyan-300"
   },
@@ -30,68 +30,44 @@ const themes = [
     gradient: "from-amber-500 to-orange-400"
   },
   {
-    slug: "verses-for-encouragement",
-    name: "Encouragement",
-    description: "Uplifting words for daily inspiration",
-    icon: Sun,
-    verseCount: 28,
-    gradient: "from-yellow-400 to-amber-300"
-  },
-  {
-    slug: "verses-for-healing",
-    name: "Healing",
-    description: "Comfort for body and soul",
+    slug: "verses-for-love",
+    name: "Love",
+    description: "God's unconditional love for you",
     icon: Heart,
-    verseCount: 20,
+    verseCount: 28,
     gradient: "from-rose-400 to-pink-300"
-  },
-  {
-    slug: "verses-for-wisdom",
-    name: "Wisdom",
-    description: "Guidance for life's decisions",
-    icon: Star,
-    verseCount: 26,
-    gradient: "from-violet-400 to-purple-300"
   },
   {
     slug: "verses-for-anxiety",
     name: "Anxiety",
     description: "Calm your worried mind",
-    icon: Flower,
+    icon: CloudRain,
     verseCount: 18,
-    gradient: "from-green-400 to-emerald-300"
-  },
-  {
-    slug: "verses-for-faith",
-    name: "Faith",
-    description: "Strengthen your belief",
-    icon: Sparkles,
-    verseCount: 30,
-    gradient: "from-indigo-400 to-blue-300"
-  },
-  {
-    slug: "verses-for-hope",
-    name: "Hope",
-    description: "Tomorrow's promises today",
-    icon: Moon,
-    verseCount: 22,
     gradient: "from-slate-400 to-gray-300"
   },
   {
-    slug: "verses-for-gratitude",
-    name: "Gratitude",
-    description: "Thankful hearts rejoice",
-    icon: Sun,
-    verseCount: 16,
-    gradient: "from-orange-400 to-amber-300"
+    slug: "verses-for-healing",
+    name: "Healing",
+    description: "Comfort for body and soul",
+    icon: Sparkles,
+    verseCount: 20,
+    gradient: "from-emerald-400 to-teal-300"
   },
   {
-    slug: "verses-for-protection",
-    name: "Protection",
-    description: "God's shield around you",
-    icon: Shield,
-    verseCount: 14,
-    gradient: "from-teal-400 to-cyan-300"
+    slug: "verses-for-wisdom",
+    name: "Wisdom",
+    description: "Guidance for life's decisions",
+    icon: BookOpen,
+    verseCount: 26,
+    gradient: "from-violet-400 to-purple-300"
+  },
+  {
+    slug: "verses-for-success",
+    name: "Success",
+    description: "Blessings for prosperity",
+    icon: TrendingUp,
+    verseCount: 22,
+    gradient: "from-green-400 to-emerald-300"
   },
 ]
 
@@ -114,8 +90,8 @@ export default function ThemesPage() {
             </p>
           </div>
 
-          {/* Themes Grid - Responsive: 2 cols mobile, 4 cols tablet, 5 cols desktop */}
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-5">
+          {/* Themes Grid - Responsive: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {themes.map((theme) => {
               const IconComponent = theme.icon
               return (
@@ -156,10 +132,10 @@ export default function ThemesPage() {
           </div>
 
           {/* Coming Soon */}
-          <div className="mt-12 md:mt-16 text-center">
-            <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/20 rounded-full">
-              <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-amber-500 rounded-full animate-pulse"></div>
-              <span className="text-xs md:text-sm text-stone-600 dark:text-stone-400">More themes coming soon</span>
+          <div className="mt-16 text-center">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/20 rounded-full">
+              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+              <span className="text-sm text-stone-600 dark:text-stone-400">More themes coming soon</span>
             </div>
           </div>
 

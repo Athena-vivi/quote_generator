@@ -5,6 +5,8 @@ import { Crimson_Text } from "next/font/google"
 import "./globals.css"
 import { WebsiteSchema } from "@/components/seo/website-schema"
 import { ThemeProvider } from "@/hooks/use-theme"
+import { ImageGeneratorProvider } from "@/contexts/image-generator-context"
+import { ImageGeneratorWrapper } from "@/components/image-generator-provider"
 
 // Next.js Font optimization with display: swap for instant text rendering
 const crimsonText = Crimson_Text({
@@ -323,12 +325,15 @@ export default function RootLayout({
           defaultTheme="system"
           storageKey="quote-generator-theme"
         >
-          <WebsiteSchema
-            siteName="QuoteGenerator - Bible Quote Art Creator"
-            siteUrl="https://www.quotegenerator.org"
-            description="Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp."
-          />
-          {children}
+          <ImageGeneratorProvider>
+            <WebsiteSchema
+              siteName="QuoteGenerator - Bible Quote Art Creator"
+              siteUrl="https://www.quotegenerator.org"
+              description="Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp."
+            />
+            {children}
+            <ImageGeneratorWrapper />
+          </ImageGeneratorProvider>
         </ThemeProvider>
 
         {/* Chrome Runtime Error Fix - Suppress harmless Chrome extension errors */}

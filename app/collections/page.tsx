@@ -1,12 +1,13 @@
 import Link from "next/link"
 import { Metadata } from "next"
-import { BookOpen, Heart, Shield, Sun, Sparkles, Flower, Star, Moon, LucideIcon } from "lucide-react"
+import { BookOpen, Sun, Heart, Sparkles, LucideIcon } from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
+import Image from "next/image"
 
 export const metadata: Metadata = {
   title: "Bible Collections - Curated Scripture Quote Galleries | QuoteGenerator",
-  description: "Discover curated collections of Bible quotes and verses. Explore themed galleries featuring Peace, Strength, Love, Healing, and more divine scripture collections.",
-  keywords: ["bible collections", "bible quotes", "scripture galleries", "curated verses", "bible verse themes"],
+  description: "Discover curated collections of Bible quotes and verses. Explore Top 10 Morning Prayers, Verses for Hard Times, Gratitude Journaling, and more divine scripture collections.",
+  keywords: ["bible collections", "bible quotes", "scripture galleries", "curated verses", "bible verse themes", "morning prayers", "gratitude journaling"],
 }
 
 interface Collection {
@@ -16,110 +17,44 @@ interface Collection {
   description: string
   icon: LucideIcon
   imageColor: string
+  coverImage: string
   verseCount: number
   featured: boolean
 }
 
 const collections: Collection[] = [
   {
-    slug: "short-bible-quotes",
-    title: "Short & Powerful",
-    subtitle: "Concise Scriptures",
-    description: "Brief yet impactful verses perfect for quick inspiration and memorization. These short Bible quotes carry profound meaning in just a few words.",
-    icon: Sparkles,
-    imageColor: "from-violet-400 via-purple-400 to-fuchsia-400",
-    verseCount: 45,
-    featured: true
-  },
-  {
-    slug: "bible-quotes-about-love",
-    title: "Divine Love",
-    subtitle: "God's Unconditional Love",
-    description: "Explore the depth of God's love through these beautiful scriptures about love, compassion, and affection. Perfect for weddings and anniversaries.",
-    icon: Heart,
-    imageColor: "from-rose-400 via-pink-400 to-red-400",
-    verseCount: 38,
-    featured: true
-  },
-  {
-    slug: "bible-quotes-about-peace",
-    title: "Peace & Serenity",
-    subtitle: "Tranquil Scriptures",
-    description: "Find inner calm with verses about God's perfect peace. These scriptures bring comfort during troubled times and anxious moments.",
-    icon: Sparkles,
-    imageColor: "from-cyan-400 via-blue-400 to-indigo-400",
-    verseCount: 32,
-    featured: false
-  },
-  {
-    slug: "bible-quotes-about-strength",
-    title: "Strength & Courage",
-    subtitle: "Powerful Verses",
-    description: "Draw mighty strength from scripture. These empowering verses remind you of God's power and your ability to overcome any challenge.",
-    icon: Shield,
-    imageColor: "from-amber-400 via-orange-400 to-red-400",
-    verseCount: 42,
-    featured: true
-  },
-  {
-    slug: "bible-quotes-for-encouragement",
-    title: "Daily Encouragement",
-    subtitle: "Uplifting Words",
-    description: "Start each day with inspiration. These encouraging verses will lift your spirit and motivate you on your faith journey.",
+    slug: "top-10-morning-prayers",
+    title: "Top 10 Morning Prayers",
+    subtitle: "Start Your Day with God",
+    description: "Begin each morning with these powerful prayers to center your heart, seek God's guidance, and find peace for the day ahead.",
     icon: Sun,
-    imageColor: "from-yellow-400 via-amber-400 to-orange-400",
-    verseCount: 56,
-    featured: false
-  },
-  {
-    slug: "bible-quotes-for-healing",
-    title: "Healing & Comfort",
-    subtitle: "Restorative Scriptures",
-    description: "Find solace in these healing verses. Perfect for times of sickness, grief, or when you need God's comforting presence.",
-    icon: Heart,
-    imageColor: "from-emerald-400 via-teal-400 to-cyan-400",
-    verseCount: 28,
-    featured: false
-  },
-  {
-    slug: "inspirational-bible-verses",
-    title: "Inspirational Gems",
-    subtitle: "Faith-Uplifting Verses",
-    description: "A handpicked collection of the most inspiring Bible verses. These scriptures will ignite your faith and renew your spirit.",
-    icon: Star,
-    imageColor: "from-indigo-400 via-violet-400 to-purple-400",
-    verseCount: 64,
+    imageColor: "from-amber-400 via-yellow-400 to-orange-400",
+    coverImage: "/images/collections/morning-prayer.webp",
+    verseCount: 10,
     featured: true
   },
   {
-    slug: "bible-quotes-for-anxiety",
-    title: "Calm & Assurance",
-    subtitle: "Anxiety-Relieving Verses",
-    description: "Let go of worry with these reassuring scriptures. God's word brings peace to anxious hearts and troubled minds.",
-    icon: Flower,
-    imageColor: "from-green-400 via-emerald-400 to-teal-400",
-    verseCount: 24,
-    featured: false
+    slug: "verses-for-hard-times",
+    title: "Verses for Hard Times",
+    subtitle: "Strength in Difficult Seasons",
+    description: "When life feels overwhelming, find comfort and hope in these scriptures. God's Word brings light to your darkest moments.",
+    icon: Heart,
+    imageColor: "from-slate-500 via-gray-500 to-zinc-600",
+    coverImage: "/images/collections/hard-times.webp",
+    verseCount: 25,
+    featured: true
   },
   {
-    slug: "bible-quotes-about-faith",
-    title: "Faith & Belief",
-    subtitle: "Foundation Scriptures",
-    description: "Strengthen your faith with these powerful verses. Build a solid foundation on God's promises and biblical truth.",
+    slug: "gratitude-journaling",
+    title: "Gratitude Journaling",
+    subtitle: "Thankful Hearts Collection",
+    description: "Cultivate a heart of gratitude with these verses. Perfect for daily reflection and journaling God's blessings in your life.",
     icon: Sparkles,
-    imageColor: "from-blue-400 via-indigo-400 to-violet-400",
-    verseCount: 35,
-    featured: false
-  },
-  {
-    slug: "bible-quotes-about-hope",
-    title: "Hope & Tomorrow",
-    subtitle: "Future Promises",
-    description: "Embrace hope with these forward-looking verses. God's promises for your future will brighten your perspective today.",
-    icon: Moon,
-    imageColor: "from-slate-400 via-gray-400 to-zinc-400",
-    verseCount: 30,
-    featured: false
+    imageColor: "from-emerald-400 via-green-400 to-teal-400",
+    coverImage: "/images/collections/gratitude.webp",
+    verseCount: 18,
+    featured: true
   },
 ]
 
@@ -142,105 +77,60 @@ export default function CollectionsPage() {
             </p>
           </div>
 
-          {/* Featured Collections - Large Cards */}
-          <div className="mb-12 md:mb-16">
-            <h2 className="text-xl md:text-2xl font-serif font-bold text-stone-800 dark:text-stone-200 mb-6 md:mb-8 flex items-center gap-3">
+          {/* Featured Collections - Large Cards with Cover Images */}
+          <div className="mb-16">
+            <h2 className="text-xl md:text-2xl font-serif font-bold text-stone-800 dark:text-stone-200 mb-8 md:mb-10 flex items-center justify-center gap-3">
               <div className="w-8 h-0.5 bg-amber-400 dark:bg-amber-500"></div>
-              <span>Featured Galleries</span>
-              <div className="w-8 h-0.5 bg-amber-400 dark:bg-amber-500"></div>
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-              {collections.filter(c => c.featured).slice(0, 3).map((collection) => {
-                const IconComponent = collection.icon
-                return (
-                  <Link
-                    key={collection.slug}
-                    href={`/blog/${collection.slug}`}
-                    className="group"
-                  >
-                    <div className="relative h-full">
-                      {/* Card */}
-                      <div className="bg-white dark:bg-stone-900/60 rounded-3xl overflow-hidden border border-amber-100 dark:border-amber-500/20 shadow-sm hover:shadow-xl hover:shadow-amber-500/10 dark:hover:shadow-amber-500/5 transition-all duration-500 hover:-translate-y-2">
-
-                        {/* Image Area - Gradient Background with Icon */}
-                        <div className={`relative h-48 md:h-56 bg-gradient-to-br ${collection.imageColor} p-6 flex items-end`}>
-                          {/* Icon Overlay */}
-                          <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
-                            <IconComponent className="w-6 h-6 text-white" strokeWidth={2} />
-                          </div>
-
-                          {/* Title on Image */}
-                          <div className="relative z-10">
-                            <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-1 drop-shadow-lg">
-                              {collection.title}
-                            </h3>
-                            <p className="text-white/90 text-sm font-medium drop-shadow">
-                              {collection.subtitle}
-                            </p>
-                          </div>
-                        </div>
-
-                        {/* Content */}
-                        <div className="p-5 md:p-6">
-                          <p className="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-4 line-clamp-3">
-                            {collection.description}
-                          </p>
-
-                          {/* Footer */}
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-2 text-xs text-stone-500 dark:text-stone-600">
-                              <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
-                              <span>{collection.verseCount} verses</span>
-                            </div>
-                            <span className="text-xs font-medium text-amber-600 dark:text-amber-400 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
-                              Explore →
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
-          </div>
-
-          {/* All Collections - Compact Grid */}
-          <div>
-            <h2 className="text-xl md:text-2xl font-serif font-bold text-stone-800 dark:text-stone-200 mb-6 md:mb-8 flex items-center gap-3">
-              <div className="w-8 h-0.5 bg-amber-400 dark:bg-amber-500"></div>
-              <span>All Collections</span>
+              <span>Featured Collections</span>
               <div className="w-8 h-0.5 bg-amber-400 dark:bg-amber-500"></div>
             </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               {collections.map((collection) => {
                 const IconComponent = collection.icon
                 return (
                   <Link
                     key={collection.slug}
-                    href={`/blog/${collection.slug}`}
+                    href={`/collections/${collection.slug}`}
                     className="group"
                   >
-                    <div className="bg-white dark:bg-stone-900/60 rounded-2xl overflow-hidden border border-amber-100 dark:border-amber-500/20 shadow-sm hover:shadow-lg hover:shadow-amber-500/10 dark:hover:shadow-amber-500/5 transition-all duration-300 hover:-translate-y-1">
+                    <div className="relative h-full bg-white dark:bg-stone-900/60 rounded-3xl overflow-hidden border border-amber-100 dark:border-amber-500/20 shadow-sm hover:shadow-xl hover:shadow-amber-500/10 dark:hover:shadow-amber-500/5 transition-all duration-500 hover:-translate-y-2">
 
-                      {/* Small Image */}
-                      <div className={`relative h-32 bg-gradient-to-br ${collection.imageColor} p-4 flex items-center justify-center`}>
-                        <IconComponent className="w-8 h-8 text-white/90" strokeWidth={1.5} />
+                      {/* Cover Image Area */}
+                      <div className="relative h-56 md:h-64 bg-gradient-to-br from-stone-200 to-stone-300 dark:from-stone-800 dark:to-stone-700 overflow-hidden">
+                        {/* Placeholder gradient background */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${collection.imageColor} opacity-80`}></div>
+
+                        {/* Icon overlay on image */}
+                        <div className="absolute top-4 right-4 w-14 h-14 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center shadow-lg">
+                          <IconComponent className="w-7 h-7 text-white" strokeWidth={2} />
+                        </div>
+
+                        {/* Title overlay at bottom */}
+                        <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/60 to-transparent">
+                          <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-1 drop-shadow-lg">
+                            {collection.title}
+                          </h3>
+                          <p className="text-white/90 text-sm md:text-base font-medium drop-shadow">
+                            {collection.subtitle}
+                          </p>
+                        </div>
                       </div>
 
                       {/* Content */}
-                      <div className="p-4">
-                        <h3 className="text-base font-serif font-bold text-stone-800 dark:text-stone-200 mb-1 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors line-clamp-1">
-                          {collection.title}
-                        </h3>
-                        <p className="text-xs text-stone-500 dark:text-stone-500 line-clamp-2 mb-3">
-                          {collection.subtitle}
+                      <div className="p-5 md:p-6">
+                        <p className="text-sm md:text-base text-stone-600 dark:text-stone-400 leading-relaxed mb-4 line-clamp-3">
+                          {collection.description}
                         </p>
 
                         {/* Footer */}
-                        <div className="flex items-center gap-1.5 text-xs text-stone-400 dark:text-stone-600">
-                          <div className="w-1 h-1 rounded-full bg-amber-500"></div>
-                          <span>{collection.verseCount} verses</span>
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-xs md:text-sm text-stone-500 dark:text-stone-600">
+                            <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
+                            <span>{collection.verseCount} verses</span>
+                          </div>
+                          <span className="text-xs md:text-sm font-medium text-amber-600 dark:text-amber-400 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
+                            Explore →
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -250,8 +140,16 @@ export default function CollectionsPage() {
             </div>
           </div>
 
+          {/* Coming Soon */}
+          <div className="text-center">
+            <div className="inline-flex items-center gap-3 px-6 py-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/20 rounded-full">
+              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
+              <span className="text-sm text-stone-600 dark:text-stone-400">More collections coming soon</span>
+            </div>
+          </div>
+
           {/* SEO Content */}
-          <div className="mt-16 md:mt-20 max-w-4xl mx-auto">
+          <div className="mt-16 max-w-4xl mx-auto">
             <div className="bg-white/80 dark:bg-stone-900/40 rounded-2xl md:rounded-3xl p-6 md:p-8 border border-amber-100 dark:border-amber-500/10">
               <h2 className="text-xl md:text-2xl font-serif font-bold text-stone-800 dark:text-stone-200 mb-4">
                 Why Browse Our Collections?

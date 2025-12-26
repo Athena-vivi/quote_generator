@@ -6,20 +6,9 @@ import { HashScrollToQuoteFinder } from "@/components/hash-scroll-to-quote-finde
 import { BookOpen, Feather, Loader2, Palette } from "lucide-react"
 import { useState, useEffect } from "react"
 import dynamic from "next/dynamic"
+import { useImageGenerator } from "@/contexts/image-generator-context"
 
 // Dynamically import large components with loading states
-const ImageGenerator = dynamic(
-  () => import("@/components/image-generator"),
-  {
-    loading: () => (
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
-      </div>
-    ),
-    ssr: false,
-  }
-)
-
 const ExampleShowcase = dynamic(
   () => import("@/components/example-showcase"),
   {
@@ -49,10 +38,10 @@ interface Quote {
   content: string
 }
 
-export default function HomePage() {
+function HomeContent() {
   const [dailyQuote, setDailyQuote] = useState<Quote | null>(null)
   const [loading, setLoading] = useState(true)
-  const [selectedQuoteForImage, setSelectedQuoteForImage] = useState<Quote | null>(null)
+  const { openImageGenerator } = useImageGenerator()
 
   useEffect(() => {
     loadDailyQuote()
@@ -74,7 +63,7 @@ export default function HomePage() {
   }
 
   return (
-    <PageLayout showBreadcrumb={false}>
+    <>
       <HashScrollToQuoteFinder />
 
       {/* Hero & Daily Quote Section - Deep dark mode with sacred scroll aesthetic */}
@@ -152,7 +141,7 @@ export default function HomePage() {
                 {/* Action Buttons */}
                 <div className="flex flex-row gap-4 justify-center items-center">
                   <button
-                    onClick={() => setSelectedQuoteForImage(dailyQuote)}
+                    onClick={() => openImageGenerator(dailyQuote)}
                     aria-label="Create divine image from daily quote"
                     className="group/btn relative min-h-[48px] px-9 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-2xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/25 transition-all duration-300 active:scale-95 flex items-center gap-2.5 overflow-hidden"
                   >
@@ -177,11 +166,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 弹窗组件 */}
-      {selectedQuoteForImage && (
-        <ImageGenerator quote={selectedQuoteForImage} onClose={() => setSelectedQuoteForImage(null)} />
-      )}
-
       {/* 搜索区域 - Clean background */}
       <section className="py-12 px-6 border-y border-stone-100 dark:border-white/5 relative overflow-hidden bg-white dark:bg-background">
         <div className="relative max-w-6xl mx-auto">
@@ -202,6 +186,14 @@ export default function HomePage() {
           <FeaturesSection />
         </div>
       </section>
+    </>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <PageLayout showBreadcrumb={false}>
+      <HomeContent />
     </PageLayout>
   )
 }
