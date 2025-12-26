@@ -57,7 +57,7 @@ export function ExampleShowcase() {
                         plans for welfare and not for evil, to give you a future and a hope.
                       </blockquote>
 
-                      <cite className="text-white/95 text-sm sm:text-base md:text-lg font-semibold mt-4 sm:mt-5 md:mt-6"
+                      <cite className="text-white/95 text-xs sm:text-sm md:text-base lg:text-lg font-semibold mt-3 sm:mt-4 md:mt-6"
                         style={{
                           textShadow: "2px 2px 6px rgba(0,0,0,0.8)",
                           letterSpacing: "0.8px",
