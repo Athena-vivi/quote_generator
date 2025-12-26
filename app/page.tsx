@@ -78,7 +78,7 @@ export default function HomePage() {
       <HashScrollToQuoteFinder />
 
       {/* Hero & Daily Quote Section - Deep dark mode with sacred scroll aesthetic */}
-      <section className="relative pt-12 md:pt-36 pb-12 px-6 overflow-hidden bg-stone-50/50 dark:bg-black">
+      <section className="relative pt-24 md:pt-36 pb-12 px-6 overflow-hidden bg-stone-50/50 dark:bg-black">
         {/* Centered Back Glow - Ultra-subtle amber light from behind */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] bg-gradient-radial from-amber-400/8 via-amber-500/3 to-transparent dark:from-amber-400/6 dark:via-amber-500/2 dark:to-transparent pointer-events-none"></div>
 
