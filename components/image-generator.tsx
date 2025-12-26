@@ -682,7 +682,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
             <div className="order-2 md:order-1 w-full md:w-[40%] flex flex-col gap-2 md:gap-3 overflow-y-auto">
 
               {/* Input Area - Mobile overlay when editing, Desktop static */}
-              <div className={`${isInputCollapsed && generatedImageUrl ? 'hidden' : ''} ${!isInputCollapsed && generatedImageUrl ? 'md:static fixed inset-x-4 bottom-20 top-20 z-40 bg-[#fdfbf7]/95 dark:bg-black/80' : ''} bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]`}>
+              <div className={`${isInputCollapsed && generatedImageUrl ? 'hidden' : ''} ${!isInputCollapsed && generatedImageUrl ? 'md:static fixed inset-x-4 bottom-20 top-20 z-40 bg-[#fdfbf7]/95 dark:bg-black/80 overflow-y-auto' : ''} bg-gradient-to-br from-stone-50/70 to-amber-50/30 dark:from-stone-900/30 dark:to-amber-950/15 backdrop-blur-xl rounded-2xl md:rounded-3xl p-3 md:p-4 border border-amber-100/40 dark:border-amber-500/10 shadow-md dark:shadow-[0_0_25px_rgba(212,175,55,0.06)]`}>
                 <div className="flex items-center justify-between mb-2 md:mb-3">
                   <div className="flex items-center gap-2">
                     <Palette className="w-4 h-4 md:w-5 md:h-5 text-amber-600 dark:text-amber-400" />
