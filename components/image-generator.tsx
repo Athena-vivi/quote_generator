@@ -910,7 +910,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 </div>
               ) : (
                 /* Empty State */
-                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-4 md:p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner min-h-[300px]">
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-2 md:p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner min-h-[300px]">
                   <div className="relative inline-block mb-4">
                     <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
                     <Palette className="relative w-12 h-12 md:w-20 md:h-20 text-amber-400/60 dark:text-amber-500/50" />
