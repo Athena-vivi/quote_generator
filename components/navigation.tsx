@@ -5,13 +5,15 @@ import Link from "next/link"
 import Image from "next/image"
 import { useRouter, usePathname } from "next/navigation"
 import { Button } from "@/components/ui/button"
-import { Menu, X, BookOpen, Layers, FolderKanban, Info } from "lucide-react"
+import { Menu, X, BookOpen, Layers, FolderKanban, Heart } from "lucide-react"
 import { ThemeToggle } from "@/components/ui/theme-toggle"
+import { useFavorites } from "@/hooks/use-favorites"
 
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
+  const { favoritesCount } = useFavorites()
 
   const handleFindQuotesClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
     e.preventDefault();
@@ -117,6 +119,25 @@ export function Navigation() {
           {/* Right side controls */}
           <div className="hidden md:flex items-center space-x-4">
             <div className="w-px h-8 bg-gradient-to-b from-transparent via-amber-300/30 dark:via-amber-500/20 to-transparent"></div>
+
+            {/* Favorites Link */}
+            <Link
+              href="/favorites"
+              className="relative group p-2 rounded-full hover:bg-amber-100/40 dark:hover:bg-amber-500/10 transition-all duration-200"
+              aria-label="View favorites"
+            >
+              <Heart className={`w-5 h-5 transition-all duration-200 ${
+                favoritesCount > 0
+                  ? "text-amber-600 dark:text-amber-400 fill-current"
+                  : "text-stone-500 dark:text-stone-400 group-hover:text-amber-600 dark:group-hover:text-amber-400"
+              }`} />
+              {favoritesCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold rounded-full shadow-md shadow-amber-500/30">
+                  {favoritesCount}
+                </span>
+              )}
+            </Link>
+
             <ThemeToggle />
           </div>
 
@@ -168,6 +189,28 @@ export function Navigation() {
                   </Link>
                 );
               })}
+
+              {/* Mobile Favorites Link */}
+              <Link
+                href="/favorites"
+                onClick={handleNavClick}
+                className={`group flex items-center gap-4 px-6 min-h-[48px] rounded-2xl text-base font-serif font-medium transition-all duration-300 ${
+                  pathname === "/favorites"
+                    ? "bg-gradient-to-r from-amber-500/20 to-yellow-600/20 text-amber-800 dark:text-amber-300 shadow-lg shadow-amber-500/20 border border-amber-400/30 dark:border-amber-500/30"
+                    : "text-gray-700/80 dark:text-stone-300 hover:text-amber-800 dark:hover:text-amber-300 hover:bg-white/10 dark:hover:bg-zinc-800/50 hover:backdrop-blur-sm"
+                }`}
+                aria-current={pathname === "/favorites" ? "page" : undefined}
+              >
+                <div className="relative p-2 rounded-full bg-white/50 dark:bg-zinc-800/50 group-hover:bg-white/70 dark:group-hover:bg-zinc-700/50 transition-colors">
+                  <Heart className={`w-5 h-5 ${favoritesCount > 0 ? "text-amber-600 dark:text-amber-400 fill-current" : ""}`} />
+                </div>
+                <span className="tracking-wide">My Collection</span>
+                {favoritesCount > 0 && (
+                  <span className="ml-auto px-2 py-1 bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-bold rounded-full">
+                    {favoritesCount}
+                  </span>
+                )}
+              </Link>
             </div>
             <div className="mt-6 pt-6 border-t border-amber-100/50 dark:border-amber-500/20 flex justify-center">
               <ThemeToggle />
