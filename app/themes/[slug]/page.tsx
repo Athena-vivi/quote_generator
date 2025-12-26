@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ArrowLeft, Palette } from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
 import { VerseCard } from "@/components/verse-card"
+import { ThemeSchema } from "@/components/seo/theme-schema"
 import { themes, themeSlugs } from "@/data/themes"
 import { fetchThemeVerses } from "@/lib/esv-api"
 
@@ -37,6 +38,14 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       url: `https://quotegenerator.org/themes/${slug}`,
       siteName: "QuoteGenerator",
       type: "article",
+      images: [
+        {
+          url: "https://quotegenerator.org/images/example-background-448.webp",
+          width: 1200,
+          height: 1200,
+          alt: `${theme.name} Bible Verses - QuoteGenerator`,
+        },
+      ],
     },
   }
 }
@@ -68,6 +77,15 @@ export default async function ThemePage({ params }: PageProps) {
 
   return (
     <PageLayout showBreadcrumb={true}>
+      {/* JSON-LD Structured Data */}
+      <ThemeSchema
+        themeName={theme.name}
+        themeSlug={theme.slug}
+        description={theme.description}
+        verses={verses || []}
+        siteUrl="https://quotegenerator.org"
+      />
+
       <div className="min-h-screen bg-[#fdfbf7] dark:bg-black">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
 

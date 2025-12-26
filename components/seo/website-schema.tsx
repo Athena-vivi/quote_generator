@@ -43,11 +43,12 @@ export function WebsiteSchema({ siteName, siteUrl, description }: WebsiteSchemaP
       }
     }
 
-    // SoftwareApplication Schema
+    // SoftwareApplication Schema - Bible Quote AI Art Generator
     const softwareData = {
       "@context": "https://schema.org",
       "@type": "SoftwareApplication",
-      "name": siteName,
+      "name": "Bible Quote AI Art Generator",
+      "alternateName": siteName,
       "url": siteUrl,
       "description": description,
       "applicationCategory": "DesignApplication",
@@ -68,7 +69,17 @@ export function WebsiteSchema({ siteName, siteUrl, description }: WebsiteSchemaP
         "AI-powered background generation",
         "High-resolution image downloads",
         "Social media sharing",
-        "Favorite quotes management"
+        "Favorite quotes management",
+        "30+ scripture theme collections",
+        "ESV Bible integration",
+        "Customizable fonts and themes"
+      ],
+      "screenshot": [
+        {
+          "@type": "ImageObject",
+          "url": `${siteUrl}/images/example-background-460.webp`,
+          "caption": "Bible Quote AI Art Generator - Divine Scripture Art Creation"
+        }
       ]
     }
 
