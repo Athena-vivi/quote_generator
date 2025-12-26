@@ -2,9 +2,10 @@ import Link from "next/link"
 import { Metadata } from "next"
 import {
   Wind, Shield, Heart, CloudRain, Sparkles,
-  BookOpen, TrendingUp
+  BookOpen, TrendingUp, LucideIcon
 } from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
+import { themes, themesList } from "@/data/themes"
 
 export const metadata: Metadata = {
   title: "Bible Themes - Scripture Quotes Collections by Topic | QuoteGenerator",
@@ -12,64 +13,16 @@ export const metadata: Metadata = {
   keywords: ["bible themes", "bible quotes by topic", "scripture collections", "bible verse collections", "daily bible verses"],
 }
 
-const themes = [
-  {
-    slug: "verses-for-peace",
-    name: "Peace",
-    description: "Find serenity in God's promises",
-    icon: Wind,
-    verseCount: 24,
-    gradient: "from-blue-400 to-cyan-300"
-  },
-  {
-    slug: "verses-for-strength",
-    name: "Strength",
-    description: "Draw power from scripture",
-    icon: Shield,
-    verseCount: 32,
-    gradient: "from-amber-500 to-orange-400"
-  },
-  {
-    slug: "verses-for-love",
-    name: "Love",
-    description: "God's unconditional love for you",
-    icon: Heart,
-    verseCount: 28,
-    gradient: "from-rose-400 to-pink-300"
-  },
-  {
-    slug: "verses-for-anxiety",
-    name: "Anxiety",
-    description: "Calm your worried mind",
-    icon: CloudRain,
-    verseCount: 18,
-    gradient: "from-slate-400 to-gray-300"
-  },
-  {
-    slug: "verses-for-healing",
-    name: "Healing",
-    description: "Comfort for body and soul",
-    icon: Sparkles,
-    verseCount: 20,
-    gradient: "from-emerald-400 to-teal-300"
-  },
-  {
-    slug: "verses-for-wisdom",
-    name: "Wisdom",
-    description: "Guidance for life's decisions",
-    icon: BookOpen,
-    verseCount: 26,
-    gradient: "from-violet-400 to-purple-300"
-  },
-  {
-    slug: "verses-for-success",
-    name: "Success",
-    description: "Blessings for prosperity",
-    icon: TrendingUp,
-    verseCount: 22,
-    gradient: "from-green-400 to-emerald-300"
-  },
-]
+// Icon mapping from string to Lucide component
+const iconMap: Record<string, LucideIcon> = {
+  Wind,
+  Shield,
+  Heart,
+  CloudRain,
+  Sparkles,
+  BookOpen,
+  TrendingUp,
+}
 
 export default function ThemesPage() {
   return (
@@ -92,8 +45,8 @@ export default function ThemesPage() {
 
           {/* Themes Grid - Responsive: 2 cols mobile, 3 cols tablet, 4 cols desktop */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {themes.map((theme) => {
-              const IconComponent = theme.icon
+            {themesList.map((theme) => {
+              const IconComponent = iconMap[theme.icon]
               return (
                 <Link
                   key={theme.slug}
@@ -122,7 +75,7 @@ export default function ThemesPage() {
                       {/* Verse Count */}
                       <div className="mt-3 md:mt-4 flex items-center gap-1.5 text-xs text-stone-400 dark:text-stone-600">
                         <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
-                        <span>{theme.verseCount} verses</span>
+                        <span>{theme.references.length} verses</span>
                       </div>
                     </div>
                   </div>

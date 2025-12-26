@@ -2,7 +2,7 @@ import Link from "next/link"
 import { Metadata } from "next"
 import { BookOpen, Sun, Heart, Sparkles, LucideIcon } from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
-import Image from "next/image"
+import { collections, collectionsList } from "@/data/collections"
 
 export const metadata: Metadata = {
   title: "Bible Collections - Curated Scripture Quote Galleries | QuoteGenerator",
@@ -10,53 +10,12 @@ export const metadata: Metadata = {
   keywords: ["bible collections", "bible quotes", "scripture galleries", "curated verses", "bible verse themes", "morning prayers", "gratitude journaling"],
 }
 
-interface Collection {
-  slug: string
-  title: string
-  subtitle: string
-  description: string
-  icon: LucideIcon
-  imageColor: string
-  coverImage: string
-  verseCount: number
-  featured: boolean
+// Icon mapping from string to Lucide component
+const iconMap: Record<string, LucideIcon> = {
+  Sun,
+  Heart,
+  Sparkles,
 }
-
-const collections: Collection[] = [
-  {
-    slug: "top-10-morning-prayers",
-    title: "Top 10 Morning Prayers",
-    subtitle: "Start Your Day with God",
-    description: "Begin each morning with these powerful prayers to center your heart, seek God's guidance, and find peace for the day ahead.",
-    icon: Sun,
-    imageColor: "from-amber-400 via-yellow-400 to-orange-400",
-    coverImage: "/images/collections/morning-prayer.webp",
-    verseCount: 10,
-    featured: true
-  },
-  {
-    slug: "verses-for-hard-times",
-    title: "Verses for Hard Times",
-    subtitle: "Strength in Difficult Seasons",
-    description: "When life feels overwhelming, find comfort and hope in these scriptures. God's Word brings light to your darkest moments.",
-    icon: Heart,
-    imageColor: "from-slate-500 via-gray-500 to-zinc-600",
-    coverImage: "/images/collections/hard-times.webp",
-    verseCount: 25,
-    featured: true
-  },
-  {
-    slug: "gratitude-journaling",
-    title: "Gratitude Journaling",
-    subtitle: "Thankful Hearts Collection",
-    description: "Cultivate a heart of gratitude with these verses. Perfect for daily reflection and journaling God's blessings in your life.",
-    icon: Sparkles,
-    imageColor: "from-emerald-400 via-green-400 to-teal-400",
-    coverImage: "/images/collections/gratitude.webp",
-    verseCount: 18,
-    featured: true
-  },
-]
 
 export default function CollectionsPage() {
   return (
@@ -85,8 +44,8 @@ export default function CollectionsPage() {
               <div className="w-8 h-0.5 bg-amber-400 dark:bg-amber-500"></div>
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-              {collections.map((collection) => {
-                const IconComponent = collection.icon
+              {collectionsList.map((collection) => {
+                const IconComponent = iconMap[collection.icon]
                 return (
                   <Link
                     key={collection.slug}
@@ -126,7 +85,7 @@ export default function CollectionsPage() {
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-xs md:text-sm text-stone-500 dark:text-stone-600">
                             <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
-                            <span>{collection.verseCount} verses</span>
+                            <span>{collection.references.length} verses</span>
                           </div>
                           <span className="text-xs md:text-sm font-medium text-amber-600 dark:text-amber-400 group-hover:text-amber-700 dark:group-hover:text-amber-300 transition-colors">
                             Explore →
