@@ -1,85 +1,121 @@
 import Link from "next/link"
-import { Feather, Heart, Shield, Sun, Zap, Flower, Star, BookOpen } from "lucide-react"
+import { Metadata } from "next"
+import {
+  Feather, Heart, Shield, Sun, Flower, Star,
+  BookOpen, Sparkles, Moon, Trees, Wind, Droplets
+} from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
+
+export const metadata: Metadata = {
+  title: "Bible Themes - Scripture Quotes Collections by Topic | QuoteGenerator",
+  description: "Explore Bible quotes by themes: Peace, Strength, Encouragement, Healing, Wisdom, and more. Find curated scripture collections for every life situation.",
+  keywords: ["bible themes", "bible quotes by topic", "scripture collections", "bible verse collections", "daily bible verses"],
+}
 
 const themes = [
   {
     slug: "verses-for-peace",
-    title: "Verses for Peace",
-    description: "Find comfort and serenity in God's word during difficult times",
+    name: "Peace",
+    description: "Find serenity in God's promises",
     icon: Feather,
-    color: "from-amber-500 to-yellow-500",
-    verseCount: 8
+    verseCount: 24,
+    gradient: "from-blue-400 to-cyan-300"
   },
   {
     slug: "verses-for-strength",
-    title: "Verses for Strength",
-    description: "Draw courage and power from scripture when you feel weak",
+    name: "Strength",
+    description: "Draw power from scripture",
     icon: Shield,
-    color: "from-amber-600 to-yellow-600",
-    verseCount: 10
+    verseCount: 32,
+    gradient: "from-amber-500 to-orange-400"
   },
   {
     slug: "verses-for-encouragement",
-    title: "Verses for Encouragement",
-    description: "Uplifting words to inspire and motivate your daily walk",
+    name: "Encouragement",
+    description: "Uplifting words for daily inspiration",
     icon: Sun,
-    color: "from-yellow-500 to-amber-500",
-    verseCount: 12
+    verseCount: 28,
+    gradient: "from-yellow-400 to-amber-300"
   },
   {
     slug: "verses-for-healing",
-    title: "Verses for Healing",
-    description: "Scriptures for comfort and restoration in times of sickness",
+    name: "Healing",
+    description: "Comfort for body and soul",
     icon: Heart,
-    color: "from-amber-400 to-amber-600",
-    verseCount: 9
+    verseCount: 20,
+    gradient: "from-rose-400 to-pink-300"
   },
   {
     slug: "verses-for-wisdom",
-    title: "Verses for Wisdom",
-    description: "Biblical guidance for making wise decisions in life",
+    name: "Wisdom",
+    description: "Guidance for life's decisions",
     icon: Star,
-    color: "from-amber-500 to-yellow-600",
-    verseCount: 11
+    verseCount: 26,
+    gradient: "from-violet-400 to-purple-300"
   },
   {
     slug: "verses-for-anxiety",
-    title: "Verses for Anxiety",
-    description: "Calm your worried mind with these reassuring scriptures",
+    name: "Anxiety",
+    description: "Calm your worried mind",
     icon: Flower,
-    color: "from-amber-600 to-yellow-700",
-    verseCount: 7
-  }
+    verseCount: 18,
+    gradient: "from-green-400 to-emerald-300"
+  },
+  {
+    slug: "verses-for-faith",
+    name: "Faith",
+    description: "Strengthen your belief",
+    icon: Sparkles,
+    verseCount: 30,
+    gradient: "from-indigo-400 to-blue-300"
+  },
+  {
+    slug: "verses-for-hope",
+    name: "Hope",
+    description: "Tomorrow's promises today",
+    icon: Moon,
+    verseCount: 22,
+    gradient: "from-slate-400 to-gray-300"
+  },
+  {
+    slug: "verses-for-gratitude",
+    name: "Gratitude",
+    description: "Thankful hearts rejoice",
+    icon: Sun,
+    verseCount: 16,
+    gradient: "from-orange-400 to-amber-300"
+  },
+  {
+    slug: "verses-for-protection",
+    name: "Protection",
+    description: "God's shield around you",
+    icon: Shield,
+    verseCount: 14,
+    gradient: "from-teal-400 to-cyan-300"
+  },
 ]
-
-export const metadata = {
-  title: "Explore Bible Themes - Scripture Collections by Topic",
-  description: "Browse Bible verses organized by themes like peace, strength, encouragement, healing, wisdom, and more. Find the perfect scripture for any situation.",
-  keywords: ["bible themes", "bible verses by topic", "scripture categories", "bible verse collections"]
-}
 
 export default function ThemesPage() {
   return (
     <PageLayout showBreadcrumb={true}>
-      <div className="min-h-screen bg-background py-16 px-6">
-        <div className="max-w-6xl mx-auto">
+      <div className="min-h-screen bg-[#fdfbf7] dark:bg-black">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+
           {/* Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-500/20 dark:to-amber-600/20 rounded-3xl border border-amber-200/50 dark:border-amber-500/30 mb-6 shadow-lg">
-              <BookOpen className="w-10 h-10 text-amber-600 dark:text-amber-400" />
+          <div className="text-center mb-12 md:mb-16">
+            <div className="inline-flex items-center justify-center w-16 h-16 md:w-20 md:h-20 bg-gradient-to-br from-amber-100 to-yellow-100 dark:from-amber-900/30 dark:to-amber-800/30 rounded-2xl md:rounded-3xl border border-amber-200/50 dark:border-amber-500/30 mb-6 shadow-lg">
+              <BookOpen className="w-8 h-8 md:w-10 md:h-10 text-amber-600 dark:text-amber-400" />
             </div>
-            <h1 className="text-3xl md:text-5xl font-serif font-bold text-gray-900 dark:text-stone-100 mb-6">
-              Explore <span className="text-amber-600 dark:text-amber-400">Bible Themes</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-bold text-amber-900 dark:text-amber-300 mb-4">
+              Bible Quote <span className="text-amber-600 dark:text-amber-400">Themes</span>
             </h1>
-            <p className="text-xl text-gray-600 dark:text-stone-400 leading-relaxed max-w-3xl mx-auto font-light">
-              Find scripture collections organized by life topics. Whether you're seeking peace, strength, encouragement,
-              or wisdom, discover verses that speak to your heart.
+            <p className="text-base md:text-lg text-stone-600 dark:text-stone-400 max-w-2xl mx-auto leading-relaxed">
+              Explore scripture collections organized by life topics. Find the perfect verse for any moment.
             </p>
           </div>
 
-          {/* Themes Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {/* Themes Grid - Responsive: 2 cols mobile, 4 cols tablet, 5 cols desktop */}
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 lg:gap-5">
             {themes.map((theme) => {
               const IconComponent = theme.icon
               return (
@@ -88,34 +124,30 @@ export default function ThemesPage() {
                   href={`/themes/${theme.slug}`}
                   className="group"
                 >
-                  <div className="relative h-full">
-                    {/* Hover Glow */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-white/40 via-stone-50/40 to-white/40 dark:from-amber-500/5 dark:via-amber-600/5 dark:to-amber-500/5 rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 transform scale-95 group-hover:scale-100"></div>
-
+                  <div className="relative">
                     {/* Card */}
-                    <div className="relative h-full bg-white/60 dark:bg-zinc-900/40 dark:backdrop-blur-md backdrop-blur-xl border border-white/40 dark:border-white/10 rounded-3xl p-6 shadow-[0_15px_40px_-15px_rgba(212,175,55,0.1)] dark:shadow-[0_0_30px_rgba(212,175,55,0.08)] hover:shadow-[0_20px_50px_-15px_rgba(212,175,55,0.15)] dark:hover:shadow-[0_0_40px_rgba(212,175,55,0.12)] transform hover:-translate-y-2 transition-all duration-500 ring-1 ring-amber-200/20 dark:ring-amber-500/10">
-                      {/* Icon */}
-                      <div className="relative p-3 bg-gradient-to-br from-amber-100/50 to-yellow-100/50 dark:from-amber-500/20 dark:to-amber-600/20 rounded-2xl border border-amber-200/30 dark:border-amber-500/30 shadow-md group-hover:shadow-lg transition-shadow duration-300 w-fit mb-4">
-                        <div className={`absolute inset-0 bg-gradient-to-r ${theme.color} opacity-10 dark:opacity-20 rounded-2xl blur-md`}></div>
-                        <IconComponent className="relative w-6 h-6 text-amber-700 dark:text-amber-400 drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]" />
+                    <div className="bg-white dark:bg-stone-900/60 rounded-2xl md:rounded-3xl p-4 md:p-6 border border-amber-100 dark:border-amber-500/20 shadow-sm hover:shadow-xl hover:shadow-amber-500/10 dark:hover:shadow-amber-500/5 transition-all duration-300 hover:-translate-y-1">
+
+                      {/* Icon Circle */}
+                      <div className={`flex items-center justify-center w-12 h-12 md:w-14 md:h-14 rounded-xl bg-gradient-to-br ${theme.gradient} mb-3 md:mb-4 shadow-md`}>
+                        <IconComponent className="w-6 h-6 md:w-7 md:h-7 text-white" strokeWidth={2} />
                       </div>
 
-                      {/* Content */}
-                      <h3 className="text-xl font-serif font-bold text-gray-800 dark:text-stone-200 group-hover:text-amber-800 dark:group-hover:text-amber-300 transition-colors duration-300 mb-2">
-                        {theme.title}
+                      {/* Theme Name */}
+                      <h3 className="text-base md:text-lg font-serif font-bold text-stone-800 dark:text-stone-200 mb-1 group-hover:text-amber-700 dark:group-hover:text-amber-400 transition-colors">
+                        {theme.name}
                       </h3>
-                      <p className="text-sm text-gray-600/90 dark:text-stone-400 leading-snug font-light mb-4">
+
+                      {/* Description */}
+                      <p className="text-xs md:text-sm text-stone-500 dark:text-stone-500 leading-snug line-clamp-2">
                         {theme.description}
                       </p>
 
-                      {/* Verse Count Badge */}
-                      <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-stone-500">
-                        <div className="w-1.5 h-1.5 bg-amber-500 rounded-full"></div>
+                      {/* Verse Count */}
+                      <div className="mt-3 md:mt-4 flex items-center gap-1.5 text-xs text-stone-400 dark:text-stone-600">
+                        <div className="w-1.5 h-1.5 rounded-full bg-amber-500"></div>
                         <span>{theme.verseCount} verses</span>
                       </div>
-
-                      {/* Hover Indicator */}
-                      <div className="absolute top-6 right-6 w-2 h-2 bg-gradient-to-r from-amber-400 to-yellow-500 dark:from-amber-500 dark:to-amber-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </div>
                   </div>
                 </Link>
@@ -123,13 +155,14 @@ export default function ThemesPage() {
             })}
           </div>
 
-          {/* More Coming Soon */}
-          <div className="mt-16 text-center">
-            <div className="inline-flex items-center gap-3 px-6 py-3 bg-amber-50/50 dark:bg-amber-950/30 border border-amber-200/50 dark:border-amber-500/20 rounded-full">
-              <div className="w-2 h-2 bg-amber-500 rounded-full animate-pulse"></div>
-              <span className="text-sm text-gray-600 dark:text-stone-400">More themes coming soon...</span>
+          {/* Coming Soon */}
+          <div className="mt-12 md:mt-16 text-center">
+            <div className="inline-flex items-center gap-2 md:gap-3 px-4 md:px-6 py-2 md:py-3 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-500/20 rounded-full">
+              <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-amber-500 rounded-full animate-pulse"></div>
+              <span className="text-xs md:text-sm text-stone-600 dark:text-stone-400">More themes coming soon</span>
             </div>
           </div>
+
         </div>
       </div>
     </PageLayout>

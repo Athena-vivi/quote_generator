@@ -16,11 +16,19 @@ const crimsonText = Crimson_Text({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://quotegenerator.org'),
-  title: "QuoteGenerator - Transform Bible Quotes into Beautiful AI Art",
+  metadataBase: new URL('https://www.quotegenerator.org'),
+  title: {
+    default: "#1 Bible Quote Generator | Create Divine Scripture Art Instantly",
+    template: "%s | QuoteGenerator"
+  },
   description:
-    "Create stunning, shareable images from Bible quotes with AI-powered backgrounds. Find daily inspiration, search by mood or reference, and share your faith beautifully on social media.",
+    "Transform Bible quotes into beautiful AI-generated art. The best free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp. No registration required.",
   keywords: [
+    "bible quote generator",
+    "daily bible verses",
+    "christian art",
+    "scripture images",
+    "jesus quotes generator",
     "Bible quotes",
     "Christian quotes",
     "Bible verses",
@@ -54,27 +62,27 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://quotegenerator.org",
+    url: "https://www.quotegenerator.org",
     siteName: "QuoteGenerator",
-    title: "QuoteGenerator - Transform Bible Quotes into Beautiful AI Art",
+    title: "#1 Bible Quote Generator | Create Divine Scripture Art Instantly",
     description:
-      "Create stunning, shareable images from Bible quotes with AI-powered backgrounds. Find daily inspiration, search by mood or reference, and share your faith beautifully.",
+      "Transform Bible quotes into beautiful AI-generated art. The best free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp. No registration required.",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://www.quotegenerator.org/images/example-background-460.webp",
         width: 1200,
-        height: 630,
-        alt: "QuoteGenerator - Bible Quote Art Creator",
+        height: 1200,
+        alt: "Beautiful Bible Quote Art Generated with AI - Waterfall Scene",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "QuoteGenerator - Transform Bible Quotes into Beautiful AI Art",
+    site: "@quotegenerator",
+    title: "#1 Bible Quote Generator | Create Divine Scripture Art Instantly",
     description:
-      "Create stunning, shareable images from Bible quotes with AI-powered backgrounds. Find daily inspiration and share your faith beautifully.",
-    images: ["/twitter-image.jpg"],
-    creator: "@quotegenerator",
+      "Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp.",
+    images: ["https://www.quotegenerator.org/images/example-background-460.webp"],
   },
   verification: {
     google: "your-google-verification-code",
@@ -82,10 +90,10 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   alternates: {
-    canonical: "https://quotegenerator.org",
+    canonical: "https://www.quotegenerator.org",
   },
   category: "Religion & Spirituality",
-  generator: "v0.dev",
+  generator: "QuoteGenerator",
 }
 
 // Inline Critical CSS for above-the-fold content to prevent FOUC
@@ -251,9 +259,10 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              name: "QuoteGenerator",
-              description: "Transform Bible quotes into beautiful AI-generated art for social media sharing",
-              url: "https://quotegenerator.org",
+              name: "QuoteGenerator - Bible Quote Art Creator",
+              alternateName: "Bible Quote Generator",
+              description: "Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp.",
+              url: "https://www.quotegenerator.org",
               applicationCategory: "DesignApplication",
               operatingSystem: "Web Browser",
               offers: {
@@ -264,21 +273,23 @@ export default function RootLayout({
               creator: {
                 "@type": "Organization",
                 name: "QuoteGenerator Team",
-                url: "https://quotegenerator.org/about",
+                url: "https://www.quotegenerator.org/about",
               },
               featureList: [
-                "Daily Bible quote recommendations",
-                "Mood-based quote search",
-                "AI-powered background generation",
+                "AI-powered Bible quote art generation",
+                "Daily Bible verse recommendations",
+                "Mood-based scripture search",
                 "High-resolution image downloads",
-                "Social media sharing",
+                "Social media sharing (Instagram, Facebook, WhatsApp)",
                 "Favorite quotes management",
+                "No registration required",
               ],
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: "4.8",
                 reviewCount: "1250",
               },
+              keywords: "bible quote generator, daily bible verses, christian art, scripture images, jesus quotes generator",
             }),
           }}
         />
@@ -313,9 +324,9 @@ export default function RootLayout({
           storageKey="quote-generator-theme"
         >
           <WebsiteSchema
-            siteName="QuoteGenerator"
-            siteUrl="https://quotegenerator.org"
-            description="Transform Bible quotes into beautiful AI-generated art for social media sharing"
+            siteName="QuoteGenerator - Bible Quote Art Creator"
+            siteUrl="https://www.quotegenerator.org"
+            description="Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp."
           />
           {children}
         </ThemeProvider>
