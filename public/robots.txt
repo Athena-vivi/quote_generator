@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /verse/
+
+# Host
+Host: https://quotegenerator.org
+
+# Sitemaps
+Sitemap: https://quotegenerator.org/sitemap.xml
