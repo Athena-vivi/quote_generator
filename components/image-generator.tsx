@@ -187,6 +187,16 @@ async function drawQuoteImage({
   ctx.fillText(`— ${cleanReference}`, refX, refY)
   ctx.globalAlpha = 1.0
 
+  // Draw watermark at bottom right
+  ctx.save()
+  ctx.font = `italic 400 ${Math.max(16, width * 0.018)}px "Crimson Text", serif`
+  ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.15)"
+  ctx.textAlign = "right"
+  ctx.textBaseline = "bottom"
+  ctx.globalAlpha = 1.0
+  ctx.fillText("quotegenerator.org", width - (width * 0.045), height - (height * 0.025))
+  ctx.restore()
+
   ctx.restore()
 }
 
