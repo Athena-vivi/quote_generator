@@ -2,14 +2,19 @@ import Link from "next/link"
 import { Metadata } from "next"
 import {
   Wind, Shield, Heart, CloudRain, Sparkles,
-  BookOpen, TrendingUp, LucideIcon
+  BookOpen, TrendingUp, LucideIcon,
+  // 新增图标
+  Sunrise, ShieldAlert, Smile, HeartHandshake, UserX,
+  Users, Home, UserPlus, RefreshCw, Baby, Briefcase,
+  Hourglass, Wand2, Compass, Droplet, HeartPulse, ShieldCheck,
+  Cake, Sun, Moon, GraduationCap, Calendar, HeartOff,
 } from "lucide-react"
 import { PageLayout } from "@/components/page-layout"
 import { themes, themesList } from "@/data/themes"
 
 export const metadata: Metadata = {
   title: "Bible Themes - Scripture Quotes Collections by Topic | QuoteGenerator",
-  description: "Explore Bible quotes by themes: Peace, Strength, Love, Anxiety, Healing, Wisdom, Success, and more. Find curated scripture collections for every life situation.",
+  description: "Explore Bible quotes by themes: Peace, Strength, Love, Anxiety, Hope, Faith, Wisdom, and 30+ more topics. Find curated scripture collections for every life situation.",
   keywords: ["bible themes", "bible quotes by topic", "scripture collections", "bible verse collections", "daily bible verses"],
 }
 
@@ -22,6 +27,30 @@ const iconMap: Record<string, LucideIcon> = {
   Sparkles,
   BookOpen,
   TrendingUp,
+  // 新增图标
+  Sunrise,
+  ShieldAlert,
+  Smile,
+  HeartHandshake,
+  UserX,
+  Users,
+  Home,
+  UserPlus,
+  RefreshCw,
+  Baby,
+  Briefcase,
+  Hourglass,
+  Wand2,
+  Compass,
+  Droplet,
+  HeartPulse,
+  ShieldCheck,
+  Cake,
+  Sun,
+  Moon,
+  GraduationCap,
+  Calendar,
+  HeartOff,
 }
 
 export default function ThemesPage() {
@@ -47,6 +76,7 @@ export default function ThemesPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
             {themesList.map((theme) => {
               const IconComponent = iconMap[theme.icon]
+              if (!IconComponent) return null
               return (
                 <Link
                   key={theme.slug}

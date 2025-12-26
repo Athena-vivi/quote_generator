@@ -1,14 +1,41 @@
 /** @type {import('next-sitemap').IConfig} */
 
-// 直接定义主题和收藏的 slug（从 data/themes.ts 和 data/collections.ts 复制）
+// 30 个主题的 slug（从 data/themes.ts 同步）
 const themeSlugs = [
+  // 一、核心情绪（Emotional Support）—— 8 个
   'verses-for-peace',
   'verses-for-strength',
-  'verses-for-love',
   'verses-for-anxiety',
-  'verses-for-healing',
+  'verses-for-hope',
+  'verses-for-fear',
+  'verses-for-joy',
+  'verses-for-comfort',
+  'verses-for-loneliness',
+  // 二、生活场景与关系（Life & Relationships）—— 7 个
+  'verses-about-love',
+  'verses-for-marriage',
+  'verses-for-family',
+  'verses-about-friendship',
+  'verses-about-forgiveness',
+  'verses-for-children',
+  'verses-for-work',
+  // 三、属灵成长（Spiritual Growth）—— 8 个
   'verses-for-wisdom',
-  'verses-for-success',
+  'verses-about-faith',
+  'verses-about-patience',
+  'verses-for-gratitude',
+  'verses-for-guidance',
+  'verses-about-grace',
+  'verses-about-mercy',
+  'verses-about-trust',
+  // 四、特定时刻与祝福（Occasions & Blessings）—— 7 个
+  'verses-for-healing',
+  'verses-for-birthday',
+  'verses-for-morning',
+  'verses-for-sleep',
+  'verses-for-graduation',
+  'verses-for-new-year',
+  'verses-for-grief',
 ]
 
 const collectionSlugs = [
