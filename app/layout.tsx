@@ -16,7 +16,7 @@ const crimsonText = Crimson_Text({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://www.quotegenerator.org'),
+  metadataBase: new URL('https://quotegenerator.org'),
   title: {
     default: "#1 Bible Quote Generator | Create Divine Scripture Art Instantly",
     template: "%s | QuoteGenerator"
@@ -62,14 +62,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://www.quotegenerator.org",
+    url: "https://quotegenerator.org",
     siteName: "QuoteGenerator",
     title: "#1 Bible Quote Generator | Create Divine Scripture Art Instantly",
     description:
       "Transform Bible quotes into beautiful AI-generated art. The best free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp. No registration required.",
     images: [
       {
-        url: "https://www.quotegenerator.org/images/example-background-460.webp",
+        url: "https://quotegenerator.org/images/example-background-460.webp",
         width: 1200,
         height: 1200,
         alt: "Beautiful Bible Quote Art Generated with AI - Waterfall Scene",
@@ -82,7 +82,7 @@ export const metadata: Metadata = {
     title: "#1 Bible Quote Generator | Create Divine Scripture Art Instantly",
     description:
       "Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp.",
-    images: ["https://www.quotegenerator.org/images/example-background-460.webp"],
+    images: ["https://quotegenerator.org/images/example-background-460.webp"],
   },
   verification: {
     google: "your-google-verification-code",
@@ -90,7 +90,7 @@ export const metadata: Metadata = {
     yahoo: "your-yahoo-verification-code",
   },
   alternates: {
-    canonical: "https://www.quotegenerator.org",
+    canonical: "https://quotegenerator.org",
   },
   category: "Religion & Spirituality",
   generator: "QuoteGenerator",
@@ -262,7 +262,7 @@ export default function RootLayout({
               name: "QuoteGenerator - Bible Quote Art Creator",
               alternateName: "Bible Quote Generator",
               description: "Transform Bible quotes into beautiful AI-generated art. Free tool to create, download, and share scripture images for Instagram, Facebook, and WhatsApp.",
-              url: "https://www.quotegenerator.org",
+              url: "https://quotegenerator.org",
               applicationCategory: "DesignApplication",
               operatingSystem: "Web Browser",
               offers: {
