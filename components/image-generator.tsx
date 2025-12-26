@@ -785,11 +785,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                   <h4 className="text-sm font-serif font-semibold text-gray-800 dark:text-zinc-200 mb-3">Style Options</h4>
 
                   {/* Mobile: Horizontal layout, Desktop: Vertical layout */}
-                  <div className="flex flex-col md:space-y-3 md:flex-col gap-2 md:gap-0">
+                  <div className="flex flex-row md:flex-col gap-2 md:gap-0 md:space-y-3">
                     {/* Text Color */}
-                    <div className="flex flex-row md:flex-col items-center md:items-start gap-2 md:gap-0">
-                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-0 md:mb-2 whitespace-nowrap">Color</p>
-                      <div className="flex gap-1.5 md:gap-2">
+                    <div className="flex flex-col items-center md:items-start flex-1 min-w-0">
+                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1 md:mb-2 whitespace-nowrap">Color</p>
+                      <div className="flex gap-1.5 md:gap-2 justify-center md:justify-start">
                         {["#ffd700", "#fff"].map((color) => (
                           <button
                             key={color}
@@ -806,11 +806,10 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </div>
 
                     {/* Theme */}
-                    <div className="flex flex-row md:flex-col items-center md:items-start gap-2 md:gap-0">
-                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-0 md:mb-2 whitespace-nowrap">Theme</p>
+                    <div className="flex flex-col items-center flex-1 min-w-0">
                       <button
                         onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                        className="h-8 md:h-9 px-2 md:px-0 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all font-serif text-xs md:text-sm flex items-center justify-center gap-1 md:gap-2 flex-1 md:w-full"
+                        className="h-8 md:h-9 px-2 md:px-0 rounded-lg bg-gradient-to-r from-stone-200 to-stone-300 dark:from-stone-700 dark:to-stone-600 text-stone-700 dark:text-stone-200 hover:from-stone-300 hover:to-stone-400 dark:hover:from-stone-600 dark:hover:to-stone-500 transition-all font-serif text-xs md:text-sm flex items-center justify-center gap-1 md:gap-2 w-full"
                       >
                         <span className="text-sm md:text-base">{theme === 'light' ? '☀️' : '🌙'}</span>
                         <span className="hidden md:inline">{theme === 'light' ? 'Light' : 'Dark'}</span>
@@ -818,9 +817,9 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                     </div>
 
                     {/* Font */}
-                    <div className="flex flex-row md:flex-col items-center md:items-start gap-2 md:gap-0">
-                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-0 md:mb-2 whitespace-nowrap">Font</p>
-                      <div className="flex gap-1.5 md:gap-2 flex-1 md:w-full">
+                    <div className="flex flex-col items-center md:items-start flex-1 min-w-0">
+                      <p className="text-[10px] md:text-xs font-serif uppercase tracking-wider text-amber-600/60 dark:text-amber-400/50 mb-1 md:mb-2 whitespace-nowrap">Font</p>
+                      <div className="flex gap-1.5 md:gap-2 w-full">
                         <button
                           onClick={() => setSelectedFont("classic")}
                           className={`flex-1 px-2 md:px-3 py-1.5 md:py-2 text-xs md:text-sm font-serif rounded-lg transition-all ${
