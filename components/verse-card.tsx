@@ -41,11 +41,11 @@ export function VerseCard({ reference, content }: VerseCardProps) {
   return (
     <div className="bg-white dark:bg-stone-900/60 rounded-2xl p-6 border border-amber-100 dark:border-amber-500/20 shadow-sm hover:shadow-lg hover:shadow-amber-500/10 dark:hover:shadow-amber-500/5 transition-all duration-300">
       <blockquote className="text-base md:text-lg font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed mb-4">
-        "{content}"
+        &ldquo;{content}&rdquo;
       </blockquote>
       <div className="flex items-center justify-between">
         <cite className="text-sm md:text-base font-serif text-amber-800 dark:text-amber-400 italic not-underline">
-          — {reference}
+          &mdash; {reference}
         </cite>
         <div className="flex items-center gap-2">
           <button

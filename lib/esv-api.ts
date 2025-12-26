@@ -1,24 +1,6 @@
 // ESV API utility for batch scripture queries
 // https://api.esv.org/docs/
 
-interface ESVPassage {
-  query: string
-  text: string
-  reference: string
-}
-
-interface ESVResponse {
-  query: string
-  canonical: string
-  passages: string[]  // Array of scripture text, separated by reference
-  passage_meta: {
-    passage: string[]
-    chapter: number[][]
-    verse_start: number[][]
-    verse_end: number[][]
-  }
-}
-
 export interface Verse {
   reference: string
   content: string
@@ -27,6 +9,17 @@ export interface Verse {
 // ESV API key from environment
 const ESV_API_KEY = process.env.ESV_API_KEY || ""
 const ESV_API_BASE = "https://api.esv.org/v3/passage/text/"
+
+/**
+ * Clean scripture text - remove extra whitespace and formatting
+ */
+function cleanScriptureText(text: string): string {
+  return text
+    // Replace multiple spaces with single space
+    .replace(/\s+/g, " ")
+    // Remove leading/trailing whitespace
+    .trim()
+}
 
 /**
  * Fetch a single passage from ESV API
@@ -56,14 +49,14 @@ export async function fetchESVPassage(reference: string): Promise<Verse> {
 
   return {
     reference,
-    content: text.trim(),
+    content: cleanScriptureText(text),
   }
 }
 
 /**
  * Fetch multiple passages from ESV API in a single batch request
  * ESV API supports semicolon-separated passages
- * Example: ?q=John+3:16;John+1:1;Psalm+23
+ * Returns an array of verses in the same order as the input references
  */
 export async function fetchESVPassages(references: string[]): Promise<Verse[]> {
   if (references.length === 0) return []
@@ -82,7 +75,7 @@ export async function fetchESVPassages(references: string[]): Promise<Verse[]> {
   }
 
   // Fetch all batches in parallel
-  const results: Verse[] = []
+  const allResults: Verse[] = []
 
   for (const batch of batches) {
     // Join references with semicolon for batch request
@@ -108,45 +101,57 @@ export async function fetchESVPassages(references: string[]): Promise<Verse[]> {
       throw new Error(`ESV API error: ${response.status} ${response.statusText}`)
     }
 
-    // ESV returns passages separated by reference headers
+    // ESV returns raw text - need to parse it
+    // Format: passages are separated by double newlines, with reference like "John 3:16" before each
     const text = await response.text()
 
-    // Parse the response - ESV separates passages with the reference in brackets
-    // Example format: "[1] John 3:16\n For God so loved...\n\n[2] John 1:1\n In the beginning..."
-    const passages = text.split(/\n\s*\n/)
+    // Split by double newlines to get individual passages
+    const rawPassages = text.split(/\n\s*\n/)
 
-    for (let i = 0; i < passages.length; i++) {
-      const passage = passages[i].trim()
+    // Parse each passage
+    for (let i = 0; i < rawPassages.length; i++) {
+      const rawPassage = rawPassages[i]
 
-      // Remove reference prefix if present (e.g., "[1] ")
-      const cleanPassage = passage.replace(/^\[\d+\]\s*/, "").trim()
+      // Split into lines
+      const lines = rawPassage.split("\n").map(line => line.trim()).filter(Boolean)
 
-      // Extract the actual content (remove the reference line that ESV adds)
-      const lines = cleanPassage.split("\n")
+      // Find the content (skip the reference line if present)
+      // ESV puts the reference as the first line like "John 3:16" or "John 3:16-17"
       let contentStartIndex = 0
 
-      // Find where the actual verse content starts (after the reference line)
       for (let j = 0; j < lines.length; j++) {
-        const line = lines[j].trim()
-        // Skip lines that look like references
-        if (line && !/^\d+\s+\d+:\d+/.test(line) && !line.includes(":")) {
+        const line = lines[j]
+        // Check if this line looks like a reference (contains "chapter:verse" pattern)
+        // Example: "John 3:16", "Psalm 23:1-3"
+        const isReferenceLine = /^\d*\s*\w+\s+\d+:\d+/.test(line)
+
+        if (!isReferenceLine && contentStartIndex === 0) {
+          // Found first non-reference line - this is content
           contentStartIndex = j
           break
         }
       }
 
-      const content = lines.slice(contentStartIndex).join(" ").replace(/\s+/g, " ").trim()
+      // Extract content from this point
+      const contentLines = lines.slice(contentStartIndex)
 
-      if (content) {
-        results.push({
-          reference: batch[i] || references[results.length],
-          content,
+      // If we couldn't find proper content (maybe reference wasn't on its own line), use all lines
+      const finalContent = contentLines.length > 0
+        ? contentLines.join(" ")
+        : lines.join(" ")
+
+      const cleanContent = cleanScriptureText(finalContent)
+
+      if (cleanContent) {
+        allResults.push({
+          reference: batch[i] || references[allResults.length],
+          content: cleanContent,
         })
       }
     }
   }
 
-  return results
+  return allResults
 }
 
 /**
