@@ -46,7 +46,7 @@ export function ExampleShowcase() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/10" aria-hidden="true"></div>
 
                     {/* Quote Content */}
-                    <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4 sm:p-8 md:p-12">
+                    <div className="absolute inset-0 flex flex-col justify-center items-center text-center p-4 sm:p-8 md:px-8 md:py-12">
                       <blockquote className="text-white text-base sm:text-lg md:text-xl lg:text-2xl font-serif leading-tight md:leading-relaxed max-w-[95%] sm:max-w-[90%] md:max-w-[85%] font-light"
                         style={{
                           textShadow: "2px 2px 8px rgba(0,0,0,0.8), 0 0 16px rgba(0,0,0,0.6)",
