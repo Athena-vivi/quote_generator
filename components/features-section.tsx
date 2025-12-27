@@ -1,4 +1,4 @@
-import { Search, Palette, Share2, Feather, Shield } from "lucide-react"
+import { Search, Palette, Share2, Feather, Shield, Heart } from "lucide-react"
 
 export function FeaturesSection() {
   const features = [
@@ -15,7 +15,7 @@ export function FeaturesSection() {
       gradient: "from-amber-600 to-yellow-600",
     },
     {
-      icon: Feather,
+      icon: Heart,
       title: "Spiritual Emotional Match",
       description: "Discover verses that resonate with your heart's current state and spiritual journey",
       gradient: "from-amber-400 to-amber-600",
