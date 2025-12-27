@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react';
 import type React from "react"
 import type { Metadata } from "next"
 import Script from "next/script"
@@ -344,6 +345,7 @@ export default function RootLayout({
             __html: `(function(){var e=console.error,w=console.warn,s=function(e){return['message port closed','runtime.lastError','Receiving end does not exist'].some(function(t){return e.toLowerCase().indexOf(t.toLowerCase())>-1})};console.error=function(){var t=Array.prototype.slice.call(arguments).join(' ');s(t)||e.apply(console,arguments)};console.warn=function(){var t=Array.prototype.slice.call(arguments).join(' ');s(t)||w.apply(console,arguments)};window.addEventListener&&window.addEventListener('error',function(t){t.message&&s(t.message)&&(t.preventDefault(),t.stopPropagation(),!1)},!0)})();`
           }}
         />
+      <Analytics />
       </body>
     </html>
   )
