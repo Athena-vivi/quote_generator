@@ -17,9 +17,10 @@ import { Facebook } from "lucide-react"
 import { Youtube } from "lucide-react" // Using for X/Twitter
 import { Instagram } from "lucide-react"
 
-// Import draw engine, social share hook, and UI components
+// Import draw engine, social share hook, image export hook, and UI components
 import { drawQuoteImage } from "./draw-engine"
 import { useSocialShare } from "./use-social-share"
+import { useImageExport } from "./useImageExport"
 import { UIControls } from "./ui-controls"
 import { CanvasPreview } from "./canvas-preview"
 
@@ -37,7 +38,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [prompt, setPrompt] = useState("")
   const [generatedImageUrl, setGeneratedImageUrl] = useState<string | null>(null)
   const [isGenerating, setIsGenerating] = useState(false)
-  const [isComposing, setIsComposing] = useState(false)
   const [isFavorited, setIsFavorited] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
@@ -66,6 +66,18 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       name: "Elegant Script"
     }
   }
+
+  // Image export hook
+  const { download: downloadFromHook, copy: copyFromHook, share: shareImageFromCanvas, isComposing } = useImageExport({
+    quote,
+    fontConfigs,
+    selectedFont,
+    resolution,
+    theme,
+    textColor,
+    refColor,
+    drawQuoteImage,
+  })
 
   // Load fonts
   useEffect(() => {
@@ -158,102 +170,29 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     }
   }
 
-  const EXPORT_SCALE = 2
-
+  // Wrapper functions for the image export hook
   const downloadImage = async () => {
     if (!generatedImageUrl || !fontsLoaded) return
-    setIsComposing(true)
     setError(null)
     try {
-      const response = await fetch(generatedImageUrl, { mode: "cors" })
-      const blob = await response.blob()
-      const bitmap = await createImageBitmap(blob)
-      const canvas = document.createElement("canvas")
-      canvas.width = resolution.width * EXPORT_SCALE
-      canvas.height = resolution.height * EXPORT_SCALE
-      const ctx = canvas.getContext("2d")!
-      ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0);
-      await drawQuoteImage({
-        ctx,
-        backgroundImg: bitmap,
-        quote,
-        fontConfigs,
-        selectedFont,
-        width: resolution.width,
-        height: resolution.height,
-        theme,
-        textColor,
-        refColor,
-      })
-      const link = document.createElement("a")
-      link.download = `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}.png`
-      link.href = canvas.toDataURL("image/png", 1.0)
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
+      await downloadFromHook(generatedImageUrl)
     } catch (error) {
       setError("Failed to download image. Please try again.")
-    } finally {
-      setIsComposing(false)
     }
   }
 
   const copyToClipboard = async () => {
     if (!generatedImageUrl || !fontsLoaded) return
-    setIsComposing(true)
     setError(null)
     try {
-      const response = await fetch(generatedImageUrl, { mode: "cors" })
-      const blob = await response.blob()
-      const bitmap = await createImageBitmap(blob)
-      const canvas = document.createElement("canvas")
-      canvas.width = resolution.width * EXPORT_SCALE
-      canvas.height = resolution.height * EXPORT_SCALE
-      const ctx = canvas.getContext("2d")!
-      ctx.setTransform(EXPORT_SCALE, 0, 0, EXPORT_SCALE, 0, 0);
-      await drawQuoteImage({
-        ctx,
-        backgroundImg: bitmap,
-        quote,
-        fontConfigs,
-        selectedFont,
-        width: resolution.width,
-        height: resolution.height,
-        theme,
-        textColor,
-        refColor,
-      })
-      const finalBlob = await new Promise<Blob | null>((resolve) => canvas.toBlob((b) => resolve(b), "image/png", 1.0))
-      if (!finalBlob) throw new Error("Could not create image blob")
-      try {
-        if (document.hasFocus() && navigator.clipboard && navigator.clipboard.write) {
-          const item = new ClipboardItem({ "image/png": finalBlob })
-          await navigator.clipboard.write([item])
-          setCopied(true)
-          setTimeout(() => setCopied(false), 2000)
-        } else {
-          throw new Error("Page not focused or clipboard unavailable")
-        }
-      } catch (clipboardError) {
-        const url = URL.createObjectURL(finalBlob)
-        const link = document.createElement("a")
-        link.href = url
-        link.download = `bible-quote-${quote.reference.replace(/\s+/g, "-").toLowerCase()}-copy.png`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        URL.revokeObjectURL(url)
-        setCopied(true)
-        setTimeout(() => setCopied(false), 2000)
-      }
+      await copyFromHook(generatedImageUrl)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
     } catch (error) {
       setError("Copy failed. The image has been downloaded instead.")
-    } finally {
-      setIsComposing(false)
     }
   }
 
-  // Native share function using Web Share API
   const shareImage = async () => {
     if (!previewCanvasRef.current || !fontsLoaded) return
 
@@ -261,35 +200,8 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
     setError(null)
 
     try {
-      const blob = await new Promise<Blob | null>((resolve) => {
-        previewCanvasRef.current!.toBlob((blob) => resolve(blob), 'image/png', 1.0)
-      })
-
-      if (!blob) throw new Error('Failed to generate image')
-
-      const file = new File([blob], `divine-quote-${quote.reference.replace(/\s+/g, '-').toLowerCase()}.png`, {
-        type: 'image/png',
-      })
-
-      const shareData = {
-        files: [file],
-        title: 'Divine Scripture Art',
-        text: `"${quote.content}" — ${quote.reference}`,
-      }
-
-      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-
-      // Only use native share on mobile devices that support it
-      if (isMobile && navigator.canShare && navigator.canShare(shareData)) {
-        try {
-          await navigator.share(shareData)
-        } catch (shareErr) {
-          if (shareErr instanceof Error && shareErr.name !== 'AbortError') {
-            setShowShareMenu(true)
-          }
-        }
-      } else {
-        // Desktop or unsupported: show share menu directly
+      const shouldShowMenu = await shareImageFromCanvas(previewCanvasRef)
+      if (shouldShowMenu === false) {
         setShowShareMenu(true)
       }
     } catch (err) {
