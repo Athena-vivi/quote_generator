@@ -97,11 +97,22 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   // 预览背景图片加载
   useEffect(() => {
     if (!generatedImageUrl) return setPreviewBgImg(null)
+
+    // Use proxy URL to avoid CORS issues
+    const proxyUrl = `/api/proxy-image?url=${encodeURIComponent(generatedImageUrl)}`
+    console.log('[ImageGenerator] Loading preview via proxy:', proxyUrl)
+
     const img = new window.Image()
     img.crossOrigin = "anonymous"
-    img.onload = () => setPreviewBgImg(img)
-    img.onerror = () => setPreviewBgImg(null)
-    img.src = generatedImageUrl
+    img.onload = () => {
+      console.log('[ImageGenerator] Preview image loaded successfully')
+      setPreviewBgImg(img)
+    }
+    img.onerror = (error) => {
+      console.error('[ImageGenerator] Preview image failed to load:', error)
+      setPreviewBgImg(null)
+    }
+    img.src = proxyUrl
   }, [generatedImageUrl])
 
   // 预览canvas绘制

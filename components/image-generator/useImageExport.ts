@@ -26,6 +26,11 @@ interface UseImageExportParams {
   drawQuoteImage: (params: any) => Promise<void>
 }
 
+// Helper function to get proxy URL
+function getProxyUrl(imageUrl: string): string {
+  return `/api/proxy-image?url=${encodeURIComponent(imageUrl)}`
+}
+
 // Internal function to fetch image URL and render to canvas
 async function fetchImageUrlToCanvas(
   imageUrl: string,
@@ -43,7 +48,16 @@ async function fetchImageUrlToCanvas(
     exportScale = 1,
   } = params
 
-  const response = await fetch(imageUrl, { mode: "cors" })
+  // Use proxy URL to avoid CORS issues
+  const proxyUrl = getProxyUrl(imageUrl)
+  console.log('[useImageExport] Fetching image via proxy:', proxyUrl)
+
+  const response = await fetch(proxyUrl)
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch image: ${response.status} ${response.statusText}`)
+  }
+
   const blob = await response.blob()
   const bitmap = await createImageBitmap(blob)
 
@@ -106,6 +120,13 @@ export function useImageExport({
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
+
+      console.log('[useImageExport] Download successful')
+    } catch (error) {
+      console.error('[useImageExport] Download failed:', error)
+      throw new Error(
+        `Failed to download image: ${error instanceof Error ? error.message : 'Unknown error'}`
+      )
     } finally {
       setIsComposing(false)
     }
@@ -138,10 +159,12 @@ export function useImageExport({
         if (document.hasFocus() && navigator.clipboard && navigator.clipboard.write) {
           const item = new ClipboardItem({ "image/png": finalBlob })
           await navigator.clipboard.write([item])
+          console.log('[useImageExport] Copy to clipboard successful')
         } else {
           throw new Error("Page not focused or clipboard unavailable")
         }
       } catch (clipboardError) {
+        console.warn('[useImageExport] Clipboard API failed, falling back to download:', clipboardError)
         // Fallback: download the file
         const url = URL.createObjectURL(finalBlob)
         const link = document.createElement("a")
@@ -151,7 +174,13 @@ export function useImageExport({
         link.click()
         document.body.removeChild(link)
         URL.revokeObjectURL(url)
+        throw new Error('Clipboard unavailable. Image has been downloaded instead.')
       }
+    } catch (error) {
+      console.error('[useImageExport] Copy failed:', error)
+      throw new Error(
+        `Failed to copy image: ${error instanceof Error ? error.message : 'Unknown error'}`
+      )
     } finally {
       setIsComposing(false)
     }
