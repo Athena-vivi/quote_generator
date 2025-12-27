@@ -181,32 +181,20 @@ export async function drawQuoteImage({
   ctx.shadowColor = "rgba(212, 175, 55, 0.4)"
   ctx.shadowBlur = 6
 
-  // 1. Draw minimal line-art circle
-  ctx.beginPath()
-  ctx.arc(iconCenterX, iconCenterY, iconSize / 2, 0, Math.PI * 2)
+  // 1. Draw website-style logo (outer ring + inner cross)
   ctx.strokeStyle = "#F4E4BC"  // Light amber gold
-  ctx.lineWidth = 1
-  ctx.stroke()
-
-  // 2. Draw minimalist dove silhouette (line art, 1px)
-  ctx.strokeStyle = "#F4E4BC"
-  ctx.lineWidth = 1
+  ctx.lineWidth = 1.5
   ctx.globalAlpha = 0.8
 
+  // Outer circle ring
   ctx.beginPath()
-  // Minimalist dove path (simplified elegant curves)
-  ctx.moveTo(iconCenterX - 6, iconCenterY + 4)  // Tail start
-  ctx.quadraticCurveTo(iconCenterX - 3, iconCenterY, iconCenterX, iconCenterY - 2)  // Body curve
-  ctx.quadraticCurveTo(iconCenterX + 3, iconCenterY - 4, iconCenterX + 6, iconCenterY - 6)  // Head
-  ctx.lineTo(iconCenterX + 8, iconCenterY - 5)  // Beak tip
-  ctx.lineTo(iconCenterX + 6, iconCenterY - 4)  // Beak back
-  ctx.quadraticCurveTo(iconCenterX + 2, iconCenterY - 1, iconCenterX - 2, iconCenterY + 2)  // Wing
-  ctx.quadraticCurveTo(iconCenterX - 6, iconCenterY + 4, iconCenterX - 6, iconCenterY + 6)  // Tail
+  ctx.arc(iconCenterX, iconCenterY, iconSize / 2, 0, Math.PI * 2)
   ctx.stroke()
 
-  // Small cross in center (minimal)
-  ctx.globalAlpha = 0.6
-  const crossSize = 5
+  // 2. Draw cross in center (website logo style)
+  ctx.globalAlpha = 0.7
+  ctx.lineWidth = 2
+  const crossSize = 8
   ctx.beginPath()
   ctx.moveTo(iconCenterX, iconCenterY - crossSize)
   ctx.lineTo(iconCenterX, iconCenterY + crossSize)
@@ -222,17 +210,17 @@ export async function drawQuoteImage({
   const textStartX = iconCenterX + iconSize / 2 + 12
   const textBaselineY = iconCenterY
 
-  // First line: DIVINE ART
+  // First line: DIVINE ART (unchanged)
   ctx.font = `600 15px "Crimson Text", serif`
   ctx.letterSpacing = "0.3em"
   ctx.fillStyle = "#D4AF37"  // Amber gold
-  ctx.fillText("DIVINE ART", textStartX, textBaselineY - 6)
+  ctx.fillText("DIVINE ART", textStartX, textBaselineY - 7)
 
-  // Second line: QuoteGenerator.org
-  ctx.font = `400 11px "Crimson Text", serif`
+  // Second line: QuoteGenerator.org (increased font size to match width)
+  ctx.font = `400 13px "Crimson Text", serif`  // Changed from 11px to 13px
   ctx.letterSpacing = "0.05em"
   ctx.globalAlpha = 0.5
-  ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 7)
+  ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 8)
 
   ctx.restore()
 
