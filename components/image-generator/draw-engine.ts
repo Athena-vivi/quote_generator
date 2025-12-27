@@ -229,7 +229,7 @@ export async function drawQuoteImage({
     ctx.fillText("DIVINE ART", textStartX, textBaselineY - 8)
 
     // Second line: QuoteGenerator.org
-    ctx.font = `400 12px "Crimson Text", serif`
+    ctx.font = `400 13px "Crimson Text", serif`
     ctx.letterSpacing = "0.05em"
     ctx.globalAlpha = 0.6
     ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 8)
