@@ -156,9 +156,9 @@ function HomeContent() {
               </div>
 
               {/* 2. 经文正文区域 - min-h-[180px] 固定高度 */}
-              <div className="min-h-[180px] flex items-center justify-center mb-10 px-6 py-4">
+              <div className="min-h-[180px] flex items-center justify-center mb-10 px-6 py-4 text-center">
                 {loading ? (
-                  <div className="w-full space-y-5 max-w-2xl mx-auto">
+                  <div className="w-full space-y-5 max-w-2xl mx-auto flex flex-col items-center">
                     <div className="h-9 w-full bg-stone-100/60 dark:bg-white/5 rounded-lg overflow-hidden relative">
                       <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/60 dark:via-amber-400/25 to-transparent pointer-events-none"></div>
                     </div>
@@ -171,7 +171,7 @@ function HomeContent() {
                   </div>
                 ) : dailyQuote ? (
                   <blockquote
-                    className="text-2xl md:text-3xl lg:text-4xl font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed max-w-2xl mx-auto"
+                    className="text-2xl md:text-3xl lg:text-4xl font-serif font-light italic text-stone-800 dark:text-zinc-200 leading-relaxed max-w-2xl mx-auto text-center"
                     style={{
                       textShadow: '0 1px 3px rgba(0, 0, 0, 0.08)',
                       letterSpacing: '0.15px'
@@ -180,7 +180,7 @@ function HomeContent() {
                     "{dailyQuote.content}"
                   </blockquote>
                 ) : (
-                  <div className="w-full space-y-5 max-w-2xl mx-auto">
+                  <div className="w-full space-y-5 max-w-2xl mx-auto flex flex-col items-center">
                     <div className="h-9 w-full bg-stone-100/60 dark:bg-white/5 rounded-lg overflow-hidden relative">
                       <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/60 dark:via-amber-400/25 to-transparent pointer-events-none"></div>
                     </div>
@@ -214,15 +214,15 @@ function HomeContent() {
               {/* 4. 按钮区域 - min-h-[60px] 固定高度 */}
               <div className="min-h-[60px] flex items-center justify-center">
                 {loading ? (
-                  <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full md:w-auto">
-                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-200/40 dark:bg-amber-500/10 overflow-hidden w-full md:w-auto md:min-w-[200px]">
+                  <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-200/40 dark:bg-amber-500/10 overflow-hidden w-full md:w-auto">
                       <div className="flex items-center justify-center gap-2.5 relative z-10">
                         <div className="w-5 h-5 bg-stone-300/50 rounded"></div>
                         <div className="h-4 w-32 bg-stone-300/50 rounded"></div>
                       </div>
                       <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent pointer-events-none"></div>
                     </div>
-                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 overflow-hidden w-full md:w-auto md:min-w-[200px]">
+                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 overflow-hidden w-full md:w-auto">
                       <div className="flex items-center justify-center gap-2.5 relative z-10">
                         <div className="w-5 h-5 bg-stone-200/50 rounded"></div>
                         <div className="h-4 w-28 bg-stone-200/50 rounded"></div>
@@ -231,11 +231,11 @@ function HomeContent() {
                     </div>
                   </div>
                 ) : dailyQuote ? (
-                  <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full md:w-auto">
+                  <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
                     <button
                       onClick={() => openImageGenerator(dailyQuote)}
                       aria-label="Create divine image from daily quote"
-                      className="group/btn relative min-h-[52px] px-8 md:px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/25 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2.5 overflow-hidden w-full md:w-auto md:min-w-[200px] whitespace-nowrap"
+                      className="group/btn relative min-h-[52px] px-8 md:px-10 py-4 bg-gradient-to-r from-amber-600 to-amber-700 hover:from-amber-700 hover:to-amber-800 dark:from-amber-500 dark:to-amber-600 dark:hover:from-amber-400 dark:hover:to-amber-500 text-white font-serif font-bold rounded-xl shadow-lg shadow-amber-600/20 dark:shadow-amber-500/25 transition-all duration-300 active:scale-95 flex items-center justify-center gap-2.5 overflow-hidden w-full md:w-auto whitespace-nowrap"
                     >
                       <span className="relative z-10 flex items-center gap-2.5">
                         <Palette className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
@@ -246,22 +246,22 @@ function HomeContent() {
                     <button
                       onClick={() => document.getElementById("quote-finder")?.scrollIntoView({ behavior: "smooth" })}
                       aria-label="Explore more Bible verses"
-                      className="min-h-[52px] px-8 md:px-10 py-4 bg-transparent dark:bg-white/[0.02] border-2 border-amber-300 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 font-serif font-semibold rounded-xl hover:bg-amber-50/80 dark:hover:bg-amber-500/10 transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm hover:shadow-md w-full md:w-auto md:min-w-[200px] whitespace-nowrap"
+                      className="min-h-[52px] px-8 md:px-10 py-4 bg-transparent dark:bg-white/[0.02] border-2 border-amber-300 dark:border-amber-500/30 text-amber-700 dark:text-amber-400 font-serif font-semibold rounded-xl hover:bg-amber-50/80 dark:hover:bg-amber-500/10 transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm hover:shadow-md w-full md:w-auto whitespace-nowrap"
                     >
                       <BookOpen className="w-5 h-5 flex-shrink-0" aria-hidden="true" />
                       <span className="whitespace-nowrap">Explore Verses</span>
                     </button>
                   </div>
                 ) : (
-                  <div className="flex flex-col md:flex-row gap-4 justify-center items-center w-full md:w-auto">
-                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-200/40 dark:bg-amber-500/10 overflow-hidden w-full md:w-auto md:min-w-[200px]">
+                  <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
+                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-200/40 dark:bg-amber-500/10 overflow-hidden w-full md:w-auto">
                       <div className="flex items-center justify-center gap-2.5 relative z-10">
                         <div className="w-5 h-5 bg-stone-300/50 rounded"></div>
                         <div className="h-4 w-32 bg-stone-300/50 rounded"></div>
                       </div>
                       <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent pointer-events-none"></div>
                     </div>
-                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 overflow-hidden w-full md:w-auto md:min-w-[200px]">
+                    <div className="relative min-h-[52px] px-8 md:px-10 py-4 rounded-xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 overflow-hidden w-full md:w-auto">
                       <div className="flex items-center justify-center gap-2.5 relative z-10">
                         <div className="w-5 h-5 bg-stone-200/50 rounded"></div>
                         <div className="h-4 w-28 bg-stone-200/50 rounded"></div>
