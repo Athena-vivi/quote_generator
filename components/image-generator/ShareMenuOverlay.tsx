@@ -1,7 +1,4 @@
-import { Check, Instagram } from "lucide-react"
-import { MessageCircle } from "lucide-react"
-import { Facebook } from "lucide-react"
-import { Youtube } from "lucide-react"
+import { Check, Instagram, MessageCircle, Facebook, Youtube } from "lucide-react"
 
 interface ShareMenuOverlayProps {
   showShareMenu: boolean

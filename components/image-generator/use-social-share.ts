@@ -8,7 +8,6 @@ interface Quote {
 interface UseSocialShareParams {
   quote: Quote
   downloadImage: () => Promise<void>
-  generatedImageUrl: string | null
 }
 
 interface UseSocialShareReturn {
@@ -16,7 +15,7 @@ interface UseSocialShareReturn {
   showInstagramOpenButton: boolean
   toastMessage: string | null
   setShowShareMenu: (show: boolean) => void
-  shareImage: () => Promise<void>
+  shareImage: () => void
   handleShareToWhatsApp: () => Promise<void>
   handleShareToFacebook: () => Promise<void>
   handleShareToX: () => Promise<void>
@@ -41,7 +40,6 @@ const webFallbackLinks = {
 export function useSocialShare({
   quote,
   downloadImage,
-  generatedImageUrl,
 }: UseSocialShareParams): UseSocialShareReturn {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [showInstagramOpenButton, setShowInstagramOpenButton] = useState(false)
@@ -104,7 +102,6 @@ export function useSocialShare({
   }, [quote, copyQuoteText, isMobile, smartRedirect])
 
   const handleShareToFacebook = useCallback(async () => {
-    const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
     setShowShareMenu(false)
 
@@ -118,7 +115,7 @@ export function useSocialShare({
     } else {
       window.open(webFallbackLinks.facebook(shareUrl), '_blank', 'width=600,height=400')
     }
-  }, [quote, copyQuoteText, isMobile, smartRedirect])
+  }, [copyQuoteText, isMobile, smartRedirect])
 
   const handleShareToX = useCallback(async () => {
     const quoteText = `"${quote.content}" — ${quote.reference}`
@@ -136,7 +133,6 @@ export function useSocialShare({
   }, [quote, copyQuoteText, isMobile, smartRedirect])
 
   const handleShareToInstagram = useCallback(async () => {
-    const quoteText = `"${quote.content}" — ${quote.reference}`
     await copyQuoteText()
     setShowShareMenu(false)
 
@@ -164,7 +160,7 @@ export function useSocialShare({
         window.open(webFallbackLinks.instagram(), '_blank')
       }, 1000)
     }
-  }, [quote, copyQuoteText, isMobile, showToast, downloadImage, showInstagramOpenButton])
+  }, [copyQuoteText, isMobile, showToast, downloadImage, showInstagramOpenButton])
 
   const forceOpenInstagram = useCallback(() => {
     setShowInstagramOpenButton(false)

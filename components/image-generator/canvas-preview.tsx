@@ -1,5 +1,6 @@
-import { Palette, Download, Copy, Share2, Loader2, Check } from "lucide-react"
+import { Palette } from "lucide-react"
 import { useRef } from "react"
+import { ActionButtonGroup } from "./ActionButtonGroup"
 
 interface CanvasPreviewProps {
   generatedImageUrl: string | null
@@ -50,31 +51,16 @@ export function CanvasPreview({
           </div>
 
           {/* Desktop Toolbar */}
-          <div className="hidden md:flex mt-4 items-center justify-center gap-3">
-            <button
-              onClick={downloadImage}
-              disabled={isComposing || !fontsLoaded}
-              className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 flex-1 border border-white/10 dark:border-white/5"
-            >
-              {isComposing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-              <span>{isComposing ? "Processing..." : "Download"}</span>
-            </button>
-            <button
-              onClick={copyToClipboard}
-              disabled={isComposing || !fontsLoaded}
-              className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 flex-1 border border-white/10 dark:border-white/5"
-            >
-              {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? "Copied!" : "Copy"}</span>
-            </button>
-            <button
-              onClick={shareImage}
-              disabled={isSharing || isComposing || !fontsLoaded}
-              className="min-h-[44px] px-5 bg-white/70 dark:bg-white/15 hover:bg-white/90 dark:hover:bg-white/25 text-amber-900 dark:text-amber-100 font-serif font-semibold rounded-xl transition-all flex items-center justify-center gap-2 disabled:opacity-50 flex-1 border border-white/10 dark:border-white/5"
-            >
-              {isSharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
-              <span>{isSharing ? "Sharing..." : "Share"}</span>
-            </button>
+          <div className="hidden md:block mt-4">
+            <ActionButtonGroup
+              isComposing={isComposing}
+              isSharing={isSharing}
+              fontsLoaded={fontsLoaded}
+              copied={copied}
+              downloadImage={downloadImage}
+              copyToClipboard={copyToClipboard}
+              shareImage={shareImage}
+            />
           </div>
         </div>
       ) : isGenerating ? (

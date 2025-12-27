@@ -3,11 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import {
   Loader2,
-  Download,
-  Share2,
   AlertCircle,
-  Copy,
-  Check,
   X,
 } from "lucide-react"
 
@@ -18,6 +14,7 @@ import { useImageExport } from "./useImageExport"
 import { UIControls } from "./ui-controls"
 import { CanvasPreview } from "./canvas-preview"
 import { ShareMenuOverlay } from "./ShareMenuOverlay"
+import { ActionButtonGroup } from "./ActionButtonGroup"
 
 interface Quote {
   reference: string
@@ -45,7 +42,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
 
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   const [textColor, setTextColor] = useState<string>("#fff");
-  const [refColor, setRefColor] = useState<string>("#ffd700");
+  const refColor = "#ffd700";
   const [isSharing, setIsSharing] = useState(false)
   const [isInputCollapsed, setIsInputCollapsed] = useState(false)
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<number | null>(null)
@@ -240,7 +237,6 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   } = useSocialShare({
     quote,
     downloadImage,
-    generatedImageUrl,
   })
 
   return (
@@ -334,32 +330,16 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
         {/* Mobile Bottom Toolbar - Hide when editing on mobile */}
         {generatedImageUrl && isInputCollapsed && (
           <div className="md:hidden safe-area-inset-bottom border-t border-amber-200/40 dark:border-amber-500/10 px-3 py-2 bg-white dark:bg-black">
-            <div className="flex items-center justify-between gap-2">
-              <button
-                onClick={downloadImage}
-                disabled={isComposing || !fontsLoaded}
-                className="flex-1 min-h-[44px] bg-gradient-to-r from-amber-500 to-amber-600 text-white font-serif font-semibold rounded-lg flex items-center justify-center gap-1.5 disabled:opacity-50"
-              >
-                {isComposing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
-                <span className="text-xs">{isComposing ? "Processing" : "Download"}</span>
-              </button>
-              <button
-                onClick={copyToClipboard}
-                disabled={isComposing || !fontsLoaded}
-                className="flex-1 min-h-[44px] bg-gradient-to-r from-amber-400 to-amber-500 text-white font-serif font-semibold rounded-lg flex items-center justify-center gap-1.5 disabled:opacity-50"
-              >
-                {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                <span className="text-xs">{copied ? "Copied!" : "Copy"}</span>
-              </button>
-              <button
-                onClick={shareImage}
-                disabled={isSharing || isComposing || !fontsLoaded}
-                className="flex-1 min-h-[44px] bg-gradient-to-br from-amber-400 to-yellow-500 text-white font-serif font-bold rounded-lg flex items-center justify-center gap-1.5 disabled:opacity-50"
-              >
-                {isSharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4" />}
-                <span className="text-xs">{isSharing ? "Sharing" : "Share"}</span>
-              </button>
-            </div>
+            <ActionButtonGroup
+              isMobile
+              isComposing={isComposing}
+              isSharing={isSharing}
+              fontsLoaded={fontsLoaded}
+              copied={copied}
+              downloadImage={downloadImage}
+              copyToClipboard={copyToClipboard}
+              shareImage={shareImage}
+            />
           </div>
         )}
       </div>
