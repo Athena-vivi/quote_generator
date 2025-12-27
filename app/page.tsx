@@ -56,25 +56,25 @@ function DailyQuoteSkeleton() {
       <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-100/50 dark:bg-amber-500/5 border border-stone-200/40 dark:border-amber-500/10 mb-10 relative overflow-hidden">
         <div className="w-16 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse"></div>
         <div className="w-24 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse animation-delay-200"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/15 to-transparent animate-sweep"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/90 dark:via-amber-400/25 to-transparent animate-sweep"></div>
       </div>
 
       {/* 2. 经文正文占位 - 增加行高和间距，模拟 leading-relaxed */}
       <div className="space-y-5 mb-10 px-6 py-4 max-w-2xl mx-auto">
         <div className="h-9 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-full">
-           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/20 to-transparent animate-sweep"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/30 to-transparent animate-sweep"></div>
         </div>
         <div className="h-9 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-5/6 mx-auto">
-           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-300"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/30 to-transparent animate-sweep animation-delay-300"></div>
         </div>
         <div className="h-9 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-4/6 mx-auto">
-           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-600"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/30 to-transparent animate-sweep animation-delay-600"></div>
         </div>
       </div>
 
       {/* 3. 作者出处占位 - 匹配真实 cite 的高度和间距 */}
       <div className="h-8 w-36 bg-amber-100/30 dark:bg-amber-500/10 rounded-full mb-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-200"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/30 to-transparent animate-sweep animation-delay-200"></div>
       </div>
 
       {/* 4. 按钮占位 - 完全匹配真实按钮的 px-9 py-4 和尺寸 */}
@@ -86,7 +86,7 @@ function DailyQuoteSkeleton() {
             <div className="w-5 h-5 bg-stone-300/50 rounded"></div>
             <div className="h-4 w-32 bg-stone-300/50 rounded"></div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent animate-sweep"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/30 to-transparent animate-sweep"></div>
         </div>
 
         {/* Explore Verses 按钮占位 - 匹配真实按钮的宽度和边框 */}
@@ -96,7 +96,7 @@ function DailyQuoteSkeleton() {
             <div className="w-5 h-5 bg-stone-200/50 rounded"></div>
             <div className="h-4 w-28 bg-stone-200/50 rounded"></div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-400"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/30 to-transparent animate-sweep animation-delay-400"></div>
         </div>
       </div>
     </div>
