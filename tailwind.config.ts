@@ -88,11 +88,11 @@ const config: Config = {
   				}
   			},
   			shimmer: {
-  				'0%, 100%': {
-  					backgroundPosition: '0% 50%'
+  				'0%': {
+  					transform: 'translateX(-100%)'
   				},
-  				'50%': {
-  					backgroundPosition: '100% 50%'
+  				'100%': {
+  					transform: 'translateX(100%)'
   				}
   			},
   			sweep: {
@@ -125,7 +125,7 @@ const config: Config = {
   		animation: {
   			'accordion-down': 'accordion-down 0.2s ease-out',
   			'accordion-up': 'accordion-up 0.2s ease-out',
-  			shimmer: 'shimmer 3s ease-in-out infinite',
+  			shimmer: 'shimmer 2s linear infinite',
   			sweep: 'sweep 2s linear infinite',
   			'pulse-slow': 'pulse-slow 4s ease-in-out infinite',
   			float: 'float 3s ease-in-out infinite'

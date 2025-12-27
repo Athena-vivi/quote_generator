@@ -1,123 +1,53 @@
-import { NextResponse } from "next/server"
+import { NextResponse } from 'next/server'
 
-// Popular quotes for daily rotation
-const popularQuotes = [
-  "John 3:16",
-  "Jeremiah 29:11",
-  "Romans 8:28",
-  "Philippians 4:13",
-  "Psalm 23:1",
-  "Isaiah 41:10",
-  "Proverbs 3:5-6",
-  "1 Corinthians 13:4-7",
-  "Matthew 6:26",
-  "Psalm 46:10",
-  "Romans 12:2",
-  "Ephesians 2:8-9",
-  "Joshua 1:9",
-  "Psalm 139:14",
-  "Matthew 11:28-30",
-  "2 Corinthians 5:17",
-  "Galatians 2:20",
-  "1 Peter 5:7",
-  "Psalm 27:1",
-  "Isaiah 40:31",
+// 保险库精选经文 - 按日期轮换
+const DAILY_QUOTES = [
+  {
+    reference: "John 3:16",
+    content: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
+  },
+  {
+    reference: "Jeremiah 29:11",
+    content: "For I know the plans I have for you, declares the Lord, plans to prosper you and not to harm you, plans to give you hope and a future."
+  },
+  {
+    reference: "Philippians 4:13",
+    content: "I can do all this through him who gives me strength."
+  },
+  {
+    reference: "Psalm 23:1",
+    content: "The Lord is my shepherd, I lack nothing."
+  },
+  {
+    reference: "Romans 8:28",
+    content: "And we know that in all things God works for the good of those who love him, who have been called according to his purpose."
+  },
+  {
+    reference: "Isaiah 41:10",
+    content: "So do not fear, for I am with you; do not be dismayed, for I am your God. I will strengthen you and help you."
+  },
+  {
+    reference: "Proverbs 3:5-6",
+    content: "Trust in the Lord with all your heart and lean not on your own understanding; in all your ways submit to him, and he will make your paths straight."
+  }
 ]
 
-function removeESVReferences(content: string): string {
-  if (!content) return content;
-
-  // 移除开头的经文引用
-  let cleaned = content.replace(/^[^a-zA-Z]*[0-9]+\s*[A-Za-z]+\s*[0-9:–-]+\s*/, "");
-
-  // 去除首尾所有类型的引号和空格
-  cleaned = cleaned.trim().replace(/^["'“”‘’]+/, "").replace(/["'“”‘’]+$/, "");
-
-  // 再次去除多余空格
-  cleaned = cleaned.trim();
-
-  // 去除结尾的括号内容，如 (ESV)
-  cleaned = cleaned.replace(/\s*\([^)]*\)\s*$/i, "").trim();
-
-  // 再去除结尾所有类型的引号和空格，防止多余引号残留
-  cleaned = cleaned.replace(/["'“”‘’]+$/, "").trim();
-
-  return cleaned;
-}
-
-async function getESVQuote(passage: string) {
+export async function GET() {
   try {
-    const ESV_API_KEY = process.env.ESV_API_KEY
-    if (!ESV_API_KEY) {
-      console.error("❌ ESV_API_KEY not configured")
-      return null
-    }
+    // 根据日期选择经文，确保每天相同
+    const now = new Date()
+    const dayOfYear = Math.floor((now.getTime() - new Date(now.getFullYear(), 0, 0).getTime()) / 86400000)
+    const quoteIndex = dayOfYear % DAILY_QUOTES.length
 
-    const response = await fetch(
-      `https://api.esv.org/v3/passage/text/?q=${encodeURIComponent(passage)}&include-verse-numbers=false&include-footnotes=false&include-headings=false&include-passage-references=false`,
-      {
-        headers: {
-          Authorization: `Token ${ESV_API_KEY}`,
-        },
-      },
-    )
-
-    const data = await response.json()
-    let content = data.passages?.[0]?.trim() || null
-
-    if (content) {
-      content = removeESVReferences(content)
-    }
-
-    return content
+    return NextResponse.json({
+      success: true,
+      quote: DAILY_QUOTES[quoteIndex]
+    })
   } catch (error) {
-    console.error("ESV API error:", error)
-    return null
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    const { searchParams } = new URL(request.url)
-    const timestamp = searchParams.get("t")
-
-    let quoteIndex: number
-
-    if (timestamp) {
-      quoteIndex = Math.floor(Math.random() * popularQuotes.length)
-    } else {
-      const today = new Date()
-      const dayOfYear = Math.floor(
-        (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / (1000 * 60 * 60 * 24),
-      )
-      quoteIndex = dayOfYear % popularQuotes.length
-    }
-
-    const selectedReference = popularQuotes[quoteIndex]
-    const quoteContent = await getESVQuote(selectedReference)
-
-    if (quoteContent) {
-      return NextResponse.json({
-        success: true,
-        quote: {
-          reference: selectedReference,
-          content: quoteContent,
-        },
-      })
-    } else {
-      return NextResponse.json({
-        success: false,
-        error: "Failed to load daily quote. Please check API configuration.",
-      })
-    }
-  } catch (error) {
-    console.error("Daily quote API error:", error)
+    console.error('Error fetching daily quote:', error)
     return NextResponse.json(
-      {
-        success: false,
-        error: "Internal server error",
-      },
-      { status: 500 },
+      { success: false, error: 'Failed to fetch daily quote' },
+      { status: 500 }
     )
   }
 }
