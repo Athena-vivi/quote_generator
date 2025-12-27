@@ -47,7 +47,7 @@ const FALLBACK_QUOTE: Quote = {
 // 神圣扫光风格骨架屏 - 仅内部内容，严禁包含外层容器样式
 function DailyQuoteSkeleton() {
   return (
-    <div className="text-center relative">
+    <div className="text-center relative animate-pulse-slow">
       {/* 装饰性引号占位 - 与真实卡片位置完全一致 */}
       <div className="absolute -top-4 left-8 text-7xl md:text-8xl font-serif text-amber-200/20 dark:text-amber-500/10 leading-none select-none">"</div>
       <div className="absolute -bottom-8 right-8 text-7xl md:text-8xl font-serif text-amber-200/20 dark:text-amber-500/10 leading-none select-none">"</div>
@@ -56,25 +56,25 @@ function DailyQuoteSkeleton() {
       <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-100/50 dark:bg-amber-500/5 border border-stone-200/40 dark:border-amber-500/10 mb-10 relative overflow-hidden">
         <div className="w-16 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse"></div>
         <div className="w-24 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse animation-delay-200"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/10 to-transparent animate-sweep"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/15 to-transparent animate-sweep"></div>
       </div>
 
       {/* 2. 经文正文占位 - 增加行高和间距，模拟 leading-relaxed */}
       <div className="space-y-5 mb-10 px-6 py-4 max-w-2xl mx-auto">
         <div className="h-9 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-full">
-           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/20 to-transparent animate-sweep"></div>
         </div>
         <div className="h-9 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-5/6 mx-auto">
-           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep animation-delay-300"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-300"></div>
         </div>
         <div className="h-9 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-4/6 mx-auto">
-           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep animation-delay-600"></div>
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-600"></div>
         </div>
       </div>
 
       {/* 3. 作者出处占位 - 匹配真实 cite 的高度和间距 */}
       <div className="h-8 w-36 bg-amber-100/30 dark:bg-amber-500/10 rounded-full mb-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep animation-delay-200"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-200"></div>
       </div>
 
       {/* 4. 按钮占位 - 完全匹配真实按钮的 px-9 py-4 和尺寸 */}
@@ -82,21 +82,21 @@ function DailyQuoteSkeleton() {
         {/* Create Divine Image 按钮占位 - 匹配真实按钮的宽度 */}
         <div className="relative min-h-[48px] px-9 py-4 rounded-2xl bg-stone-200/40 dark:bg-amber-500/10 overflow-hidden">
           {/* 模拟按钮内容区域宽度 */}
-          <div className="flex items-center justify-center gap-2.5">
+          <div className="flex items-center justify-center gap-2.5 relative z-10">
             <div className="w-5 h-5 bg-stone-300/50 rounded"></div>
             <div className="h-4 w-32 bg-stone-300/50 rounded"></div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent animate-sweep"></div>
         </div>
 
         {/* Explore Verses 按钮占位 - 匹配真实按钮的宽度和边框 */}
         <div className="relative min-h-[48px] px-9 py-4 rounded-2xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 overflow-hidden">
           {/* 模拟按钮内容区域宽度 */}
-          <div className="flex items-center justify-center gap-2.5">
+          <div className="flex items-center justify-center gap-2.5 relative z-10">
             <div className="w-5 h-5 bg-stone-200/50 rounded"></div>
             <div className="h-4 w-28 bg-stone-200/50 rounded"></div>
           </div>
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep animation-delay-400"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-400"></div>
         </div>
       </div>
     </div>
