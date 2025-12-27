@@ -181,28 +181,51 @@ export async function drawQuoteImage({
   ctx.shadowColor = "rgba(212, 175, 55, 0.4)"
   ctx.shadowBlur = 6
 
-  // 1. Draw website-style logo (outer ring + inner cross)
+  // 1. Draw outer circle ring
   ctx.strokeStyle = "#F4E4BC"  // Light amber gold
   ctx.lineWidth = 1.5
   ctx.globalAlpha = 0.8
 
-  // Outer circle ring
   ctx.beginPath()
   ctx.arc(iconCenterX, iconCenterY, iconSize / 2, 0, Math.PI * 2)
   ctx.stroke()
 
-  // 2. Draw cross in center (website logo style)
+  // 2. Draw dove silhouette (website logo style)
   ctx.globalAlpha = 0.7
-  ctx.lineWidth = 2
-  const crossSize = 8
+  ctx.lineWidth = 1.3
   ctx.beginPath()
-  ctx.moveTo(iconCenterX, iconCenterY - crossSize)
-  ctx.lineTo(iconCenterX, iconCenterY + crossSize)
-  ctx.moveTo(iconCenterX - crossSize, iconCenterY)
-  ctx.lineTo(iconCenterX + crossSize, iconCenterY)
+
+  // Dove body - smooth flowing curves
+  // Start at beak
+  ctx.moveTo(iconCenterX - 3, iconCenterY - 5)
+  // Head curve
+  ctx.quadraticCurveTo(iconCenterX - 6, iconCenterY - 8, iconCenterX - 2, iconCenterY - 10)
+  // Wing top
+  ctx.quadraticCurveTo(iconCenterX + 4, iconCenterY - 11, iconCenterX + 8, iconCenterY - 6)
+  // Wing outer edge
+  ctx.quadraticCurveTo(iconCenterX + 11, iconCenterY - 2, iconCenterX + 10, iconCenterY + 3)
+  // Wing bottom
+  ctx.quadraticCurveTo(iconCenterX + 6, iconCenterY + 5, iconCenterX + 2, iconCenterY + 4)
+  // Body bottom
+  ctx.quadraticCurveTo(iconCenterX - 2, iconCenterY + 6, iconCenterX - 5, iconCenterY + 3)
+  // Tail
+  ctx.quadraticCurveTo(iconCenterX - 8, iconCenterY, iconCenterX - 7, iconCenterY - 3)
+  // Neck back to beak
+  ctx.quadraticCurveTo(iconCenterX - 5, iconCenterY - 4, iconCenterX - 3, iconCenterY - 5)
+
   ctx.stroke()
 
-  // 3. Draw signature text (two-line layout)
+  // 3. Draw branch/olive leaf in beak
+  ctx.globalAlpha = 0.6
+  ctx.lineWidth = 0.8
+  ctx.beginPath()
+  ctx.moveTo(iconCenterX - 3, iconCenterY - 5)
+  ctx.quadraticCurveTo(iconCenterX - 6, iconCenterY - 3, iconCenterX - 8, iconCenterY - 5)
+  // Small leaf
+  ctx.quadraticCurveTo(iconCenterX - 7, iconCenterY - 7, iconCenterX - 5, iconCenterY - 4)
+  ctx.stroke()
+
+  // 4. Draw signature text (two-line layout)
   ctx.globalAlpha = 1.0
   ctx.textAlign = "left"
   ctx.textBaseline = "middle"
