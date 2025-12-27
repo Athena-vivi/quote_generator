@@ -16,6 +16,29 @@ export interface DrawQuoteImageParams {
   refColor?: string;
 }
 
+// Cache for logo image to avoid repeated loading
+let logoImageCache: HTMLImageElement | null = null
+
+/**
+ * Loads the logo image (cached after first load)
+ */
+async function loadLogoImage(): Promise<HTMLImageElement> {
+  if (logoImageCache) {
+    return logoImageCache
+  }
+
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.crossOrigin = "anonymous"
+    img.onload = () => {
+      logoImageCache = img
+      resolve(img)
+    }
+    img.onerror = () => reject(new Error("Failed to load logo image"))
+    img.src = "/logo.png"
+  })
+}
+
 /**
  * Draws a Bible quote with background image onto a canvas context
  *
@@ -170,80 +193,60 @@ export async function drawQuoteImage({
   // ========== ARTISTIC SIGNATURE WATERMARK ==========
   ctx.save()
 
-  // Positioning (left corner)
-  const signatureX = 50
-  const signatureY = height - 50
-  const iconSize = 32
-  const iconCenterX = signatureX + iconSize / 2
-  const iconCenterY = signatureY - iconSize / 2
+  // Load and draw logo seal
+  try {
+    const logoImg = await loadLogoImage()
 
-  // Apply ambient glow to entire watermark
-  ctx.shadowColor = "rgba(212, 175, 55, 0.4)"
-  ctx.shadowBlur = 6
+    // Position: 50px from left and bottom edges
+    const logoSize = 48
+    const logoX = 50
+    const logoY = height - 50 - logoSize
 
-  // 1. Draw outer circle ring
-  ctx.strokeStyle = "#F4E4BC"  // Light amber gold
-  ctx.lineWidth = 1.5
-  ctx.globalAlpha = 0.8
+    // Apply glowing effect to the seal
+    ctx.shadowColor = "rgba(212, 175, 55, 0.5)"
+    ctx.shadowBlur = 15
+    ctx.globalAlpha = 0.9
 
-  ctx.beginPath()
-  ctx.arc(iconCenterX, iconCenterY, iconSize / 2, 0, Math.PI * 2)
-  ctx.stroke()
+    // Draw the circular logo seal
+    ctx.drawImage(logoImg, logoX, logoY, logoSize, logoSize)
 
-  // 2. Draw dove silhouette (website logo style)
-  ctx.globalAlpha = 0.7
-  ctx.lineWidth = 1.3
-  ctx.beginPath()
+    // Reset shadow for text
+    ctx.shadowColor = "transparent"
+    ctx.shadowBlur = 0
+    ctx.globalAlpha = 1.0
 
-  // Dove body - smooth flowing curves
-  // Start at beak
-  ctx.moveTo(iconCenterX - 3, iconCenterY - 5)
-  // Head curve
-  ctx.quadraticCurveTo(iconCenterX - 6, iconCenterY - 8, iconCenterX - 2, iconCenterY - 10)
-  // Wing top
-  ctx.quadraticCurveTo(iconCenterX + 4, iconCenterY - 11, iconCenterX + 8, iconCenterY - 6)
-  // Wing outer edge
-  ctx.quadraticCurveTo(iconCenterX + 11, iconCenterY - 2, iconCenterX + 10, iconCenterY + 3)
-  // Wing bottom
-  ctx.quadraticCurveTo(iconCenterX + 6, iconCenterY + 5, iconCenterX + 2, iconCenterY + 4)
-  // Body bottom
-  ctx.quadraticCurveTo(iconCenterX - 2, iconCenterY + 6, iconCenterX - 5, iconCenterY + 3)
-  // Tail
-  ctx.quadraticCurveTo(iconCenterX - 8, iconCenterY, iconCenterX - 7, iconCenterY - 3)
-  // Neck back to beak
-  ctx.quadraticCurveTo(iconCenterX - 5, iconCenterY - 4, iconCenterX - 3, iconCenterY - 5)
+    // Draw signature text to the right of the logo
+    const textStartX = logoX + logoSize + 15
+    const textBaselineY = logoY + logoSize / 2
 
-  ctx.stroke()
+    ctx.textAlign = "left"
+    ctx.textBaseline = "middle"
 
-  // 3. Draw branch/olive leaf in beak
-  ctx.globalAlpha = 0.6
-  ctx.lineWidth = 0.8
-  ctx.beginPath()
-  ctx.moveTo(iconCenterX - 3, iconCenterY - 5)
-  ctx.quadraticCurveTo(iconCenterX - 6, iconCenterY - 3, iconCenterX - 8, iconCenterY - 5)
-  // Small leaf
-  ctx.quadraticCurveTo(iconCenterX - 7, iconCenterY - 7, iconCenterX - 5, iconCenterY - 4)
-  ctx.stroke()
+    // First line: DIVINE ART
+    ctx.font = `600 16px "Crimson Text", serif`
+    ctx.letterSpacing = "0.2em"
+    ctx.fillStyle = "#D4AF37"  // Amber gold
+    ctx.fillText("DIVINE ART", textStartX, textBaselineY - 8)
 
-  // 4. Draw signature text (two-line layout)
-  ctx.globalAlpha = 1.0
-  ctx.textAlign = "left"
-  ctx.textBaseline = "middle"
+    // Second line: QuoteGenerator.org
+    ctx.font = `400 12px "Crimson Text", serif`
+    ctx.letterSpacing = "0.05em"
+    ctx.globalAlpha = 0.6
+    ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 8)
+  } catch (error) {
+    // Fallback if logo fails to load: minimal text-only watermark
+    console.warn("Failed to load logo image, using text-only fallback:", error)
 
-  const textStartX = iconCenterX + iconSize / 2 + 12
-  const textBaselineY = iconCenterY
+    const fallbackX = 50
+    const fallbackY = height - 50
 
-  // First line: DIVINE ART (unchanged)
-  ctx.font = `600 15px "Crimson Text", serif`
-  ctx.letterSpacing = "0.3em"
-  ctx.fillStyle = "#D4AF37"  // Amber gold
-  ctx.fillText("DIVINE ART", textStartX, textBaselineY - 7)
-
-  // Second line: QuoteGenerator.org (increased font size to match width)
-  ctx.font = `400 13px "Crimson Text", serif`  // Changed from 11px to 13px
-  ctx.letterSpacing = "0.05em"
-  ctx.globalAlpha = 0.5
-  ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 8)
+    ctx.globalAlpha = 0.5
+    ctx.textAlign = "left"
+    ctx.textBaseline = "bottom"
+    ctx.font = `400 11px "Crimson Text", serif`
+    ctx.fillStyle = "#D4AF37"
+    ctx.fillText("DIVINE ART — QuoteGenerator.org", fallbackX, fallbackY)
+  }
 
   ctx.restore()
 
