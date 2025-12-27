@@ -73,9 +73,15 @@ export function ExampleShowcase() {
                         <span className="text-white text-xs font-medium">AI Enhanced</span>
                       </div>
 
-                      {/* AI Divine Seal - Bottom Left */}
-                      <div className="absolute bottom-4 left-4 w-10 h-10 rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 flex items-center justify-center shadow-lg">
-                        <Feather className="w-4 h-4 text-amber-300 rotate-[-15deg]" aria-hidden="true" />
+                      {/* AI Divine Seal - Bottom Right */}
+                      <div className="absolute bottom-4 right-4 w-10 h-10 rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 flex items-center justify-center shadow-lg overflow-hidden">
+                        <Image
+                          src="/logo.png"
+                          alt="Quote Generator Logo"
+                          fill
+                          className="object-contain"
+                          sizes="40px"
+                        />
                       </div>
                     </div>
                   </div>
