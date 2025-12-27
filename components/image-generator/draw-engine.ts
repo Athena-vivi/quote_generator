@@ -167,118 +167,72 @@ export async function drawQuoteImage({
   ctx.fillText(`— ${cleanReference}`, refX, refY)
   ctx.globalAlpha = 1.0
 
-  // ========== LEFT CORNER WATERMARK & SEAL ==========
+  // ========== ARTISTIC SIGNATURE WATERMARK ==========
   ctx.save()
 
-  // Watermark positioning (left corner)
-  const watermarkX = 40
-  const watermarkY = height - 40
-  const sealSize = Math.max(40, width * 0.05)
-  const sealCenterX = watermarkX + sealSize / 2
-  const sealCenterY = watermarkY - sealSize / 2
+  // Positioning (left corner)
+  const signatureX = 50
+  const signatureY = height - 50
+  const iconSize = 32
+  const iconCenterX = signatureX + iconSize / 2
+  const iconCenterY = signatureY - iconSize / 2
 
-  // 1. Draw subtle background patch to hide AI artifacts
-  const patchWidth = 200
-  const patchHeight = 80
-  const patchGradient = ctx.createRadialGradient(
-    watermarkX + patchWidth / 2,
-    watermarkY - patchHeight / 2,
-    0,
-    watermarkX + patchWidth / 2,
-    watermarkY - patchHeight / 2,
-    patchWidth / 1.5
-  )
-  patchGradient.addColorStop(0, theme === 'dark' ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.25)")
-  patchGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
+  // Apply ambient glow to entire watermark
+  ctx.shadowColor = "rgba(212, 175, 55, 0.4)"
+  ctx.shadowBlur = 6
 
-  ctx.fillStyle = patchGradient
-  ctx.fillRect(
-    watermarkX - 10,
-    watermarkY - patchHeight - 10,
-    patchWidth + 20,
-    patchHeight + 20
-  )
-
-  // 2. Draw Golden Dove Seal
-  ctx.save()
-
-  // Seal glow effect (subtle shadow)
-  ctx.shadowColor = "rgba(212, 175, 55, 0.4)"  // Amber gold shadow
-  ctx.shadowBlur = 5
-  ctx.globalAlpha = 0.5
-
-  // Outer circle ring
+  // 1. Draw minimal line-art circle
   ctx.beginPath()
-  ctx.arc(sealCenterX, sealCenterY, sealSize / 2, 0, Math.PI * 2)
-  ctx.strokeStyle = "#D4AF37"  // Amber gold
-  ctx.lineWidth = 1.5
-  ctx.stroke()
-
-  // Inner circle
-  ctx.beginPath()
-  ctx.arc(sealCenterX, sealCenterY, sealSize / 2.5, 0, Math.PI * 2)
-  ctx.strokeStyle = "#D4AF37"
+  ctx.arc(iconCenterX, iconCenterY, iconSize / 2, 0, Math.PI * 2)
+  ctx.strokeStyle = "#F4E4BC"  // Light amber gold
   ctx.lineWidth = 1
   ctx.stroke()
 
-  // Simplified dove silhouette (golden)
-  ctx.fillStyle = "#D4AF37"
-  ctx.globalAlpha = 0.5
+  // 2. Draw minimalist dove silhouette (line art, 1px)
+  ctx.strokeStyle = "#F4E4BC"
+  ctx.lineWidth = 1
+  ctx.globalAlpha = 0.8
 
   ctx.beginPath()
-  ctx.moveTo(sealCenterX - sealSize * 0.15, sealCenterY + sealSize * 0.1) // Tail
-  ctx.quadraticCurveTo(sealCenterX - sealSize * 0.05, sealCenterY, sealCenterX + sealSize * 0.05, sealCenterY - sealSize * 0.05) // Body
-  ctx.quadraticCurveTo(sealCenterX + sealSize * 0.15, sealCenterY - sealSize * 0.15, sealCenterX + sealSize * 0.25, sealCenterY - sealSize * 0.25) // Head
-  ctx.lineTo(sealCenterX + sealSize * 0.3, sealCenterY - sealSize * 0.2) // Beak top
-  ctx.lineTo(sealCenterX + sealSize * 0.2, sealCenterY - sealSize * 0.15) // Beak bottom
-  ctx.quadraticCurveTo(sealCenterX + sealSize * 0.1, sealCenterY + sealSize * 0.05, sealCenterX - sealSize * 0.05, sealCenterY + sealSize * 0.15) // Wing
-  ctx.quadraticCurveTo(sealCenterX - sealSize * 0.15, sealCenterY + sealSize * 0.2, sealCenterX - sealSize * 0.15, sealCenterY + sealSize * 0.15) // Tail feathers
-  ctx.closePath()
-  ctx.fill()
-
-  // Cross in center
-  ctx.globalAlpha = 0.6
-  ctx.strokeStyle = "#D4AF37"
-  ctx.lineWidth = 1.5
-
-  const crossSize = sealSize * 0.12
-  ctx.beginPath()
-  ctx.moveTo(sealCenterX, sealCenterY - crossSize)
-  ctx.lineTo(sealCenterX, sealCenterY + crossSize)
-  ctx.moveTo(sealCenterX - crossSize, sealCenterY)
-  ctx.lineTo(sealCenterX + crossSize, sealCenterY)
+  // Minimalist dove path (simplified elegant curves)
+  ctx.moveTo(iconCenterX - 6, iconCenterY + 4)  // Tail start
+  ctx.quadraticCurveTo(iconCenterX - 3, iconCenterY, iconCenterX, iconCenterY - 2)  // Body curve
+  ctx.quadraticCurveTo(iconCenterX + 3, iconCenterY - 4, iconCenterX + 6, iconCenterY - 6)  // Head
+  ctx.lineTo(iconCenterX + 8, iconCenterY - 5)  // Beak tip
+  ctx.lineTo(iconCenterX + 6, iconCenterY - 4)  // Beak back
+  ctx.quadraticCurveTo(iconCenterX + 2, iconCenterY - 1, iconCenterX - 2, iconCenterY + 2)  // Wing
+  ctx.quadraticCurveTo(iconCenterX - 6, iconCenterY + 4, iconCenterX - 6, iconCenterY + 6)  // Tail
   ctx.stroke()
 
-  ctx.restore()
+  // Small cross in center (minimal)
+  ctx.globalAlpha = 0.6
+  const crossSize = 5
+  ctx.beginPath()
+  ctx.moveTo(iconCenterX, iconCenterY - crossSize)
+  ctx.lineTo(iconCenterX, iconCenterY + crossSize)
+  ctx.moveTo(iconCenterX - crossSize, iconCenterY)
+  ctx.lineTo(iconCenterX + crossSize, iconCenterY)
+  ctx.stroke()
 
-  // 3. Draw Brand Signature (two-line text)
-  ctx.save()
-
-  const textStartX = sealCenterX + sealSize / 2 + 10
-  const textBaselineY = sealCenterY
-
-  // Text shadow for legibility on all backgrounds
-  ctx.shadowColor = "rgba(0, 0, 0, 0.5)"
-  ctx.shadowBlur = 4
-  ctx.shadowOffsetX = 1
-  ctx.shadowOffsetY = 1
-
-  // First line: DIVINE ART
-  ctx.font = `600 14px "Crimson Text", serif`
-  ctx.letterSpacing = "2px"
-  ctx.fillStyle = "#D4AF37"
+  // 3. Draw signature text (two-line layout)
   ctx.globalAlpha = 1.0
   ctx.textAlign = "left"
   ctx.textBaseline = "middle"
-  ctx.fillText("DIVINE ART", textStartX, textBaselineY - 8)
+
+  const textStartX = iconCenterX + iconSize / 2 + 12
+  const textBaselineY = iconCenterY
+
+  // First line: DIVINE ART
+  ctx.font = `600 15px "Crimson Text", serif`
+  ctx.letterSpacing = "0.3em"
+  ctx.fillStyle = "#D4AF37"  // Amber gold
+  ctx.fillText("DIVINE ART", textStartX, textBaselineY - 6)
 
   // Second line: QuoteGenerator.org
   ctx.font = `400 11px "Crimson Text", serif`
-  ctx.letterSpacing = "0.5px"
-  ctx.globalAlpha = 0.7
-  ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 8)
-
-  ctx.restore()
+  ctx.letterSpacing = "0.05em"
+  ctx.globalAlpha = 0.5
+  ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 7)
 
   ctx.restore()
 
