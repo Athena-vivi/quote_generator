@@ -122,14 +122,15 @@ export async function drawQuoteImage({
 
   ctx.save()
 
-  // Draw main quote text
+  // Draw main quote text with enhanced shadow for legibility
   ctx.font = `italic 400 ${fontSize}px ${fontFamily}`
   ctx.fillStyle = textColor
   ctx.textAlign = "center"
   ctx.textBaseline = "middle"
 
-  ctx.shadowColor = "rgba(0,0,0,0.8)"
-  ctx.shadowBlur = 12
+  // Multi-layer shadow for better readability on bright backgrounds
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)"
+  ctx.shadowBlur = 8
   ctx.shadowOffsetX = 2
   ctx.shadowOffsetY = 2
 
@@ -147,7 +148,7 @@ export async function drawQuoteImage({
     ctx.fillText(displayLine, width / 2, y)
   })
 
-  // Draw reference
+  // Draw reference with enhanced shadow for depth
   ctx.font = `italic 700 ${refFontSize.toFixed(1)}px ${fontFamily}`
   ctx.textAlign = "right"
   ctx.textBaseline = "bottom"
@@ -155,24 +156,100 @@ export async function drawQuoteImage({
   const refX = width - sideSafe
   const refY = height - bottomSafe
 
-  ctx.shadowColor = theme === 'dark' ? "rgba(0,0,0,0.7)" : "rgba(0,0,0,0.6)"
-  ctx.shadowBlur = 6
-  ctx.shadowOffsetX = 1.5
-  ctx.shadowOffsetY = 1.5
+  // Enhanced shadow for reference
+  ctx.shadowColor = "rgba(0, 0, 0, 0.4)"
+  ctx.shadowBlur = 8
+  ctx.shadowOffsetX = 2
+  ctx.shadowOffsetY = 2
 
   ctx.fillStyle = refColor
   ctx.globalAlpha = 1.0
   ctx.fillText(`— ${cleanReference}`, refX, refY)
   ctx.globalAlpha = 1.0
 
-  // Draw watermark at bottom right
+  // ========== ENHANCED WATERMARK ==========
   ctx.save()
-  ctx.font = `italic 400 ${Math.max(16, width * 0.018)}px "Crimson Text", serif`
-  ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.15)"
+
+  const watermarkMargin = 20
+  const watermarkFontSize = Math.max(16, width * 0.018)
+  const watermarkX = width - watermarkMargin
+  const watermarkY = height - watermarkMargin
+
+  // Watermark with shadow for visibility on all backgrounds
+  ctx.font = `italic 400 ${watermarkFontSize}px "Crimson Text", serif`
   ctx.textAlign = "right"
   ctx.textBaseline = "bottom"
-  ctx.globalAlpha = 1.0
-  ctx.fillText("quotegenerator.org", width - (width * 0.045), height - (height * 0.025))
+
+  // Add shadow layer (opposite color to ensure visibility)
+  if (theme === 'dark') {
+    // Dark theme: white text with black shadow
+    ctx.shadowColor = "rgba(0, 0, 0, 0.8)"
+    ctx.shadowBlur = 6
+    ctx.shadowOffsetX = 1
+    ctx.shadowOffsetY = 1
+    ctx.fillStyle = "rgba(255, 255, 255, 0.35)"
+  } else {
+    // Light theme: dark text with white shadow
+    ctx.shadowColor = "rgba(255, 255, 255, 0.9)"
+    ctx.shadowBlur = 6
+    ctx.shadowOffsetX = 1
+    ctx.shadowOffsetY = 1
+    ctx.fillStyle = "rgba(0, 0, 0, 0.35)"
+  }
+
+  ctx.fillText("Divine Art by QuoteGenerator.org", watermarkX, watermarkY)
+  ctx.restore()
+
+  // ========== BRAND SEAL (Circular Dove Logo) ==========
+  ctx.save()
+
+  const sealSize = Math.max(40, width * 0.05)
+  const sealX = width - sealSize / 2 - watermarkMargin
+  const sealY = height - sealSize / 2 - watermarkMargin - watermarkFontSize - 10
+
+  // Draw outer circle ring
+  ctx.beginPath()
+  ctx.arc(sealX, sealY, sealSize / 2, 0, Math.PI * 2)
+  ctx.strokeStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.25)"
+  ctx.lineWidth = 1.5
+  ctx.stroke()
+
+  // Draw inner circle
+  ctx.beginPath()
+  ctx.arc(sealX, sealY, sealSize / 2.5, 0, Math.PI * 2)
+  ctx.strokeStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)"
+  ctx.lineWidth = 1
+  ctx.stroke()
+
+  // Draw simplified dove silhouette
+  ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)"
+  ctx.globalAlpha = 0.25
+
+  // Dove body (simplified silhouette)
+  ctx.beginPath()
+  ctx.moveTo(sealX - sealSize * 0.15, sealY + sealSize * 0.1) // Tail
+  ctx.quadraticCurveTo(sealX - sealSize * 0.05, sealY, sealX + sealSize * 0.05, sealY - sealSize * 0.05) // Body
+  ctx.quadraticCurveTo(sealX + sealSize * 0.15, sealY - sealSize * 0.15, sealX + sealSize * 0.25, sealY - sealSize * 0.25) // Head
+  ctx.lineTo(sealX + sealSize * 0.3, sealY - sealSize * 0.2) // Beak top
+  ctx.lineTo(sealX + sealSize * 0.2, sealY - sealSize * 0.15) // Beak bottom
+  ctx.quadraticCurveTo(sealX + sealSize * 0.1, sealY + sealSize * 0.05, sealX - sealSize * 0.05, sealY + sealSize * 0.15) // Wing
+  ctx.quadraticCurveTo(sealX - sealSize * 0.15, sealY + sealSize * 0.2, sealX - sealSize * 0.15, sealY + sealSize * 1) // Tail feathers
+  ctx.closePath()
+  ctx.fill()
+
+  // Draw small cross in center of seal
+  ctx.globalAlpha = 0.35
+  ctx.strokeStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)"
+  ctx.lineWidth = 1.5
+
+  const crossSize = sealSize * 0.12
+  ctx.beginPath()
+  ctx.moveTo(sealX, sealY - crossSize)
+  ctx.lineTo(sealX, sealY + crossSize)
+  ctx.moveTo(sealX - crossSize, sealY)
+  ctx.lineTo(sealX + crossSize, sealY)
+  ctx.stroke()
+
   ctx.restore()
 
   ctx.restore()
