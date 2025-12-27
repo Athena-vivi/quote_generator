@@ -47,60 +47,40 @@ const FALLBACK_QUOTE: Quote = {
 // 神圣扫光风格骨架屏 - '艺术品正在被点亮'的期待感
 function DailyQuoteSkeleton() {
   return (
-    <div className="text-center relative">
-      {/* 装饰性引号占位 - 与真实卡片位置一致 */}
-      <div className="absolute -top-4 left-8 text-7xl md:text-8xl font-serif text-amber-200/20 dark:text-amber-500/10 leading-none select-none">"</div>
-      <div className="absolute -bottom-8 right-8 text-7xl md:text-8xl font-serif text-amber-200/20 dark:text-amber-500/10 leading-none select-none">"</div>
+    <div className="text-center relative py-4">
+      {/* 1. 顶部标签占位 - 更精致 */}
+      <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-stone-100/50 dark:bg-amber-500/5 border border-stone-200/40 dark:border-amber-500/10 mb-12 relative overflow-hidden">
+        <div className="w-24 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/10 to-transparent animate-sweep"></div>
+      </div>
 
-      {/* Daily Inspiration Badge 占位 */}
-      <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-amber-50/80 dark:bg-amber-500/5 border border-amber-200/40 dark:border-amber-500/10 mb-10 relative overflow-hidden">
-        {/* 扫光层 */}
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/60 to-transparent dark:via-amber-400/20 animate-sweep"></div>
-        {/* 内容层 */}
-        <div className="flex items-center gap-2 relative z-10">
-          <div className="w-3.5 h-3.5 rounded-full bg-amber-200/60 dark:bg-amber-400/30"></div>
-          <div className="w-20 h-3 rounded-full bg-amber-200/60 dark:bg-amber-400/30"></div>
+      {/* 2. 经文正文占位 - 增加行高，模拟诗歌排版 */}
+      <div className="space-y-5 mb-14 max-w-2xl mx-auto">
+        <div className="h-7 bg-stone-100/60 dark:bg-white/5 rounded-full relative overflow-hidden w-full">
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep"></div>
+        </div>
+        <div className="h-7 bg-stone-100/60 dark:bg-white/5 rounded-full relative overflow-hidden w-5/6 mx-auto">
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep animation-delay-300"></div>
+        </div>
+        <div className="h-7 bg-stone-100/60 dark:bg-white/5 rounded-full relative overflow-hidden w-4/6 mx-auto">
+           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep animation-delay-600"></div>
         </div>
       </div>
 
-      {/* 经文占位 - 三行宽度不一，模拟真实经文布局 */}
-      <div className="space-y-4 mb-10 px-6 py-4">
-        {/* 第一行 - 最长 */}
-        <div className="h-9 bg-gradient-to-r from-amber-100/70 via-amber-50/50 to-amber-100/70 dark:from-amber-500/12 dark:via-amber-600/6 dark:to-amber-500/12 rounded-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/80 dark:via-amber-400/30 to-transparent animate-sweep"></div>
-        </div>
-
-        {/* 第二行 - 次长 */}
-        <div className="h-9 bg-gradient-to-r from-amber-100/70 via-amber-50/50 to-amber-100/70 dark:from-amber-500/12 dark:via-amber-600/6 dark:to-amber-500/12 rounded-lg relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/80 dark:via-amber-400/30 to-transparent animate-sweep animation-delay-300"></div>
-        </div>
-
-        {/* 第三行 - 较短，居中 */}
-        <div className="h-9 bg-gradient-to-r from-amber-100/50 via-amber-50/30 to-amber-100/50 dark:from-amber-500/8 dark:via-amber-600/4 dark:to-amber-500/8 rounded-lg relative overflow-hidden mx-auto w-3/4">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/60 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-600"></div>
-        </div>
+      {/* 3. 作者出处占位 */}
+      <div className="h-5 w-32 bg-amber-100/30 dark:bg-amber-500/10 rounded-full mx-auto mb-14 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep animation-delay-200"></div>
       </div>
 
-      {/* 参考占位 */}
-      <div className="inline-block h-7 w-36 rounded-full bg-amber-100/60 dark:bg-amber-500/10 mb-12 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/70 dark:via-amber-400/25 to-transparent animate-sweep animation-delay-200"></div>
-      </div>
-
-      {/* 按钮占位 */}
-      <div className="flex flex-row gap-4 justify-center items-center">
-        {/* Create Divine Image 按钮占位 */}
-        <div className="min-h-[48px] w-44 rounded-2xl bg-gradient-to-r from-amber-200/60 to-amber-300/50 dark:from-amber-500/12 dark:to-amber-600/8 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 dark:via-amber-300/30 to-transparent animate-sweep"></div>
+      {/* 4. 按钮占位 - 与真实按钮形状完全一致 */}
+      <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
+        <div className="h-12 w-48 rounded-2xl bg-stone-200/40 dark:bg-amber-500/10 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep"></div>
         </div>
-
-        {/* Explore Verses 按钮占位 */}
-        <div className="min-h-[48px] w-44 rounded-2xl bg-amber-100/50 dark:bg-amber-500/5 border border-amber-200/40 dark:border-amber-500/10 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-amber-100/60 dark:via-amber-400/20 to-transparent animate-sweep animation-delay-400"></div>
+        <div className="h-12 w-40 rounded-2xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep animation-delay-400"></div>
         </div>
       </div>
-
-      {/* 神圣光晕 - 背景脉冲效果 */}
-      <div className="absolute inset-0 -z-10 bg-gradient-radial from-amber-300/15 via-amber-200/10 to-transparent dark:from-amber-500/8 dark:via-amber-600/4 dark:to-transparent animate-pulse-slow"></div>
     </div>
   )
 }
