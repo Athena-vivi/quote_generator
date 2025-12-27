@@ -167,88 +167,118 @@ export async function drawQuoteImage({
   ctx.fillText(`— ${cleanReference}`, refX, refY)
   ctx.globalAlpha = 1.0
 
-  // ========== ENHANCED WATERMARK ==========
+  // ========== LEFT CORNER WATERMARK & SEAL ==========
   ctx.save()
 
-  const watermarkMargin = 20
-  const watermarkFontSize = Math.max(16, width * 0.018)
-  const watermarkX = width - watermarkMargin
-  const watermarkY = height - watermarkMargin
-
-  // Watermark with shadow for visibility on all backgrounds
-  ctx.font = `italic 400 ${watermarkFontSize}px "Crimson Text", serif`
-  ctx.textAlign = "right"
-  ctx.textBaseline = "bottom"
-
-  // Add shadow layer (opposite color to ensure visibility)
-  if (theme === 'dark') {
-    // Dark theme: white text with black shadow
-    ctx.shadowColor = "rgba(0, 0, 0, 0.8)"
-    ctx.shadowBlur = 6
-    ctx.shadowOffsetX = 1
-    ctx.shadowOffsetY = 1
-    ctx.fillStyle = "rgba(255, 255, 255, 0.35)"
-  } else {
-    // Light theme: dark text with white shadow
-    ctx.shadowColor = "rgba(255, 255, 255, 0.9)"
-    ctx.shadowBlur = 6
-    ctx.shadowOffsetX = 1
-    ctx.shadowOffsetY = 1
-    ctx.fillStyle = "rgba(0, 0, 0, 0.35)"
-  }
-
-  ctx.fillText("Divine Art by QuoteGenerator.org", watermarkX, watermarkY)
-  ctx.restore()
-
-  // ========== BRAND SEAL (Circular Dove Logo) ==========
-  ctx.save()
-
+  // Watermark positioning (left corner)
+  const watermarkX = 40
+  const watermarkY = height - 40
   const sealSize = Math.max(40, width * 0.05)
-  const sealX = width - sealSize / 2 - watermarkMargin
-  const sealY = height - sealSize / 2 - watermarkMargin - watermarkFontSize - 10
+  const sealCenterX = watermarkX + sealSize / 2
+  const sealCenterY = watermarkY - sealSize / 2
 
-  // Draw outer circle ring
+  // 1. Draw subtle background patch to hide AI artifacts
+  const patchWidth = 200
+  const patchHeight = 80
+  const patchGradient = ctx.createRadialGradient(
+    watermarkX + patchWidth / 2,
+    watermarkY - patchHeight / 2,
+    0,
+    watermarkX + patchWidth / 2,
+    watermarkY - patchHeight / 2,
+    patchWidth / 1.5
+  )
+  patchGradient.addColorStop(0, theme === 'dark' ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.25)")
+  patchGradient.addColorStop(1, "rgba(0, 0, 0, 0)")
+
+  ctx.fillStyle = patchGradient
+  ctx.fillRect(
+    watermarkX - 10,
+    watermarkY - patchHeight - 10,
+    patchWidth + 20,
+    patchHeight + 20
+  )
+
+  // 2. Draw Golden Dove Seal
+  ctx.save()
+
+  // Seal glow effect (subtle shadow)
+  ctx.shadowColor = "rgba(212, 175, 55, 0.4)"  // Amber gold shadow
+  ctx.shadowBlur = 5
+  ctx.globalAlpha = 0.5
+
+  // Outer circle ring
   ctx.beginPath()
-  ctx.arc(sealX, sealY, sealSize / 2, 0, Math.PI * 2)
-  ctx.strokeStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.25)" : "rgba(0, 0, 0, 0.25)"
+  ctx.arc(sealCenterX, sealCenterY, sealSize / 2, 0, Math.PI * 2)
+  ctx.strokeStyle = "#D4AF37"  // Amber gold
   ctx.lineWidth = 1.5
   ctx.stroke()
 
-  // Draw inner circle
+  // Inner circle
   ctx.beginPath()
-  ctx.arc(sealX, sealY, sealSize / 2.5, 0, Math.PI * 2)
-  ctx.strokeStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.15)" : "rgba(0, 0, 0, 0.15)"
+  ctx.arc(sealCenterX, sealCenterY, sealSize / 2.5, 0, Math.PI * 2)
+  ctx.strokeStyle = "#D4AF37"
   ctx.lineWidth = 1
   ctx.stroke()
 
-  // Draw simplified dove silhouette
-  ctx.fillStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)"
-  ctx.globalAlpha = 0.25
+  // Simplified dove silhouette (golden)
+  ctx.fillStyle = "#D4AF37"
+  ctx.globalAlpha = 0.5
 
-  // Dove body (simplified silhouette)
   ctx.beginPath()
-  ctx.moveTo(sealX - sealSize * 0.15, sealY + sealSize * 0.1) // Tail
-  ctx.quadraticCurveTo(sealX - sealSize * 0.05, sealY, sealX + sealSize * 0.05, sealY - sealSize * 0.05) // Body
-  ctx.quadraticCurveTo(sealX + sealSize * 0.15, sealY - sealSize * 0.15, sealX + sealSize * 0.25, sealY - sealSize * 0.25) // Head
-  ctx.lineTo(sealX + sealSize * 0.3, sealY - sealSize * 0.2) // Beak top
-  ctx.lineTo(sealX + sealSize * 0.2, sealY - sealSize * 0.15) // Beak bottom
-  ctx.quadraticCurveTo(sealX + sealSize * 0.1, sealY + sealSize * 0.05, sealX - sealSize * 0.05, sealY + sealSize * 0.15) // Wing
-  ctx.quadraticCurveTo(sealX - sealSize * 0.15, sealY + sealSize * 0.2, sealX - sealSize * 0.15, sealY + sealSize * 1) // Tail feathers
+  ctx.moveTo(sealCenterX - sealSize * 0.15, sealCenterY + sealSize * 0.1) // Tail
+  ctx.quadraticCurveTo(sealCenterX - sealSize * 0.05, sealCenterY, sealCenterX + sealSize * 0.05, sealCenterY - sealSize * 0.05) // Body
+  ctx.quadraticCurveTo(sealCenterX + sealSize * 0.15, sealCenterY - sealSize * 0.15, sealCenterX + sealSize * 0.25, sealCenterY - sealSize * 0.25) // Head
+  ctx.lineTo(sealCenterX + sealSize * 0.3, sealCenterY - sealSize * 0.2) // Beak top
+  ctx.lineTo(sealCenterX + sealSize * 0.2, sealCenterY - sealSize * 0.15) // Beak bottom
+  ctx.quadraticCurveTo(sealCenterX + sealSize * 0.1, sealCenterY + sealSize * 0.05, sealCenterX - sealSize * 0.05, sealCenterY + sealSize * 0.15) // Wing
+  ctx.quadraticCurveTo(sealCenterX - sealSize * 0.15, sealCenterY + sealSize * 0.2, sealCenterX - sealSize * 0.15, sealCenterY + sealSize * 0.15) // Tail feathers
   ctx.closePath()
   ctx.fill()
 
-  // Draw small cross in center of seal
-  ctx.globalAlpha = 0.35
-  ctx.strokeStyle = theme === 'dark' ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)"
+  // Cross in center
+  ctx.globalAlpha = 0.6
+  ctx.strokeStyle = "#D4AF37"
   ctx.lineWidth = 1.5
 
   const crossSize = sealSize * 0.12
   ctx.beginPath()
-  ctx.moveTo(sealX, sealY - crossSize)
-  ctx.lineTo(sealX, sealY + crossSize)
-  ctx.moveTo(sealX - crossSize, sealY)
-  ctx.lineTo(sealX + crossSize, sealY)
+  ctx.moveTo(sealCenterX, sealCenterY - crossSize)
+  ctx.lineTo(sealCenterX, sealCenterY + crossSize)
+  ctx.moveTo(sealCenterX - crossSize, sealCenterY)
+  ctx.lineTo(sealCenterX + crossSize, sealCenterY)
   ctx.stroke()
+
+  ctx.restore()
+
+  // 3. Draw Brand Signature (two-line text)
+  ctx.save()
+
+  const textStartX = sealCenterX + sealSize / 2 + 10
+  const textBaselineY = sealCenterY
+
+  // Text shadow for legibility on all backgrounds
+  ctx.shadowColor = "rgba(0, 0, 0, 0.5)"
+  ctx.shadowBlur = 4
+  ctx.shadowOffsetX = 1
+  ctx.shadowOffsetY = 1
+
+  // First line: DIVINE ART
+  ctx.font = `600 14px "Crimson Text", serif`
+  ctx.letterSpacing = "2px"
+  ctx.fillStyle = "#D4AF37"
+  ctx.globalAlpha = 1.0
+  ctx.textAlign = "left"
+  ctx.textBaseline = "middle"
+  ctx.fillText("DIVINE ART", textStartX, textBaselineY - 8)
+
+  // Second line: QuoteGenerator.org
+  ctx.font = `400 11px "Crimson Text", serif`
+  ctx.letterSpacing = "0.5px"
+  ctx.globalAlpha = 0.7
+  ctx.fillText("QuoteGenerator.org", textStartX, textBaselineY + 8)
+
+  ctx.restore()
 
   ctx.restore()
 
