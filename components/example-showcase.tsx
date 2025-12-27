@@ -74,7 +74,7 @@ export function ExampleShowcase() {
                       </div>
 
                       {/* AI Divine Seal - Bottom Left */}
-                      <div className="absolute bottom-4 left-4 w-10 h-10 rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 flex items-center justify-center shadow-lg overflow-hidden">
+                      <div className="absolute bottom-5 left-5 w-10 h-10 rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 flex items-center justify-center shadow-lg overflow-hidden">
                         <Image
                           src="/logo.png"
                           alt="Quote Generator Logo"
