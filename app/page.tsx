@@ -4,7 +4,7 @@ import { QuoteFinder } from "@/components/quote-finder"
 import { PageLayout } from "@/components/page-layout"
 import { HashScrollToQuoteFinder } from "@/components/hash-scroll-to-quote-finder"
 import { BookOpen, Feather, Loader2, Palette } from "lucide-react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import dynamic from "next/dynamic"
 import { useImageGenerator } from "@/contexts/image-generator-context"
 
@@ -38,29 +38,92 @@ interface Quote {
   content: string
 }
 
+// 保底静态经文 - John 3:16
+const FALLBACK_QUOTE: Quote = {
+  reference: "John 3:16",
+  content: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
+}
+
+// 神圣的琥珀金渐变骨架屏
+function DailyQuoteSkeleton() {
+  return (
+    <div className="text-center relative">
+      {/* 徽章占位 */}
+      <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-amber-100/50 to-amber-50/30 dark:from-amber-500/5 dark:to-amber-600/3 border border-amber-200/30 dark:border-amber-500/8 mb-10 animate-pulse">
+        <div className="w-3.5 h-3.5 rounded-full bg-amber-300/40 dark:bg-amber-400/20"></div>
+        <div className="w-24 h-3 rounded-full bg-amber-200/40 dark:bg-amber-400/15"></div>
+      </div>
+
+      {/* 经文占位 - 多行脉冲效果 */}
+      <div className="space-y-4 mb-10 px-6 py-4">
+        <div className="h-8 bg-gradient-to-r from-amber-100/60 via-amber-200/40 to-amber-100/60 dark:from-amber-500/10 dark:via-amber-400/5 dark:to-amber-500/10 rounded animate-shimmer"></div>
+        <div className="h-8 bg-gradient-to-r from-amber-100/60 via-amber-200/40 to-amber-100/60 dark:from-amber-500/10 dark:via-amber-400/5 dark:to-amber-500/10 rounded animate-shimmer animation-delay-200"></div>
+        <div className="h-8 bg-gradient-to-r from-amber-100/40 via-amber-200/30 to-amber-100/40 dark:from-amber-500/8 dark:via-amber-400/4 dark:to-amber-500/8 rounded animate-shimmer animation-delay-400 w-3/4 mx-auto"></div>
+      </div>
+
+      {/* 参考占位 */}
+      <div className="inline-block h-6 w-32 rounded-full bg-amber-200/40 dark:bg-amber-400/15 mb-12 animate-pulse"></div>
+
+      {/* 按钮占位 */}
+      <div className="flex flex-row gap-4 justify-center items-center">
+        <div className="min-h-[48px] w-40 rounded-2xl bg-gradient-to-r from-amber-400/30 to-amber-500/20 dark:from-amber-500/10 dark:to-amber-600/5 animate-pulse"></div>
+        <div className="min-h-[48px] w-40 rounded-2xl bg-amber-100/30 dark:bg-amber-500/5 animate-pulse animation-delay-300"></div>
+      </div>
+
+      {/* 神圣光晕效果 */}
+      <div className="absolute inset-0 -z-10 bg-gradient-radial from-amber-300/10 via-transparent to-transparent dark:from-amber-500/5 dark:via-transparent dark:to-transparent animate-pulse"></div>
+    </div>
+  )
+}
+
 function HomeContent() {
   const [dailyQuote, setDailyQuote] = useState<Quote | null>(null)
   const [loading, setLoading] = useState(true)
+  const [retryCount, setRetryCount] = useState(0)
   const { openImageGenerator } = useImageGenerator()
 
-  useEffect(() => {
-    loadDailyQuote()
-  }, [])
-
-  const loadDailyQuote = async () => {
-    setLoading(true)
+  // 使用 useCallback 确保 useEffect 依赖稳定
+  const loadDailyQuote = useCallback(async (isRetry = false) => {
+    if (!isRetry) setLoading(true)
     try {
-      const response = await fetch("/api/verses/daily")
+      const response = await fetch("/api/verses/daily", {
+        cache: 'no-store',
+        headers: {
+          'Cache-Control': 'no-cache',
+        }
+      })
+      if (!response.ok) throw new Error(`HTTP ${response.status}`)
+
       const data = await response.json()
-      if (data.success) {
+      if (data.success && data.quote) {
         setDailyQuote(data.quote)
+      } else {
+        throw new Error("Invalid response format")
       }
     } catch (error) {
       console.error("Failed to load daily quote:", error)
+
+      // 自动重试一次（延迟 1 秒）
+      if (!isRetry && retryCount < 1) {
+        setRetryCount(prev => prev + 1)
+        setTimeout(() => {
+          loadDailyQuote(true)
+        }, 1000)
+        return
+      }
+
+      // 重试失败，使用保底经文
+      console.log("Using fallback quote after retry failed")
+      setDailyQuote(FALLBACK_QUOTE)
     } finally {
       setLoading(false)
     }
-  }
+  }, [retryCount])
+
+  // 组件挂载时立即加载数据
+  useEffect(() => {
+    loadDailyQuote()
+  }, [loadDailyQuote])
 
   return (
     <>
@@ -98,13 +161,7 @@ function HomeContent() {
             <div className="absolute inset-0 rounded-[2.5rem] p-[1px] bg-gradient-to-br from-amber-500/15 via-transparent to-amber-500/8 dark:from-amber-400/10 dark:via-transparent dark:to-amber-600/6 pointer-events-none"></div>
 
             {loading ? (
-              <div className="py-16 text-center">
-                <div className="relative inline-block">
-                  <Loader2 className="w-12 h-12 mx-auto text-amber-600 dark:text-amber-300 animate-spin" />
-                  <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-2xl"></div>
-                </div>
-                <p className="text-sm font-serif italic text-stone-600 dark:text-zinc-300 mt-6">Receiving divine words...</p>
-              </div>
+              <DailyQuoteSkeleton />
             ) : dailyQuote ? (
               <div className="text-center relative">
                 {/* Decorative quote marks - subtle glow */}
@@ -161,7 +218,10 @@ function HomeContent() {
                   </button>
                 </div>
               </div>
-            ) : null}
+            ) : (
+              // 保底状态：不应该到达这里，但以防万一显示骨架屏
+              <DailyQuoteSkeleton />
+            )}
           </div>
         </div>
       </section>
