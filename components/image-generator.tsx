@@ -223,6 +223,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
   const [toastMessage, setToastMessage] = useState<string | null>(null)
   const [isInputCollapsed, setIsInputCollapsed] = useState(false)
   const [selectedSuggestionIndex, setSelectedSuggestionIndex] = useState<number | null>(null)
+  const [hasInput, setHasInput] = useState(false)
 
   const promptSuggestions = [
     "Divine light streaming",
@@ -295,6 +296,11 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
       refColor,
     })
   }, [previewBgImg, quote, fontConfigs, selectedFont, resolution, theme, textColor, refColor])
+
+  // Track input for ready indicator
+  useEffect(() => {
+    setHasInput(prompt.trim().length > 0)
+  }, [prompt])
 
   const generateImage = async () => {
     if (!prompt.trim()) return
@@ -729,15 +735,12 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                             setPrompt(suggestion)
                             setSelectedSuggestionIndex(index)
                           }}
-                          className={`px-3 py-1 text-sm md:py-1 md:px-2 font-serif rounded-full transition-all relative ${
+                          className={`px-3 py-1.5 text-sm md:py-1.5 md:px-3 font-serif rounded-full transition-all relative ${
                             selectedSuggestionIndex === index
-                              ? 'bg-amber-500 text-white border-2 border-amber-400 shadow-lg shadow-amber-500/50 scale-105'
-                              : 'bg-transparent text-amber-700/80 dark:bg-stone-900/60 dark:text-amber-300/70 border-2 border-dashed border-amber-400/60 hover:border-amber-500 hover:scale-105'
+                              ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/50 scale-105'
+                              : 'bg-amber-50/80 dark:bg-amber-950/30 text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-950/50 hover:-translate-y-0.5 hover:shadow-md'
                           }`}
                         >
-                          {selectedSuggestionIndex === index && (
-                            <span className="absolute inset-0 rounded-full animate-ping bg-amber-400/30"></span>
-                          )}
                           <span className="relative">{suggestion}</span>
                         </button>
                       ))}
@@ -748,7 +751,7 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 <button
                   onClick={generateImage}
                   disabled={isGenerating || !prompt.trim()}
-                  className="w-full min-h-[48px] md:min-h-[44px] px-4 py-3 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 dark:from-amber-400 dark:to-amber-500 text-white font-serif font-semibold rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50"
+                  className="w-full min-h-[48px] md:min-h-[44px] px-4 py-3 bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-500 hover:via-amber-600 hover:to-amber-700 text-white font-serif font-semibold rounded-xl shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 transition-all flex items-center justify-center gap-2 disabled:opacity-50"
                 >
                   {isGenerating ? (
                     <>
@@ -935,16 +938,28 @@ export function ImageGenerator({ quote, onClose }: ImageGeneratorProps) {
                 </div>
               ) : (
                 /* Empty State */
-                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-2 md:p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner min-h-[200px] md:min-h-[300px]">
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-br from-stone-100/60 to-amber-50/40 dark:from-stone-900/40 dark:to-amber-950/20 rounded-3xl p-2 md:p-8 border-2 border-amber-200/50 dark:border-amber-500/15 shadow-inner min-h-[200px] md:min-h-[300px] backdrop-blur-sm">
                   <div className="relative inline-block mb-4">
                     <div className="absolute inset-0 bg-amber-400/15 dark:bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
                     <Palette className="relative w-12 h-12 md:w-20 md:h-20 text-amber-400/60 dark:text-amber-500/50" />
                   </div>
                   <p className="text-base md:text-2xl font-serif font-semibold text-stone-700 dark:text-zinc-300 mb-2">Your Canvas Awaits</p>
                   <p className="text-sm md:text-base font-serif text-stone-500 dark:text-zinc-500 mb-4">Describe your sacred vision below and let divine art emerge</p>
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-amber-100/50 dark:bg-amber-950/30 rounded-full border border-amber-200/40 dark:border-amber-500/15">
-                    <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
-                    <span className="text-xs md:text-sm font-serif text-amber-700/70 dark:text-amber-400/70">Ready to create</span>
+                  <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full border transition-all ${
+                    hasInput
+                      ? 'bg-amber-100/80 dark:bg-amber-950/40 border-amber-300/50 dark:border-amber-500/30 shadow-lg shadow-amber-500/20'
+                      : 'bg-stone-100/50 dark:bg-stone-800/30 border-stone-200/40 dark:border-stone-700/20'
+                  }`}>
+                    <div className={`w-2 h-2 rounded-full transition-all ${
+                      hasInput
+                        ? 'bg-amber-500 dark:bg-amber-400 animate-pulse shadow-lg shadow-amber-500/50'
+                        : 'bg-stone-400 dark:bg-stone-600'
+                    }`}></div>
+                    <span className={`text-xs md:text-sm font-serif transition-colors ${
+                      hasInput
+                        ? 'text-amber-800 dark:text-amber-300 font-medium'
+                        : 'text-stone-500 dark:text-stone-500'
+                    }`}>{hasInput ? 'Ready to generate!' : 'Ready to create'}</span>
                   </div>
                 </div>
               )}
