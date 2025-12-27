@@ -44,40 +44,44 @@ const FALLBACK_QUOTE: Quote = {
   content: "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."
 }
 
-// 神圣扫光风格骨架屏 - '艺术品正在被点亮'的期待感
+// 神圣扫光风格骨架屏 - 仅内部内容，不包含外层容器
 function DailyQuoteSkeleton() {
   return (
-    <div className="text-center relative py-4">
-      {/* 1. 顶部标签占位 - 更精致 */}
-      <div className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-stone-100/50 dark:bg-amber-500/5 border border-stone-200/40 dark:border-amber-500/10 mb-12 relative overflow-hidden">
-        <div className="w-24 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse"></div>
+    <div className="text-center relative">
+      {/* 装饰性引号占位 - 与真实卡片位置完全一致 */}
+      <div className="absolute -top-4 left-8 text-7xl md:text-8xl font-serif text-amber-200/20 dark:text-amber-500/10 leading-none select-none">"</div>
+      <div className="absolute -bottom-8 right-8 text-7xl md:text-8xl font-serif text-amber-200/20 dark:text-amber-500/10 leading-none select-none">"</div>
+
+      {/* 1. 顶部标签占位 */}
+      <div className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-stone-100/50 dark:bg-amber-500/5 border border-stone-200/40 dark:border-amber-500/10 mb-10 relative overflow-hidden">
+        <div className="w-20 h-3 bg-stone-200/50 dark:bg-amber-400/20 rounded-full animate-pulse"></div>
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/80 dark:via-amber-400/10 to-transparent animate-sweep"></div>
       </div>
 
-      {/* 2. 经文正文占位 - 增加行高，模拟诗歌排版 */}
-      <div className="space-y-5 mb-14 max-w-2xl mx-auto">
-        <div className="h-7 bg-stone-100/60 dark:bg-white/5 rounded-full relative overflow-hidden w-full">
+      {/* 2. 经文正文占位 - 固定最小高度，防止高度跳动 */}
+      <div className="min-h-[200px] space-y-4 mb-10 px-6 py-4 max-w-2xl mx-auto">
+        <div className="h-8 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-full">
            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep"></div>
         </div>
-        <div className="h-7 bg-stone-100/60 dark:bg-white/5 rounded-full relative overflow-hidden w-5/6 mx-auto">
+        <div className="h-8 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-5/6 mx-auto">
            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep animation-delay-300"></div>
         </div>
-        <div className="h-7 bg-stone-100/60 dark:bg-white/5 rounded-full relative overflow-hidden w-4/6 mx-auto">
+        <div className="h-8 bg-stone-100/60 dark:bg-white/5 rounded-lg relative overflow-hidden w-4/6 mx-auto">
            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent animate-sweep animation-delay-600"></div>
         </div>
       </div>
 
       {/* 3. 作者出处占位 */}
-      <div className="h-5 w-32 bg-amber-100/30 dark:bg-amber-500/10 rounded-full mx-auto mb-14 relative overflow-hidden">
+      <div className="h-8 w-36 bg-amber-100/30 dark:bg-amber-500/10 rounded-full mb-12 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep animation-delay-200"></div>
       </div>
 
       {/* 4. 按钮占位 - 与真实按钮形状完全一致 */}
-      <div className="flex flex-col sm:flex-row gap-5 justify-center items-center">
-        <div className="h-12 w-48 rounded-2xl bg-stone-200/40 dark:bg-amber-500/10 relative overflow-hidden">
+      <div className="flex flex-row gap-4 justify-center items-center">
+        <div className="min-h-[48px] w-44 rounded-2xl bg-stone-200/40 dark:bg-amber-500/10 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep"></div>
         </div>
-        <div className="h-12 w-40 rounded-2xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 relative overflow-hidden">
+        <div className="min-h-[48px] w-40 rounded-2xl bg-stone-100/40 dark:bg-white/5 border border-stone-200/50 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent animate-sweep animation-delay-400"></div>
         </div>
       </div>
