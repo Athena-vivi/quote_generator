@@ -102,7 +102,7 @@ export function useImageExport({
     setIsComposing(true)
 
     try {
-      const canvas = await fetchImageUrlToCanvas({
+      const canvas = await fetchImageUrlToCanvas(imageUrl, {
         quote,
         fontConfigs,
         selectedFont,
@@ -137,7 +137,7 @@ export function useImageExport({
     setIsComposing(true)
 
     try {
-      const canvas = await fetchImageUrlToCanvas({
+      const canvas = await fetchImageUrlToCanvas(imageUrl, {
         quote,
         fontConfigs,
         selectedFont,
